@@ -17,7 +17,7 @@ def parse_requirements(file_name: str) -> List[str]:
 
 setuptools.setup(
     name="llm-guard",
-    version="0.0.1",
+    version="0.0.2",
     author="Laiyer.ai",
     author_email="hello@laiyer.ai",
     description=(
@@ -34,4 +34,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/laiyer-ai/llm-guard",
+    package_data={
+        "llm_guard": ["**/*.json"],
+    },
 )
