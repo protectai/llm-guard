@@ -1,0 +1,8 @@
+sentence-transformers
+spacy
+transformers
+xformers
+nltk
+tiktoken
+presidio-anonymizer
+presidio-analyzer

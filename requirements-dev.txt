@@ -1,0 +1,5 @@
+black
+pytest
+pytest-cov
+isort
+autoflake

@@ -1,0 +1,228 @@
+[
+  {
+    "expressions": [
+      "\\b\\d{4}-\\d{4}-\\d{4}-\\d{4}\\b"
+    ],
+    "name": "CREDIT_CARD_RE",
+    "examples": [
+      "1234-5678-9012-3456"
+    ],
+    "context": [],
+    "score": 0.5
+  },
+  {
+    "expressions": [
+      "[a-f0-9]{8}\\-[a-f0-9]{4}\\-[a-f0-9]{4}\\-[a-f0-9]{4}\\-[a-f0-9]{12}"
+    ],
+    "name": "UUID",
+    "examples": [
+      "550e8400-e29b-41d4-a716-446655440000"
+    ],
+    "context": [],
+    "score": 0.5
+  },
+  {
+    "expressions": [
+      "\\.\\b(?:txt|pdf|docx?|xlsx?|pptx?|png|jpe?g|gif|mp4|avi|mp3|wav|zip|tar|gz|7z)\\b"
+    ],
+    "name": "FILE_EXTENSION",
+    "examples": [
+      ".txt"
+    ],
+    "context": [],
+    "score": 0.5
+  },
+  {
+    "expressions": [
+      "(?:\\s|=|:|\"|^)AKC[a-zA-Z0-9]{10,}(?:\\s|\"|$)",
+      "(?:\\s|=|:|\"|^)AP[\\dABCDEF][a-zA-Z0-9]{8,}(?:\\s|\"|$)"
+    ],
+    "name": "ARTIFACTORY_KEY",
+    "examples": [],
+    "context": [],
+    "score": 0.5
+  },
+  {
+    "expressions": [
+      "AKIA[0-9A-Z]{16}",
+      "[0-9a-zA-Z/+]{40}"
+    ],
+    "name": "AWS_KEY",
+    "examples": [
+      "AKIAEXAMPLEACCESSKEY",
+      "1234567890abcdefghijklmnopqrstuvwxyz/+EXAMPLESECRETKEY"
+    ],
+    "context": [],
+    "score": 0.5
+  },
+  {
+    "expressions": [
+      "AccountKey=[a-zA-Z0-9+\\/=]{88}"
+    ],
+    "name": "AZURE_STORAGE_KEY",
+    "examples": [
+      "AccountKey=1i7Iehq7i0jSAJEL0SYA6v4uvY6gzAXGjCDNMRWF+fUHz4OOrRsG9I4G3ViXxdPk8DMo9IujbEjw/YUy+P4hXg=="
+    ],
+    "context": [],
+    "score": 0.5
+  },
+  {
+    "expressions": [
+      "(ghp|gho|ghu|ghs|ghr)_[A-Za-z0-9_]{36}"
+    ],
+    "name": "GITHUB_TOKEN",
+    "examples": [
+      "ghp_0123456789abcdefghijklmnopqrstuvwxyzABCDEFG"
+    ],
+    "context": [],
+    "score": 0.5
+  },
+  {
+    "expressions": [
+      "Basic\\s+([0-9a-zA-Z+/]+=*)"
+    ],
+    "name": "BASIC_AUTH_KEY",
+    "examples": [
+      "Basic dXNlcm5hbWU6cGFzc3dvcmQ="
+    ],
+    "context": [],
+    "score": 0.5
+  },
+  {
+    "expressions": [
+      "[MNO][a-zA-Z\\d_-]{23,25}\\.[a-zA-Z\\d_-]{6}\\.[a-zA-Z\\d_-]{27}"
+    ],
+    "name": "DISCORD_BOT_KEY",
+    "examples": [
+      "Njg3MzQxNjQ3ODkwNjkzMTQ5.XmT5Bw.3ps8N_RVJdWwAfOTYAN1kg0bX5M"
+    ],
+    "context": [],
+    "score": 0.5
+  },
+  {
+    "expressions": [
+      "(?:(?<=\\\\W)|(?<=^))(?:\\\\[|)(?:\\\"|\\\\'|)(?:(?:ibm)?[-_]?cos[-_]?(?:hmac)?|)(?:_|-|)(?:secret[-_]?(?:access)?[-_]?key)(?:\\\"|\\\\'|)(?:\\\\]|)(?: *)(?:=|:|:=|=>| +|::)(?: *)(?:\\\"|\\\\'|)([a-f0-9]{48}(?![a-f0-9]))(?:\\\"|\\\\'|)"
+    ],
+    "name": "IBM_COS_HMAC",
+    "examples": [],
+    "context": [],
+    "score": 0.5
+  },
+  {
+    "expressions": [
+      "eyJ[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+/=]*?"
+    ],
+    "name": "JSON_WEB_TOKEN",
+    "examples": [
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvZSBEb2UiLCJhZG1pbiI6dHJ1ZX0.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+    ],
+    "context": [],
+    "score": 0.5
+  },
+  {
+    "expressions": [
+      "[0-9a-z]{32}-us[0-9]{1,2}",
+      "(?<!\\w)(?:[0-9a-f]{10,})(?=\\-us[0-9]{1,2})"
+    ],
+    "name": "MAILCHIMP_KEY",
+    "examples": [
+      "abcdef1234567890abcdef12-us1"
+    ],
+    "context": [],
+    "score": 0.5
+  },
+    {
+    "expressions": [
+      "\\/\\/.+\\/:_authToken=\\s*((npm_.+)|([A-Fa-f0-9-]{36})).*"
+    ],
+    "name": "NPM_TOKEN",
+    "examples": [
+      "https://registry.npmjs.org/:_authToken=npm_abcd1234efgh5678ijkl9012mnop3456"
+    ],
+    "context": [],
+    "score": 0.5
+  },
+  {
+    "expressions": [
+      "-----BEGIN (?:RSA )?PRIVATE KEY-----\\n(?:[a-zA-Z0-9+/=]+\\n)+-----END (?:RSA )?PRIVATE KEY-----"
+    ],
+    "name": "PRIVATE_KEY",
+    "examples": [
+      "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDdXZpN2fFC/ZXO\nqirf55NcSTuGtv4m1IUG0BLtRc3e+0ya4H76qypgGc2VnHBVGYnI4uGLpANZ8kC\n5kY37urUHwiM7Vb7RnRK2aaPmmzfn/ADoNvzVt8RMUo+mObbR1PA1rptdymBpKf\nkEzjP0zHK4o9lR9OdeEHeVv7Bc86KnJdP8vVbcJ2Cp+j9c8k4Wl9RwNs4bl9FET\nOin9rlwi8NhQUTI5qV9vTNjPDi0lc8VcjGtSMjAjHkR1tmBWAAuR4po2viB4xtrd\nEgWh3OVpBbQMXMREUQQp6De13e1sNbSC/IKTuyyBMw9Ae6ZLkihFzzhFz24HZUrs\nnK2ClOwM3EXBbWok8p1z7mF6qW15p8eOjr2L8MuukN+69F2BzKFyKBDqGw6PkbEo\n-----END PRIVATE KEY-----"
+    ],
+    "context": [],
+    "score": 0.5
+  },
+  {
+    "expressions": [
+      "SG\\.[a-zA-Z0-9_-]{22}\\.[a-zA-Z0-9_-]{43}"
+    ],
+    "name": "SENDGRID_TOKEN",
+    "examples": [
+      "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"
+    ],
+    "context": [],
+    "score": 0.5
+  },
+  {
+    "expressions": [
+      "xox(?:a|b|p|o|s|r)-(?:\\d+-)+[a-z0-9]+",
+      "https:\\/\\/hooks\\.slack\\.com\\/services\\/[A-Z0-9]{10}\\/[A-Z0-9]{10}\\/[A-Z0-9]{24}"
+    ],
+    "name": "SLACK_TOKEN",
+    "examples": [
+      "xoxp-523423-234243-234233-e039d02840a0b9379c",
+      "https://hooks.slack.com/services/ABCDEFGHIJ/KLMNOPQRST/UVWXYZ0123456789"
+    ],
+    "context": [],
+    "score": 0.5
+  },
+  {
+    "expressions": [
+      "(?:(?<=\\\\W)|(?<=^))(?:\\\\[|)(?:\\\"|\\\\'|)(?:softlayer|sl)(?:_|-|)(?:api|)(?:_|-|)(?:key|pwd|password|pass|token)(?:\\\"|\\\\'|)(?:\\\\]|)(?: *)(?:=|:|:=|=>| +|::)(?: *)(?:\\\"|\\\\'|)([a-z0-9]{64})(?:\\\"|\\\\'|)",
+      "(?:http|https)://api.softlayer.com/soap/(?:v3|v3.1)/([a-z0-9]{64})"
+    ],
+    "name": "SOFTLAYER_TOKEN",
+    "examples": [
+      "http://api.softlayer.com/soap/v3/abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234"
+    ],
+    "context": [],
+    "score": 0.5
+  },
+  {
+    "expressions": [
+      "sq0csp-[0-9A-Za-z\\\\\\-_]{43}"
+    ],
+    "name": "SQUARE_OAUTH_SECRET",
+    "examples": [
+      "sq0csp-ABCDEFGHIJK_LMNOPQRSTUVWXYZ-0123456789\\\\abcd"
+    ],
+    "context": [],
+    "score": 0.5
+  },
+  {
+    "expressions": [
+      "(?:r|s)k_live_[0-9a-zA-Z]{24}"
+    ],
+    "name": "STRIPE_ACCESS_KEY",
+    "examples": [
+      "sk_live_ReTllpYQYfIZu2Jnf2lAPFjD",
+      "rk_live_5TcWfjKmJgpql9hjpRnwRXbT"
+    ],
+    "context": [],
+    "score": 0.5
+  },
+  {
+    "expressions": [
+      "AC[a-z0-9]{32}",
+      "SK[a-z0-9]{32}"
+    ],
+    "name": "TWILIO_API_KEY",
+    "examples": [
+      "AC1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJ",
+      "SKxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    ],
+    "context": [],
+    "score": 0.5
+  }
+]
