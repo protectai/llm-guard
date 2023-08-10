@@ -10,6 +10,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 -
 
+## [0.0.3] - 2023-08-10
+
+### Added
+- Dependabot support
+- CodeQL support
+- More pre-commit hooks to improve linters
+
+### Fixed
+- Locked libraries in `requirements.txt`
+- Logo link in README
+
+## [0.0.2] - 2023-08-07
+
+### Fixed
+
+- Fixed missing `.json` files in the package
+
 ## [0.0.1] - 2023-08-07
 
 ### Added
@@ -38,4 +55,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - [Toxicity](./llm_guard/output_scanners/toxicity.py)
 
 [Unreleased]: https://github.com/laiyer-ai/llm-guard/commits/main
-[0.0.1]: https://github.com/laiyer-ai/llm-guard/compare/v0.0.0...v0.0.1
+[0.0.3]: https://github.com/laiyer-ai/llm-guard/commits/v0.0.3
+[0.0.2]: https://github.com/laiyer-ai/llm-guard/commits/v0.0.2
+[0.0.1]: https://github.com/laiyer-ai/llm-guard/commits/v0.0.1

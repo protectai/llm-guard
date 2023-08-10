@@ -5,9 +5,12 @@ repos:
       - id: check-yaml
       - id: end-of-file-fixer
       - id: trailing-whitespace
+      - id: end-of-file-fixer
+        types: [ python ]
+      - id: requirements-txt-fixer
 
   - repo: https://github.com/psf/black
-    rev: 23.3.0
+    rev: 23.7.0
     hooks:
       - id: black
         args: [ --line-length=100, --exclude="" ]
@@ -24,7 +27,7 @@ repos:
   # and this tool removes unused imports, which may be providing
   # necessary side effects for the code to run
   - repo: https://github.com/PyCQA/autoflake
-    rev: v1.6.1
+    rev: v2.2.0
     hooks:
       - id: autoflake
         args:

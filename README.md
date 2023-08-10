@@ -1,4 +1,4 @@
-![LLM-Guard Logo](./docs/logo.png)
+![LLM-Guard Logo](https://github.com/laiyer-ai/llm-guard/blob/a7cde324dec3118ebe8427da1a9e15fbd03ce5fe/docs/logo.png?raw=true)
 
 # LLM Guard - The Security Toolkit for LLM Interactions
 

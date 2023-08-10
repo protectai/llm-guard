@@ -1,5 +1,5 @@
 import logging
-from typing import List
+from typing import List, Optional
 
 import tiktoken
 
@@ -18,7 +18,7 @@ class TokenLimit(Scanner):
         self,
         limit: int = 4096,
         encoding_name: str = "cl100k_base",
-        model_name: str = None,
+        model_name: Optional[str] = None,
     ):
         """
         Initializes TokenLimit with a limit, encoding name, and model name.
