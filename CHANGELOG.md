@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Jailbreak prompt scanner**: Updated dataset with more examples, removed duplicates
 
 ### Removed
--
+- **Anonymize prompt scanner**: Removed `FILE_EXTENSION` entity type
 
 ## [0.0.3] - 2023-08-10
 
