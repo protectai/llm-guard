@@ -29,9 +29,9 @@ class Relevance(Scanner):
         self._threshold = threshold
         self._transformer_model = SentenceTransformer(_transformer_name)
 
-    def scan(self, prompt: str, output: str) -> (str, bool):
+    def scan(self, prompt: str, output: str) -> (str, bool, float):
         if output.strip() == "":
-            return output, True
+            return output, True, 0.0
 
         similarity = 1
         try:
@@ -46,10 +46,11 @@ class Relevance(Scanner):
                 f"Result is not similar to the prompt. Score {similarity.item}, threshold {self._threshold}"
             )
 
-            return output, False
+            risk_score = round(1 - (similarity.item() + 1) / 2, 2)
+            return output, False, risk_score
 
         log.debug(
             f"Result is similar to the prompt. Score {similarity.item}, threshold {self._threshold}"
         )
 
-        return output, True
+        return output, True, 0.0

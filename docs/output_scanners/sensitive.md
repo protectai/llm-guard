@@ -42,10 +42,10 @@ Here's a quick example of how you can use the Sensitive Data Detector:
 from llm_guard.output_scanners import Sensitive
 
 scanner = Sensitive(entity_types=["NAME", "EMAIL"])
-sanitized_output, is_valid = scanner.scan(prompt, model_output)
+sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```
 
 If you want, you can use your own patterns by giving the path in `regex_pattern_groups_path`
 
-In the example, we're particularly checking for names and emails. If the output_clean contains any PII, the is_clean
+In the example, we're particularly checking for names and emails. If the output_clean contains any PII, the `is_valid`
 will be False.

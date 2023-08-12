@@ -52,9 +52,9 @@ class Sensitive(Scanner):
             nlp_engine=SpacyNlpEngine({"en": "en_core_web_trf"}),
         )
 
-    def scan(self, prompt: str, output: str) -> (str, bool):
+    def scan(self, prompt: str, output: str) -> (str, bool, float):
         if output.strip() == "":
-            return prompt, True
+            return prompt, True, 0.0
 
         analyzer_results = []
         text_chunks = Anonymize.get_text_chunks(output)
@@ -66,10 +66,10 @@ class Sensitive(Scanner):
             )
             analyzer_results.extend(chunk_results)
 
-        if len(analyzer_results) == 0:
-            log.debug(f"No sensitive data found in the output")
-            return output, True
+        if analyzer_results:
+            risk_score = max(analyzer_result.score for analyzer_result in analyzer_results)
+            log.warning(f"Found sensitive data in the output {analyzer_results}")
+            return output, False, risk_score
 
-        log.warning(f"Found sensitive data in the output {analyzer_results}")
-
-        return output, False
+        log.debug(f"No sensitive data found in the output")
+        return output, True, 0.0

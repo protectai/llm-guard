@@ -50,20 +50,20 @@ class Regex(Scanner):
         for pattern in bad_patterns:
             self._bad_patterns.append(re.compile(pattern))
 
-    def scan(self, prompt: str, output: str) -> (str, bool):
+    def scan(self, prompt: str, output: str) -> (str, bool, float):
         if len(self._good_patterns) > 0:
             for pattern in self._good_patterns:
                 if pattern.search(output):
                     log.debug(f"Pattern {pattern} matched the output")
-                    return output, True
+                    return output, True, 0.0
 
             log.warning(f"None of the patterns matched the output")
-            return output, False
+            return output, False, 1.0
 
         for pattern in self._bad_patterns:
             if pattern.search(output):
                 log.warning(f"Pattern {pattern} was detected in the output")
-                return output, False
+                return output, False, 1.0
 
         log.debug(f"None of the patterns were found in the output")
-        return output, True
+        return output, True, 0.0

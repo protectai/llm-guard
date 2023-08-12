@@ -27,5 +27,5 @@ as contradictory.
 from llm_guard.output_scanners import Refutation
 
 scanner = Refutation(threshold=0.7)
-sanitized_output, is_valid = scanner.scan(prompt, model_output)
+sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```

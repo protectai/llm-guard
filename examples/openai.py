@@ -35,9 +35,11 @@ response = openai.ChatCompletion.create(
     messages=[{"role": "user", "content": sanitized_prompt}],
 )
 response_text = response["choices"][0]["message"]["content"]
-sanitized_response_text, results = scan_output(output_scanners, sanitized_prompt, response_text)
-if any(not result for result in results.values()):
-    print(f"Output {response_text} is not valid: {results}")
+sanitized_response_text, results_valid, results_score = scan_output(
+    output_scanners, sanitized_prompt, response_text
+)
+if any(not result for result in results_valid.values()):
+    print(f"Output {response_text} is not valid, scores: {results_score}")
     exit(1)
 
 print(f"Output: {sanitized_response_text}\n")

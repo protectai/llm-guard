@@ -22,5 +22,5 @@ The scanner harnesses the power of `SentenceTransformer`, specifically the [sent
 from llm_guard.output_scanners import Relevance
 
 scanner = Relevance(threshold=0)
-sanitized_output, is_valid = scanner.scan(prompt, model_output)
+sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```

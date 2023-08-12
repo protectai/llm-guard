@@ -50,7 +50,9 @@ def scan_prompt(
     return sanitized_prompt, results_valid, results_score
 
 
-def scan_output(scanners: list[OutputScanner], prompt: str, output: str) -> (str, Dict[str, bool]):
+def scan_output(
+    scanners: list[OutputScanner], prompt: str, output: str
+) -> (str, Dict[str, bool], Dict[str, float]):
     """
     Scans a given output of a large language model using the provided scanners.
 
@@ -63,16 +65,19 @@ def scan_output(scanners: list[OutputScanner], prompt: str, output: str) -> (str
         A tuple containing:
             - The processed output string after applying all scanners.
             - A dictionary mapping scanner names to boolean values indicating whether the output is valid according to each scanner.
+            - A dictionary mapping scanner names to float values of risk scores, where 0 is no risk, and 1 is high risk.
     """
 
     sanitized_output = output
-    results = {}
+    results_valid = {}
+    results_score = {}
 
     if len(scanners) == 0 or output.strip() == "":
-        return sanitized_output, results
+        return sanitized_output, results_valid, results_score
 
     for scanner in scanners:
-        sanitized_output, is_valid = scanner.scan(prompt, sanitized_output)
-        results[type(scanner).__name__] = is_valid
+        sanitized_output, is_valid, risk_score = scanner.scan(prompt, sanitized_output)
+        results_valid[type(scanner).__name__] = is_valid
+        results_score[type(scanner).__name__] = risk_score
 
-    return sanitized_output, results
+    return sanitized_output, results_valid, results_score

@@ -71,7 +71,7 @@ python -m spacy download en_core_web_trf
 
 **General:**
 
-- [ ] Calculate risk score from 0 to 1 for each scanner
+- [x] Calculate risk score from 0 to 1 for each scanner
 - [ ] Improve speed of transformers
 
 **Prompt Scanner:**

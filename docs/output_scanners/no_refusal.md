@@ -26,5 +26,5 @@ flagged as a refusal.
 from llm_guard.output_scanners import NoRefusal
 
 scanner = NoRefusal(threshold=0.7)
-sanitized_output, is_valid = scanner.scan(prompt, model_output)
+sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```

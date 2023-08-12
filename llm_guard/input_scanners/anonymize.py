@@ -363,8 +363,11 @@ class Anonymize(Scanner):
             )
             analyzer_results.extend(chunk_results)
 
-        if analyzer_results:
-            risk_score = max(analyzer_result.score for analyzer_result in analyzer_results)
+        risk_score = (
+            max(analyzer_result.score for analyzer_result in analyzer_results)
+            if analyzer_results
+            else 0.0
+        )
         analyzer_results = self._remove_conflicts_and_get_text_manipulation_data(analyzer_results)
         merged_results = self._merge_entities_with_whitespace_between(prompt, analyzer_results)
 

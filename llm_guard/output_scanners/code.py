@@ -53,6 +53,6 @@ class Code(Scanner):
             tokenizer=RobertaTokenizer.from_pretrained(model_name),
         )
 
-    def scan(self, prompt: str, output: str) -> (str, bool):
+    def scan(self, prompt: str, output: str) -> (str, bool, float):
         valid, score = is_language_detected(output, self._pipeline, self._allowed, self._denied)
-        return output, valid
+        return output, valid, score

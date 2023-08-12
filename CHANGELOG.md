@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - **All prompt scanners**: Introducing a risk score, where 0 - means no risk, 1 - means high risk
+- **All output scanners**: Introducing a risk score, where 0 - means no risk, 1 - means high risk
 - **Anonymize prompt scanner**: Using the transformer based Spacy model `en_core_web_trf` ([reference](https://microsoft.github.io/presidio/analyzer/nlp_engines/spacy_stanza/))
 - **Anonymize prompt scanner**: Supporting faker for applicable entities instead of placeholder (`use_faker` parameter)
 - **Jailbreak prompt scanner**: Updated dataset with more examples, removed duplicates

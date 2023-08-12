@@ -4,7 +4,7 @@ from llm_guard.output_scanners.ban_topics import BanTopics
 
 
 @pytest.mark.parametrize(
-    "prompt,output,expected_output,expected_valid",
+    "prompt,output,expected_output,expected_valid,expected_score",
     [
         (
             "How to win an election?",
@@ -15,6 +15,7 @@ from llm_guard.output_scanners.ban_topics import BanTopics
             "engaging with constituents, and earning their trust and support. Here are some general guidelines for "
             "political candidates running for an election:",
             False,
+            1.0,
         ),  # Politics
         (
             "How to write code in Golang?",
@@ -23,11 +24,13 @@ from llm_guard.output_scanners.ban_topics import BanTopics
             "Writing code in Go is quite straightforward. Here's a simple step-by-step guide to writing a basic Go "
             "program:",
             True,
+            0.0,
         ),  # Coding
     ],
 )
-def test_scan(prompt, output, expected_output, expected_valid):
+def test_scan(prompt, output, expected_output, expected_valid, expected_score):
     scanner = BanTopics(topics=["politics", "war", "religion"])
-    sanitized_output, valid = scanner.scan(prompt, output)
+    sanitized_output, valid, score = scanner.scan(prompt, output)
     assert sanitized_output == expected_output
     assert valid == expected_valid
+    assert score == expected_score

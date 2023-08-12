@@ -40,18 +40,17 @@ class NoRefusal(Scanner):
             for s in read_json_file(dataset_path)["refusal"]
         ]
 
-    def scan(self, prompt: str, output: str) -> (str, bool):
+    def scan(self, prompt: str, output: str) -> (str, bool, float):
         similarities = []
         text_embedding = self._transformer_model.encode(output, convert_to_tensor=True)
         for embedding in self._dataset_embeddings:
             similarity = util.pytorch_cos_sim(text_embedding, embedding)
             similarities.append(similarity.item())
 
-        max_score = max(similarities) if similarities else 0
-        if max_score < self._threshold:
-            log.debug(f"No refusals. Max similarity with the known refusal results: {max_score}")
-            return output, True
+        max_score = round(max(similarities) if similarities else 0, 2)
+        if max_score > self._threshold:
+            log.warning(f"Detected refusal result with similarity score: {max_score}")
+            return output, False, max_score
 
-        log.warning(f"Detected refusal result with similarity score: {max_score}")
-
-        return output, False
+        log.debug(f"No refusals. Max similarity with the known refusal results: {max_score}")
+        return output, True, 0.0

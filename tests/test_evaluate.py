@@ -41,6 +41,6 @@ def test_scan_prompt(evaluators, prompt, expected_sanitized_prompt, expected_res
     ],
 )
 def test_scan_output(evaluators, prompt, output, expected_sanitized_output, expected_results):
-    sanitized_output, results_valid = scan_output(evaluators, prompt, output)
+    sanitized_output, results_valid, results_score = scan_output(evaluators, prompt, output)
     assert sanitized_output == expected_sanitized_output
     assert results_valid == expected_results

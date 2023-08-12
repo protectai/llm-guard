@@ -27,5 +27,5 @@ marked as toxic.
 from llm_guard.output_scanners import Toxicity
 
 scanner = Toxicity(threshold=0.7)
-sanitized_output, is_valid = scanner.scan(prompt, model_output)
+sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```

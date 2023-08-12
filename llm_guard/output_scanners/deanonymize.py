@@ -24,14 +24,13 @@ class Deanonymize(Scanner):
         """
         self._vault = vault
 
-    def scan(self, prompt: str, output: str) -> (str, bool):
+    def scan(self, prompt: str, output: str) -> (str, bool, float):
         vault_items = self._vault.get()
         if len(vault_items) == 0:
             log.warning("No items found in the Vault")
-            return output, True
 
         for vault_item in vault_items:
             log.debug(f"Replaced placeholder ${vault_item[0]} with real value")
             output = output.replace(vault_item[0], vault_item[1])
 
-        return output, True
+        return output, True, 0.0

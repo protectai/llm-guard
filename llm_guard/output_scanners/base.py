@@ -8,7 +8,7 @@ class Scanner(Protocol):
     This protocol defines the contract for classes that scan text outputs from a language model.
     """
 
-    def scan(self, prompt: str, output: str) -> (str, bool):
+    def scan(self, prompt: str, output: str) -> (str, bool, float):
         """
         Analyzes output of the model and returns sanitized output with a flag indicating if it is valid or malicious.
 
@@ -17,6 +17,7 @@ class Scanner(Protocol):
             output (str): The text output from the language model.
 
         Returns:
-            tuple: A tuple containing the scanned and potentially sanitized text output, and a boolean flag indicating
-                   if the output is considered malicious (False) or not (True).
+            str: The sanitized and processed output as per the scanner's implementation.
+            bool: A flag indicating whether the output is valid or not.
+            float: Risk score where 0 means no risk and 1 means high risk.
         """

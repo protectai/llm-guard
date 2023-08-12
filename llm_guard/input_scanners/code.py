@@ -41,7 +41,7 @@ def is_language_detected(
 
         if len(allowed) > 0 and language_name in allowed:
             log.debug(f"Language {language_name} found in the allowed list with score {score}")
-            return True, score
+            return True, 0.0
 
         if len(denied) > 0 and language_name in denied:
             log.warning(f"Language {language_name} is not allowed (score {score})")

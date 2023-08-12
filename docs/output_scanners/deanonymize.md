@@ -26,7 +26,7 @@ Then, set up the Deanonymize scanner with the Vault:
 from llm_guard.output_scanners import Deanonymize
 
 scanner = Deanonymize(vault)
-sanitized_model_output, is_valid = scanner.scan(sanitized_prompt, model_output)
+sanitized_model_output, is_valid, risk_score = scanner.scan(sanitized_prompt, model_output)
 ```
 
 After running the above code, `sanitized_model_output` will have the real details instead of placeholders.

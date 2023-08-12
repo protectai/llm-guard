@@ -32,7 +32,7 @@ banned substrings. It provides the flexibility to perform this check at two diff
 from llm_guard.output_scanners import BanSubstrings
 
 scanner = BanSubstrings(substrings=["forbidden", "unwanted"], match_type="word", case_sensitive=False)
-sanitized_output, is_valid = scanner.scan(prompt, model_output)
+sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```
 
 In the above configuration, `is_valid` will be `False` if the provided `model_output` contains any of the banned

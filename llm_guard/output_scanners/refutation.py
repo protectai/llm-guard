@@ -38,9 +38,9 @@ class Refutation(Scanner):
         self._tokenizer = AutoTokenizer.from_pretrained(_model_path)
         self._threshold = threshold
 
-    def scan(self, prompt: str, output: str) -> (str, bool):
+    def scan(self, prompt: str, output: str) -> (str, bool, float):
         if prompt.strip() == "":
-            return output, True
+            return output, True, 0.0
 
         tokenized_input_seq_pair = self._tokenizer.encode_plus(
             prompt, output, max_length=MAX_LENGTH, return_token_type_ids=True, truncation=True
@@ -65,16 +65,16 @@ class Refutation(Scanner):
             f"Detected entailment in the output with score: {predicted_probability[0]}, neutral: {predicted_probability[1]}, contradiction: {predicted_probability[2]}"
         )
 
-        contradiction_score = predicted_probability[2]
+        contradiction_score = round(predicted_probability[2], 2)
         if contradiction_score > self._threshold:
             log.warning(
                 f"Detected refutation in the output with score: {contradiction_score}, threshold: {self._threshold}"
             )
 
-            return output, False
+            return output, False, contradiction_score
 
         log.debug(
             f"Not refutation in the output. Max score: {contradiction_score}, threshold: {self._threshold}"
         )
 
-        return output, True
+        return output, True, 0.0
