@@ -57,5 +57,6 @@ Here's what those options do:
 - `hidden_names` are names we change to something like `[REDACTED_CUSTOM_1]`.
 - You can also choose specific types of info to hide using `entity_types`.
 - If you want, you can use your own patterns by giving the path in `regex_pattern_groups_path`.
+- `use_faker` will replace applicable entities with fake ones.
 
-- If you want to see the original info again, you can use the [Deanonymizer](../output_scanners/deanonymize.md).
+If you want to see the original info again, you can use the [Deanonymizer](../output_scanners/deanonymize.md).

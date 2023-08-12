@@ -4,6 +4,7 @@ import os
 import re
 from typing import List, Optional
 
+from faker import Faker
 from presidio_analyzer import AnalyzerEngine, Pattern, PatternRecognizer, RecognizerRegistry
 from presidio_analyzer.nlp_engine import SpacyNlpEngine
 from presidio_anonymizer.core.text_replace_builder import TextReplaceBuilder
@@ -14,6 +15,7 @@ from llm_guard.vault import Vault
 from .base import Scanner
 
 log = logging.getLogger(__name__)
+fake = Faker(seed=100)
 
 sensitive_patterns_path = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
@@ -21,7 +23,7 @@ sensitive_patterns_path = os.path.join(
     "resources",
     "sensisitive_patterns.json",
 )
-supported_entity_types = [
+default_entity_types = [
     "CREDIT_CARD",
     "CRYPTO",
     "EMAIL_ADDRESS",
@@ -53,6 +55,18 @@ supported_entity_types = [
     "STRIPE_ACCESS_KEY",
     "SQUARE_OAUTH_SECRET",
 ]
+_entity_faker_map = {
+    "CREDIT_CARD": fake.credit_card_number,
+    "EMAIL_ADDRESS": fake.email,
+    "IBAN_CODE": fake.iban,
+    "IP_ADDRESS": fake.ipv4,
+    "PERSON": fake.name,
+    "PHONE_NUMBER": fake.phone_number,
+    "URL": fake.url,
+    "US_SSN": fake.ssn,
+    "CREDIT_CARD_RE": fake.credit_card_number,
+    "UUID": fake.uuid4,
+}
 
 DEFAULT_LENGTH = 512  # spaCy's transformer model gives a warning if the length of the string is greater than 512.
 
@@ -73,6 +87,7 @@ class Anonymize(Scanner):
         entity_types: Optional[List[str]] = None,
         preamble: str = "",
         regex_pattern_groups_path: str = sensitive_patterns_path,
+        use_faker: bool = False,
     ):
         """
         Initialize an instance of Anonymize class.
@@ -84,22 +99,14 @@ class Anonymize(Scanner):
             entity_types (Optional[List[str]]): List of entity types to be detected. If not provided, defaults to all.
             preamble (str): Text to prepend to sanitized prompt. If not provided, defaults to an empty string.
             regex_pattern_groups_path (str): Path to a JSON file with regex pattern groups. If not provided, defaults to sensisitive_patterns.json.
-
-        Raises:
-            ValueError: If entities provided are not supported.
+            use_faker (bool): Whether to use faker instead of placeholders in applicable cases. If not provided, defaults to False, replaces with placeholders [REDACTED_PERSON_1].
         """
 
         os.environ["TOKENIZERS_PARALLELISM"] = "false"  # Disables huggingface/tokenizers warning
 
         if not entity_types:
-            log.debug(f"No entity types provided, using default: {supported_entity_types}")
-            entity_types = supported_entity_types
-
-        not_supported_entity_types = set(entity_types) - set(supported_entity_types)
-        if not_supported_entity_types:
-            raise ValueError(
-                f"Requested entity types are not supported: {not_supported_entity_types}"
-            )
+            log.debug(f"No entity types provided, using default: {default_entity_types}")
+            entity_types = default_entity_types
         entity_types.append("CUSTOM")
 
         if not hidden_names:
@@ -109,6 +116,7 @@ class Anonymize(Scanner):
         self._entity_types = entity_types
         self._allowed_names = allowed_names
         self._preamble = preamble
+        self._use_faker = use_faker
         self._analyzer = AnalyzerEngine(
             registry=Anonymize.get_recognizers(
                 Anonymize.get_regex_patterns(regex_pattern_groups_path), hidden_names
@@ -261,13 +269,23 @@ class Anonymize(Scanner):
         return merged_results
 
     @staticmethod
-    def _anonymize(prompt: str, pii_entities: List[PIIEntity]) -> (str, List[tuple]):
+    def _get_entity_placeholder(entity_type: str, index: int, use_faker: bool) -> str:
+        result = f"[REDACTED_{entity_type}_{index}]"
+        if use_faker and entity_type in _entity_faker_map:
+            result = _entity_faker_map[entity_type]()
+        return result
+
+    @staticmethod
+    def _anonymize(
+        prompt: str, pii_entities: List[PIIEntity], use_faker: bool
+    ) -> (str, List[tuple]):
         """
         Replace detected entities in the prompt with anonymized placeholders.
 
         Args:
             prompt (str): Original text prompt.
             pii_entities (List[PIIEntity]): List of entities detected in the prompt.
+            use_faker (bool): Whether to use faker to generate fake data.
 
         Returns:
             str: Sanitized text.
@@ -299,8 +317,8 @@ class Anonymize(Scanner):
             )
 
             index = entity_type_counter[entity_type][entity_value]
+            changed_entity = Anonymize._get_entity_placeholder(entity_type, index, use_faker)
 
-            changed_entity = f"[REDACTED_{entity_type}_{index}]"
             results.append((changed_entity, prompt[pii_entity.start : pii_entity.end]))
 
             text_replace_builder.replace_text_get_insertion_index(
@@ -348,7 +366,9 @@ class Anonymize(Scanner):
         analyzer_results = self._remove_conflicts_and_get_text_manipulation_data(analyzer_results)
         merged_results = self._merge_entities_with_whitespace_between(prompt, analyzer_results)
 
-        sanitized_prompt, anonymized_results = self._anonymize(prompt, merged_results)
+        sanitized_prompt, anonymized_results = self._anonymize(
+            prompt, merged_results, self._use_faker
+        )
 
         if prompt != sanitized_prompt:
             log.warning(f"Found sensitive data in the prompt and replaced it: {merged_results}")

@@ -7,8 +7,8 @@ from presidio_analyzer.nlp_engine import SpacyNlpEngine
 
 from llm_guard.input_scanners.anonymize import (
     Anonymize,
+    default_entity_types,
     sensitive_patterns_path,
-    supported_entity_types,
 )
 
 from .base import Scanner
@@ -36,22 +36,12 @@ class Sensitive(Scanner):
            entity_types (Optional[List[str]]): The entity types to look for in the output. Defaults to all
                                                entity types.
            regex_pattern_groups_path (str): Path to the regex patterns file. Default is sensitive_patterns.json.
-
-        Raises:
-            ValueError: If entities provided are not supported.
         """
         os.environ["TOKENIZERS_PARALLELISM"] = "false"  # Disables huggingface/tokenizers warning
 
         if not entity_types:
-            log.debug(f"No entity types provided, using default: {supported_entity_types}")
-            entity_types = supported_entity_types
-
-        not_supported_entity_types = set(entity_types) - set(supported_entity_types)
-        if not_supported_entity_types:
-            raise ValueError(
-                f"Requested entity types are not supported: {not_supported_entity_types}"
-            )
-
+            log.debug(f"No entity types provided, using default: {default_entity_types}")
+            entity_types = default_entity_types
         entity_types.append("CUSTOM")
 
         self._entity_types = entity_types
