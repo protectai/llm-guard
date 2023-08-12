@@ -22,7 +22,7 @@ permissions:
   contents: read
 
 jobs:
-  run:
+  test:
     strategy:
       fail-fast: true
       matrix:

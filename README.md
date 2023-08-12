@@ -70,8 +70,7 @@ python -m spacy download en_core_web_lg
 
 **General:**
 
-- [ ] Return metrics from each scanner
-- [ ]  Calculate risk score from 0 to 1 for each scanner
+- [ ] Calculate risk score from 0 to 1 for each scanner
 - [ ] Improve speed of transformers
 
 **Prompt Scanner:**
