@@ -14,14 +14,16 @@ _preamble = (
 
 
 @pytest.mark.parametrize(
-    "prompt,expected_prompt,expected_valid",
+    "settings, prompt,expected_prompt,expected_valid",
     [
         (
+            {},
             "Just a simple prompt",
             "Just a simple prompt",
             True,
         ),  # Prompt without sensitive data
         (
+            {"preamble": _preamble, "hidden_names": ["Test LLC"]},
             "Make an SQL insert statement to add a new user to our database. Name is John Doe. Email is test@test.com "
             "but also possible to contact him with hello@test.com email. Phone number is 555-123-4567 and "
             "the IP address is 192.168.1.100. And credit card number is 4567-8901-2345-6789. "
@@ -36,12 +38,23 @@ _preamble = (
             "[REDACTED_CREDIT_CARD_RE_1]. He works in [REDACTED_CUSTOM_1].",
             False,
         ),  # Exposed name, email, phone number, credit card number and IP
-        ("", "", True),  # Empty prompt
-        ("   ", "   ", True),  # Only whitespace
+        (
+            {"entity_types": ["PERSON"]},
+            "Make an SQL insert statement to add a new user to our database. Name is John Doe. Email is test@test.com "
+            "but also possible to contact him with hello@test.com email. Phone number is 555-123-4567 and "
+            "the IP address is 192.168.1.100. And credit card number is 4567-8901-2345-6789. "
+            "He works in Test LLC.",
+            f"Make an SQL insert statement to add a new user to our database. Name is [REDACTED_PERSON_1]. "
+            f"Email is test@test.com but also possible to contact him with hello@test.com email. "
+            f"Phone number is 555-123-4567 and the IP address is 192.168.1.100. "
+            f"And credit card number is 4567-8901-2345-6789. He works in Test LLC.",
+            False,
+        ),  # Exposed name, email, phone number, credit card number and IP but only with PERSON
+        ({}, "", "", True),  # Empty prompt
     ],
 )
-def test_scan(prompt, expected_prompt, expected_valid):
-    scanner = Anonymize(Vault(), preamble=_preamble, hidden_names=["Test LLC"])
+def test_scan(settings, prompt, expected_prompt, expected_valid):
+    scanner = Anonymize(Vault(), **settings)
     sanitized_prompt, valid = scanner.scan(prompt)
     assert sanitized_prompt == expected_prompt
     assert valid == expected_valid

@@ -24,8 +24,8 @@ cd llm-guard
 pip install -r requirements.txt
 python setup.py install
 
-# download `en_core_web_lg` from SpaCy
-python -m spacy download en_core_web_lg
+# download SpaCy model
+python -m spacy download en_core_web_trf
 ```
 
 ## Testing

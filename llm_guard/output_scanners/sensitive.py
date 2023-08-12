@@ -1,13 +1,13 @@
 import logging
+import os
 from typing import List, Optional
 
-import spacy
 from presidio_analyzer import AnalyzerEngine
+from presidio_analyzer.nlp_engine import SpacyNlpEngine
 
 from llm_guard.input_scanners.anonymize import (
-    all_entity_types,
-    get_recognizers,
-    get_regex_patterns,
+    Anonymize,
+    default_entity_types,
     sensitive_patterns_path,
 )
 
@@ -37,25 +37,34 @@ class Sensitive(Scanner):
                                                entity types.
            regex_pattern_groups_path (str): Path to the regex patterns file. Default is sensitive_patterns.json.
         """
+        os.environ["TOKENIZERS_PARALLELISM"] = "false"  # Disables huggingface/tokenizers warning
 
         if not entity_types:
-            log.debug(f"No entity types provided, using default: {all_entity_types}")
-            entity_types = all_entity_types
-        spacy.load("en_core_web_lg")
+            log.debug(f"No entity types provided, using default: {default_entity_types}")
+            entity_types = default_entity_types
+        entity_types.append("CUSTOM")
+
         self._entity_types = entity_types
         self._analyzer = AnalyzerEngine(
-            registry=get_recognizers(get_regex_patterns(regex_pattern_groups_path), [])
+            registry=Anonymize.get_recognizers(
+                Anonymize.get_regex_patterns(regex_pattern_groups_path), []
+            ),
+            nlp_engine=SpacyNlpEngine({"en": "en_core_web_trf"}),
         )
 
     def scan(self, prompt: str, output: str) -> (str, bool):
         if output.strip() == "":
             return prompt, True
 
-        analyzer_results = self._analyzer.analyze(
-            text=output,
-            language="en",
-            entities=self._entity_types,
-        )
+        analyzer_results = []
+        text_chunks = Anonymize.get_text_chunks(output)
+        for text_chunk_index, text in enumerate(text_chunks):
+            chunk_results = self._analyzer.analyze(
+                text=Anonymize.remove_single_quotes(text),
+                language="en",
+                entities=self._entity_types,
+            )
+            analyzer_results.extend(chunk_results)
 
         if len(analyzer_results) == 0:
             log.debug(f"No sensitive data found in the output")
