@@ -8,12 +8,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- [Refutation output scanner](./docs/output_scanners/refutation.md)
-- [MaliciousURLs output scanner](./docs/output_scanners/malicious_urls.md)
-- [Secrets prompt scanner](./docs/input_scanners/secrets.md)
+-
 
 ### Fixed
 -
+
+### Changed
+-
+
+### Removed
+-
+
+## [0.1.0] - 2023-08-12
+
+### Added
+- [Refutation output scanner](./docs/output_scanners/refutation.md)
+- [MaliciousURLs output scanner](./docs/output_scanners/malicious_urls.md)
+- [Secrets prompt scanner](./docs/input_scanners/secrets.md)
 
 ### Changed
 - **All prompt scanners**: Introducing a risk score, where 0 - means no risk, 1 - means high risk
@@ -71,6 +82,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - [Toxicity](./llm_guard/output_scanners/toxicity.py)
 
 [Unreleased]: https://github.com/laiyer-ai/llm-guard/commits/main
-[0.0.3]: https://github.com/laiyer-ai/llm-guard/commits/v0.0.3
-[0.0.2]: https://github.com/laiyer-ai/llm-guard/commits/v0.0.2
-[0.0.1]: https://github.com/laiyer-ai/llm-guard/commits/v0.0.1
+[0.1.0]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.1.0
+[0.0.3]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.0.3
+[0.0.2]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.0.2
+[0.0.1]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.0.1
