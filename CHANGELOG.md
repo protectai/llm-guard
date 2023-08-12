@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - [Refutation output scanner](./docs/output_scanners/refutation.md)
+- [MaliciousURLs output scanner](./docs/output_scanners/malicious_urls.md)
 
 ### Fixed
 -

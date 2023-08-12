@@ -8,7 +8,7 @@ jailbreak attacks, LLM-Guard ensures that your interactions with LLMs remain saf
 
 [![MIT license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/llm-guard)](https://pypi.org/project/llm-guard)
+[![PyPI - Python Version](https://img.shields.io/pypi/v/llm-guard)](https://pypi.org/project/llm-guard)
 [![Downloads](https://pepy.tech/badge/llm-guard)](https://pepy.tech/project/llm-guard)
 [![Downloads](https://pepy.tech/badge/llm-guard/month)](https://pepy.tech/project/llm-guard)
 [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/laiyer_ai.svg?style=social&label=Follow%20%40Laiyer_AI)](https://twitter.com/laiyer_ai)
@@ -60,6 +60,7 @@ python -m spacy download en_core_web_trf
 - [BanTopics](docs/output_scanners/ban_topics.md)
 - [Code](docs/output_scanners/code.md)
 - [Deanonymize](docs/output_scanners/deanonymize.md)
+- [MaliciousURLs](docs/output_scanners/malicious_urls.md)
 - [NoRefusal](docs/output_scanners/no_refusal.md)
 - [Refutation](docs/output_scanners/refutation.md)
 - [Regex](docs/output_scanners/regex.md)

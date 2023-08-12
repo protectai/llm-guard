@@ -3,6 +3,7 @@ from .ban_substrings import BanSubstrings
 from .ban_topics import BanTopics
 from .code import Code
 from .deanonymize import Deanonymize
+from .malicious_urls import MaliciousURLs
 from .no_refusal import NoRefusal
 from .refutation import Refutation
 from .regex import Regex
@@ -15,6 +16,7 @@ __all__ = [
     "BanTopics",
     "Code",
     "Deanonymize",
+    "MaliciousURLs",
     "NoRefusal",
     "Refutation",
     "Regex",
