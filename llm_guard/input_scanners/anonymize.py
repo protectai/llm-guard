@@ -37,7 +37,6 @@ default_entity_types = [
     "US_BANK_NUMBER",
     "CREDIT_CARD_RE",
     "UUID",
-    "FILE_EXTENSION",
     "ARTIFACTORY_KEY",
     "AWS_KEY",
     "AZURE_STORAGE_KEY",
