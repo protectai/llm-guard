@@ -23,17 +23,6 @@
   },
   {
     "expressions": [
-      "\\.\\b(?:txt|pdf|docx?|xlsx?|pptx?|png|jpe?g|gif|mp4|avi|mp3|wav|zip|tar|gz|7z)\\b"
-    ],
-    "name": "FILE_EXTENSION",
-    "examples": [
-      ".txt"
-    ],
-    "context": [],
-    "score": 0.5
-  },
-  {
-    "expressions": [
       "(?:\\s|=|:|\"|^)AKC[a-zA-Z0-9]{10,}(?:\\s|\"|$)",
       "(?:\\s|=|:|\"|^)AP[\\dABCDEF][a-zA-Z0-9]{8,}(?:\\s|\"|$)"
     ],
