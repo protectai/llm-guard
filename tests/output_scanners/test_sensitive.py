@@ -14,14 +14,12 @@ from llm_guard.output_scanners.sensitive import Sensitive
             0.0,
         ),  # No sensitive information
         (
-            "Provide example of the AWS CLI environment variables",
-            "Here is example: set AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE; set "
-            "AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
-            "Here is example: set AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE; set "
-            "AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+            "What's my boss name?",
+            "John Doe is his name",
+            "John Doe is his name",
             False,
-            0.5,
-        ),  # No sensitive information
+            0.85,
+        ),  # Name in the output
     ],
 )
 def test_scan(prompt, output, expected_output, expected_valid, expected_score):

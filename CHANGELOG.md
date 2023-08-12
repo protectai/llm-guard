@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - [Refutation output scanner](./docs/output_scanners/refutation.md)
 - [MaliciousURLs output scanner](./docs/output_scanners/malicious_urls.md)
+- [Secrets prompt scanner](./docs/input_scanners/secrets.md)
 
 ### Fixed
 -
@@ -19,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **All output scanners**: Introducing a risk score, where 0 - means no risk, 1 - means high risk
 - **Anonymize prompt scanner**: Using the transformer based Spacy model `en_core_web_trf` ([reference](https://microsoft.github.io/presidio/analyzer/nlp_engines/spacy_stanza/))
 - **Anonymize prompt scanner**: Supporting faker for applicable entities instead of placeholder (`use_faker` parameter)
+- **Anonymize prompt scanner**: Remove all patterns for secrets detection, use [Secrets](docs/input_scanners/secrets.md) prompt scanner instead.
 - **Jailbreak prompt scanner**: Updated dataset with more examples, removed duplicates
 
 ### Removed

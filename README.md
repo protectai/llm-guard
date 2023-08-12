@@ -50,6 +50,7 @@ python -m spacy download en_core_web_trf
 - [Code](docs/input_scanners/code.md)
 - [Jailbreak](docs/input_scanners/jailbreak.md)
 - [PromptInjection](docs/input_scanners/prompt_injection.md)
+- [Secrets](docs/input_scanners/secrets.md)
 - [Sentiment](docs/input_scanners/sentiment.md)
 - [TokenLimit](docs/input_scanners/token_limit.md)
 - [Toxicity](docs/input_scanners/toxicity.md)

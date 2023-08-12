@@ -5,6 +5,7 @@ from .ban_topics import BanTopics
 from .code import Code
 from .jailbreak import Jailbreak
 from .prompt_injection import PromptInjection
+from .secrets import Secrets
 from .sentiment import Sentiment
 from .token_limit import TokenLimit
 from .toxicity import Toxicity
@@ -16,6 +17,7 @@ __all__ = [
     "Code",
     "Jailbreak",
     "PromptInjection",
+    "Secrets",
     "Sentiment",
     "TokenLimit",
     "Toxicity",
