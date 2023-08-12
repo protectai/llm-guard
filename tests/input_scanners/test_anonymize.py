@@ -44,10 +44,10 @@ _preamble = (
             "but also possible to contact him with hello@test.com email. Phone number is 555-123-4567 and "
             "the IP address is 192.168.1.100. And credit card number is 4567-8901-2345-6789. "
             "He works in Test LLC.",
-            f"Make an SQL insert statement to add a new user to our database. Name is [REDACTED_PERSON_1]. "
-            f"Email is test@test.com but also possible to contact him with hello@test.com email. "
-            f"Phone number is 555-123-4567 and the IP address is 192.168.1.100. "
-            f"And credit card number is 4567-8901-2345-6789. He works in Test LLC.",
+            "Make an SQL insert statement to add a new user to our database. Name is [REDACTED_PERSON_1]. "
+            "Email is test@test.com but also possible to contact him with hello@test.com email. "
+            "Phone number is 555-123-4567 and the IP address is 192.168.1.100. "
+            "And credit card number is 4567-8901-2345-6789. He works in Test LLC.",
             False,
         ),  # Exposed name, email, phone number, credit card number and IP but only with PERSON
         ({}, "", "", True),  # Empty prompt
