@@ -20,6 +20,9 @@ To combat this, it's vital to integrate data sanitization and adopt strict user 
 It takes advantage of the [Presidio Analyzer Engine](https://github.com/microsoft/presidio/). Coupled
 with predefined internal patterns, the tool offers robust scanning capabilities.
 
+It uses transformers based model `en_core_web_trf` which uses a more modern deep-learning architecture, but is generally
+slower than the default `en_core_web_lg` model.
+
 When running, the scanner inspects the model's output for specific entity types that may be considered sensitive. If no
 types are chosen, the tool defaults to scanning for all known entity types, offering comprehensive coverage.
 

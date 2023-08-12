@@ -18,6 +18,9 @@ When you use the Anonymize scanner, you can talk to LLMs without worrying about 
 The scanner uses a tool called the [Presidio Analyzer](https://github.com/microsoft/presidio/) library. This tool, built
 with Python's spaCy, is really good at finding private info in text.
 
+It uses transformers based model `en_core_web_trf` which uses a more modern deep-learning architecture, but is generally
+slower than the default `en_core_web_lg` model.
+
 On top of that, the Anonymize scanner can also understand special patterns to catch anything the Presidio Analyzer might
 miss.
 

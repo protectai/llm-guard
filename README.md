@@ -17,12 +17,12 @@ jailbreak attacks, LLM-Guard ensures that your interactions with LLMs remain saf
 
 ## Installation
 
-Begin your journey with LLM Guard by downloading the package and acquiring the `en_core_web_lg` spaCy model (essential
+Begin your journey with LLM Guard by downloading the package and acquiring the `en_core_web_trf` spaCy model (essential
 for the [Anonymize](./docs/input_scanners/anonymize.md) scanner):
 
 ```sh
 pip install llm-guard
-python -m spacy download en_core_web_lg
+python -m spacy download en_core_web_trf
 ```
 
 ## Getting Started
