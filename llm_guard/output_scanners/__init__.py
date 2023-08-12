@@ -4,6 +4,7 @@ from .ban_topics import BanTopics
 from .code import Code
 from .deanonymize import Deanonymize
 from .no_refusal import NoRefusal
+from .refutation import Refutation
 from .regex import Regex
 from .relevance import Relevance
 from .sensitive import Sensitive
@@ -15,6 +16,7 @@ __all__ = [
     "Code",
     "Deanonymize",
     "NoRefusal",
+    "Refutation",
     "Regex",
     "Relevance",
     "Sensitive",

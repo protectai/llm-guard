@@ -61,6 +61,7 @@ python -m spacy download en_core_web_trf
 - [Code](docs/output_scanners/code.md)
 - [Deanonymize](docs/output_scanners/deanonymize.md)
 - [NoRefusal](docs/output_scanners/no_refusal.md)
+- [Refutation](docs/output_scanners/refutation.md)
 - [Regex](docs/output_scanners/regex.md)
 - [Relevance](docs/output_scanners/relevance.md)
 - [Sensitive](docs/output_scanners/sensitive.md)

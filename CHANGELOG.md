@@ -8,15 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
--
+- [Refutation output scanner](./docs/output_scanners/refutation.md)
 
 ### Fixed
 -
 
 ### Changed
-- [Anonymize prompt scanner] Using the transformer based Spacy model `en_core_web_trf` ([reference](https://microsoft.github.io/presidio/analyzer/nlp_engines/spacy_stanza/))
-- [Anonymize prompt scanner] Supporting faker for applicable entities instead of placeholder (`use_faker` parameter)
-- [Jailbreak prompt scanner] Updated dataset with more examples, removed duplicates
+- **Anonymize prompt scanner**: Using the transformer based Spacy model `en_core_web_trf` ([reference](https://microsoft.github.io/presidio/analyzer/nlp_engines/spacy_stanza/))
+- **Anonymize prompt scanner**: Supporting faker for applicable entities instead of placeholder (`use_faker` parameter)
+- **Jailbreak prompt scanner**: Updated dataset with more examples, removed duplicates
 
 ### Removed
 -
