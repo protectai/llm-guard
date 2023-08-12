@@ -53,15 +53,15 @@ class TokenLimit(Scanner):
             chunk_ids = input_ids[start_idx:cur_idx]
         return splits, len(input_ids)
 
-    def scan(self, prompt: str) -> (str, bool):
+    def scan(self, prompt: str) -> (str, bool, float):
         if prompt.strip() == "":
-            return prompt, True
+            return prompt, True, 0.0
 
         chunks, num_tokens = self._split_text_on_tokens(text=prompt)
         if num_tokens < self._limit:
             log.debug(f"Prompt fits the maximum tokens: {num_tokens}, max: {self._limit}")
-            return prompt, True
+            return prompt, True, 0.0
 
         log.warning(f"Prompt is too big ({num_tokens} tokens). Split into chunks: {chunks}")
 
-        return chunks[0], False
+        return chunks[0], False, 1.0

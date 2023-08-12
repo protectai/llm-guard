@@ -15,7 +15,7 @@ model_name = "huggingface/CodeBERTa-language-id"
 
 def is_language_detected(
     text: str, pipeline: TextClassificationPipeline, allowed: List[str], denied: List[str]
-) -> bool:
+) -> (bool, float):
     """
     Checks whether the text contains languages listed in the 'allowed' or 'denied' lists.
 
@@ -27,32 +27,33 @@ def is_language_detected(
 
     Returns:
         bool: True if the text contains allowed languages or doesn't contain denied languages. False otherwise.
+        float: Risk score, where 0 is no risk and 1 is the highest risk.
     """
     if text.strip() == "":
-        return True
+        return True, 0.0
 
     languages = pipeline(text)
     log.debug(f"Detected languages {languages}")
 
     for language in languages:
         language_name = language["label"]
-        score = language["score"]
+        score = round(language["score"], 2)
 
         if len(allowed) > 0 and language_name in allowed:
             log.debug(f"Language {language_name} found in the allowed list with score {score}")
-            return True
+            return True, score
 
         if len(denied) > 0 and language_name in denied:
             log.warning(f"Language {language_name} is not allowed (score {score})")
-            return False
+            return False, score
 
     if len(allowed) > 0:
         log.warning(f"No allowed languages detected: {languages}")
-        return False
+        return False, 1.0
 
     log.debug(f"No denied languages detected: {languages}")
 
-    return True
+    return True, 0.0
 
 
 class Code(Scanner):
@@ -93,5 +94,6 @@ class Code(Scanner):
             tokenizer=RobertaTokenizer.from_pretrained(model_name),
         )
 
-    def scan(self, prompt: str) -> (str, bool):
-        return prompt, is_language_detected(prompt, self._pipeline, self._allowed, self._denied)
+    def scan(self, prompt: str) -> (str, bool, float):
+        valid, score = is_language_detected(prompt, self._pipeline, self._allowed, self._denied)
+        return prompt, valid, score

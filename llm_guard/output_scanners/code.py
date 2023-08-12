@@ -54,4 +54,5 @@ class Code(Scanner):
         )
 
     def scan(self, prompt: str, output: str) -> (str, bool):
-        return output, is_language_detected(output, self._pipeline, self._allowed, self._denied)
+        valid, score = is_language_detected(output, self._pipeline, self._allowed, self._denied)
+        return output, valid

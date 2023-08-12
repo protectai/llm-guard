@@ -23,9 +23,9 @@ prompt = "Make an SQL insert statement to add a new user to our database. Name i
 "the IP address is 192.168.1.100. And credit card number is 4567-8901-2345-6789. "
 "He works in Test LLC."
 
-sanitized_prompt, results = scan_prompt(input_scanners, prompt)
-if any(not result for result in results.values()):
-    print(f"Prompt {prompt} is not valid: {results}")
+sanitized_prompt, results_valid, results_score = scan_prompt(input_scanners, prompt)
+if any(not result for result in results_valid.values()):
+    print(f"Prompt {prompt} is not valid, scores: {results_score}")
     exit(1)
 
 print(f"Prompt: {sanitized_prompt}")

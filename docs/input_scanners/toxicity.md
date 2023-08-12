@@ -27,7 +27,7 @@ classified as non-toxic.
 from llm_guard.input_scanners import Toxicity
 
 scanner = Toxicity(threshold=0.5)
-sanitized_prompt, is_valid = scanner.scan(prompt)
+sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
 
 ## Limitations

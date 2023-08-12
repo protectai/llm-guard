@@ -51,7 +51,7 @@ class BanSubstrings(Scanner):
         self._case_sensitive = case_sensitive
         self._substrings = substrings
 
-    def scan(self, prompt: str) -> (str, bool):
+    def scan(self, prompt: str) -> (str, bool, float):
         match = False
         matched_substrings = []
         for s in self._substrings:
@@ -69,8 +69,8 @@ class BanSubstrings(Scanner):
 
         if match:
             log.warning(f"Found the following banned substrings: {matched_substrings}")
-            return prompt, False
+            return prompt, False, 1.0
 
         log.debug("No banned substrings found")
 
-        return prompt, True
+        return prompt, True, 0.0

@@ -38,20 +38,18 @@ class Jailbreak(Scanner):
             for s in read_json_file(dataset_path)["jailbreak"]
         ]
 
-    def scan(self, prompt: str) -> (str, bool):
+    def scan(self, prompt: str) -> (str, bool, float):
         similarities = []
         text_embedding = self._transformer_model.encode(prompt, convert_to_tensor=True)
         for embedding in self._dataset_embeddings:
             similarity = util.pytorch_cos_sim(text_embedding, embedding)
             similarities.append(similarity.item())
 
-        max_score = max(similarities) if similarities else 0
-        if max_score < self._threshold:
-            log.debug(
-                f"No jailbreaks. Max similarity with the known jailbreak prompts: {max_score}"
-            )
-            return prompt, True
+        max_score = round(max(similarities) if similarities else 0, 2)
+        if max_score > self._threshold:
+            log.warning(f"Detected jailbreak prompt with similarity score: {max_score}")
 
-        log.warning(f"Detected jailbreak prompt with similarity score: {max_score}")
+            return prompt, False, max_score
 
-        return prompt, False
+        log.debug(f"No jailbreaks. Max similarity with the known jailbreak prompts: {max_score}")
+        return prompt, True, max_score

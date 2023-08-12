@@ -347,9 +347,10 @@ class Anonymize(Scanner):
 
         return text_chunks
 
-    def scan(self, prompt: str) -> (str, bool):
+    def scan(self, prompt: str) -> (str, bool, float):
+        risk_score = 0.0
         if prompt.strip() == "":
-            return prompt, True
+            return prompt, True, risk_score
 
         analyzer_results = []
         text_chunks = Anonymize.get_text_chunks(prompt)
@@ -362,6 +363,8 @@ class Anonymize(Scanner):
             )
             analyzer_results.extend(chunk_results)
 
+        if analyzer_results:
+            risk_score = max(analyzer_result.score for analyzer_result in analyzer_results)
         analyzer_results = self._remove_conflicts_and_get_text_manipulation_data(analyzer_results)
         merged_results = self._merge_entities_with_whitespace_between(prompt, analyzer_results)
 
@@ -370,10 +373,12 @@ class Anonymize(Scanner):
         )
 
         if prompt != sanitized_prompt:
-            log.warning(f"Found sensitive data in the prompt and replaced it: {merged_results}")
+            log.warning(
+                f"Found sensitive data in the prompt and replaced it: {merged_results}, risk score: {risk_score}"
+            )
             self._vault.extend(anonymized_results)
-            return self._preamble + sanitized_prompt, False
+            return self._preamble + sanitized_prompt, False, risk_score
 
-        log.debug(f"Prompt does not have sensitive data to replace")
+        log.debug(f"Prompt does not have sensitive data to replace. Risk score is {risk_score}")
 
-        return prompt, True
+        return prompt, True, 0.0

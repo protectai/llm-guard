@@ -28,7 +28,7 @@ indicating a potentially negative sentiment.
 from llm_guard.input_scanners import Sentiment
 
 scanner = Sentiment(threshold=0)
-sanitized_prompt, is_valid = scanner.scan(prompt)
+sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
 
 For a deeper understanding of the sentiment analysis process and its underlying methods, consult:

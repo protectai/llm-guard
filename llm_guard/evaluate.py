@@ -18,7 +18,9 @@ These functions return the processed string after all scanners have been applied
 """
 
 
-def scan_prompt(scanners: list[InputScanner], prompt: str) -> (str, Dict[str, bool]):
+def scan_prompt(
+    scanners: list[InputScanner], prompt: str
+) -> (str, Dict[str, bool], Dict[str, float]):
     """
     Scans a given prompt using the provided scanners.
 
@@ -30,19 +32,22 @@ def scan_prompt(scanners: list[InputScanner], prompt: str) -> (str, Dict[str, bo
         A tuple containing:
             - The processed prompt string after applying all scanners.
             - A dictionary mapping scanner names to boolean values indicating whether the input prompt is valid according to each scanner.
+            - A dictionary mapping scanner names to float values of risk scores, where 0 is no risk, and 1 is high risk.
     """
 
     sanitized_prompt = prompt
-    results = {}
+    results_valid = {}
+    results_score = {}
 
     if len(scanners) == 0 or prompt.strip() == "":
-        return sanitized_prompt, results
+        return sanitized_prompt, results_valid, results_score
 
     for scanner in scanners:
-        sanitized_prompt, is_valid = scanner.scan(sanitized_prompt)
-        results[type(scanner).__name__] = is_valid
+        sanitized_prompt, is_valid, risk_score = scanner.scan(sanitized_prompt)
+        results_valid[type(scanner).__name__] = is_valid
+        results_score[type(scanner).__name__] = risk_score
 
-    return sanitized_prompt, results
+    return sanitized_prompt, results_valid, results_score
 
 
 def scan_output(scanners: list[OutputScanner], prompt: str, output: str) -> (str, Dict[str, bool]):

@@ -32,7 +32,7 @@ For an in-depth understanding, refer to:
 from llm_guard.input_scanners import TokenLimit
 
 scanner = TokenLimit(limit=4096, encoding_name="cl100k_base")
-sanitized_prompt, is_valid = scanner.scan(prompt)
+sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
 
 Models supported for encoding `cl100k_base`: `gpt-4`, `gpt-3.5-turbo`, `text-embedding-ada-002`.

@@ -45,10 +45,10 @@ vault = Vault()
 Then, set up the Anonymize scanner with some options:
 
 ```python
-from llm_guard.input_scanners import Anonymize, sensitive_patterns_path
+from llm_guard.input_scanners import Anonymize
 
 scanner = Anonymize(vault, preamble="Insert before prompt", allowed_names=["John Doe"], hidden_names=["Test LLC"])
-sanitized_prompt, is_valid = scanner.scan(prompt)
+sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
 
 Here's what those options do:

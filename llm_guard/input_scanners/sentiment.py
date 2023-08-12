@@ -32,15 +32,18 @@ class Sentiment(Scanner):
         self._sentiment_analyzer = SentimentIntensityAnalyzer()
         self._threshold = threshold
 
-    def scan(self, prompt: str) -> (str, bool):
+    def scan(self, prompt: str) -> (str, bool, float):
         sentiment_score = self._sentiment_analyzer.polarity_scores(prompt)
-        if sentiment_score["compound"] > self._threshold:
+        sentiment_score_compound = sentiment_score["compound"]
+        if sentiment_score_compound > self._threshold:
             log.debug(f"Sentiment score: {sentiment_score}, threshold: {self._threshold}")
 
-            return prompt, True
+            return prompt, True, 0.0
 
         log.warning(
             f"Sentiment score is over threshold: {sentiment_score}, threshold: {self._threshold}"
         )
 
-        return prompt, False
+        # Normalize such that -1 maps to 1 and threshold maps to 0
+        score = round((sentiment_score_compound - (-1)) / (self._threshold - (-1)), 2)
+        return prompt, False, score

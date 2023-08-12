@@ -14,13 +14,14 @@ _preamble = (
 
 
 @pytest.mark.parametrize(
-    "settings, prompt,expected_prompt,expected_valid",
+    "settings,prompt,expected_prompt,expected_valid,expected_score",
     [
         (
             {},
             "Just a simple prompt",
             "Just a simple prompt",
             True,
+            0.0,
         ),  # Prompt without sensitive data
         (
             {"preamble": _preamble, "hidden_names": ["Test LLC"]},
@@ -37,6 +38,7 @@ _preamble = (
             "and the IP address is [REDACTED_IP_ADDRESS_1]. And credit card number is "
             "[REDACTED_CREDIT_CARD_RE_1]. He works in [REDACTED_CUSTOM_1].",
             False,
+            1.0,
         ),  # Exposed name, email, phone number, credit card number and IP
         (
             {"entity_types": ["PERSON"]},
@@ -49,15 +51,17 @@ _preamble = (
             "Phone number is 555-123-4567 and the IP address is 192.168.1.100. "
             "And credit card number is 4567-8901-2345-6789. He works in Test LLC.",
             False,
+            0.85,
         ),  # Exposed name, email, phone number, credit card number and IP but only with PERSON
-        ({}, "", "", True),  # Empty prompt
+        ({}, "", "", True, 0.0),  # Empty prompt
     ],
 )
-def test_scan(settings, prompt, expected_prompt, expected_valid):
+def test_scan(settings, prompt, expected_prompt, expected_valid, expected_score):
     scanner = Anonymize(Vault(), **settings)
-    sanitized_prompt, valid = scanner.scan(prompt)
+    sanitized_prompt, valid, score = scanner.scan(prompt)
     assert sanitized_prompt == expected_prompt
     assert valid == expected_valid
+    assert score == expected_score
 
 
 def test_patterns():

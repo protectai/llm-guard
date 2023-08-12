@@ -25,5 +25,5 @@ languages: `['ar', 'bn', 'de', 'es', 'fa', 'fr', 'he', 'hi', 'id', 'it', 'ja', '
 from llm_guard.input_scanners import BanTopics
 
 scanner = BanTopics(topics=["violence"], threshold=0.5)
-sanitized_prompt, is_valid = scanner.scan(prompt)
+sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```

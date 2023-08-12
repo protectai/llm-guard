@@ -43,9 +43,9 @@ class Toxicity(Scanner):
             model=model, tokenizer=self._tokenizer
         )
 
-    def scan(self, prompt: str) -> (str, bool):
+    def scan(self, prompt: str) -> (str, bool, float):
         if prompt.strip() == "":
-            return prompt, True
+            return prompt, True, 0.0
 
         result = self._text_classification_pipeline(
             prompt, truncation=True, padding=True, max_length=self._tokenizer.model_max_length
@@ -54,15 +54,15 @@ class Toxicity(Scanner):
         toxicity_score = (
             result[0]["score"] if result[0]["label"] == "toxic" else 1 - result[0]["score"]
         )
-        if toxicity_score < self._threshold:
-            log.debug(
-                f"Not toxicity in the prompt. Max score: {toxicity_score}, threshold: {self._threshold}"
+        if toxicity_score > self._threshold:
+            log.warning(
+                f"Detected toxic prompt with score: {toxicity_score}, threshold: {self._threshold}"
             )
 
-            return prompt, True
+            return prompt, False, round(toxicity_score, 2)
 
-        log.warning(
-            f"Detected toxic prompt with score: {toxicity_score}, threshold: {self._threshold}"
+        log.debug(
+            f"Not toxicity in the prompt. Max score: {toxicity_score}, threshold: {self._threshold}"
         )
 
-        return prompt, False
+        return prompt, True, 0.0

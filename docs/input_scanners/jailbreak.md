@@ -32,8 +32,5 @@ from platforms like [JailbreakChat](https://www.jailbreakchat.com/).
 from llm_guard.input_scanners import Jailbreak
 
 scanner = Jailbreak(threshold=0.5)
-sanitized_prompt, is_valid = scanner.scan(prompt)
+sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
-
-In this configuration, `is_valid` will denote False if the furnished `prompt` mirrors a recognized jailbreak attack
-pattern.

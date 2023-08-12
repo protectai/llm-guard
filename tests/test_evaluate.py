@@ -23,9 +23,9 @@ from llm_guard.output_scanners import BanTopics, NoRefusal, Relevance
     ],
 )
 def test_scan_prompt(evaluators, prompt, expected_sanitized_prompt, expected_results):
-    sanitized_prompt, results = scan_prompt(evaluators, prompt)
+    sanitized_prompt, results_valid, results_score = scan_prompt(evaluators, prompt)
     assert sanitized_prompt == expected_sanitized_prompt
-    assert results == expected_results
+    assert results_valid == expected_results
 
 
 @pytest.mark.parametrize(
@@ -41,6 +41,6 @@ def test_scan_prompt(evaluators, prompt, expected_sanitized_prompt, expected_res
     ],
 )
 def test_scan_output(evaluators, prompt, output, expected_sanitized_output, expected_results):
-    sanitized_output, results = scan_output(evaluators, prompt, output)
+    sanitized_output, results_valid = scan_output(evaluators, prompt, output)
     assert sanitized_output == expected_sanitized_output
-    assert results == expected_results
+    assert results_valid == expected_results

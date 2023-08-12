@@ -30,7 +30,7 @@ from llm_guard.vault import Vault
 def test_scan(raw_prompt, output, expected_output, expected_valid):
     vault = Vault()
     prompt_scanner = Anonymize(vault, hidden_names=["Test LLC"])
-    sanitized_prompt, _ = prompt_scanner.scan(raw_prompt)
+    sanitized_prompt, _, _ = prompt_scanner.scan(raw_prompt)
 
     scanner = Deanonymize(vault)
     sanitized_output, valid = scanner.scan(sanitized_prompt, output)

@@ -35,20 +35,20 @@ class BanTopics(Scanner):
         self._threshold = threshold
         self._classifier = pipeline("zero-shot-classification", model=_model_path)
 
-    def scan(self, prompt: str) -> (str, bool):
+    def scan(self, prompt: str) -> (str, bool, float):
         if prompt.strip() == "":
-            return prompt, True
+            return prompt, True, 0.0
 
         output = self._classifier(prompt, self._topics, multi_label=False)
 
-        max_score = max(output["scores"]) if output["scores"] else 0
+        max_score = round(max(output["scores"]) if output["scores"] else 0, 2)
         if max_score > self._threshold:
             log.warning(
                 f"Topics detected for the prompt {output['labels']} with scores: {output['scores']}"
             )
 
-            return prompt, False
+            return prompt, False, max_score
 
         log.debug(f"No banned topics detected ({output['labels']}, scores: {output['scores']})")
 
-        return prompt, True
+        return prompt, True, 0.0

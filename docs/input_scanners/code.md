@@ -33,5 +33,5 @@ Supported Languages:
 from llm_guard.input_scanners import Code
 
 scanner = Code(denied=["python"])
-sanitized_prompt, is_valid = scanner.scan(prompt)
+sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```

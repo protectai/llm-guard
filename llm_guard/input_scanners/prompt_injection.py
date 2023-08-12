@@ -39,26 +39,26 @@ class PromptInjection(Scanner):
             model=model, tokenizer=self._tokenizer
         )
 
-    def scan(self, prompt: str) -> (str, bool):
+    def scan(self, prompt: str) -> (str, bool, float):
         if prompt.strip() == "":
-            return prompt, True
+            return prompt, True, 0.0
 
         result = self._text_classification_pipeline(
             prompt, truncation=True, max_length=self._tokenizer.model_max_length
         )
-        injection_score = (
-            1 - result[0]["score"] if result[0]["label"] == "INJECTION" else result[0]["score"]
+        injection_score = round(
+            result[0]["score"] if result[0]["label"] == "INJECTION" else 1 - result[0]["score"], 2
         )
 
         if injection_score > self._threshold:
-            log.debug(
-                f"No prompt injection detected (max score: {injection_score}, threshold: {self._threshold})"
+            log.warning(
+                f"Detected prompt injection with score: {injection_score}, threshold: {self._threshold}"
             )
 
-            return prompt, True
+            return prompt, False, injection_score
 
-        log.warning(
-            f"Detected prompt injection with score: {injection_score}, threshold: {self._threshold}"
+        log.debug(
+            f"No prompt injection detected (max score: {injection_score}, threshold: {self._threshold})"
         )
 
-        return prompt, False
+        return prompt, True, 0.0
