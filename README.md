@@ -1,4 +1,4 @@
-![LLM-Guard Logo](https://github.com/laiyer-ai/llm-guard/blob/a7cde324dec3118ebe8427da1a9e15fbd03ce5fe/docs/logo.png?raw=true)
+![LLM-Guard](./docs/flow.png)
 
 # LLM Guard - The Security Toolkit for LLM Interactions
 
@@ -9,8 +9,8 @@ jailbreak attacks, LLM-Guard ensures that your interactions with LLMs remain saf
 [![MIT license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![PyPI - Python Version](https://img.shields.io/pypi/v/llm-guard)](https://pypi.org/project/llm-guard)
-[![Downloads](https://pepy.tech/badge/llm-guard)](https://pepy.tech/project/llm-guard)
-[![Downloads](https://pepy.tech/badge/llm-guard/month)](https://pepy.tech/project/llm-guard)
+[![Downloads](https://static.pepy.tech/badge/llm-guard)](https://pepy.tech/project/llm-guard)
+[![Downloads](https://static.pepy.tech/badge/llm-guard/month)](https://pepy.tech/project/llm-guard)
 [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/laiyer_ai.svg?style=social&label=Follow%20%40Laiyer_AI)](https://twitter.com/laiyer_ai)
 
 **❤️ Proudly developed by the [Laiyer.ai](https://laiyer.ai/) team.**
