@@ -1,4 +1,4 @@
-![LLM-Guard](./docs/flow.png)
+![LLM-Guard](https://raw.githubusercontent.com/laiyer-ai/llm-guard/ae37aa651e3142a1d40dae8895818ec91396e268/docs/flow.png?raw=true)
 
 # LLM Guard - The Security Toolkit for LLM Interactions
 
