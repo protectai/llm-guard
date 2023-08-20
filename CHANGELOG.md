@@ -19,6 +19,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 -
 
+## [0.1.1] - 2023-08-20
+
+### Added
+- Example integration with [LangChain](https://github.com/langchain-ai/langchain)
+
+### Changed
+- Flow picture instead of the logo
+- Bump libraries
+
 ## [0.1.0] - 2023-08-12
 
 ### Added
@@ -82,6 +91,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - [Toxicity](./llm_guard/output_scanners/toxicity.py)
 
 [Unreleased]: https://github.com/laiyer-ai/llm-guard/commits/main
+[0.1.1]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.1.1
 [0.1.0]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.1.0
 [0.0.3]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.0.3
 [0.0.2]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.0.2
