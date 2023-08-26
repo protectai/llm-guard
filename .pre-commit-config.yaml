@@ -37,3 +37,13 @@ repos:
           - "--remove-unused-variables"
           - "--remove-all-unused-imports"
         exclude: "llm_guard/__init__.py"
+
+  - repo: https://github.com/zricethezav/gitleaks
+    rev: v8.17.0
+    hooks:
+      - id: gitleaks
+
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.35.0
+    hooks:
+      - id: markdownlint

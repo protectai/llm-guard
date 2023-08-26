@@ -32,6 +32,11 @@ python -m spacy download en_core_web_trf
 
 Our project uses [pytest](https://docs.pytest.org/en/latest/) for testing. Make sure that all tests pass before you submit a pull request.
 
+```bash
+python -m pytest --exitfirst --verbose --failed-first --cov=.
+python -m coverage run -m pytest .
+```
+
 ## Code Style
 
 We use `black` code style.

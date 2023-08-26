@@ -1,8 +1,6 @@
-score can be -1 to 1 depending. ref: https://www.nltk.org/howto/sentiment.html
-
 # Sentiment Scanner
 
-It scans and evaluates the overall sentiment of prompts using the zSentimentIntensityAnalyzer` from the NLTK (Natural
+It scans and evaluates the overall sentiment of prompts using the `SentimentIntensityAnalyzer` from the NLTK (Natural
 Language Toolkit) library.
 
 ## Attack

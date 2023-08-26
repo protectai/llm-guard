@@ -1,0 +1,43 @@
+---
+###########################
+###########################
+## Markdown Linter rules ##
+###########################
+###########################
+
+# Linter rules doc:
+# - https://github.com/DavidAnson/markdownlint
+#
+# Note:
+# To comment out a single error:
+#   <!-- markdownlint-disable -->
+#   any violations you want
+#   <!-- markdownlint-restore -->
+#
+
+###############
+# Rules by id #
+###############
+MD004: false                  # Unordered list style
+MD007:
+  indent: 2                   # Unordered list indentation
+MD010:
+  code_blocks: false          # Ignore no-hard-tabs in cde blocks because that's how formatting for golang works
+MD013:
+  line_length: 400            # Line length 80 is far to short
+MD024:
+  siblings_only: true         # Allow same headers for different parents.
+MD026:
+  punctuation: ".,;:!。，；:"  # List of not allowed
+MD029: false                  # Ordered list item prefix
+MD033: false                  # Allow inline HTML
+MD034: false                  # Allow bare URL
+MD036: false                  # Emphasis used instead of a heading
+MD041: false                  # First line in file should be a top level header
+MD046:
+  style: fenced               # Force code block style to fenced to allow Admonitions in disabled lint mode
+
+#################
+# Rules by tags #
+#################
+blank_lines: false  # Error on blank lines

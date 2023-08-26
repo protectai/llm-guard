@@ -27,7 +27,7 @@ engineered by Yelp, to meticulously detect secrets in strings of text.
 - High Entropy Strings (both Base64 and Hex)
   ... and [many more](https://github.com/Yelp/detect-secrets/blob/master/README.md#viewing-all-enabled-plugins)
 
-## Usage
+### Getting started
 
 ```python
 from llm_guard.input_scanners import Secrets

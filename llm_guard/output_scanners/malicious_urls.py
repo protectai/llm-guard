@@ -55,7 +55,7 @@ class MaliciousURLs(Scanner):
             return output, False, round(malware_score, 2)
 
         log.debug(
-            f"Not malware URLs in the prompt. Max score: {malware_score}, threshold: {self._threshold}"
+            f"Not malware URLs in the output. Max score: {malware_score}, threshold: {self._threshold}"
         )
 
         return output, True, 0.0

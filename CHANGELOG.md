@@ -19,6 +19,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 -
 
+## [0.1.2] - 2023-08-26
+
+### Added
+- [Bias output scanner](./docs/output_scanners/bias.md)
+- [Sentiment output scanner](./docs/output_scanners/sentiment.md)
+
+### Changed
+- Introduced new linters for markdown
+
 ## [0.1.1] - 2023-08-20
 
 ### Added
@@ -91,6 +100,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - [Toxicity](./llm_guard/output_scanners/toxicity.py)
 
 [Unreleased]: https://github.com/laiyer-ai/llm-guard/commits/main
+[0.1.2]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.1.2
 [0.1.1]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.1.1
 [0.1.0]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.1.0
 [0.0.3]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.0.3
