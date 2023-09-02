@@ -8,5 +8,5 @@ spacy==3.6.1
 tensorflow==2.13.0
 tiktoken==0.4.0
 torch==2.0.1
-transformers==4.32.0
+transformers==4.30.2
 xformers==0.0.21
