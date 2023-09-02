@@ -1,9 +1,0 @@
-References for jailbreaks and refusals
-- https://github.com/agencyenterprise/PromptInject
-- https://cdn.openai.com/papers/gpt-4.pdf
-- https://arxiv.org/pdf/2302.12173v1.pdf
-- https://github.com/gigabuck/prompt-rebellion
-- https://arxiv.org/pdf/2302.12173v2.pdf
-- https://gist.github.com/coolaj86/6f4f7b30129b0251f61fa7baaa881516
-- https://www.promptingguide.ai/risks/adversarial
-- https://www.jailbreakchat.com/

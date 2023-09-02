@@ -3,7 +3,6 @@ from .anonymize import Anonymize
 from .ban_substrings import BanSubstrings
 from .ban_topics import BanTopics
 from .code import Code
-from .jailbreak import Jailbreak
 from .prompt_injection import PromptInjection
 from .secrets import Secrets
 from .sentiment import Sentiment
@@ -15,7 +14,6 @@ __all__ = [
     "BanSubstrings",
     "BanTopics",
     "Code",
-    "Jailbreak",
     "PromptInjection",
     "Secrets",
     "Sentiment",

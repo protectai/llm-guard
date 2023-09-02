@@ -26,6 +26,9 @@ However, it's worth noting that while the current model can detect attempts effe
 false positives. Due to this limitation, one should exercise caution when considering its deployment in a production
 environment.
 
+While the dataset is nascent, it can be enriched, drawing from repositories of known attack patterns, notably
+from platforms like [JailbreakChat](https://www.jailbreakchat.com/).
+
 ## Usage
 
 ```python

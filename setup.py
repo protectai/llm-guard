@@ -17,13 +17,13 @@ def parse_requirements(file_name: str) -> List[str]:
 
 setuptools.setup(
     name="llm-guard",
-    version="0.1.2",
+    version="0.1.3",
     author="Laiyer.ai",
     author_email="hello@laiyer.ai",
     description=(
         "LLM-Guard is a comprehensive tool designed to fortify the security of Large Language Models (LLMs). By "
         "offering sanitization, detection of harmful language, prevention of data leakage, and resistance against "
-        "prompt injection and jailbreak attacks, LLM-Guard ensures that your interactions with LLMs remain safe and "
+        "prompt injection attacks, LLM-Guard ensures that your interactions with LLMs remain safe and "
         "secure."
     ),
     license="MIT",

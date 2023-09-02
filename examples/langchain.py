@@ -13,7 +13,7 @@ from langchain.prompts.base import StringPromptValue
 from langchain.schema import LLMResult, PromptValue
 
 from llm_guard import scan_output, scan_prompt
-from llm_guard.input_scanners import Anonymize, Jailbreak, PromptInjection, TokenLimit, Toxicity
+from llm_guard.input_scanners import Anonymize, PromptInjection, TokenLimit, Toxicity
 from llm_guard.output_scanners import Deanonymize, NoRefusal, Relevance, Sensitive
 from llm_guard.vault import Vault
 
@@ -174,7 +174,7 @@ vault = Vault()
 chain = LLMGuardChain(
     prompt=prompt,
     llm=llm,
-    input_scanners=[Anonymize(vault), Toxicity(), TokenLimit(), Jailbreak(), PromptInjection()],
+    input_scanners=[Anonymize(vault), Toxicity(), TokenLimit(), PromptInjection()],
     output_scanners=[Deanonymize(vault), NoRefusal(), Relevance(), Sensitive()],
     raise_error=False,
 )

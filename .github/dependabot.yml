@@ -11,6 +11,7 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    allow:
-      - dependency-type: "all"
     open-pull-requests-limit: 2
+    ignore:
+      - dependency-name: "transformers"
+        versions: ">4.32.0"

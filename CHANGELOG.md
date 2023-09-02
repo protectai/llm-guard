@@ -19,6 +19,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 -
 
+## [0.1.3] - 2023-09-02
+
+### Changed
+- Lock `transformers` version to 4.32.0 because `spacy-transformers` require it
+- Update the roadmap based on the feedback from the community
+- Updated `NoRefusal` scanner to use transformer to classify the output
+
+### Removed
+- Jailbreak input scanner (it was doing the same as the prompt injection one)
+
 ## [0.1.2] - 2023-08-26
 
 ### Added
@@ -83,7 +93,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - [BanSubstrings](./llm_guard/input_scanners/ban_substrings.py)
   - [BanTopics](./llm_guard/input_scanners/ban_topics.py)
   - [Code](./llm_guard/input_scanners/code.py)
-  - [Jailbreak](./llm_guard/input_scanners/jailbreak.py)
   - [PromptInjection](./llm_guard/input_scanners/prompt_injection.py)
   - [Sentiment](./llm_guard/input_scanners/sentiment.py)
   - [TokenLimit](./llm_guard/input_scanners/token_limit.py)
@@ -100,6 +109,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - [Toxicity](./llm_guard/output_scanners/toxicity.py)
 
 [Unreleased]: https://github.com/laiyer-ai/llm-guard/commits/main
+[0.1.3]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.1.3
 [0.1.2]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.1.2
 [0.1.1]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.1.1
 [0.1.0]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.1.0

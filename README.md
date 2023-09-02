@@ -3,8 +3,8 @@
 # LLM Guard - The Security Toolkit for LLM Interactions
 
 LLM-Guard is a comprehensive tool designed to fortify the security of Large Language Models (LLMs). By offering
-sanitization, detection of harmful language, prevention of data leakage, and resistance against prompt injection and
-jailbreak attacks, LLM-Guard ensures that your interactions with LLMs remain safe and secure.
+sanitization, detection of harmful language, prevention of data leakage, and resistance against prompt injection attacks,
+LLM-Guard ensures that your interactions with LLMs remain safe and secure.
 
 [![MIT license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
@@ -48,7 +48,6 @@ python -m spacy download en_core_web_trf
 - [BanSubstrings](docs/input_scanners/ban_substrings.md)
 - [BanTopics](docs/input_scanners/ban_topics.md)
 - [Code](docs/input_scanners/code.md)
-- [Jailbreak](docs/input_scanners/jailbreak.md)
 - [PromptInjection](docs/input_scanners/prompt_injection.md)
 - [Secrets](docs/input_scanners/secrets.md)
 - [Sentiment](docs/input_scanners/sentiment.md)
@@ -59,6 +58,7 @@ python -m spacy download en_core_web_trf
 
 - [BanSubstrings](docs/output_scanners/ban_substrings.md)
 - [BanTopics](docs/output_scanners/ban_topics.md)
+- [Bias](docs/output_scanners/bias.md)
 - [Code](docs/output_scanners/code.md)
 - [Deanonymize](docs/output_scanners/deanonymize.md)
 - [MaliciousURLs](docs/output_scanners/malicious_urls.md)
@@ -67,26 +67,32 @@ python -m spacy download en_core_web_trf
 - [Regex](docs/output_scanners/regex.md)
 - [Relevance](docs/output_scanners/relevance.md)
 - [Sensitive](docs/output_scanners/sensitive.md)
+- [Sentiment](docs/output_scanners/sentiment.md)
 - [Toxicity](docs/output_scanners/toxicity.md)
 
 ## Roadmap
 
 **General:**
 
-- [x] Calculate risk score from 0 to 1 for each scanner
-- [ ] Improve speed of transformers
+- [ ] Introduce support of GPU
+- [ ] Improve documentation by showing use-cases, benchmarks, etc
+- [ ] Hosted version of LLM Guard
+- [ ] Text statistics to provide on prompt and output
+- [ ] Support more languages
+- [ ] Accept multiple outputs instead of one to compare
+- [ ] Support streaming mode
 
 **Prompt Scanner:**
 
-- [ ] Improve Jailbreak scanner
-- [ ] Better anonymizer with improved secrets detection and entity recognition
-- [ ] Use Perspective API for Toxicity scanner
+- [ ] Integrate with Perspective API for Toxicity scanner
+- [ ] Develop language restricting scanner
 
 **Output Scanner:**
 
-- [ ] Develop Fact Checking scanner
-- [ ] Develop Hallucination scanner
-- [ ] Develop scanner to check if the output stays on the topic of the prompt.
+- [ ] Develop output scanners for the format (e.g. max length, correct JSON, XML, etc)
+- [ ] Develop factual consistency scanner
+- [ ] Develop libraries hallucination scanner
+- [ ] Develop libraries licenses scanner
 
 ## Contributing
 
