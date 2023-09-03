@@ -16,8 +16,6 @@ output.
 The scanner uses the [elftsdmr/malware-url-detect](https://huggingface.co/elftsdmr/malware-url-detect) model from
 HuggingFace to evaluate the security of a given URL.
 
-For usage, only the domain name of the URL should be provided (e.g., "huggingface.com").
-
 The model provides a score between 0 and 1 for a URL being malware. This score is then compared against a pre-set
 threshold to determine if the website is malicious. A score above the threshold suggests a malware link.
 

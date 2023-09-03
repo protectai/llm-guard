@@ -1,10 +1,6 @@
-![LLM-Guard](https://raw.githubusercontent.com/laiyer-ai/llm-guard/ae37aa651e3142a1d40dae8895818ec91396e268/docs/flow.png?raw=true)
-
 # LLM Guard - The Security Toolkit for LLM Interactions
 
-LLM-Guard is a comprehensive tool designed to fortify the security of Large Language Models (LLMs). By offering
-sanitization, detection of harmful language, prevention of data leakage, and resistance against prompt injection attacks,
-LLM-Guard ensures that your interactions with LLMs remain safe and secure.
+LLM-Guard is a comprehensive tool designed to fortify the security of Large Language Models (LLMs).
 
 [![MIT license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
@@ -14,6 +10,13 @@ LLM-Guard ensures that your interactions with LLMs remain safe and secure.
 [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/laiyer_ai.svg?style=social&label=Follow%20%40Laiyer_AI)](https://twitter.com/laiyer_ai)
 
 **❤️ Proudly developed by the [Laiyer.ai](https://laiyer.ai/) team.**
+
+## What is LLM Guard?
+
+![LLM-Guard](https://raw.githubusercontent.com/laiyer-ai/llm-guard/ae37aa651e3142a1d40dae8895818ec91396e268/docs/flow.png?raw=true)
+
+By offering sanitization, detection of harmful language, prevention of data leakage, and resistance against prompt
+injection attacks, LLM-Guard ensures that your interactions with LLMs remain safe and secure.
 
 ## Installation
 
@@ -98,4 +101,4 @@ python -m spacy download en_core_web_trf
 
 Got ideas, feedback, or wish to contribute? We'd love to hear from you! [Email us](mailto:hello@laiyer.ai).
 
-For detailed guidelines on contributions, kindly refer to our [contribution guide](./docs/CONTRIBUTING.md).
+For detailed guidelines on contributions, kindly refer to our [contribution guide](CONTRIBUTING.md).

@@ -18,14 +18,15 @@ proficiently identifies code snippets from various programming languages within 
 be configured to either whitelist or blacklist specific languages, granting developers granular control over the type of
 code that gets shown in the output.
 
-Supported Languages:
+!!! note
+    The scanner is currently limited to detecting code snippets in the following languages:
 
-- Go
-- Java
-- JavaScript
-- PHP
-- Python
-- Ruby
+    - Go
+    - Java
+    - JavaScript
+    - PHP
+    - Python
+    - Ruby
 
 ## Usage
 

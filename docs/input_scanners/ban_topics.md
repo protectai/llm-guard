@@ -16,8 +16,9 @@ It relies on the capabilities of the model: [MoritzLaurer/mDeBERTa-v3-base-xnli-
 This model aids in identifying the underlying theme or topic of a prompt, allowing the scanner to cross-check it against
 a list of banned topics.
 
-Supported
-languages: `['ar', 'bn', 'de', 'es', 'fa', 'fr', 'he', 'hi', 'id', 'it', 'ja', 'ko', 'mr', 'nl', 'pl', 'ps', 'pt', 'ru', 'sv', 'sw', 'ta', 'tr', 'uk', 'ur', 'vi', 'zh']`.
+!!! note
+
+    Supported languages: `['ar', 'bn', 'de', 'es', 'fa', 'fr', 'he', 'hi', 'id', 'it', 'ja', 'ko', 'mr', 'nl', 'pl', 'ps', 'pt', 'ru', 'sv', 'sw', 'ta', 'tr', 'uk', 'ur', 'vi', 'zh']`.
 
 ## Usage
 

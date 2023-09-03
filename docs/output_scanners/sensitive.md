@@ -10,29 +10,35 @@ accidentally provide responses that contain confidential data. This poses risks 
 violations of privacy, and even more severe security breaches. Addressing this is paramount, and that's where the
 Sensitive Data Detector comes into play.
 
-Referring to the `OWASP Top 10 for Large Language Model Applications`, this falls under:
+!!! info
 
-[LLM06: Sensitive Information Disclosure]((https://owasp.org/www-project-top-10-for-large-language-model-applications/)) -
-To combat this, it's vital to integrate data sanitization and adopt strict user policies.
+    Referring to the `OWASP Top 10 for Large Language Model Applications`, this falls under:
+
+    [LLM06: Sensitive Information Disclosure]((https://owasp.org/www-project-top-10-for-large-language-model-applications/)) -
+    To combat this, it's vital to integrate data sanitization and adopt strict user policies.
 
 ## How it works
 
 It takes advantage of the [Presidio Analyzer Engine](https://github.com/microsoft/presidio/). Coupled
 with predefined internal patterns, the tool offers robust scanning capabilities.
 
-It uses transformers based model `en_core_web_trf` which uses a more modern deep-learning architecture, but is generally
-slower than the default `en_core_web_lg` model.
+!!! note
+
+    It uses transformers based model `en_core_web_trf` which uses a more modern deep-learning architecture, but is generally
+    slower than the default `en_core_web_lg` model.
 
 When running, the scanner inspects the model's output for specific entity types that may be considered sensitive. If no
 types are chosen, the tool defaults to scanning for all known entity types, offering comprehensive coverage.
 
 ### Entities
 
-_Note: Entity detection only works in English right now_
+!!! note
 
-- [List of all entities](../../llm_guard/input_scanners/anonymize.py)
+    Entity detection only works in English right now
+
+- [List of default entities](https://github.com/laiyer-ai/llm-guard/blob/main/llm_guard/input_scanners/anonymize.py#L26-L40)
 - [Supported Presidio entities](https://microsoft.github.io/presidio/supported_entities/#list-of-supported-entities)
-- [Custom patterns](../../llm_guard/resources/sensisitive_patterns.json)
+- [Custom regex patterns](https://github.com/laiyer-ai/llm-guard/blob/main/llm_guard/resources/sensisitive_patterns.json)
 
 ## Usage
 

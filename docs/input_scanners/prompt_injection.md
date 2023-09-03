@@ -13,18 +13,24 @@ primary ways an attacker might exploit:
 
 - **Indirect Injection**: Alters inputs coming from external sources.
 
-As specified by the `OWASP Top 10 LLM attacks`, this vulnerability is categorized under:
+!!! info
 
-[LLM01: Prompt Injection](https://owasp.org/www-project-top-10-for-large-language-model-applications/) - It's crucial to
-monitor and validate prompts rigorously to keep the LLM safe from such threats.
+    As specified by the `OWASP Top 10 LLM attacks`, this vulnerability is categorized under:
+
+    [LLM01: Prompt Injection](https://owasp.org/www-project-top-10-for-large-language-model-applications/) - It's crucial to
+    monitor and validate prompts rigorously to keep the LLM safe from such threats.
 
 ## How it works
 
 It leverages the
 model [JasperLS/gelectra-base-injection](https://huggingface.co/JasperLS/gelectra-base-injection) for its operation.
 However, it's worth noting that while the current model can detect attempts effectively, it might occasionally yield
-false positives. Due to this limitation, one should exercise caution when considering its deployment in a production
-environment.
+false positives.
+
+!!! warning
+
+    Due to this limitation, one should exercise caution when considering its deployment in a production
+    environment.
 
 While the dataset is nascent, it can be enriched, drawing from repositories of known attack patterns, notably
 from platforms like [JailbreakChat](https://www.jailbreakchat.com/).

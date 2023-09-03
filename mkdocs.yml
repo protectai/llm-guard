@@ -1,0 +1,131 @@
+site_name: LLM Guard
+site_author: Laiyer.AI
+site_description: LLM-Guard is a comprehensive tool designed to fortify the security of Large Language Models (LLMs).
+site_url: https://laiyer.ai
+repo_url: https://github.com/laiyer-ai/llm-guard
+repo_name: laiyer-ai/llm-guard
+edit_uri: ""
+
+copyright: |
+  Maintained by <a href="https://laiyer.ai">Laiyer.AI</a>.
+
+theme:
+  name: material
+  favicon: img/favicon.ico
+  logo: img/logo.png
+  icon:
+    repo: fontawesome/brands/github
+    admonition:
+      note: octicons/tag-16
+      abstract: octicons/checklist-16
+      info: octicons/info-16
+      tip: octicons/squirrel-16
+      success: octicons/check-16
+      question: octicons/question-16
+      warning: octicons/alert-16
+      failure: octicons/x-circle-16
+      danger: octicons/zap-16
+      bug: octicons/bug-16
+      example: octicons/beaker-16
+      quote: octicons/quote-16
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.expand
+    - content.code.annotate
+    - toc.follow
+  palette:
+    - scheme: default
+      primary: black
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      primary: black
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to light mode
+
+
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.tabbed
+  - pymdownx.tasklist
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - admonition
+  - pymdownx.details
+  - tables
+  - def_list
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_source: false
+            show_bases: false
+            show_if_no_docstring: true
+            merge_init_into_class: true
+            show_root_toc_entry: false
+            show_inheritance: true # This is no longer a valid option
+            inherited_members: true # This might be the replacement?
+            # The below are now filters in the MD file
+            # https://mkdocstrings.github.io/python/usage/configuration/members/#filters
+            show_private: false # This is no longer a valid option
+            show_special_members: false # This is no longer a valid option
+            # Newly added options
+            annotations_path: brief
+            show_signature_annotations: true
+            separate_signature: true
+            signature_crossrefs: true
+
+
+extra:
+  social:
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/laiyer_ai
+    - icon: fontawesome/brands/github
+      link: https://github.com/laiyer-ai
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/company/98454520
+    - icon: fontawesome/solid/globe
+      link: https://laiyer.ai
+  analytics:
+    provider: google
+    property: G-B76J8KGG5Z
+
+nav:
+  - Introduction: index.md
+  - Usage: usage.md
+  - Examples: examples.md
+  - Input Scanners:
+      - Anonymize: input_scanners/anonymize.md
+      - Ban Substrings: input_scanners/ban_substrings.md
+      - Ban Topics: input_scanners/ban_topics.md
+      - Code: input_scanners/code.md
+      - Prompt Injection: input_scanners/prompt_injection.md
+      - Secrets: input_scanners/secrets.md
+      - Sentiment: input_scanners/sentiment.md
+      - Token Limit: input_scanners/token_limit.md
+      - Toxicity: input_scanners/toxicity.md
+  - Output Scanners:
+      - Ban Substrings: output_scanners/ban_substrings.md
+      - Ban Topics: output_scanners/ban_topics.md
+      - Bias: output_scanners/bias.md
+      - Code: output_scanners/code.md
+      - Deanonymize: output_scanners/deanonymize.md
+      - Malicious URLs: output_scanners/malicious_urls.md
+      - No Refusal: output_scanners/no_refusal.md
+      - Refutation: output_scanners/refutation.md
+      - Regex: output_scanners/regex.md
+      - Relevance: output_scanners/relevance.md
+      - Sensitive: output_scanners/sensitive.md
+      - Sentiment: output_scanners/sentiment.md
+      - Toxicity: output_scanners/toxicity.md

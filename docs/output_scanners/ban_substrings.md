@@ -12,9 +12,10 @@ into generating responses without the typical content restrictions. This ploy is
 jailbreaking" the model. As ChatGPT's defense mechanisms against these attacks improve, attackers iterate on the DAN
 prompt, making it more sophisticated.
 
-As specified by the `OWASP Top 10 LLM attacks`, this vulnerability is categorized under:
+!!! info
 
-[LLM08: Excessive Agency](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
+    As specified by the `OWASP Top 10 LLM attacks`, this vulnerability is categorized
+    under: [LLM08: Excessive Agency](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
 
 ## How it works
 
@@ -40,4 +41,4 @@ substrings as
 whole words. To ban substrings irrespective of their word boundaries, simply change the mode to `str`.
 
 There is also a dataset prepared of harmful substrings for
-prompts: [output_stop_substrings.json](../../llm_guard/resources/output_stop_substrings.json)
+prompts: [output_stop_substrings.json](https://github.com/laiyer-ai/llm-guard/blob/main/llm_guard/resources/output_stop_substrings.json)

@@ -16,25 +16,29 @@ before the model sees them.
 When you use the Anonymize scanner, you can talk to LLMs without worrying about accidentally sharing private info.
 
 The scanner uses a tool called the [Presidio Analyzer](https://github.com/microsoft/presidio/) library. This tool, built
-with Python's spaCy, is really good at finding private info in text.
+with Python's spaCy, is good at finding private info in text.
 
-It uses transformers based model `en_core_web_trf` which uses a more modern deep-learning architecture, but is generally
-slower than the default `en_core_web_lg` model.
+!!! note
+
+    It uses transformers based model `en_core_web_trf` which uses a more modern deep-learning architecture, but is generally
+    slower than the default `en_core_web_lg` model.
 
 On top of that, the Anonymize scanner can also understand special patterns to catch anything the Presidio Analyzer might
 miss.
 
 ### Entities
 
-_Note: Entity detection only works in English right now_
+!!! note
 
-- [List of all entities](../../llm_guard/input_scanners/anonymize.py)
+    Entity detection only works in English right now
+
+- [List of default entities](https://github.com/laiyer-ai/llm-guard/blob/main/llm_guard/input_scanners/anonymize.py#L26-L40)
 - [Supported Presidio entities](https://microsoft.github.io/presidio/supported_entities/#list-of-supported-entities)
-- [Custom patterns](../../llm_guard/resources/sensisitive_patterns.json)
+- [Custom regex patterns](https://github.com/laiyer-ai/llm-guard/blob/main/llm_guard/resources/sensisitive_patterns.json)
 
 ### Configuring
 
-First, set up the Vault. It keeps a record of the info we change:
+First, set up the Vault. It keeps a record of the info we redact:
 
 ```python
 from llm_guard.vault import Vault

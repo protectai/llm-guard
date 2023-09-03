@@ -14,9 +14,9 @@ output, potential toxic content can be flagged and handled appropriately.
 The scanner employs the [nicholasKluge/ToxicityModel](https://huggingface.co/nicholasKluge/ToxicityModel) from
 HuggingFace to evaluate the generated text's toxicity level.
 
-A negative score (approaching 0) flags the content as toxic.
+- A negative score (approaching 0) flags the content as toxic.
 
-A positive score (approaching 1) indicates non-toxic content.
+- A positive score (approaching 1) indicates non-toxic content.
 
 The calculated toxicity score is then juxtaposed against a pre-set threshold. Outputs that cross this threshold are
 marked as toxic.

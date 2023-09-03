@@ -9,13 +9,13 @@ import os
 import openai
 
 from llm_guard import scan_output, scan_prompt
-from llm_guard.input_scanners import Anonymize, Jailbreak, PromptInjection, TokenLimit, Toxicity
+from llm_guard.input_scanners import Anonymize, PromptInjection, TokenLimit, Toxicity
 from llm_guard.output_scanners import Deanonymize, NoRefusal, Relevance, Sensitive
 from llm_guard.vault import Vault
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 vault = Vault()
-input_scanners = [Anonymize(vault), Toxicity(), TokenLimit(), Jailbreak(), PromptInjection()]
+input_scanners = [Anonymize(vault), Toxicity(), TokenLimit(), PromptInjection()]
 output_scanners = [Deanonymize(vault), NoRefusal(), Relevance(), Sensitive()]
 
 prompt = "Make an SQL insert statement to add a new user to our database. Name is John Doe. Email is test@test.com "

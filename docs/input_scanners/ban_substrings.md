@@ -25,4 +25,4 @@ In the above configuration, `is_valid` will be `False` if the provided `prompt` 
 whole words. To ban substrings irrespective of their word boundaries, simply change the mode to `str`.
 
 There is also a dataset prepared of harmful substrings for
-prompts: [prompt_stop_substrings.json](../../llm_guard/resources/prompt_stop_substrings.json)
+prompts: [prompt_stop_substrings.json](https://github.com/laiyer-ai/llm-guard/blob/main/llm_guard/resources/prompt_stop_substrings.json)

@@ -17,8 +17,10 @@ HuggingFace: [MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7](https:/
 This model identifies the topic or theme of an output, enabling the scanner to vet the content against a predefined list
 of banned topics.
 
-Supported
-languages: `['ar', 'bn', 'de', 'es', 'fa', 'fr', 'he', 'hi', 'id', 'it', 'ja', 'ko', 'mr', 'nl', 'pl', 'ps', 'pt', 'ru', 'sv', 'sw', 'ta', 'tr', 'uk', 'ur', 'vi', 'zh']`.
+!!! note
+
+    Supported
+    languages: `['ar', 'bn', 'de', 'es', 'fa', 'fr', 'he', 'hi', 'id', 'it', 'ja', 'ko', 'mr', 'nl', 'pl', 'ps', 'pt', 'ru', 'sv', 'sw', 'ta', 'tr', 'uk', 'ur', 'vi', 'zh']`.
 
 ## Usage
 

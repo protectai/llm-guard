@@ -18,14 +18,15 @@ adeptly identify code snippets within prompts across various programming languag
 to either whitelist or blacklist specific languages, thus retaining full control over which types of code can appear in
 user queries.
 
-Supported Languages:
+!!! note
+    The scanner is currently limited to detecting code snippets in the following languages:
 
-- Go
-- Java
-- JavaScript
-- PHP
-- Python
-- Ruby
+    - Go
+    - Java
+    - JavaScript
+    - PHP
+    - Python
+    - Ruby
 
 ## Usage
 

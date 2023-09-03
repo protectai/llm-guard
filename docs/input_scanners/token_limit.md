@@ -9,8 +9,10 @@ The complexity and size of LLMs make them susceptible to heavy resource usage, e
 prompts. Malicious users can exploit this by feeding extraordinarily long inputs, aiming to disrupt service or incur
 excessive computational costs.
 
-This vulnerability is highlighted in the
-OWASP [LLM04: Model Denial of Service](https://owasp.org/www-project-top-10-for-large-language-model-applications/).
+!!! info
+
+    This vulnerability is highlighted in the
+    OWASP [LLM04: Model Denial of Service](https://owasp.org/www-project-top-10-for-large-language-model-applications/).
 
 ## How it works
 
@@ -35,4 +37,6 @@ scanner = TokenLimit(limit=4096, encoding_name="cl100k_base")
 sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
 
-Models supported for encoding `cl100k_base`: `gpt-4`, `gpt-3.5-turbo`, `text-embedding-ada-002`.
+!!! note
+
+    Models supported for encoding `cl100k_base`: `gpt-4`, `gpt-3.5-turbo`, `text-embedding-ada-002`.

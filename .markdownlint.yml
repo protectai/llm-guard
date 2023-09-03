@@ -34,8 +34,7 @@ MD033: false                  # Allow inline HTML
 MD034: false                  # Allow bare URL
 MD036: false                  # Emphasis used instead of a heading
 MD041: false                  # First line in file should be a top level header
-MD046:
-  style: fenced               # Force code block style to fenced to allow Admonitions in disabled lint mode
+MD046: false                  # Code block style
 
 #################
 # Rules by tags #
