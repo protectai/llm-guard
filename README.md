@@ -2,6 +2,8 @@
 
 LLM-Guard is a comprehensive tool designed to fortify the security of Large Language Models (LLMs).
 
+[**Documentation**](https://laiyer-ai.github.io/llm-guard/)
+
 [![MIT license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![PyPI - Python Version](https://img.shields.io/pypi/v/llm-guard)](https://pypi.org/project/llm-guard)
@@ -13,7 +15,7 @@ LLM-Guard is a comprehensive tool designed to fortify the security of Large Lang
 
 ## What is LLM Guard?
 
-![LLM-Guard](https://raw.githubusercontent.com/laiyer-ai/llm-guard/ae37aa651e3142a1d40dae8895818ec91396e268/docs/flow.png?raw=true)
+![LLM-Guard](https://raw.githubusercontent.com/laiyer-ai/llm-guard/ddba0d6f696ca539628c04bc81978b07e3d4ccb9/docs/img/flow.png?raw=true)
 
 By offering sanitization, detection of harmful language, prevention of data leakage, and resistance against prompt
 injection attacks, LLM-Guard ensures that your interactions with LLMs remain safe and secure.
@@ -21,7 +23,7 @@ injection attacks, LLM-Guard ensures that your interactions with LLMs remain saf
 ## Installation
 
 Begin your journey with LLM Guard by downloading the package and acquiring the `en_core_web_trf` spaCy model (essential
-for the [Anonymize](./docs/input_scanners/anonymize.md) scanner):
+for the [Anonymize](https://laiyer-ai.github.io/llm-guard/input_scanners/anonymize/) scanner):
 
 ```sh
 pip install llm-guard
@@ -47,31 +49,31 @@ python -m spacy download en_core_web_trf
 
 ### Prompt scanners
 
-- [Anonymize](docs/input_scanners/anonymize.md)
-- [BanSubstrings](docs/input_scanners/ban_substrings.md)
-- [BanTopics](docs/input_scanners/ban_topics.md)
-- [Code](docs/input_scanners/code.md)
-- [PromptInjection](docs/input_scanners/prompt_injection.md)
-- [Secrets](docs/input_scanners/secrets.md)
-- [Sentiment](docs/input_scanners/sentiment.md)
-- [TokenLimit](docs/input_scanners/token_limit.md)
-- [Toxicity](docs/input_scanners/toxicity.md)
+- [Anonymize](https://laiyer-ai.github.io/llm-guard/input_scanners/anonymize/)
+- [BanSubstrings](https://laiyer-ai.github.io/llm-guard/input_scanners/ban_substrings/)
+- [BanTopics](https://laiyer-ai.github.io/llm-guard/input_scanners/ban_topics/)
+- [Code](https://laiyer-ai.github.io/llm-guard/input_scanners/code/)
+- [PromptInjection](https://laiyer-ai.github.io/llm-guard/input_scanners/prompt_injection/)
+- [Secrets](https://laiyer-ai.github.io/llm-guard/input_scanners/secrets/)
+- [Sentiment](https://laiyer-ai.github.io/llm-guard/input_scanners/sentiment/)
+- [TokenLimit](https://laiyer-ai.github.io/llm-guard/input_scanners/token_limit/)
+- [Toxicity](https://laiyer-ai.github.io/llm-guard/input_scanners/toxicity/)
 
 ### Output scanners
 
-- [BanSubstrings](docs/output_scanners/ban_substrings.md)
-- [BanTopics](docs/output_scanners/ban_topics.md)
-- [Bias](docs/output_scanners/bias.md)
-- [Code](docs/output_scanners/code.md)
-- [Deanonymize](docs/output_scanners/deanonymize.md)
-- [MaliciousURLs](docs/output_scanners/malicious_urls.md)
-- [NoRefusal](docs/output_scanners/no_refusal.md)
-- [Refutation](docs/output_scanners/refutation.md)
-- [Regex](docs/output_scanners/regex.md)
-- [Relevance](docs/output_scanners/relevance.md)
-- [Sensitive](docs/output_scanners/sensitive.md)
-- [Sentiment](docs/output_scanners/sentiment.md)
-- [Toxicity](docs/output_scanners/toxicity.md)
+- [BanSubstrings](https://laiyer-ai.github.io/llm-guard/output_scanners/ban_substrings/)
+- [BanTopics](https://laiyer-ai.github.io/llm-guard/output_scanners/ban_topics/)
+- [Bias](https://laiyer-ai.github.io/llm-guard/output_scanners/bias/)
+- [Code](https://laiyer-ai.github.io/llm-guard/output_scanners/code/)
+- [Deanonymize](https://laiyer-ai.github.io/llm-guard/output_scanners/deanonymize/)
+- [MaliciousURLs](https://laiyer-ai.github.io/llm-guard/output_scanners/malicious_urls/)
+- [NoRefusal](https://laiyer-ai.github.io/llm-guard/output_scanners/no_refusal/)
+- [Refutation](https://laiyer-ai.github.io/llm-guard/output_scanners/refutation/)
+- [Regex](https://laiyer-ai.github.io/llm-guard/output_scanners/regex/)
+- [Relevance](https://laiyer-ai.github.io/llm-guard/output_scanners/relevance/)
+- [Sensitive](https://laiyer-ai.github.io/llm-guard/output_scanners/sensitive/)
+- [Sentiment](https://laiyer-ai.github.io/llm-guard/output_scanners/sentiment/)
+- [Toxicity](https://laiyer-ai.github.io/llm-guard/output_scanners/toxicity/)
 
 ## Roadmap
 
