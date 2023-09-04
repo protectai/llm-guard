@@ -129,3 +129,4 @@ cython_debug/
 .idea/
 
 .vscode
+.benchmarks
