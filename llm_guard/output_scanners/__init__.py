@@ -10,6 +10,8 @@ from .refutation import Refutation
 from .regex import Regex
 from .relevance import Relevance
 from .sensitive import Sensitive
+from .sentiment import Sentiment
+from .toxicity import Toxicity
 
 __all__ = [
     "BanSubstrings",
@@ -23,5 +25,6 @@ __all__ = [
     "Regex",
     "Relevance",
     "Sensitive",
-    "Sentiment" "Toxicity",
+    "Sentiment",
+    "Toxicity",
 ]

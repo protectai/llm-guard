@@ -14,4 +14,4 @@ updates:
     open-pull-requests-limit: 2
     ignore:
       - dependency-name: "transformers"
-        versions: ">4.32.0"
+        versions: ">4.30.2"
