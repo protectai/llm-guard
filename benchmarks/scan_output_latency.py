@@ -31,52 +31,57 @@ outputs = [
     "'4567-8901-2345-6789', 'Test LLC');"
 ]
 
-
 # Just data leakage scanners
+basic_scanners = [Deanonymize(vault), Sensitive()]
+
+
 @pytest.mark.parametrize("output", outputs)
 def test_scan_prompt_basic(benchmark, output: str):
-    scanners = [Deanonymize(vault), Sensitive()]
     _ = benchmark.pedantic(
         scan_output,
-        kwargs={"scanners": scanners, "prompt": test_prompt, "output": output},
+        kwargs={"scanners": basic_scanners, "prompt": test_prompt, "output": output},
         iterations=1,
         rounds=1,
     )
 
 
 # Data leakage, bias and toxicity scanners
+intermediate_scanners = [Deanonymize(vault), Sensitive(), Bias(), Toxicity()]
+
+
 @pytest.mark.parametrize("output", outputs)
 def test_scan_prompt_intermediate(benchmark, output: str):
-    scanners = [Deanonymize(vault), Sensitive(), Bias(), Toxicity()]
     _ = benchmark.pedantic(
         scan_output,
-        kwargs={"scanners": scanners, "prompt": test_prompt, "output": output},
+        kwargs={"scanners": intermediate_scanners, "prompt": test_prompt, "output": output},
         iterations=1,
         rounds=1,
     )
 
 
 # All scanners
+advanced_scanners = [
+    BanSubstrings(substrings=["ACME CORP"], match_type="word"),
+    BanTopics(topics=["facebook"]),
+    Bias(),
+    Code(denied=["java"]),
+    Deanonymize(vault),
+    MaliciousURLs(),
+    NoRefusal(),
+    Refutation(),
+    Regex(bad_patterns=[r"Bearer [A-Za-z0-9-._~+/]+"]),
+    Relevance(),
+    Sensitive(),
+    Sentiment(),
+    Toxicity(),
+]
+
+
 @pytest.mark.parametrize("output", outputs)
 def test_scan_prompt_advanced(benchmark, output: str):
-    scanners = [
-        BanSubstrings(substrings=["ACME CORP"], match_type="word"),
-        BanTopics(topics=["facebook"]),
-        Bias(),
-        Code(denied=["java"]),
-        Deanonymize(vault),
-        MaliciousURLs(),
-        NoRefusal(),
-        Refutation(),
-        Regex(bad_patterns=[r"Bearer [A-Za-z0-9-._~+/]+"]),
-        Relevance(),
-        Sensitive(),
-        Sentiment(),
-        Toxicity(),
-    ]
     _ = benchmark.pedantic(
         scan_output,
-        kwargs={"scanners": scanners, "prompt": test_prompt, "output": output},
-        iterations=1,
-        rounds=1,
+        kwargs={"scanners": advanced_scanners, "prompt": test_prompt, "output": output},
+        iterations=5,
+        rounds=5,
     )
