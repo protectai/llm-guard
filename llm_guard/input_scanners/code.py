@@ -7,6 +7,8 @@ from transformers import (
     TextClassificationPipeline,
 )
 
+from llm_guard.util import device
+
 from .base import Scanner
 
 log = logging.getLogger(__name__)
@@ -92,7 +94,9 @@ class Code(Scanner):
         self._pipeline = TextClassificationPipeline(
             model=RobertaForSequenceClassification.from_pretrained(model_name),
             tokenizer=RobertaTokenizer.from_pretrained(model_name),
+            device=device,
         )
+        log.debug(f"Initialized model {model_name} on device {device}")
 
     def scan(self, prompt: str) -> (str, bool, float):
         valid, score = is_language_detected(prompt, self._pipeline, self._allowed, self._denied)

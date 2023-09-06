@@ -3,6 +3,8 @@ from typing import List
 
 from transformers import pipeline
 
+from llm_guard.util import device
+
 from .base import Scanner
 
 _model_path = "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7"
@@ -33,7 +35,12 @@ class BanTopics(Scanner):
 
         self._topics = topics
         self._threshold = threshold
-        self._classifier = pipeline("zero-shot-classification", model=_model_path)
+        self._classifier = pipeline(
+            "zero-shot-classification",
+            model=_model_path,
+            device=device,
+        )
+        log.debug(f"Initialized model {_model_path} on device {device}")
 
     def scan(self, prompt: str) -> (str, bool, float):
         if prompt.strip() == "":

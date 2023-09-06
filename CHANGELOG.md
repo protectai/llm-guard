@@ -9,12 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Documentation moved to `mkdocs`
+- Benchmarks in the documentation
 
 ### Fixed
 -
 
 ### Changed
--
+- Support of GPU inference
 
 ### Removed
 -

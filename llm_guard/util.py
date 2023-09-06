@@ -2,12 +2,18 @@ import json
 import logging
 from typing import Dict, List
 
+from accelerate import Accelerator
+
 log = logging.getLogger(__name__)
 
 """
 This file contains utility functions.
 This is meant for internal use and not part of the public API.
 """
+
+# Detect pytorch device
+accelerator = Accelerator()
+device = accelerator.device
 
 
 def read_json_file(json_path: str) -> Dict[str, List[str]]:
