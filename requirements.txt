@@ -1,3 +1,4 @@
+accelerate==0.22.0
 detect-secrets==1.4.0
 faker==19.3.1
 nltk==3.8.1
