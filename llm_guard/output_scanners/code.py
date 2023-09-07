@@ -8,6 +8,7 @@ from transformers import (
 )
 
 from llm_guard.input_scanners.code import is_language_detected, model_name
+from llm_guard.util import device
 
 from .base import Scanner
 
@@ -51,7 +52,9 @@ class Code(Scanner):
         self._pipeline = TextClassificationPipeline(
             model=RobertaForSequenceClassification.from_pretrained(model_name),
             tokenizer=RobertaTokenizer.from_pretrained(model_name),
+            device=device,
         )
+        log.debug(f"Initialized model {model_name} on device {device}")
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         valid, score = is_language_detected(output, self._pipeline, self._allowed, self._denied)

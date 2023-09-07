@@ -2,6 +2,8 @@ import logging
 
 from sentence_transformers import SentenceTransformer, util
 
+from llm_guard.util import device
+
 from .base import Scanner
 
 log = logging.getLogger(__name__)
@@ -27,7 +29,9 @@ class Relevance(Scanner):
         """
 
         self._threshold = threshold
-        self._transformer_model = SentenceTransformer(_transformer_name)
+        self._transformer_model = SentenceTransformer(_transformer_name, device=device)
+
+        log.debug(f"Initialized sentence transformer {_transformer_name} on device {device}")
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         if output.strip() == "":

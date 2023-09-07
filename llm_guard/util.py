@@ -14,6 +14,7 @@ This is meant for internal use and not part of the public API.
 # Detect pytorch device
 accelerator = Accelerator()
 device = accelerator.device
+device_int = 0 if device.type == "cuda" else -1
 
 
 def read_json_file(json_path: str) -> Dict[str, List[str]]:

@@ -6,6 +6,8 @@ from transformers import (
     TextClassificationPipeline,
 )
 
+from llm_guard.util import device
+
 from .base import Scanner
 
 _model_path = "elftsdmr/malware-url-detect"
@@ -34,8 +36,11 @@ class MaliciousURLs(Scanner):
         self._tokenizer = AutoTokenizer.from_pretrained(_model_path)
         self._threshold = threshold
         self._text_classification_pipeline = TextClassificationPipeline(
-            model=model, tokenizer=self._tokenizer
+            model=model,
+            tokenizer=self._tokenizer,
+            device=device,
         )
+        log.debug(f"Initialized model {_model_path} on device {device}")
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         if prompt.strip() == "":

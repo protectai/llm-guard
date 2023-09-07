@@ -4,6 +4,8 @@ import torch
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 from transformers import logging as transformers_logging
 
+from llm_guard.util import device
+
 from .base import Scanner
 
 _model_path = "ynie/roberta-large-snli_mnli_fever_anli_R1_R2_R3-nli"
@@ -35,24 +37,33 @@ class Refutation(Scanner):
 
         self._model = AutoModelForSequenceClassification.from_pretrained(_model_path)
         self._model.eval()
+        self._model.to(device)
         self._tokenizer = AutoTokenizer.from_pretrained(_model_path)
         self._threshold = threshold
+
+        log.debug(f"Initialized sentence transformer {_model_path} on device {device}")
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         if prompt.strip() == "":
             return output, True, 0.0
 
         tokenized_input_seq_pair = self._tokenizer.encode_plus(
-            prompt, output, max_length=MAX_LENGTH, return_token_type_ids=True, truncation=True
+            prompt,
+            output,
+            max_length=MAX_LENGTH,
+            return_token_type_ids=True,
+            truncation=True,
         )
 
-        input_ids = torch.Tensor(tokenized_input_seq_pair["input_ids"]).long().unsqueeze(0)
+        input_ids = (
+            torch.Tensor(tokenized_input_seq_pair["input_ids"]).long().unsqueeze(0).to(device)
+        )
         # remember bart doesn't have 'token_type_ids', remove the line below if you are using bart.
         token_type_ids = (
-            torch.Tensor(tokenized_input_seq_pair["token_type_ids"]).long().unsqueeze(0)
+            torch.Tensor(tokenized_input_seq_pair["token_type_ids"]).long().unsqueeze(0).to(device)
         )
         attention_mask = (
-            torch.Tensor(tokenized_input_seq_pair["attention_mask"]).long().unsqueeze(0)
+            torch.Tensor(tokenized_input_seq_pair["attention_mask"]).long().unsqueeze(0).to(device)
         )
 
         outputs = self._model(

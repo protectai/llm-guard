@@ -2,6 +2,8 @@ import logging
 
 from transformers import pipeline
 
+from llm_guard.util import device
+
 from .base import Scanner
 
 log = logging.getLogger(__name__)
@@ -27,7 +29,12 @@ class NoRefusal(Scanner):
         """
 
         self._threshold = threshold
-        self._classifier = pipeline("zero-shot-classification", model=_model_path)
+        self._classifier = pipeline(
+            "zero-shot-classification",
+            model=_model_path,
+            device=device,
+        )
+        log.debug(f"Initialized model {_model_path} on device {device}")
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         if output.strip() == "":

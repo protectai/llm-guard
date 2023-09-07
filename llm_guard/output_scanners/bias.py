@@ -2,6 +2,8 @@ import logging
 
 from transformers import AutoTokenizer, TFAutoModelForSequenceClassification, pipeline
 
+from llm_guard.util import device_int as device
+
 from .base import Scanner
 
 log = logging.getLogger(__name__)
@@ -26,7 +28,13 @@ class Bias(Scanner):
         tokenizer = AutoTokenizer.from_pretrained(_model_path)
         model = TFAutoModelForSequenceClassification.from_pretrained(_model_path)
 
-        self._classifier = pipeline("text-classification", model=model, tokenizer=tokenizer)
+        self._classifier = pipeline(
+            "text-classification",
+            model=model,
+            tokenizer=tokenizer,
+            device=device,
+        )
+        log.debug(f"Initialized model {_model_path} on device {device}")
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         if output.strip() == "":
