@@ -1,4 +1,6 @@
 import logging
+import re
+from typing import List
 
 from transformers import (
     AutoModelForSequenceClassification,
@@ -13,6 +15,10 @@ from .base import Scanner
 _model_path = "elftsdmr/malware-url-detect"
 
 log = logging.getLogger(__name__)
+# URL pattern
+url_pattern = re.compile(
+    r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
+)
 
 
 class MaliciousURLs(Scanner):
@@ -42,12 +48,23 @@ class MaliciousURLs(Scanner):
         )
         log.debug(f"Initialized model {_model_path} on device {device}")
 
+    @staticmethod
+    def extract_urls(text: str) -> List[str]:
+        return url_pattern.findall(text)
+
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         if prompt.strip() == "":
             return output, True, 0.0
 
+        urls = self.extract_urls(output)
+        if len(urls) == 0:
+            return output, True, 0.0
+
+        log.debug(f"Found {len(urls)} URLs in the output")
+
+        urls_str = ", ".join(urls)
         result = self._text_classification_pipeline(
-            output, truncation=True, padding=True, max_length=self._tokenizer.model_max_length
+            urls_str, truncation=True, padding=True, max_length=self._tokenizer.model_max_length
         )
         malware_score = (
             result[0]["score"] if result[0]["label"] == "MALWARE" else 1 - result[0]["score"]

@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Makefile` with useful commands
 
 ### Fixed
--
+- `MaliciousURLs` scanner produced false positives when URLs are not extracted from the text
 
 ### Changed
 - Support of GPU inference
