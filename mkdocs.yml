@@ -101,8 +101,9 @@ extra:
     property: G-B76J8KGG5Z
 
 nav:
-  - Introduction: index.md
-  - Usage: usage.md
+  - Home: index.md
+  - Installation: installation.md
+  - Quickstart: quickstart.md
   - Examples: examples.md
   - Input Scanners:
       - Anonymize: input_scanners/anonymize.md
@@ -131,3 +132,4 @@ nav:
   - Benchmarks:
       - Input scanners: benchmarks/input_scanners.md
       - Output scanners: benchmarks/output_scanners.md
+  - Add scanners: add_scanners.md

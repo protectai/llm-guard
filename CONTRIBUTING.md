@@ -21,7 +21,7 @@ git clone -b dev https://github.com/laiyer-ai/llm-guard.git
 cd llm-guard
 
 # install the repo
-pip install -r requirements.txt
+pip install -U -r requirements.txt -r requirements-dev.txt
 python setup.py install
 
 # download SpaCy model

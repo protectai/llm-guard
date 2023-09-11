@@ -79,8 +79,8 @@ python -m spacy download en_core_web_trf
 
 **General:**
 
-- [ ] Introduce support of GPU
-- [ ] Improve documentation by showing use-cases, benchmarks, etc
+- [x] Introduce support of GPU
+- [x] Improve documentation by showing use-cases, benchmarks, etc
 - [ ] Hosted version of LLM Guard
 - [ ] Text statistics to provide on prompt and output
 - [ ] Support more languages
