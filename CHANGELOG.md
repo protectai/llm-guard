@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Documentation moved to `mkdocs`
 - Benchmarks in the documentation
 - Added documentation about [adding more scanners](docs/add_scanner.md)
+- `Makefile` with useful commands
 
 ### Fixed
 -
