@@ -132,4 +132,4 @@ nav:
   - Benchmarks:
       - Input scanners: benchmarks/input_scanners.md
       - Output scanners: benchmarks/output_scanners.md
-  - Add scanners: add_scanners.md
+  - Add scanner: add_scanner.md
