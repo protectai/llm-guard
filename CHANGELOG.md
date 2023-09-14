@@ -12,15 +12,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Benchmarks in the documentation
 - Added documentation about [adding more scanners](docs/add_scanner.md)
 - `Makefile` with useful commands
+- Demo application deployed to HuggingFace Spaces
 
 ### Fixed
 - `MaliciousURLs` scanner produced false positives when URLs are not extracted from the text
 
 ### Changed
 - Support of GPU inference
+- Score of existing `Anonymize` patterns
 
 ### Removed
--
+- `URL` entity type from `Anonymize` scanner (it was producing false-positive results)
 
 ## [0.1.3] - 2023-09-02
 

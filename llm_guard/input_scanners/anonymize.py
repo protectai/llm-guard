@@ -31,8 +31,6 @@ default_entity_types = [
     "IP_ADDRESS",
     "PERSON",
     "PHONE_NUMBER",
-    "MEDICAL_LICENSE",
-    "URL",
     "US_SSN",
     "US_BANK_NUMBER",
     "CREDIT_CARD_RE",
