@@ -2,7 +2,7 @@
 
 LLM-Guard is a comprehensive tool designed to fortify the security of Large Language Models (LLMs).
 
-[**Documentation**](https://laiyer-ai.github.io/llm-guard/)
+[**Documentation**](https://laiyer-ai.github.io/llm-guard/) | [**Demo on HuggingFace Spaces**](https://huggingface.co/spaces/laiyer/llm-guard-demo)
 
 [![MIT license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)

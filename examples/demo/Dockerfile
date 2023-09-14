@@ -10,8 +10,9 @@ WORKDIR /app
 
 COPY ./requirements.txt /app/requirements.txt
 
-RUN pip3 install -r requirements.txt
-RUN python3 -m spacy download en_core_web_trf
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
+RUN python -m spacy download en_core_web_trf
 
 EXPOSE 7860
 

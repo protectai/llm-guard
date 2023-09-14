@@ -4,6 +4,7 @@ import traceback
 from datetime import timedelta
 
 import pandas as pd
+import spacy
 import streamlit as st
 from output import init_settings as init_output_settings
 from output import scan as scan_output
@@ -11,6 +12,9 @@ from prompt import init_settings as init_prompt_settings
 from prompt import scan as scan_prompt
 
 from llm_guard.vault import Vault
+
+if not spacy.util.is_package("en_core_web_trf"):
+    spacy.cli.download("en_core_web_trf")
 
 PROMPT = "prompt"
 OUTPUT = "output"
@@ -123,8 +127,9 @@ except Exception as e:
 
 # After:
 if st_is_valid is not None:
-    execution_time_ms = round(st_time_delta.total_seconds() * 1000)
-    st.subheader(f"Results - {'valid' if st_is_valid else 'invalid'} ({execution_time_ms} ms)")
+    st.subheader(
+        f"Results - {'valid' if st_is_valid else 'invalid'} ({st_time_delta.total_seconds()} ms)"
+    )
 
     col1, col2 = st.columns(2)
 

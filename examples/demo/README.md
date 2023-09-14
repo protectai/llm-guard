@@ -1,4 +1,12 @@
-# Simple demo website for LLM Guard
+---
+title: LLM Guard Demo
+emoji: 🏢
+colorFrom: blue
+colorTo: gray
+sdk: docker
+pinned: false
+license: mit
+---
 
 Here's a simple app, written in pure Python, to create a demo website for LLM Guard.
 The app is based on the [streamlit](https://streamlit.io/) package.
