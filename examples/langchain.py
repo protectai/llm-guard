@@ -127,7 +127,7 @@ class LLMGuardChain(LLMChain):
             sanitized_prompt, results_valid, results_score = scan_prompt(
                 self.input_scanners, prompt.to_string()
             )
-            if any(not result for result in results_valid.values()):
+            if any(results_valid.values()) is False:
                 logger.warning(f"Prompt {prompt} is not valid, scores: {results_score}")
 
                 if self.raise_error:
@@ -146,7 +146,7 @@ class LLMGuardChain(LLMChain):
                 sanitized_response_text, results_valid, results_score = scan_output(
                     self.output_scanners, prompt_strings[i], gen_item.text
                 )
-                if any(not result for result in results_valid.values()):
+                if any(results_valid.values()) is False:
                     if self.raise_error:
                         raise LLMGuardOutputInvalidException(
                             f"Output {gen_item.text} is invalid based on scores {results_score}."

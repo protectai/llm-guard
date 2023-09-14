@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Benchmarks in the documentation
 - Added documentation about [adding more scanners](docs/add_scanner.md)
 - `Makefile` with useful commands
-- Demo application deployed to HuggingFace Spaces
+- Demo application using Streamlit deployed to HuggingFace Spaces
 
 ### Fixed
 - `MaliciousURLs` scanner produced false positives when URLs are not extracted from the text

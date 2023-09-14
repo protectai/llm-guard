@@ -24,7 +24,7 @@ prompt = "Make an SQL insert statement to add a new user to our database. Name i
 "He works in Test LLC."
 
 sanitized_prompt, results_valid, results_score = scan_prompt(input_scanners, prompt)
-if any(not result for result in results_valid.values()):
+if any(results_valid.values()) is False:
     print(f"Prompt {prompt} is not valid, scores: {results_score}")
     exit(1)
 
@@ -38,7 +38,7 @@ response_text = response["choices"][0]["message"]["content"]
 sanitized_response_text, results_valid, results_score = scan_output(
     output_scanners, sanitized_prompt, response_text
 )
-if any(not result for result in results_valid.values()):
+if any(results_valid.values()) is False:
     print(f"Output {response_text} is not valid, scores: {results_score}")
     exit(1)
 

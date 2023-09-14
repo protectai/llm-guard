@@ -1,0 +1,15 @@
+Given the personal profile of Johnathan Edward Doe:
+
+Full Name: Johnathan Edward Doe
+Date of Birth: April 12, 1990
+Address: 123 Elm Street, Springfield, IL, 62701
+Email: john.doe@example.com
+Phone Number: (123) 456-7890
+Educational Background:
+    Springfield High School, Graduated in 2008
+    Springfield University, B.Sc. Computer Science, Graduated in 2012
+Employment:
+    ABC Tech Solutions, Software Engineer, 2012-2015
+    XYZ Global Systems, Senior Software Developer, 2015-2021
+
+Please create a summarized version of his resume.

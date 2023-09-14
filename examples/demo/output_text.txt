@@ -1,0 +1,20 @@
+Alright, given the tables have already been created, here's how you can construct an SQL INSERT query to insert a customer record, ensuring the company is stored in a different table and that the location is one of the allowed ones:
+
+```sql
+-- Insert Company or get its ID
+INSERT INTO Companies (company_name)
+VALUES ('Laiyer')
+ON DUPLICATE KEY UPDATE company_id = LAST_INSERT_ID(company_id);
+
+-- Insert Customer with given values and ensure the location is allowed
+INSERT INTO Customers (first_name, IP, company_id, location_id)
+SELECT 'John Doe', '127.0.0.1', LAST_INSERT_ID(), location_id
+FROM AllowedLocations
+WHERE location_name = 'New York, US';
+```
+
+Note:
+
+1. LAST_INSERT_ID() fetches the ID of the last inserted row or the existing company's ID due to the ON DUPLICATE KEY UPDATE statement.
+2. This approach relies on the assumption that the company_name column in the Companies table has a unique constraint to avoid duplicate entries.
+3. The customer insert uses a SELECT statement from the AllowedLocations table to ensure that only valid/allowed locations are used for inserting the customer. If location doesn't exist in the AllowedLocations table, then no insert will occur for the customer.
