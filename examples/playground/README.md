@@ -1,5 +1,5 @@
 ---
-title: LLM Guard Demo
+title: LLM Guard Playground
 emoji: 🏢
 colorFrom: blue
 colorTo: gray
@@ -11,11 +11,11 @@ license: mit
 Here's a simple app, written in pure Python, to create a demo website for LLM Guard.
 The app is based on the [streamlit](https://streamlit.io/) package.
 
-A live version can be found here: https://huggingface.co/spaces/laiyer/llm-guard-demo
+A live version can be found here: https://huggingface.co/spaces/laiyer/llm-guard-playground
 
 ## Requirements
 
-1. Clone the repo and move to the `examples/demo` folder
+1. Clone the repo and move to the `examples/playground` folder
 
 2. Install dependencies (preferably in a virtual environment)
 
@@ -28,8 +28,3 @@ pip install -r requirements.txt
 ```sh
 streamlit run app.py
 ```
-
-## Output
-
-Output should be similar to this screenshot:
-![image](./screenshot.png)

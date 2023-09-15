@@ -22,7 +22,7 @@ from llm_guard.output_scanners.sentiment import Sentiment
 from llm_guard.output_scanners.toxicity import Toxicity
 from llm_guard.vault import Vault
 
-logger = logging.getLogger("llm-guard-demo")
+logger = logging.getLogger("llm-guard-playground")
 
 
 def init_settings() -> (List, Dict):

@@ -18,7 +18,7 @@ from llm_guard.input_scanners import (
 from llm_guard.input_scanners.anonymize import default_entity_types
 from llm_guard.vault import Vault
 
-logger = logging.getLogger("llm-guard-demo")
+logger = logging.getLogger("llm-guard-playground")
 
 
 def init_settings() -> (List, Dict):

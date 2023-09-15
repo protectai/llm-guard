@@ -21,7 +21,7 @@ OUTPUT = "output"
 vault = Vault()
 
 st.set_page_config(
-    page_title="LLM Guard demo",
+    page_title="LLM Guard Playground",
     layout="wide",
     initial_sidebar_state="expanded",
     menu_items={
@@ -29,7 +29,7 @@ st.set_page_config(
     },
 )
 
-logger = logging.getLogger("llm-guard-demo")
+logger = logging.getLogger("llm-guard-playground")
 logger.setLevel(logging.INFO)
 
 # Sidebar
@@ -49,7 +49,7 @@ elif scanner_type == OUTPUT:
     enabled_scanners, settings = init_output_settings()
 
 # Main pannel
-with st.expander("About this demo", expanded=False):
+with st.expander("About", expanded=False):
     st.info(
         """LLM-Guard is a comprehensive tool designed to fortify the security of Large Language Models (LLMs).
         \n\n[Code](https://github.com/laiyer-ai/llm-guard) |
@@ -128,7 +128,7 @@ except Exception as e:
 # After:
 if st_is_valid is not None:
     st.subheader(
-        f"Results - {'valid' if st_is_valid else 'invalid'} ({st_time_delta.total_seconds()} ms)"
+        f"Results - {'valid' if st_is_valid else 'invalid'} ({round(st_time_delta.total_seconds())} seconds)"
     )
 
     col1, col2 = st.columns(2)

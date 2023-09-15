@@ -9,6 +9,8 @@ LLM-Guard is a comprehensive tool designed to fortify the security of Large Lang
 By offering sanitization, detection of harmful language, prevention of data leakage, and resistance against prompt
 injection attacks, LLM-Guard ensures that your interactions with LLMs remain safe and secure.
 
+[Demo](https://huggingface.co/spaces/laiyer/llm-guard-playground)
+
 ## Installation
 
 Begin your journey with LLM Guard by downloading the package and acquiring the `en_core_web_trf` spaCy model (essential
