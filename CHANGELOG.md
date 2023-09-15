@@ -8,6 +8,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+-
+
+### Fixed
+-
+
+### Changed
+-
+
+### Removed
+-
+
+## [0.2.0] - 2023-09-15
+
+### Added
 - Documentation moved to `mkdocs`
 - Benchmarks in the documentation
 - Added documentation about [adding more scanners](docs/add_scanner.md)
@@ -114,6 +128,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - [Toxicity](./llm_guard/output_scanners/toxicity.py)
 
 [Unreleased]: https://github.com/laiyer-ai/llm-guard/commits/main
+[0.2.0]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.2.0
 [0.1.3]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.1.3
 [0.1.2]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.1.2
 [0.1.1]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.1.1
