@@ -36,12 +36,12 @@ basic_scanners = [Deanonymize(vault), Sensitive()]
 
 
 @pytest.mark.parametrize("output", outputs)
-def test_scan_prompt_basic(benchmark, output: str):
+def test_scan_output_basic(benchmark, output: str):
     _ = benchmark.pedantic(
         scan_output,
         kwargs={"scanners": basic_scanners, "prompt": test_prompt, "output": output},
-        iterations=1,
-        rounds=1,
+        iterations=5,
+        rounds=5,
     )
 
 
@@ -50,12 +50,12 @@ intermediate_scanners = [Deanonymize(vault), Sensitive(), Bias(), Toxicity()]
 
 
 @pytest.mark.parametrize("output", outputs)
-def test_scan_prompt_intermediate(benchmark, output: str):
+def test_scan_output_intermediate(benchmark, output: str):
     _ = benchmark.pedantic(
         scan_output,
         kwargs={"scanners": intermediate_scanners, "prompt": test_prompt, "output": output},
-        iterations=1,
-        rounds=1,
+        iterations=5,
+        rounds=5,
     )
 
 
@@ -78,7 +78,7 @@ advanced_scanners = [
 
 
 @pytest.mark.parametrize("output", outputs)
-def test_scan_prompt_advanced(benchmark, output: str):
+def test_scan_output_advanced(benchmark, output: str):
     _ = benchmark.pedantic(
         scan_output,
         kwargs={"scanners": advanced_scanners, "prompt": test_prompt, "output": output},

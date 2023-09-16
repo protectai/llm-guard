@@ -32,6 +32,10 @@
 | Intermediate | INSERT INTO users (Name, Email... | 734.10   | 745.58   | 740.73    | 740.84  | 4.58        |
 | Advanced     | INSERT INTO users (Name, Email... | 2,331.6  | 2,500.7  | 2,373.0   | 2,338.7 | 7.2         |
 
-## AWS `` (GPU) instance
+## AWS `inf1.xlarge` instance
 
-TBD
+| Test Type    | Prompt (Trimmed)                  | Min (ms) | Max (ms) | Mean (ms) | Median | StdDev (ms) |
+|--------------|-----------------------------------|----------|----------|-----------|--------|-------------|
+| Basic        | INSERT INTO users (Name, Email... | 107.29   | 156.32   | 117.88    | 108.43 | 21.5        |
+| Intermediate | INSERT INTO users (Name, Email... | 388.51   | 397.73   | 392.32    | 391.63 | 3.44        |
+| Advanced     | INSERT INTO users (Name, Email... | 816.51   | 913.67   | 837.71    | 819.98 | 42.49       |

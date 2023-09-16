@@ -38,6 +38,13 @@
 | Advanced     | Make an SQL insert statement...      | 1,145.41 | 1,184.17 | 1,160.3   | 1,157.22 | 14.63       |
 | Advanced     | For some reason, the assistant is... | 1,377.93 | 1,514.38 | 1,449.14  | 1,448.96 | 52.77       |
 
-## AWS `` (GPU) instance
+## AWS `inf1.xlarge` instance
 
-TBD
+| Test Type    | Prompt (Trimmed)                     | Min (ms) | Max (ms) | Mean (ms) | Median | StdDev (ms) |
+|--------------|--------------------------------------|----------|----------|-----------|--------|-------------|
+| Basic        | Make an SQL insert statement...      | 112.86   | 139.02   | 118.21    | 112.93 | 11.63       |
+| Basic        | For some reason, the assistant is... | 164.84   | 171.22   | 166.99    | 166.71 | 2.6         |
+| Intermediate | Make an SQL insert statement...      | 312.64   | 321.35   | 314.9     | 313.26 | 3.65        |
+| Intermediate | For some reason, the assistant is... | 399.14   | 540.05   | 471.80    | 474.01 | 55.17       |
+| Advanced     | Make an SQL insert statement...      | 564.13   | 612.13   | 574.33    | 564.80 | 21.15       |
+| Advanced     | For some reason, the assistant is... | 665.89   | 729.69   | 694.36    | 689.37 | 25.19       |

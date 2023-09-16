@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - New pages in the docs about usage of LLM Guard
+- Benchmark of AWS EC2 `inf1.xlarge` instance
 
 ### Fixed
 -
