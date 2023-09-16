@@ -104,7 +104,10 @@ nav:
   - Home: index.md
   - Installation: installation.md
   - Quickstart: quickstart.md
-  - Examples: examples.md
+  - Usage:
+    - OpenAI: usage/openai.md
+    - Langchain: usage/langchain.md
+    - Playground: usage/playground.md
   - Input Scanners:
       - Anonymize: input_scanners/anonymize.md
       - Ban Substrings: input_scanners/ban_substrings.md
@@ -132,4 +135,5 @@ nav:
   - Benchmarks:
       - Input scanners: benchmarks/input_scanners.md
       - Output scanners: benchmarks/output_scanners.md
-  - Add scanner: add_scanner.md
+  - Customization:
+      - Add scanner: add_scanner.md
