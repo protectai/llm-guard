@@ -1,0 +1,8 @@
+[extend]
+useDefault = true
+
+[allowlist]
+description = "global allow list"
+paths = [
+  '''tests/.*?''',
+]

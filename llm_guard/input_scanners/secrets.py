@@ -2,7 +2,6 @@ import hashlib
 import logging
 import os
 import tempfile
-from typing import Any, Dict, Optional
 
 from detect_secrets.core.secrets_collection import SecretsCollection
 from detect_secrets.settings import transient_settings
@@ -12,13 +11,16 @@ from .base import Scanner
 
 log = logging.getLogger(__name__)
 
+
+_custom_plugins_path = "file://" + os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "secrets_plugins"
+)
 _default_detect_secrets_config = {
     "plugins_used": [
         {"name": "SoftlayerDetector"},
         {"name": "StripeDetector"},
         {"name": "SendGridDetector"},
         {"name": "NpmDetector"},
-        {"name": "KeywordDetector", "keyword_exclude": ""},
         {"name": "IbmCosHmacDetector"},
         {"name": "DiscordBotTokenDetector"},
         {"name": "BasicAuthDetector"},
@@ -26,16 +28,19 @@ _default_detect_secrets_config = {
         {"name": "ArtifactoryDetector"},
         {"name": "AWSKeyDetector"},
         {"name": "CloudantDetector"},
-        {"name": "GitHubTokenDetector"},
         {"name": "IbmCloudIamDetector"},
         {"name": "JwtTokenDetector"},
         {"name": "MailchimpDetector"},
-        {"name": "PrivateKeyDetector"},
         {"name": "SlackDetector"},
         {"name": "SquareOAuthDetector"},
+        {"name": "PrivateKeyDetector"},
         {"name": "TwilioKeyDetector"},
         {"name": "Base64HighEntropyString", "limit": 4.5},
         {"name": "HexHighEntropyString", "limit": 3.0},
+        {
+            "name": "GitHubTokenCustomDetector",
+            "path": _custom_plugins_path + "/github_token.py",
+        },
     ]
 }
 
@@ -54,20 +59,15 @@ class Secrets(Scanner):
 
     def __init__(
         self,
-        detect_secrets_config: Optional[Dict[str, Any]] = None,
         redact_mode: str = REDACT_ALL,
     ):
         """
         Initialize an instance of the Secrets scanner.
 
         Parameters:
-        - detect_secrets_config (Dict, optional): Configuration dictionary for detect-secrets. If not provided, default settings are used.
         - redact_mode (str): Mode for redaction. Defaults to `REDACT_ALL`. Choices are `REDACT_PARTIAL`, `REDACT_ALL`, and `REDACT_HASH`.
         """
-        if not detect_secrets_config:
-            log.debug(f"No detect secrets config provided, using default")
-            detect_secrets_config = _default_detect_secrets_config
-        self._detect_secrets_config = detect_secrets_config
+        self._detect_secrets_config = _default_detect_secrets_config
         self._redact_mode = redact_mode
         self._secrets = SecretsCollection()
 
