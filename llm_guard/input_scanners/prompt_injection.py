@@ -10,7 +10,7 @@ from llm_guard.util import device
 
 from .base import Scanner
 
-_model_path = "JasperLS/gelectra-base-injection"
+_model_path = "JasperLS/deberta-v3-base-injection"
 
 log = logging.getLogger(__name__)
 

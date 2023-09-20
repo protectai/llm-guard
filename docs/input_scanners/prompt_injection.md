@@ -23,7 +23,7 @@ primary ways an attacker might exploit:
 ## How it works
 
 It leverages the
-model [JasperLS/gelectra-base-injection](https://huggingface.co/JasperLS/gelectra-base-injection) for its operation.
+model [JasperLS/deberta-v3-base-injection](https://huggingface.co/JasperLS/deberta-v3-base-injection) for its operation.
 However, it's worth noting that while the current model can detect attempts effectively, it might occasionally yield
 false positives.
 
