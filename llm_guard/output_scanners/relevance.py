@@ -39,8 +39,8 @@ class Relevance(Scanner):
 
         similarity = 1
         try:
-            embedding_1 = self._transformer_model.encode(prompt, convert_to_tensor=True)
-            embedding_2 = self._transformer_model.encode(output, convert_to_tensor=True)
+            embedding_1 = self._transformer_model.encode(prompt.lower(), convert_to_tensor=True)
+            embedding_2 = self._transformer_model.encode(output.lower(), convert_to_tensor=True)
             similarity = util.pytorch_cos_sim(embedding_1, embedding_2)
         except Exception as e:
             log.warning(f"pandas {output} caused similarity_MiniLM_L6_v2 to encounter error: {e}")
