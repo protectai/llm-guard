@@ -1,7 +1,7 @@
 site_name: LLM Guard
 site_author: Laiyer.AI
 site_description: LLM-Guard is a comprehensive tool designed to fortify the security of Large Language Models (LLMs).
-site_url: https://laiyer.ai
+site_url: https://llm-guard.com
 repo_url: https://github.com/laiyer-ai/llm-guard
 repo_name: laiyer-ai/llm-guard
 edit_uri: ""
@@ -136,4 +136,4 @@ nav:
       - Input scanners: benchmarks/input_scanners.md
       - Output scanners: benchmarks/output_scanners.md
   - Customization:
-      - Add scanner: add_scanner.md
+      - Add scanner: customization/add_scanner.md
