@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New pages in the docs about usage of LLM Guard
 - Benchmark of AWS EC2 `inf1.xlarge` instance
 - Example of API with Docker in [examples/api](examples/api)
+- `Regex` output scanner can redact the text using a regular expression
 
 ### Fixed
 -

@@ -10,7 +10,7 @@ from llm_guard.output_scanners.regex import Regex
         (
             "Provide me a bearer token example",
             "Here is an example of the token: Bearer abc-def_123",
-            "Here is an example of the token: Bearer abc-def_123",
+            "Here is an example of the token: [REDACTED]",
             False,
             1.0,
         ),  # Regex matched

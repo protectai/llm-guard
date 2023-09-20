@@ -17,7 +17,10 @@ class Regex(Scanner):
     """
 
     def __init__(
-        self, good_patterns: Optional[List[str]] = None, bad_patterns: Optional[List[str]] = None
+        self,
+        good_patterns: Optional[List[str]] = None,
+        bad_patterns: Optional[List[str]] = None,
+        redact=True,
     ):
         """
         Initializes an instance of the Regex class.
@@ -25,6 +28,7 @@ class Regex(Scanner):
         Parameters:
             good_patterns (Optional[List[str]]): List of regular expression patterns that the output should match.
             bad_patterns (Optional[List[str]]): List of regular expression patterns that the output should not match.
+            redact (bool): Whether to redact the output or not.
 
         Raises:
             ValueError: If no patterns provided or both good and bad patterns provided.
@@ -50,6 +54,8 @@ class Regex(Scanner):
         for pattern in bad_patterns:
             self._bad_patterns.append(re.compile(pattern))
 
+        self._redact = redact
+
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         if len(self._good_patterns) > 0:
             for pattern in self._good_patterns:
@@ -63,6 +69,10 @@ class Regex(Scanner):
         for pattern in self._bad_patterns:
             if pattern.search(output):
                 log.warning(f"Pattern {pattern} was detected in the output")
+
+                if self._redact:
+                    output = pattern.sub("[REDACTED]", output)
+
                 return output, False, 1.0
 
         log.debug(f"None of the patterns were found in the output")
