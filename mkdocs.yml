@@ -108,6 +108,7 @@ nav:
     - OpenAI: usage/openai.md
     - Langchain: usage/langchain.md
     - Playground: usage/playground.md
+    - API: usage/api.md
   - Input Scanners:
       - Anonymize: input_scanners/anonymize.md
       - Ban Substrings: input_scanners/ban_substrings.md

@@ -1,0 +1,63 @@
+input_scanners:
+  Anonymize:
+    # allowed_names: []
+    # hidden_names: []
+    # entity_types: []
+    # preamble: ""
+    use_faker: false
+  BanSubstrings:
+    substrings: ["test"]
+    match_type: "word"
+    case_sensitive: false
+  BanTopics:
+    topics: ["religion"]
+    threshold: 0.75
+  Code:
+    # allowed: []
+    denied: ["go"]
+  PromptInjection:
+    threshold: 0.75
+  Secrets:
+    redact_mode: "all"
+  Sentiment:
+    # lexicon="vader_lexicon"
+    threshold: -0.1
+  TokenLimit:
+    limit: 4096
+    encoding_name: "cl100k_base"
+  Toxicity:
+    threshold: 0.7
+
+
+output_scanners:
+  BanSubstrings:
+    match_type: "word"
+    case_sensitive: false
+    substrings: ["test"]
+  BanTopics:
+    threshold: 0.75
+    topics: ["politics"]
+  Bias:
+    threshold: 0.75
+  Code:
+    #allowed: ["python"]
+    denied: ["python"]
+  Deanonymize:
+  MaliciousURLs:
+    threshold: 0.75
+  NoRefusal:
+    threshold: 0.5
+  Refutation:
+    threshold: 0.5
+  Regex:
+    # good_patterns: [""]
+    bad_patterns: ["Bearer [A-Za-z0-9-._~+/]+"]
+  Relevance:
+    threshold: 0
+  Sensitive:
+    entity_types:
+  Sentiment:
+    threshold: -0.1
+    # lexicon: "vader_lexicon"
+  Toxicity:
+    threshold: 0
