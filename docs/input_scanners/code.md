@@ -19,7 +19,7 @@ to either whitelist or blacklist specific languages, thus retaining full control
 user queries.
 
 !!! note
-    The scanner is currently limited to detecting code snippets in the following languages:
+    The scanner is currently limited to extracting and detecting code snippets from Markdown in the following languages:
 
     - Go
     - Java

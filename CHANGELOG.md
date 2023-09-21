@@ -18,7 +18,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Lowercase prompt in Relevance output scanner to improve quality of cosine similarity
+- Detect code snippets from Markdown in `Code` scanner to prevent false-positives
 - Changed model used for `PromptInjection` to `JasperLS/deberta-v3-base-injection`
+- Introduced `threshold` parameter for `Code` scanners to control the threshold for the similarity
 
 ### Removed
 -
