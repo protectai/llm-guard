@@ -42,8 +42,16 @@ Also, you can configure scanners in `config.yml` referring to their names and pa
 
 ## Deploy Docker
 
-### Download Docker images
-docker pull laiyer/llm-guard-api
+We have an officially supported image on [Docker Hub](https://hub.docker.com/repository/docker/laiyer/llm-guard-api/general).
 
-#### Run containers with default ports
-docker run -d -p 8001:8000 laiyer/llm-guard-api:latest
+### Download Docker image
+
+```sh
+docker pull laiyer/llm-guard-api
+```
+
+#### Run container with default port
+
+```sh
+docker run -d -p 8001:8000 -e DEBUG='false' laiyer/llm-guard-api:latest
+```

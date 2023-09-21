@@ -41,3 +41,19 @@ It can be configured using environment variables:
 - `CACHE_TTL` (int): Time in seconds after which a cached item expires. Default is 1 hour.
 
 Also, you can configure scanners in `config.yml` referring to their names and parameters.
+
+## Deploy Docker
+
+We have an officially supported image on [Docker Hub](https://hub.docker.com/repository/docker/laiyer/llm-guard-api/general).
+
+### Download Docker image
+
+```sh
+docker pull laiyer/llm-guard-api
+```
+
+#### Run container with default port
+
+```sh
+docker run -d -p 8001:8000 -e DEBUG='false' laiyer/llm-guard-api:latest
+```
