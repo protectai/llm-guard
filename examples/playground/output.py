@@ -209,7 +209,15 @@ def init_settings() -> (List, Dict):
                 help="good: allow only good patterns, bad: ban bad patterns",
             )
 
-        settings["Regex"] = {"patterns": st_regex_patterns, "type": st_regex_type}
+            st_redact = st.checkbox(
+                "Redact", value=False, help="Replace the matched bad patterns with [REDACTED]"
+            )
+
+        settings["Regex"] = {
+            "patterns": st_regex_patterns,
+            "type": st_regex_type,
+            "redact": st_redact,
+        }
 
     if "Relevance" in st_enabled_scanners:
         st_rele_expander = st.sidebar.expander(
@@ -343,7 +351,9 @@ def get_scanner(scanner_name: str, vault: Vault, settings: Dict):
         elif match_type == "bad":
             bad_patterns = settings["patterns"]
 
-        return Regex(good_patterns=good_patterns, bad_patterns=bad_patterns)
+        return Regex(
+            good_patterns=good_patterns, bad_patterns=bad_patterns, redact=settings["redact"]
+        )
 
     if scanner_name == "Relevance":
         return Relevance(threshold=settings["threshold"])

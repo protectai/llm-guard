@@ -48,9 +48,7 @@ class PromptInjection(Scanner):
         if prompt.strip() == "":
             return prompt, True, 0.0
 
-        result = self._text_classification_pipeline(
-            prompt, truncation=True, max_length=self._tokenizer.model_max_length
-        )
+        result = self._text_classification_pipeline(prompt)
         injection_score = round(
             result[0]["score"] if result[0]["label"] == "INJECTION" else 1 - result[0]["score"], 2
         )
