@@ -1,5 +1,5 @@
 fastapi==0.103.1
-llm-guard==0.2.0
+llm-guard==0.2.1
 pydantic==1.10.12
 pyyaml==6.0.1
 uvicorn[standard]==0.23.2

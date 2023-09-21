@@ -8,22 +8,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- New pages in the docs about usage of LLM Guard
-- Benchmark of AWS EC2 `inf1.xlarge` instance
-- Example of API with Docker in [examples/api](examples/api)
-- `Regex` output scanner can redact the text using a regular expression
+-
 
 ### Fixed
 -
 
 ### Changed
-- Lowercase prompt in Relevance output scanner to improve quality of cosine similarity
-- Detect code snippets from Markdown in `Code` scanner to prevent false-positives
-- Changed model used for `PromptInjection` to `JasperLS/deberta-v3-base-injection`
-- Introduced `threshold` parameter for `Code` scanners to control the threshold for the similarity
+-
 
 ### Removed
 -
+
+## [0.2.1] - 2023-09-21
+
+### Added
+- New pages in the docs about usage of LLM Guard
+- Benchmark of AWS EC2 `inf1.xlarge` instance
+- Example of API with Docker in [examples/api](examples/api)
+- `Regex` output scanner can redact the text using a regular expression
+
+### Changed
+- Lowercase prompt in Relevance output scanner to improve quality of cosine similarity
+- Detect code snippets from Markdown in `Code` scanner to prevent false-positives
+- Changed model used for `PromptInjection` to `JasperLS/deberta-v3-base-injection`, which produces less false-positives
+- Introduced `threshold` parameter for `Code` scanners to control the threshold for the similarity
 
 ## [0.2.0] - 2023-09-15
 
@@ -134,6 +142,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - [Toxicity](./llm_guard/output_scanners/toxicity.py)
 
 [Unreleased]: https://github.com/laiyer-ai/llm-guard/commits/main
+[0.2.1]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.2.1
 [0.2.0]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.2.0
 [0.1.3]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.1.3
 [0.1.2]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.1.2
