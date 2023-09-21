@@ -60,4 +60,4 @@ docker run -d -p 8001:8000 -e DEBUG='false' laiyer/llm-guard-api:latest
 
 ## Schema
 
-<swagger-ui src="./openapi.json" />
+<swagger-ui src="https://raw.githubusercontent.com/laiyer-ai/llm-guard/main/examples/api/openapi.json" />
