@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -
 
 ### Changed
--
+- Added Swagger documentation on the [API](https://llm-guard.com/usage/api/) documentation page
 
 ### Removed
 -

@@ -62,6 +62,9 @@ markdown_extensions:
 
 plugins:
   - search
+  - swagger-ui-tag:
+      supportedSubmitMethods: []
+      syntaxHighlightTheme: monokai
   - mkdocstrings:
       default_handler: python
       handlers:

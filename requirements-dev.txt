@@ -5,6 +5,7 @@ mkdocs==1.5.2
 mkdocs-autorefs==0.5.0
 mkdocs-material==9.3.1
 mkdocs-material-extensions==1.1.1
+mkdocs-swagger-ui-tag==0.6.5
 mkdocstrings==0.23.0
 mkdocstrings-python==1.6.1
 pytest==7.4.2

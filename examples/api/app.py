@@ -73,7 +73,7 @@ def register_routes(
         return JSONResponse({"status": "ready"})
 
     @app.post("/analyze/output", tags=["Analyze"])
-    def analyze_output(request: schemas.AnalyzeOutputRequest):
+    def analyze_output(request: schemas.AnalyzeOutputRequest) -> schemas.AnalyzeOutputResponse:
         logger.debug(f"Received analyze request: {request}")
 
         sanitized_output, results_valid, results_score = scan_output(
@@ -90,7 +90,7 @@ def register_routes(
         return response
 
     @app.post("/analyze/prompt", tags=["Analyze"])
-    def analyze_prompt(request: schemas.AnalyzePromptRequest):
+    def analyze_prompt(request: schemas.AnalyzePromptRequest) -> schemas.AnalyzePromptResponse:
         logger.debug(f"Received analyze request: {request}")
         cached_result = cache.get(request.prompt)
 

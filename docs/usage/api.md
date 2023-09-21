@@ -57,3 +57,7 @@ docker pull laiyer/llm-guard-api
 ```sh
 docker run -d -p 8001:8000 -e DEBUG='false' laiyer/llm-guard-api:latest
 ```
+
+## Schema
+
+<swagger-ui src="./openapi.json" />
