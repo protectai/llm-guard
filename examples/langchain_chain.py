@@ -7,10 +7,13 @@ If it is not already set, it can be set by using `export OPENAI_API_KEY=YOUR_API
 import logging
 from typing import Any, Dict, List, Optional
 
-from langchain import LLMChain, OpenAI, PromptTemplate
-from langchain.callbacks.manager import AsyncCallbackManagerForChainRun, CallbackManagerForChainRun
-from langchain.prompts.base import StringPromptValue
-from langchain.schema import LLMResult, PromptValue
+from langchain_chain import LLMChain, OpenAI, PromptTemplate
+from langchain_chain.callbacks.manager import (
+    AsyncCallbackManagerForChainRun,
+    CallbackManagerForChainRun,
+)
+from langchain_chain.prompts.base import StringPromptValue
+from langchain_chain.schema import LLMResult, PromptValue
 
 from llm_guard import scan_output, scan_prompt
 from llm_guard.input_scanners import Anonymize, PromptInjection, TokenLimit, Toxicity
@@ -34,8 +37,13 @@ class LLMGuardChain(LLMChain):
     """
 
     input_scanners: List[Any] = []
+    """The input scanners to use."""
     output_scanners: List[Any] = []
+    """The output scanners to use."""
     raise_error: bool = True
+    """Whether to raise an error if the LLMGuard marks the prompt or result invalid."""
+    fail_fast: bool = True
+    """Whether to fail fast if the LLMGuard marks the prompt or result invalid."""
 
     def _call(
         self,
@@ -66,14 +74,14 @@ class LLMGuardChain(LLMChain):
     def scan_prompts(self, prompts: List[PromptValue]) -> List[PromptValue]:
         for index, prompt in enumerate(prompts):
             sanitized_prompt, results_valid, results_score = scan_prompt(
-                self.input_scanners, prompt.to_string()
+                self.input_scanners, prompt.to_string(), self.fail_fast
             )
             if any(not result for result in results_valid.values()):
-                logger.warning(f"Prompt {sanitized_prompt} is not valid, scores: {results_score}")
+                logger.warning(f"Prompt '{sanitized_prompt}' is not valid, scores: {results_score}")
 
                 if self.raise_error:
                     raise LLMGuardPromptInvalidException(
-                        f"Prompt {prompt} is invalid based on scores {results_score}."
+                        f"Prompt is invalid based on scores {results_score}."
                     )
 
             prompts[index] = StringPromptValue(text=sanitized_prompt)
@@ -88,9 +96,13 @@ class LLMGuardChain(LLMChain):
                     self.output_scanners, prompt_strings[i], gen_item.text
                 )
                 if any(not result for result in results_valid.values()):
+                    logger.warning(
+                        f"Output '{gen_item.text}' is not valid, scores: {results_score}"
+                    )
+
                     if self.raise_error:
                         raise LLMGuardOutputInvalidException(
-                            f"Output {gen_item.text} is invalid based on scores {results_score}."
+                            f"Output is invalid based on scores {results_score}."
                         )
                 gen_list[i2].text = sanitized_response_text
             llm_result.generations[i] = gen_list
@@ -125,7 +137,7 @@ class LLMGuardChain(LLMChain):
     async def ascan_prompts(self, prompts: List[PromptValue]) -> List[PromptValue]:
         for index, prompt in enumerate(prompts):
             sanitized_prompt, results_valid, results_score = scan_prompt(
-                self.input_scanners, prompt.to_string()
+                self.input_scanners, prompt.to_string(), self.fail_fast
             )
             if any(results_valid.values()) is False:
                 logger.warning(f"Prompt {prompt} is not valid, scores: {results_score}")
@@ -144,7 +156,7 @@ class LLMGuardChain(LLMChain):
         for i, gen_list in enumerate(llm_result.generations):
             for i2, gen_item in enumerate(gen_list):
                 sanitized_response_text, results_valid, results_score = scan_output(
-                    self.output_scanners, prompt_strings[i], gen_item.text
+                    self.output_scanners, prompt_strings[i], gen_item.text, self.fail_fast
                 )
                 if any(results_valid.values()) is False:
                     if self.raise_error:

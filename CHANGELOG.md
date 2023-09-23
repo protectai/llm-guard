@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Updated API and Playground to support `fail_fast` flag
   - Clarified order of execution in the documentation
 - Added timeout configuration for API example
+- Better examples of `langchain` integration
 
 ### Removed
 -
