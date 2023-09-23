@@ -14,15 +14,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -
 
 ### Changed
+-
+
+### Removed
+-
+
+## [0.2.3] - 2023-09-23
+
+### Changed
 - Added Swagger documentation on the [API](https://llm-guard.com/usage/api/) documentation page
 - Added `fail_fast` flag to stop the execution after the first failure
   - Updated API and Playground to support `fail_fast` flag
   - Clarified order of execution in the documentation
 - Added timeout configuration for API example
 - Better examples of `langchain` integration
-
-### Removed
--
 
 ## [0.2.2] - 2023-09-21
 
@@ -152,6 +157,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - [Toxicity](./llm_guard/output_scanners/toxicity.py)
 
 [Unreleased]: https://github.com/laiyer-ai/llm-guard/commits/main
+[0.2.3]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.2.3
 [0.2.2]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.2.2
 [0.2.1]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.2.1
 [0.2.0]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.2.0

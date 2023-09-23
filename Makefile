@@ -39,7 +39,7 @@ build:
 
 publish:
 	@echo "Publishing to PyPI..."
-	@twine upload dist/*
+	@twine upload dist/* --repository llm-guard
 
 docs-serve:
 	@echo "Serving documentation..."
