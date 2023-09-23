@@ -1,9 +1,13 @@
+import asyncio
+import concurrent.futures
 import logging
+import time
+from datetime import timedelta
 
 import schemas
 from cache import InMemoryCache
 from config import get_env_config, load_scanners_from_config
-from fastapi import FastAPI, status
+from fastapi import FastAPI, HTTPException, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
@@ -77,24 +81,47 @@ def register_routes(
         return JSONResponse({"status": "ready"})
 
     @app.post("/analyze/output", tags=["Analyze"])
-    def analyze_output(request: schemas.AnalyzeOutputRequest) -> schemas.AnalyzeOutputResponse:
+    async def analyze_output(
+        request: schemas.AnalyzeOutputRequest,
+    ) -> schemas.AnalyzeOutputResponse:
         logger.debug(f"Received analyze request: {request}")
 
-        sanitized_output, results_valid, results_score = scan_output(
-            output_scanners, request.prompt, request.output, config["scan_fail_fast"]
-        )
-        response = schemas.AnalyzeOutputResponse(
-            sanitized_output=sanitized_output,
-            is_valid=all(results_valid.values()),
-            scanners=results_score,
-        )
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            loop = asyncio.get_event_loop()
+            try:
+                start_time = time.monotonic()
+                sanitized_output, results_valid, results_score = await asyncio.wait_for(
+                    loop.run_in_executor(
+                        executor,
+                        scan_output,
+                        output_scanners,
+                        request.prompt,
+                        request.output,
+                        config["scan_fail_fast"],
+                    ),
+                    timeout=config["scan_output_timeout"],
+                )
 
-        logger.debug(f"Sanitized response with the score: {results_score}")
+                response = schemas.AnalyzeOutputResponse(
+                    sanitized_output=sanitized_output,
+                    is_valid=all(results_valid.values()),
+                    scanners=results_score,
+                )
+                elapsed_time = timedelta(seconds=time.monotonic() - start_time)
+                logger.debug(
+                    f"Sanitized response with the score: {results_score}. Elapsed time: {elapsed_time}"
+                )
+            except asyncio.TimeoutError:
+                raise HTTPException(
+                    status_code=status.HTTP_408_REQUEST_TIMEOUT, detail="Request timeout."
+                )
 
         return response
 
     @app.post("/analyze/prompt", tags=["Analyze"])
-    def analyze_prompt(request: schemas.AnalyzePromptRequest) -> schemas.AnalyzePromptResponse:
+    async def analyze_prompt(
+        request: schemas.AnalyzePromptRequest,
+    ) -> schemas.AnalyzePromptResponse:
         logger.debug(f"Received analyze request: {request}")
         cached_result = cache.get(request.prompt)
 
@@ -104,18 +131,36 @@ def register_routes(
 
             return schemas.AnalyzePromptResponse(**cached_result)
 
-        sanitized_prompt, results_valid, results_score = scan_prompt(
-            input_scanners, request.prompt, config["scan_fail_fast"]
-        )
-        response = schemas.AnalyzePromptResponse(
-            sanitized_prompt=sanitized_prompt,
-            is_valid=all(results_valid.values()),
-            scanners=results_score,
-        )
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            loop = asyncio.get_event_loop()
+            try:
+                start_time = time.monotonic()
+                sanitized_prompt, results_valid, results_score = await asyncio.wait_for(
+                    loop.run_in_executor(
+                        executor,
+                        scan_prompt,
+                        input_scanners,
+                        request.prompt,
+                        config["scan_fail_fast"],
+                    ),
+                    timeout=config["scan_prompt_timeout"],
+                )
 
-        cache.set(request.prompt, response.dict())
+                response = schemas.AnalyzePromptResponse(
+                    sanitized_prompt=sanitized_prompt,
+                    is_valid=all(results_valid.values()),
+                    scanners=results_score,
+                )
+                cache.set(request.prompt, response.dict())
 
-        logger.debug(f"Sanitized response with the score: {results_score}")
+                elapsed_time = timedelta(seconds=time.monotonic() - start_time)
+                logger.debug(
+                    f"Sanitized response with the score: {results_score}. Elapsed time: {elapsed_time}"
+                )
+            except asyncio.TimeoutError:
+                raise HTTPException(
+                    status_code=status.HTTP_408_REQUEST_TIMEOUT, detail="Request timeout."
+                )
 
         return response
 
@@ -127,16 +172,15 @@ def register_routes(
     async def http_exception_handler(request, exc):
         logger.warning(f"HTTP exception: {exc}. Request {request}")
 
-        return JSONResponse(str(exc.detail), status_code=exc.status_code)
+        return JSONResponse(
+            {"message": str(exc.detail), "details": None}, status_code=exc.status_code
+        )
 
     @app.exception_handler(RequestValidationError)
     async def validation_exception_handler(request, exc):
         logger.warning(f"Invalid request: {exc}. Request {request}")
 
-        response = {"message": "Validation failed", "details": []}
-        for error in exc.errors():
-            response["details"].append(f"{'.'.join(error['loc'])}: {error['msg']}")
-
+        response = {"message": "Validation failed", "details": exc.errors()}
         return JSONResponse(
             jsonable_encoder(response), status_code=status.HTTP_422_UNPROCESSABLE_ENTITY
         )

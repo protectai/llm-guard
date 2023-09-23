@@ -19,7 +19,7 @@ install:
 	python -m spacy download en_core_web_trf
 
 run:
-	@uvicorn app:app --reload
+	DEBUG=true uvicorn app:app --reload
 
 build-docker:
 	@docker build -t $(DOCKER_IMAGE_NAME):$(VERSION) .

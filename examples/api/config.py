@@ -18,6 +18,12 @@ def get_env_config() -> Dict:
         "scan_fail_fast": os.environ.get(
             "SCAN_FAIL_FAST", False
         ),  # If true, will stop scanning after the first scanner fails. Default is false.
+        "scan_prompt_timeout": os.environ.get(
+            "SCAN_PROMPT_TIMEOUT", 10
+        ),  # Time in seconds after which a prompt scan will timeout. Default is 10 seconds.
+        "scan_output_timeout": os.environ.get(
+            "SCAN_OUTPUT_TIMEOUT", 30
+        ),  # Time in seconds after which an output scan will timeout. Default is 30 seconds.
         "cache_ttl": os.environ.get(
             "CACHE_TTL", 60 * 60
         ),  # Time in seconds after which a cached item expires. Default is 1 hour.

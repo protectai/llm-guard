@@ -38,6 +38,8 @@ make run-docker
 - `CACHE_MAX_SIZE` (int): Maximum number of items in the cache. Default is unlimited.
 - `CACHE_TTL` (int): Time in seconds after which a cached item expires. Default is 1 hour.
 - `SCAN_FAIL_FAST` (bool): Stop scanning after the first failed check. Default is `False`.
+- `SCAN_PROMPT_TIMEOUT` (int): Time in seconds after which a prompt scan will timeout. Default is 10 seconds.
+- `SCAN_OUTPUT_TIMEOUT` (int): Time in seconds after which an output scan will timeout. Default is 30 seconds.
 
 ### Scanners
 

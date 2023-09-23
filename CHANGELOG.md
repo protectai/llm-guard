@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Swagger documentation on the [API](https://llm-guard.com/usage/api/) documentation page
 - Added `fail_fast` flag to stop the execution after the first failure
   - Updated API and Playground to support `fail_fast` flag
+  - Clarified order of execution in the documentation
+- Added timeout configuration for API example
 
 ### Removed
 -
