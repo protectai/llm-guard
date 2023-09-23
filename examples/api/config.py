@@ -1,4 +1,5 @@
 import logging
+import os
 from typing import Dict, List, Optional
 
 import yaml
@@ -7,6 +8,23 @@ from llm_guard import input_scanners, output_scanners
 from llm_guard.vault import Vault
 
 logger = logging.getLogger(__name__)
+
+
+def get_env_config() -> Dict:
+    return {
+        "debug": os.environ.get(
+            "DEBUG", False
+        ),  # If true, will enable debug logging. Default is false.
+        "scan_fail_fast": os.environ.get(
+            "SCAN_FAIL_FAST", False
+        ),  # If true, will stop scanning after the first scanner fails. Default is false.
+        "cache_ttl": os.environ.get(
+            "CACHE_TTL", 60 * 60
+        ),  # Time in seconds after which a cached item expires. Default is 1 hour.
+        "cache_max_size": os.environ.get(
+            "CACHE_MAX_SIZE", None
+        ),  # Maximum number of items to store in the cache. Default is unlimited
+    }
 
 
 def load_scanners_from_config(

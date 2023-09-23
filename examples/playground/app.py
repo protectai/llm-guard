@@ -41,6 +41,10 @@ Scanning prompt and output using [LLM Guard](https://laiyer-ai.github.io/llm-gua
 
 scanner_type = st.sidebar.selectbox("Type", [PROMPT, OUTPUT], index=0)
 
+st_fail_fast = st.sidebar.checkbox(
+    "Fail fast", value=False, help="Stop scanning after first failure"
+)
+
 enabled_scanners = None
 settings = None
 if scanner_type == PROMPT:
@@ -105,11 +109,11 @@ try:
             start_time = time.monotonic()
             if scanner_type == PROMPT:
                 st_result_text, results_valid, results_score = scan_prompt(
-                    vault, enabled_scanners, settings, st_prompt_text
+                    vault, enabled_scanners, settings, st_prompt_text, st_fail_fast
                 )
             elif scanner_type == OUTPUT:
                 st_result_text, results_valid, results_score = scan_output(
-                    vault, enabled_scanners, settings, st_prompt_text, st_output_text
+                    vault, enabled_scanners, settings, st_prompt_text, st_output_text, st_fail_fast
                 )
             end_time = time.monotonic()
             st_time_delta = timedelta(seconds=end_time - start_time)

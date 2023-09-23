@@ -320,19 +320,26 @@ def get_scanner(scanner_name: str, vault: Vault, settings: Dict):
 
 
 def scan(
-    vault: Vault, enabled_scanners: List[str], settings: Dict, text: str
+    vault: Vault, enabled_scanners: List[str], settings: Dict, text: str, fail_fast: bool = False
 ) -> (str, Dict[str, bool], Dict[str, float]):
     sanitized_prompt = text
     results_valid = {}
     results_score = {}
 
-    with st.status("Scanning prompt...", expanded=True) as status:
+    status_text = "Scanning prompt..."
+    if fail_fast:
+        status_text = "Scanning prompt (fail fast mode)..."
+
+    with st.status(status_text, expanded=True) as status:
         for scanner_name in enabled_scanners:
             st.write(f"{scanner_name} scanner...")
             scanner = get_scanner(scanner_name, vault, settings[scanner_name])
             sanitized_prompt, is_valid, risk_score = scanner.scan(sanitized_prompt)
             results_valid[scanner_name] = is_valid
             results_score[scanner_name] = risk_score
+
+            if fail_fast and not is_valid:
+                break
         status.update(label="Scanning complete", state="complete", expanded=False)
 
     return sanitized_prompt, results_valid, results_score

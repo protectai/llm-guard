@@ -1,9 +1,8 @@
 import logging
-import os
 
 import schemas
 from cache import InMemoryCache
-from config import load_scanners_from_config
+from config import get_env_config, load_scanners_from_config
 from fastapi import FastAPI, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
@@ -14,23 +13,28 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from llm_guard import scan_output, scan_prompt
 from llm_guard.vault import Vault
 
+config = get_env_config()
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
-is_debug = os.environ.get("DEBUG", True)
+is_debug = config["debug"]
 if is_debug:
     logger.setLevel(logging.DEBUG)
 
-version = "0.0.1"
+version = "0.0.2"
 
 
 def create_app():
     cache = InMemoryCache(
-        max_size=os.environ.get("CACHE_MAX_SIZE", None),
-        expiration_time=os.environ.get("CACHE_TTL", 60 * 60),
+        max_size=config["cache_ttl"],
+        expiration_time=config["cache_ttl"],
     )
 
     vault = Vault()
     input_scanners, output_scanners = load_scanners_from_config(vault)
+
+    if config["scan_fail_fast"] == True:
+        logger.debug("Scan fail fast is enabled")
 
     app = FastAPI(
         title="LLM Guard API",
@@ -77,7 +81,7 @@ def register_routes(
         logger.debug(f"Received analyze request: {request}")
 
         sanitized_output, results_valid, results_score = scan_output(
-            output_scanners, request.prompt, request.output
+            output_scanners, request.prompt, request.output, config["scan_fail_fast"]
         )
         response = schemas.AnalyzeOutputResponse(
             sanitized_output=sanitized_output,
@@ -100,7 +104,9 @@ def register_routes(
 
             return schemas.AnalyzePromptResponse(**cached_result)
 
-        sanitized_prompt, results_valid, results_score = scan_prompt(input_scanners, request.prompt)
+        sanitized_prompt, results_valid, results_score = scan_prompt(
+            input_scanners, request.prompt, config["scan_fail_fast"]
+        )
         response = schemas.AnalyzePromptResponse(
             sanitized_prompt=sanitized_prompt,
             is_valid=all(results_valid.values()),
