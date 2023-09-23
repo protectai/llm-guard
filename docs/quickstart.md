@@ -58,3 +58,7 @@ if any(not result for result in results_valid.values()):
 
 print(f"Output: {sanitized_response_text}\n")
 ```
+
+!!! note
+
+    You can set `fail_fast` to `True` to stop scanning after the first invalid result. This can help to reduce the latency of the scanning.

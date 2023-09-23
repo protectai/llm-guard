@@ -1,5 +1,5 @@
 import logging
-from typing import Dict
+from typing import Dict, Optional
 
 from .input_scanners.base import Scanner as InputScanner
 from .output_scanners.base import Scanner as OutputScanner
@@ -19,7 +19,7 @@ These functions return the processed string after all scanners have been applied
 
 
 def scan_prompt(
-    scanners: list[InputScanner], prompt: str
+    scanners: list[InputScanner], prompt: str, fail_fast: Optional[bool] = False
 ) -> (str, Dict[str, bool], Dict[str, float]):
     """
     Scans a given prompt using the provided scanners.
@@ -27,6 +27,7 @@ def scan_prompt(
     Args:
         scanners: A list of scanner objects. Each scanner should be an instance of a class that inherits from `Scanner`.
         prompt: The input prompt string to be scanned.
+        fail_fast: A boolean value indicating whether to stop scanning after the first scanner fails.
 
     Returns:
         A tuple containing:
@@ -46,12 +47,14 @@ def scan_prompt(
         sanitized_prompt, is_valid, risk_score = scanner.scan(sanitized_prompt)
         results_valid[type(scanner).__name__] = is_valid
         results_score[type(scanner).__name__] = risk_score
+        if fail_fast and not is_valid:
+            break
 
     return sanitized_prompt, results_valid, results_score
 
 
 def scan_output(
-    scanners: list[OutputScanner], prompt: str, output: str
+    scanners: list[OutputScanner], prompt: str, output: str, fail_fast: Optional[bool] = False
 ) -> (str, Dict[str, bool], Dict[str, float]):
     """
     Scans a given output of a large language model using the provided scanners.
@@ -60,6 +63,7 @@ def scan_output(
         scanners: A list of scanner objects. Each scanner should be an instance of a class that inherits from `Scanner`.
         prompt: The input prompt string that produced the output.
         output: The output string to be scanned.
+        fail_fast: A boolean value indicating whether to stop scanning after the first scanner fails.
 
     Returns:
         A tuple containing:
@@ -79,5 +83,7 @@ def scan_output(
         sanitized_output, is_valid, risk_score = scanner.scan(prompt, sanitized_output)
         results_valid[type(scanner).__name__] = is_valid
         results_score[type(scanner).__name__] = risk_score
+        if fail_fast and not is_valid:
+            break
 
     return sanitized_output, results_valid, results_score
