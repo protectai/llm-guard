@@ -28,7 +28,7 @@ def get_env_config() -> Dict:
 
 
 def load_scanners_from_config(
-    vault: Vault, file_name: Optional[str] = "config.yml"
+    vault: Vault, file_name: Optional[str] = "scanners.yml"
 ) -> (List, List):
     logger.debug(f"Loading config file: {file_name}")
 

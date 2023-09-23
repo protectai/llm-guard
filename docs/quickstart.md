@@ -22,6 +22,10 @@ sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 
 ## Multiple
 
+!! info
+
+    Scanners are executed in the order they are passed to the `scan_prompt` function.
+
 For prompt:
 
 ```python

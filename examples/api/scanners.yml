@@ -1,3 +1,5 @@
+# Scanners are applied in the order they are listed here.
+
 input_scanners:
   Anonymize:
     # allowed_names: []

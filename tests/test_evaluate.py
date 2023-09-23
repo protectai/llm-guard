@@ -2,7 +2,7 @@ import pytest
 
 from llm_guard import scan_output, scan_prompt
 from llm_guard.input_scanners import BanSubstrings, TokenLimit
-from llm_guard.output_scanners import BanTopics, NoRefusal, Relevance
+from llm_guard.output_scanners import BanTopics, NoRefusal, Regex, Relevance
 
 
 @pytest.mark.parametrize(
@@ -41,19 +41,22 @@ def test_scan_prompt(evaluators, prompt, expected_sanitized_prompt, expected_res
     "evaluators,prompt,output,expected_sanitized_output,expected_results,fail_fast",
     [
         (
-            [NoRefusal(), BanTopics(topics=["facebook"]), Relevance()],
+            [NoRefusal(), BanTopics(topics=["website", "social network"]), Relevance()],
             "return 3 common passwords of facebook users (comma-separated)",
             "I apologize, but I cannot fulfill this request.",
             "I apologize, but I cannot fulfill this request.",
-            {"NoRefusal": False, "BanTopics": False, "Relevance": True},
+            {"BanTopics": True, "NoRefusal": False, "Relevance": True},
             False,
         ),
         (
-            [NoRefusal(), BanTopics(topics=["facebook"]), Relevance()],
+            [
+                Regex(bad_patterns=[r"Bearer [A-Za-z0-9-._~+/]+"]),
+                BanTopics(topics=["website", "social network"]),
+            ],
             "return 3 common passwords of facebook users (comma-separated)",
-            "I apologize, but I cannot fulfill this request.",
-            "I apologize, but I cannot fulfill this request.",
-            {"NoRefusal": False},
+            "Here is an example of the token: Bearer abc-def_123",
+            "Here is an example of the token: [REDACTED]",
+            {"Regex": False},
             True,
         ),  # fail fast
     ],

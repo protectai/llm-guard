@@ -34,18 +34,22 @@ make run-docker
 
 ## Configuration
 
-It can be configured using environment variables:
+### Environment variables
 
 - `DEBUG` (bool): Enable debug mode
 - `CACHE_MAX_SIZE` (int): Maximum number of items in the cache. Default is unlimited.
 - `CACHE_TTL` (int): Time in seconds after which a cached item expires. Default is 1 hour.
 - `SCAN_FAIL_FAST` (bool): Stop scanning after the first failed check. Default is `False`.
 
-Also, you can configure each scanner in `config.yml` referring to their names and parameters.
-
 !!! note
 
     We recommend to enable `SCAN_FAIL_FAST` to avoid unnecessary scans.
+
+### Scanners
+
+You can configure scanners in `scanners.yml` referring to their names and parameters.
+
+Scanners will be executed in the order of configuration.
 
 ## Deploy Docker
 
