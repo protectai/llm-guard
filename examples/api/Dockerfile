@@ -23,7 +23,7 @@ COPY app.py .
 COPY schemas.py .
 COPY cache.py .
 COPY config.py .
-COPY config.yml .
+COPY scanners.yml .
 
 # Create a non-root user and set user environment variables
 RUN useradd -m -u 1000 user
