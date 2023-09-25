@@ -7,7 +7,7 @@ mkdocs-material==9.3.1
 mkdocs-material-extensions==1.1.1
 mkdocs-swagger-ui-tag==0.6.5
 mkdocstrings==0.23.0
-mkdocstrings-python==1.6.1
+mkdocstrings-python==1.7.0
 pytest==7.4.2
 pytest-benchmark==4.0.0
 pytest-cov==4.1.0
