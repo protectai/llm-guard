@@ -6,7 +6,7 @@ from transformers import (
     TextClassificationPipeline,
 )
 
-from llm_guard.util import device
+from llm_guard.util import device_int
 
 from .base import Scanner
 
@@ -40,7 +40,7 @@ class PromptInjection(Scanner):
         self._text_classification_pipeline = TextClassificationPipeline(
             model=model,
             tokenizer=self._tokenizer,
-            device=device,
+            device=device_int,
         )
         log.debug(f"Initialized model {_model_path} on device {device}")
 
