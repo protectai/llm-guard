@@ -14,10 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -
 
 ### Changed
--
+- Using another Bias detection model which works better on different devices [valurank/distilroberta-bias](https://huggingface.co/valurank/distilroberta-bias)
 
 ### Removed
--
+- Usage of `accelerate` library for inference. Instead, it will detect device using `torch`
 
 ## [0.2.3] - 2023-09-23
 

@@ -1,13 +1,13 @@
 import logging
 
-from transformers import AutoTokenizer, TFAutoModelForSequenceClassification, pipeline
+from transformers import pipeline
 
-from llm_guard.util import device_int as device
+from llm_guard.util import device
 
 from .base import Scanner
 
 log = logging.getLogger(__name__)
-_model_path = "d4data/bias-detection-model"
+_model_path = "valurank/distilroberta-bias"
 
 
 class Bias(Scanner):
@@ -25,13 +25,9 @@ class Bias(Scanner):
         """
         self._threshold = threshold
 
-        tokenizer = AutoTokenizer.from_pretrained(_model_path)
-        model = TFAutoModelForSequenceClassification.from_pretrained(_model_path)
-
         self._classifier = pipeline(
             "text-classification",
-            model=model,
-            tokenizer=tokenizer,
+            model=_model_path,
             device=device,
         )
         log.debug(f"Initialized model {_model_path} on device {device}")
@@ -41,10 +37,9 @@ class Bias(Scanner):
             return output, True, 0.0
 
         classifier_output = self._classifier(output)
-
         score = (
             classifier_output[0]["score"]
-            if classifier_output[0]["label"] == "Biased"
+            if classifier_output[0]["label"] == "BIASED"
             else 1 - classifier_output[0]["score"]
         )
         if score > self._threshold:

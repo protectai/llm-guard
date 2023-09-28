@@ -13,7 +13,7 @@ this by detecting and quantifying biases in generated content.
 ## How it works
 
 The scanner utilizes a model from
-HuggingFace: [d4data/bias-detection-model](https://huggingface.co/d4data/bias-detection-model). This model is
+HuggingFace: [valurank/distilroberta-bias](https://huggingface.co/valurank/distilroberta-bias). This model is
 specifically trained to detect biased statements in text. By examining a text's classification and score against a
 predefined threshold, the scanner determines whether it's biased.
 

@@ -13,7 +13,7 @@ from llm_guard.output_scanners.bias import Bias
             "Christians should make clear that the perpetuation of objectionable vaccines and the lack of "
             "alternatives is a kind of coercion.",
             False,
-            0.91,
+            0.77,
         ),  # biased example
         (
             "Who was on the protest?",

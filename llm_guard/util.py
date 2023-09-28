@@ -2,7 +2,7 @@ import json
 import logging
 from typing import Dict, List
 
-from accelerate import Accelerator
+import torch
 
 log = logging.getLogger(__name__)
 
@@ -12,9 +12,9 @@ This is meant for internal use and not part of the public API.
 """
 
 # Detect pytorch device
-accelerator = Accelerator()
-device = accelerator.device
-device_int = 0 if device.type == "cuda" else -1
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+if torch.backends.mps.is_available() and torch.backends.mps.is_built():
+    device = torch.device("mps")
 
 
 def read_json_file(json_path: str) -> Dict[str, List[str]]:
