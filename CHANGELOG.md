@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
--
+- Langchain [example](examples/langchain_lcel.py) using [LangChain Expression Language (LCEL)](https://python.langchain.com/docs/expression_language/)
 
 ### Fixed
 -

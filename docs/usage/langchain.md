@@ -31,3 +31,9 @@ Example can be found in [langchain_llm.py](https://github.com/laiyer-ai/llm-guar
 
 In [langchain_chain.py](https://github.com/laiyer-ai/llm-guard/blob/main/examples/langchain_chain.py), you can find
 custom `LLMGuard` chain, which can be used instead of common `LLMChain`.
+
+## LangChain Expression Language (LCEL)
+
+[LangChain Expression Language or LCEL](https://python.langchain.com/docs/expression_language/) is a declarative way to easily compose chains together.
+
+In [examples/langchain_lcel.py](https://github.com/laiyer-ai/llm-guard/blob/main/examples/examples/langchain_lcel.py), you can find an example of how to use LCEL to compose LLM Guard chains.
