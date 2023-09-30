@@ -11,6 +11,7 @@ input_scanners:
     substrings: ["test"]
     match_type: "word"
     case_sensitive: false
+    redact: false
   BanTopics:
     topics: ["religion"]
     threshold: 0.75
@@ -36,6 +37,7 @@ output_scanners:
     match_type: "word"
     case_sensitive: false
     substrings: ["test"]
+    redact: false
   BanTopics:
     threshold: 0.75
     topics: ["politics"]

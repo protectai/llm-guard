@@ -27,6 +27,7 @@ class BanSubstrings(Scanner):
         match_type: str = "str",
         case_sensitive: bool = False,
         substrings: List[str] = None,
+        redact: bool = False,
     ):
         """
         Initialize BanSubstrings object.
@@ -37,6 +38,7 @@ class BanSubstrings(Scanner):
                                         Default is 'str'.
             case_sensitive (bool, optional): Flag to indicate if the match should be case-sensitive. Default is False.
             substrings (List[str], optional): List of substrings to ban.
+            redact (bool, optional): Flag to indicate if the banned substrings should be redacted. Default is False.
         Raises:
             ValueError: If no substrings are provided or match_type is not 'str' or 'word'.
         """
@@ -50,6 +52,14 @@ class BanSubstrings(Scanner):
         self._match_type = match_type  # str or word
         self._case_sensitive = case_sensitive
         self._substrings = substrings
+        self._redact = redact
+
+    @staticmethod
+    def _redact_text(text: str, substrings: List[str]) -> str:
+        redacted_text = text
+        for s in substrings:
+            redacted_text = redacted_text.replace(s, "[REDACTED]")
+        return redacted_text
 
     def scan(self, prompt: str) -> (str, bool, float):
         match = False
@@ -69,6 +79,11 @@ class BanSubstrings(Scanner):
 
         if match:
             log.warning(f"Found the following banned substrings: {matched_substrings}")
+
+            if self._redact:
+                prompt = self._redact_text(prompt, matched_substrings)
+                log.debug("Redacted banned substrings")
+
             return prompt, False, 1.0
 
         log.debug("No banned substrings found")

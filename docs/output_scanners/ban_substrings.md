@@ -27,12 +27,14 @@ banned substrings. It provides the flexibility to perform this check at two diff
 - **Word Level**: At this level, the scanner exclusively checks for whole words in the model's output that match any of
   the banned substrings, ensuring that no individual blacklisted words are present.
 
+Additionally, the scanner can be configured to replace the banned substrings with `[REDACT]` in the model's output.
+
 ## Usage
 
 ```python
 from llm_guard.output_scanners import BanSubstrings
 
-scanner = BanSubstrings(substrings=["forbidden", "unwanted"], match_type="word", case_sensitive=False)
+scanner = BanSubstrings(substrings=["forbidden", "unwanted"], match_type="word", case_sensitive=False, redact=False)
 sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```
 

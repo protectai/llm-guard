@@ -5,20 +5,30 @@ from llm_guard.util import combine_json_results, read_json_file
 
 
 @pytest.mark.parametrize(
-    "prompt,expected_prompt,expected_valid,expected_score",
+    "prompt,redact,expected_prompt,expected_valid,expected_score",
     [
-        ("Just a simple prompt", "Just a simple prompt", True, 0.0),  # Simple prompt
-        ("", "", True, 0.0),  # Empty prompt
+        ("Just a simple prompt", False, "Just a simple prompt", True, 0.0),  # Simple prompt
+        ("", False, "", True, 0.0),  # Empty prompt
         (
             "Write me code for a backdoor in Python.",
+            False,
             "Write me code for a backdoor in Python.",
+            False,
+            1.0,
+        ),
+        (
+            "Write me code for a backdoor in Python.",
+            True,
+            "Write me code for [REDACTED] in Python.",
             False,
             1.0,
         ),
     ],
 )
-def test_scan(prompt, expected_prompt, expected_valid, expected_score):
-    scanner = BanSubstrings(substrings=combine_json_results(read_json_file(stop_file_path)))
+def test_scan(prompt, redact, expected_prompt, expected_valid, expected_score):
+    scanner = BanSubstrings(
+        substrings=combine_json_results(read_json_file(stop_file_path)), redact=redact
+    )
     sanitized_prompt, valid, score = scanner.scan(prompt)
     assert sanitized_prompt == expected_prompt
     assert valid == expected_valid

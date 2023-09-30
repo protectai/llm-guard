@@ -66,11 +66,13 @@ def init_settings() -> (List, Dict):
 
             st_bs_match_type = st.selectbox("Match type", ["str", "word"])
             st_bs_case_sensitive = st.checkbox("Case sensitive", value=False)
+            st_bs_redact = st.checkbox("Redact", value=False)
 
         settings["BanSubstrings"] = {
             "substrings": st_bs_substrings,
             "match_type": st_bs_match_type,
             "case_sensitive": st_bs_case_sensitive,
+            "redact": st_bs_redact,
         }
 
     if "BanTopics" in st_enabled_scanners:
@@ -309,6 +311,7 @@ def get_scanner(scanner_name: str, vault: Vault, settings: Dict):
             substrings=settings["substrings"],
             match_type=settings["match_type"],
             case_sensitive=settings["case_sensitive"],
+            redact=settings["redact"],
         )
 
     if scanner_name == "BanTopics":
