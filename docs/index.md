@@ -38,27 +38,37 @@ python -m spacy download en_core_web_trf
 
 ## Roadmap
 
-**General:**
+### General
 
-- [x] Introduce support of GPU
-- [x] Improve documentation by showing use-cases, benchmarks, etc
-- [ ] Hosted version of LLM Guard
-- [ ] Text statistics to provide on prompt and output
-- [ ] Support more languages
-- [ ] Accept multiple outputs instead of one to compare
-- [ ] Support streaming mode
+- [ ] Extend language support to cover popular and emerging languages, prioritize based on community feedback.
+- [ ] Allow comparison of multiple outputs to facilitate better analysis and choice.
+- [ ] Enable scanning of logits to support streaming mode.
+- [ ] Expand examples and integrations, ensuring they cover common use-cases and are easy to follow.
 
-**Prompt Scanner:**
+### Latency
 
-- [ ] Integrate with Perspective API for Toxicity scanner
-- [ ] Develop language restricting scanner
+- [ ] Implement parallel scanning using multiprocessing to significantly reduce scanning time.
+- [ ] Provide an option to utilize lighter models for quicker scanning, while maintaining an acceptable level of accuracy.
+- [ ] Incorporate LRU cache to optimize performance by reusing previous results where applicable.
 
-**Output Scanner:**
+### Prompt Scanners
 
-- [ ] Develop output scanners for the format (e.g. max length, correct JSON, XML, etc)
-- [ ] Develop factual consistency scanner
-- [ ] Develop libraries hallucination scanner
-- [ ] Develop libraries licenses scanner
+- [ ] Allow language restriction to focus scanning efforts and improve accuracy.
+- [ ] Utilize expressions for code detection to reduce dependency on models, improving speed and reliability.
+- [ ] Integrate yara for secret detection to enhance security scanning capabilities.
+- [ ] Sanitize text.
+- [ ] Support a variety of token calculators to offer more flexibility and compatibility.
+
+### Output Scanners
+
+- [ ] Sanitize text to maintain a clean, accurate scanning process.
+- [ ] Validate output formats like JSON, XML to ensure they adhere to standards.
+- [ ] Incorporate factual consistency checking to uphold the reliability of the data.
+- [ ] Scan for vulnerable libraries and provide recommendations for safer alternatives.
+- [ ] Check for license compliance to ensure legal integrity.
+- [ ] Detect insecure code patterns.
+- [ ] Identify potential SQL injection points to enhance security.
+- [ ] Verify links and provide options for whitelisting or blacklisting to maintain the quality of references.
 
 ## Contributing
 
