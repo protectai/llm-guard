@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - One `logger` for all scanners
 - `device` became function to lazy load (avoid `torch` import when unnecessary)
 - Lazy load dependencies in scanners
+- Added elapsed time in logs of `evaluate_prompt` and `evaluate_output` functions
 
 ### Removed
 - Usage of `accelerate` library for inference. Instead, it will detect device using `torch`

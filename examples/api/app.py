@@ -2,7 +2,6 @@ import asyncio
 import concurrent.futures
 import logging
 import time
-from datetime import timedelta
 
 import schemas
 from cache import InMemoryCache
@@ -89,7 +88,7 @@ def register_routes(
         with concurrent.futures.ThreadPoolExecutor() as executor:
             loop = asyncio.get_event_loop()
             try:
-                start_time = time.monotonic()
+                start_time = time.time()
                 sanitized_output, results_valid, results_score = await asyncio.wait_for(
                     loop.run_in_executor(
                         executor,
@@ -107,9 +106,9 @@ def register_routes(
                     is_valid=all(results_valid.values()),
                     scanners=results_score,
                 )
-                elapsed_time = timedelta(seconds=time.monotonic() - start_time)
+                elapsed_time = time.time() - start_time
                 logger.debug(
-                    f"Sanitized response with the score: {results_score}. Elapsed time: {elapsed_time}"
+                    f"Sanitized response with the score: {results_score}. Elapsed time: {elapsed_time:.6f} seconds"
                 )
             except asyncio.TimeoutError:
                 raise HTTPException(
@@ -134,7 +133,7 @@ def register_routes(
         with concurrent.futures.ThreadPoolExecutor() as executor:
             loop = asyncio.get_event_loop()
             try:
-                start_time = time.monotonic()
+                start_time = time.time()
                 sanitized_prompt, results_valid, results_score = await asyncio.wait_for(
                     loop.run_in_executor(
                         executor,
@@ -153,9 +152,9 @@ def register_routes(
                 )
                 cache.set(request.prompt, response.dict())
 
-                elapsed_time = timedelta(seconds=time.monotonic() - start_time)
+                elapsed_time = time.time() - start_time
                 logger.debug(
-                    f"Sanitized response with the score: {results_score}. Elapsed time: {elapsed_time}"
+                    f"Sanitized response with the score: {results_score}. Elapsed time: {elapsed_time:.6f} seconds"
                 )
             except asyncio.TimeoutError:
                 raise HTTPException(

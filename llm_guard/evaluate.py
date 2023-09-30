@@ -1,10 +1,9 @@
-import logging
+import time
 from typing import Dict, Optional
 
 from .input_scanners.base import Scanner as InputScanner
 from .output_scanners.base import Scanner as OutputScanner
-
-logging.basicConfig(level=logging.INFO)
+from .util import logger
 
 """
 This file contains main functionality for scanning both prompts and outputs of Large Language Models (LLMs).
@@ -43,12 +42,24 @@ def scan_prompt(
     if len(scanners) == 0 or prompt.strip() == "":
         return sanitized_prompt, results_valid, results_score
 
+    start_time = time.time()
     for scanner in scanners:
+        start_time_scanner = time.time()
         sanitized_prompt, is_valid, risk_score = scanner.scan(sanitized_prompt)
+        elapsed_time_scanner = time.time() - start_time_scanner
+        logger.debug(
+            f"Scanner {type(scanner).__name__}: Valid={is_valid}. Elapsed time: {elapsed_time_scanner:.6f} seconds"
+        )
+
         results_valid[type(scanner).__name__] = is_valid
         results_score[type(scanner).__name__] = risk_score
         if fail_fast and not is_valid:
             break
+
+    elapsed_time = time.time() - start_time
+    logger.info(
+        f"Scanned prompt with the score: {results_score}. Elapsed time: {elapsed_time:.6f} seconds"
+    )
 
     return sanitized_prompt, results_valid, results_score
 
@@ -79,11 +90,23 @@ def scan_output(
     if len(scanners) == 0 or output.strip() == "":
         return sanitized_output, results_valid, results_score
 
+    start_time = time.time()
     for scanner in scanners:
+        start_time_scanner = time.time()
         sanitized_output, is_valid, risk_score = scanner.scan(prompt, sanitized_output)
+        elapsed_time_scanner = time.time() - start_time_scanner
+        logger.debug(
+            f"Scanner {type(scanner).__name__}: Valid={is_valid}. Elapsed time: {elapsed_time_scanner:.6f} seconds"
+        )
+
         results_valid[type(scanner).__name__] = is_valid
         results_score[type(scanner).__name__] = risk_score
         if fail_fast and not is_valid:
             break
+
+    elapsed_time = time.time() - start_time
+    logger.info(
+        f"Scanned output with the score: {results_score}. Elapsed time: {elapsed_time:.6f} seconds"
+    )
 
     return sanitized_output, results_valid, results_score
