@@ -1,15 +1,12 @@
-import logging
 import math
 
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
-from llm_guard.util import device
+from llm_guard.util import device, logger
 
 from .base import Scanner
 
 _model_path = "nicholasKluge/ToxicityModel"
-
-log = logging.getLogger(__name__)
 
 
 class Toxicity(Scanner):
@@ -33,11 +30,11 @@ class Toxicity(Scanner):
 
         self._model = AutoModelForSequenceClassification.from_pretrained(_model_path)
         self._model.eval()
-        self._model.to(device)
+        self._model.to(device())
         self._tokenizer = AutoTokenizer.from_pretrained(_model_path)
         self._threshold = threshold
 
-        log.debug(f"Initialized model {_model_path} on device {device}")
+        logger.debug(f"Initialized model {_model_path} on device {device()}")
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         if prompt.strip() == "":
@@ -51,17 +48,17 @@ class Toxicity(Scanner):
             return_token_type_ids=False,
             return_tensors="pt",
             return_attention_mask=True,
-        ).to(device)
+        ).to(device())
         toxicity_score = self._model(**tokens)[0].item()
         risk_score = round(1 / (1 + math.exp(toxicity_score)), 2)
         if toxicity_score > self._threshold:
-            log.debug(
+            logger.debug(
                 f"Not toxicity in the output. Max score: {toxicity_score}, threshold: {self._threshold}"
             )
 
             return output, True, 0.0
 
-        log.warning(
+        logger.warning(
             f"Detected toxic in the output with score: {toxicity_score}, threshold: {self._threshold}"
         )
 

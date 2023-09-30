@@ -1,5 +1,4 @@
 import hashlib
-import logging
 import os
 import tempfile
 
@@ -7,10 +6,9 @@ from detect_secrets.core.secrets_collection import SecretsCollection
 from detect_secrets.settings import transient_settings
 from presidio_anonymizer.core.text_replace_builder import TextReplaceBuilder
 
+from llm_guard.util import logger
+
 from .base import Scanner
-
-log = logging.getLogger(__name__)
-
 
 _custom_plugins_path = "file://" + os.path.join(
     os.path.dirname(os.path.abspath(__file__)), "secrets_plugins"
@@ -117,9 +115,9 @@ class Secrets(Scanner):
         os.remove(temp_file.name)
 
         if secret_types:
-            log.warning(f"Detected secrets in prompt: {secret_types}")
+            logger.warning(f"Detected secrets in prompt: {secret_types}")
             return text_replace_builder.output_text, False, 1.0
 
-        log.debug("No secrets detected in the prompt")
+        logger.debug("No secrets detected in the prompt")
 
         return prompt, True, 0.0

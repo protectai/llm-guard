@@ -1,12 +1,9 @@
-import logging
-
 from transformers import pipeline
 
-from llm_guard.util import device
+from llm_guard.util import device, logger
 
 from .base import Scanner
 
-log = logging.getLogger(__name__)
 _model_path = "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7"
 _categories = ["refusal"]
 
@@ -32,9 +29,9 @@ class NoRefusal(Scanner):
         self._classifier = pipeline(
             "zero-shot-classification",
             model=_model_path,
-            device=device,
+            device=device(),
         )
-        log.debug(f"Initialized model {_model_path} on device {device}")
+        logger.debug(f"Initialized model {_model_path} on device {device()}")
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         if output.strip() == "":
@@ -44,10 +41,10 @@ class NoRefusal(Scanner):
 
         max_score = round(max(classifier_output["scores"]) if classifier_output["scores"] else 0, 2)
         if max_score > self._threshold:
-            log.warning(f"Detected refusal result with similarity score: {max_score}")
+            logger.warning(f"Detected refusal result with similarity score: {max_score}")
 
             return output, False, max_score
 
-        log.debug(f"No refusals. Max similarity with the known refusal results: {max_score}")
+        logger.debug(f"No refusals. Max similarity with the known refusal results: {max_score}")
 
         return output, True, 0.0

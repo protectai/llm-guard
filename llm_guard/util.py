@@ -1,20 +1,25 @@
+import importlib
 import json
 import logging
-from typing import Dict, List
+from functools import lru_cache
+from typing import Dict, List, Optional
 
-import torch
-
-log = logging.getLogger(__name__)
+logger = logging.getLogger("llm-guard")
 
 """
 This file contains utility functions.
 This is meant for internal use and not part of the public API.
 """
 
+
 # Detect pytorch device
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-if torch.backends.mps.is_available() and torch.backends.mps.is_built():
-    device = torch.device("mps")
+@lru_cache(maxsize=None)  # Unbounded cache
+def device():
+    torch = lazy_load_dep("torch")
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    if torch.backends.mps.is_available() and torch.backends.mps.is_built():
+        device = torch.device("mps")
+    return device
 
 
 def read_json_file(json_path: str) -> Dict[str, List[str]]:
@@ -37,11 +42,11 @@ def read_json_file(json_path: str) -> Dict[str, List[str]]:
     try:
         with open(json_path, "r") as myfile:
             result = json.load(myfile)
-            log.debug(f"Loaded json file {json_path}")
+            logger.debug(f"Loaded json file {json_path}")
     except FileNotFoundError:
-        log.error(f"Could not find {json_path}")
+        logger.error(f"Could not find {json_path}")
     except json.decoder.JSONDecodeError as json_error:
-        log.error(f"Could not parse {json_path}: {json_error}")
+        logger.error(f"Could not parse {json_path}: {json_error}")
     return result
 
 
@@ -60,3 +65,23 @@ def combine_json_results(results: Dict[str, List[str]]) -> List[str]:
     for item in results:
         all_items.extend(results[item])
     return all_items
+
+
+def lazy_load_dep(import_name: str, package_name: Optional[str] = None):
+    """Helper function to lazily load optional dependencies. If the dependency is not
+    present, the function will raise an error _when used_.
+
+    NOTE: This wrapper adds a warning message at import time.
+    """
+
+    if package_name is None:
+        package_name = import_name
+
+    spec = importlib.util.find_spec(import_name)
+    if spec is None:
+        logger.warning(
+            f"Optional feature dependent on missing package: {import_name} was initialized.\n"
+            f"Use `pip install {package_name}` to install the package if running locally."
+        )
+
+    return importlib.import_module(import_name)

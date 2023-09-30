@@ -1,12 +1,9 @@
-import logging
-
 from sentence_transformers import SentenceTransformer, util
 
-from llm_guard.util import device
+from llm_guard.util import device, logger
 
 from .base import Scanner
 
-log = logging.getLogger(__name__)
 _transformer_name = "sentence-transformers/all-MiniLM-L6-v2"
 
 
@@ -29,9 +26,9 @@ class Relevance(Scanner):
         """
 
         self._threshold = threshold
-        self._transformer_model = SentenceTransformer(_transformer_name, device=device)
+        self._transformer_model = SentenceTransformer(_transformer_name, device=device())
 
-        log.debug(f"Initialized sentence transformer {_transformer_name} on device {device}")
+        logger.debug(f"Initialized sentence transformer {_transformer_name} on device {device()}")
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         if output.strip() == "":
@@ -43,17 +40,19 @@ class Relevance(Scanner):
             embedding_2 = self._transformer_model.encode(output.lower(), convert_to_tensor=True)
             similarity = util.pytorch_cos_sim(embedding_1, embedding_2)
         except Exception as e:
-            log.warning(f"pandas {output} caused similarity_MiniLM_L6_v2 to encounter error: {e}")
+            logger.warning(
+                f"pandas {output} caused similarity_MiniLM_L6_v2 to encounter error: {e}"
+            )
 
         if similarity.item() < self._threshold:
-            log.warning(
+            logger.warning(
                 f"Result is not similar to the prompt. Score {similarity.item}, threshold {self._threshold}"
             )
 
             risk_score = round(1 - (similarity.item() + 1) / 2, 2)
             return output, False, risk_score
 
-        log.debug(
+        logger.debug(
             f"Result is similar to the prompt. Score {similarity.item}, threshold {self._threshold}"
         )
 

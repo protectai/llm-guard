@@ -1,10 +1,9 @@
-import logging
 import re
 from typing import List, Optional
 
-from .base import Scanner
+from llm_guard.util import logger
 
-log = logging.getLogger(__name__)
+from .base import Scanner
 
 
 class Regex(Scanner):
@@ -60,20 +59,20 @@ class Regex(Scanner):
         if len(self._good_patterns) > 0:
             for pattern in self._good_patterns:
                 if pattern.search(output):
-                    log.debug(f"Pattern {pattern} matched the output")
+                    logger.debug(f"Pattern {pattern} matched the output")
                     return output, True, 0.0
 
-            log.warning(f"None of the patterns matched the output")
+            logger.warning(f"None of the patterns matched the output")
             return output, False, 1.0
 
         for pattern in self._bad_patterns:
             if pattern.search(output):
-                log.warning(f"Pattern {pattern} was detected in the output")
+                logger.warning(f"Pattern {pattern} was detected in the output")
 
                 if self._redact:
                     output = pattern.sub("[REDACTED]", output)
 
                 return output, False, 1.0
 
-        log.debug(f"None of the patterns were found in the output")
+        logger.debug(f"None of the patterns were found in the output")
         return output, True, 0.0

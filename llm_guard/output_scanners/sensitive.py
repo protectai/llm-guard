@@ -1,4 +1,3 @@
-import logging
 import os
 from typing import List, Optional
 
@@ -10,10 +9,9 @@ from llm_guard.input_scanners.anonymize import (
     default_entity_types,
     sensitive_patterns_path,
 )
+from llm_guard.util import logger
 
 from .base import Scanner
-
-log = logging.getLogger(__name__)
 
 
 class Sensitive(Scanner):
@@ -40,7 +38,7 @@ class Sensitive(Scanner):
         os.environ["TOKENIZERS_PARALLELISM"] = "false"  # Disables huggingface/tokenizers warning
 
         if not entity_types:
-            log.debug(f"No entity types provided, using default: {default_entity_types}")
+            logger.debug(f"No entity types provided, using default: {default_entity_types}")
             entity_types = default_entity_types
         entity_types.append("CUSTOM")
 
@@ -68,8 +66,8 @@ class Sensitive(Scanner):
 
         if analyzer_results:
             risk_score = max(analyzer_result.score for analyzer_result in analyzer_results)
-            log.warning(f"Found sensitive data in the output {analyzer_results}")
+            logger.warning(f"Found sensitive data in the output {analyzer_results}")
             return output, False, risk_score
 
-        log.debug(f"No sensitive data found in the output")
+        logger.debug(f"No sensitive data found in the output")
         return output, True, 0.0

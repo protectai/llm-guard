@@ -1,11 +1,11 @@
-import logging
 import os
 import re
 from typing import List
 
+from llm_guard.util import logger
+
 from .base import Scanner
 
-log = logging.getLogger(__name__)
 stop_file_path = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
     "..",
@@ -78,14 +78,14 @@ class BanSubstrings(Scanner):
                     matched_substrings.append(s)
 
         if match:
-            log.warning(f"Found the following banned substrings: {matched_substrings}")
+            logger.warning(f"Found the following banned substrings: {matched_substrings}")
 
             if self._redact:
                 prompt = self._redact_text(prompt, matched_substrings)
-                log.debug("Redacted banned substrings")
+                logger.debug("Redacted banned substrings")
 
             return prompt, False, 1.0
 
-        log.debug("No banned substrings found")
+        logger.debug("No banned substrings found")
 
         return prompt, True, 0.0

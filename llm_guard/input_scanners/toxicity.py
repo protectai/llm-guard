@@ -1,18 +1,8 @@
-import logging
-
-from transformers import (
-    AutoModelForSequenceClassification,
-    AutoTokenizer,
-    TextClassificationPipeline,
-)
-
-from llm_guard.util import device
+from llm_guard.util import device, lazy_load_dep, logger
 
 from .base import Scanner
 
 _model_path = "martin-ha/toxic-comment-model"
-
-log = logging.getLogger(__name__)
 
 
 class Toxicity(Scanner):
@@ -38,15 +28,16 @@ class Toxicity(Scanner):
            None.
         """
 
-        model = AutoModelForSequenceClassification.from_pretrained(_model_path)
-        self._tokenizer = AutoTokenizer.from_pretrained(_model_path)
+        transformers = lazy_load_dep("transformers")
+        model = transformers.AutoModelForSequenceClassification.from_pretrained(_model_path)
+        self._tokenizer = transformers.AutoTokenizer.from_pretrained(_model_path)
         self._threshold = threshold
-        self._text_classification_pipeline = TextClassificationPipeline(
+        self._text_classification_pipeline = transformers.TextClassificationPipeline(
             model=model,
             tokenizer=self._tokenizer,
-            device=device,
+            device=device(),
         )
-        log.debug(f"Initialized model {_model_path} on device {device}")
+        logger.debug(f"Initialized model {_model_path} on device {device()}")
 
     def scan(self, prompt: str) -> (str, bool, float):
         if prompt.strip() == "":
@@ -60,13 +51,13 @@ class Toxicity(Scanner):
             result[0]["score"] if result[0]["label"] == "toxic" else 1 - result[0]["score"]
         )
         if toxicity_score > self._threshold:
-            log.warning(
+            logger.warning(
                 f"Detected toxic prompt with score: {toxicity_score}, threshold: {self._threshold}"
             )
 
             return prompt, False, round(toxicity_score, 2)
 
-        log.debug(
+        logger.debug(
             f"Not toxicity in the prompt. Max score: {toxicity_score}, threshold: {self._threshold}"
         )
 

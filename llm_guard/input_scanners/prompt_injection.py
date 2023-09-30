@@ -1,18 +1,8 @@
-import logging
-
-from transformers import (
-    AutoModelForSequenceClassification,
-    AutoTokenizer,
-    TextClassificationPipeline,
-)
-
-from llm_guard.util import device
+from llm_guard.util import device, lazy_load_dep, logger
 
 from .base import Scanner
 
 _model_path = "JasperLS/deberta-v3-base-injection"
-
-log = logging.getLogger(__name__)
 
 
 class PromptInjection(Scanner):
@@ -34,15 +24,16 @@ class PromptInjection(Scanner):
             None.
         """
 
-        model = AutoModelForSequenceClassification.from_pretrained(_model_path)
-        self._tokenizer = AutoTokenizer.from_pretrained(_model_path)
+        transformers = lazy_load_dep("transformers")
+        model = transformers.AutoModelForSequenceClassification.from_pretrained(_model_path)
+        self._tokenizer = transformers.AutoTokenizer.from_pretrained(_model_path)
         self._threshold = threshold
-        self._text_classification_pipeline = TextClassificationPipeline(
+        self._text_classification_pipeline = transformers.TextClassificationPipeline(
             model=model,
             tokenizer=self._tokenizer,
-            device=device,
+            device=device(),
         )
-        log.debug(f"Initialized model {_model_path} on device {device}")
+        logger.debug(f"Initialized model {_model_path} on device {device()}")
 
     def scan(self, prompt: str) -> (str, bool, float):
         if prompt.strip() == "":
@@ -54,13 +45,13 @@ class PromptInjection(Scanner):
         )
 
         if injection_score > self._threshold:
-            log.warning(
+            logger.warning(
                 f"Detected prompt injection with score: {injection_score}, threshold: {self._threshold}"
             )
 
             return prompt, False, injection_score
 
-        log.debug(
+        logger.debug(
             f"No prompt injection detected (max score: {injection_score}, threshold: {self._threshold})"
         )
 

@@ -1,15 +1,10 @@
-import logging
 from typing import List
 
-from transformers import pipeline
-
-from llm_guard.util import device
+from llm_guard.util import device, lazy_load_dep, logger
 
 from .base import Scanner
 
 _model_path = "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7"
-
-log = logging.getLogger(__name__)
 
 
 class BanTopics(Scanner):
@@ -35,12 +30,14 @@ class BanTopics(Scanner):
 
         self._topics = topics
         self._threshold = threshold
-        self._classifier = pipeline(
+
+        transformers = lazy_load_dep("transformers")
+        self._classifier = transformers.pipeline(
             "zero-shot-classification",
             model=_model_path,
-            device=device,
+            device=device(),
         )
-        log.debug(f"Initialized model {_model_path} on device {device}")
+        logger.debug(f"Initialized model {_model_path} on device {device()}")
 
     def scan(self, prompt: str) -> (str, bool, float):
         if prompt.strip() == "":
@@ -50,12 +47,12 @@ class BanTopics(Scanner):
 
         max_score = round(max(output["scores"]) if output["scores"] else 0, 2)
         if max_score > self._threshold:
-            log.warning(
+            logger.warning(
                 f"Topics detected for the prompt {output['labels']} with scores: {output['scores']}"
             )
 
             return prompt, False, max_score
 
-        log.debug(f"No banned topics detected ({output['labels']}, scores: {output['scores']})")
+        logger.debug(f"No banned topics detected ({output['labels']}, scores: {output['scores']})")
 
         return prompt, True, 0.0

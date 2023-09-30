@@ -1,11 +1,8 @@
-import logging
 from typing import List, Optional
 
-import tiktoken
+from llm_guard.util import lazy_load_dep, logger
 
 from .base import Scanner
-
-log = logging.getLogger(__name__)
 
 
 class TokenLimit(Scanner):
@@ -34,6 +31,7 @@ class TokenLimit(Scanner):
 
         self._limit = limit
 
+        tiktoken = lazy_load_dep("tiktoken")
         if not model_name:
             self._encoding = tiktoken.get_encoding(encoding_name)
         else:
@@ -59,9 +57,9 @@ class TokenLimit(Scanner):
 
         chunks, num_tokens = self._split_text_on_tokens(text=prompt)
         if num_tokens < self._limit:
-            log.debug(f"Prompt fits the maximum tokens: {num_tokens}, max: {self._limit}")
+            logger.debug(f"Prompt fits the maximum tokens: {num_tokens}, max: {self._limit}")
             return prompt, True, 0.0
 
-        log.warning(f"Prompt is too big ({num_tokens} tokens). Split into chunks: {chunks}")
+        logger.warning(f"Prompt is too big ({num_tokens} tokens). Split into chunks: {chunks}")
 
         return chunks[0], False, 1.0

@@ -1,12 +1,9 @@
-import logging
-
 from transformers import pipeline
 
-from llm_guard.util import device
+from llm_guard.util import device, logger
 
 from .base import Scanner
 
-log = logging.getLogger(__name__)
 _model_path = "valurank/distilroberta-bias"
 
 
@@ -28,9 +25,9 @@ class Bias(Scanner):
         self._classifier = pipeline(
             "text-classification",
             model=_model_path,
-            device=device,
+            device=device(),
         )
-        log.debug(f"Initialized model {_model_path} on device {device}")
+        logger.debug(f"Initialized model {_model_path} on device {device()}")
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         if output.strip() == "":
@@ -43,10 +40,12 @@ class Bias(Scanner):
             else 1 - classifier_output[0]["score"]
         )
         if score > self._threshold:
-            log.warning(f"Detected biased text with score: {score}, threshold: {self._threshold}")
+            logger.warning(
+                f"Detected biased text with score: {score}, threshold: {self._threshold}"
+            )
 
             return output, False, round(score, 2)
 
-        log.debug(f"Not biased result. Max score: {score}, threshold: {self._threshold}")
+        logger.debug(f"Not biased result. Max score: {score}, threshold: {self._threshold}")
 
         return output, True, 0.0

@@ -1,4 +1,3 @@
-import logging
 import re
 from typing import List
 
@@ -8,13 +7,12 @@ from transformers import (
     TextClassificationPipeline,
 )
 
-from llm_guard.util import device
+from llm_guard.util import device, logger
 
 from .base import Scanner
 
 _model_path = "elftsdmr/malware-url-detect"
 
-log = logging.getLogger(__name__)
 # URL pattern
 url_pattern = re.compile(
     r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
@@ -44,9 +42,9 @@ class MaliciousURLs(Scanner):
         self._text_classification_pipeline = TextClassificationPipeline(
             model=model,
             tokenizer=self._tokenizer,
-            device=device,
+            device=device(),
         )
-        log.debug(f"Initialized model {_model_path} on device {device}")
+        logger.debug(f"Initialized model {_model_path} on device {device()}")
 
     @staticmethod
     def extract_urls(text: str) -> List[str]:
@@ -60,7 +58,7 @@ class MaliciousURLs(Scanner):
         if len(urls) == 0:
             return output, True, 0.0
 
-        log.debug(f"Found {len(urls)} URLs in the output")
+        logger.debug(f"Found {len(urls)} URLs in the output")
 
         urls_str = ", ".join(urls)
         result = self._text_classification_pipeline(
@@ -70,13 +68,13 @@ class MaliciousURLs(Scanner):
             result[0]["score"] if result[0]["label"] == "MALWARE" else 1 - result[0]["score"]
         )
         if malware_score > self._threshold:
-            log.warning(
+            logger.warning(
                 f"Detected malware URL with score: {malware_score}, threshold: {self._threshold}"
             )
 
             return output, False, round(malware_score, 2)
 
-        log.debug(
+        logger.debug(
             f"Not malware URLs in the output. Max score: {malware_score}, threshold: {self._threshold}"
         )
 

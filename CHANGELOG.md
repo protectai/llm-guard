@@ -15,8 +15,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Using another Bias detection model which works better on different devices [valurank/distilroberta-bias](https://huggingface.co/valurank/distilroberta-bias)
-- Updated the roadmap
+- Updated the roadmap in README and documentation
 - `BanSubstrings` can redact found substrings
+- One `logger` for all scanners
+- `device` became function to lazy load (avoid `torch` import when unnecessary)
+- Lazy load dependencies in scanners
 
 ### Removed
 - Usage of `accelerate` library for inference. Instead, it will detect device using `torch`

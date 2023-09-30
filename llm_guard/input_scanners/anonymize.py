@@ -1,5 +1,4 @@
 import json
-import logging
 import os
 import re
 from typing import List, Optional
@@ -10,11 +9,11 @@ from presidio_analyzer.nlp_engine import SpacyNlpEngine
 from presidio_anonymizer.core.text_replace_builder import TextReplaceBuilder
 from presidio_anonymizer.entities import PIIEntity, RecognizerResult
 
+from llm_guard.util import logger
 from llm_guard.vault import Vault
 
 from .base import Scanner
 
-log = logging.getLogger(__name__)
 fake = Faker(seed=100)
 
 sensitive_patterns_path = os.path.join(
@@ -86,8 +85,8 @@ class Anonymize(Scanner):
         os.environ["TOKENIZERS_PARALLELISM"] = "false"  # Disables huggingface/tokenizers warning
 
         if not entity_types:
-            log.debug(f"No entity types provided, using default: {default_entity_types}")
-            entity_types = default_entity_types
+            logger.debug(f"No entity types provided, using default: {default_entity_types}")
+            entity_types = default_entity_types.copy()
         entity_types.append("CUSTOM")
 
         if not hidden_names:
@@ -130,11 +129,11 @@ class Anonymize(Scanner):
                         "score": group["score"],
                     }
                 )
-                log.debug(f"Loaded regex pattern for {group['name']}")
+                logger.debug(f"Loaded regex pattern for {group['name']}")
         except FileNotFoundError:
-            log.warning(f"Could not find {json_path}")
+            logger.warning(f"Could not find {json_path}")
         except json.decoder.JSONDecodeError as json_error:
-            log.warning(f"Could not parse {json_path}: {json_error}")
+            logger.warning(f"Could not parse {json_path}: {json_error}")
         return regex_groups
 
     @staticmethod
@@ -204,7 +203,7 @@ class Anonymize(Scanner):
                 other_elements.append(result)
                 tmp_analyzer_results.append(result)
             else:
-                log.debug(f"removing element {result} from " f"results list due to merge")
+                logger.debug(f"removing element {result} from " f"results list due to merge")
 
         unique_text_metadata_elements = []
         # This list contains all elements which we need to check a single result
@@ -220,7 +219,7 @@ class Anonymize(Scanner):
                 other_elements.append(result)
                 unique_text_metadata_elements.append(result)
             else:
-                log.debug(f"removing element {result} from results list due to conflict")
+                logger.debug(f"removing element {result} from results list due to conflict")
         return unique_text_metadata_elements
 
     @staticmethod
@@ -358,12 +357,12 @@ class Anonymize(Scanner):
         )
 
         if prompt != sanitized_prompt:
-            log.warning(
+            logger.warning(
                 f"Found sensitive data in the prompt and replaced it: {merged_results}, risk score: {risk_score}"
             )
             self._vault.extend(anonymized_results)
             return self._preamble + sanitized_prompt, False, risk_score
 
-        log.debug(f"Prompt does not have sensitive data to replace. Risk score is {risk_score}")
+        logger.debug(f"Prompt does not have sensitive data to replace. Risk score is {risk_score}")
 
         return prompt, True, 0.0

@@ -1,13 +1,7 @@
-import logging
-
-import nltk
-from nltk.sentiment import SentimentIntensityAnalyzer
+from llm_guard.input_scanners.sentiment import Sentiment as InputSentiment
+from llm_guard.input_scanners.sentiment import _lexicon
 
 from .base import Scanner
-
-_lexicon = "vader_lexicon"
-
-log = logging.getLogger(__name__)
 
 
 class Sentiment(Scanner):
@@ -28,22 +22,7 @@ class Sentiment(Scanner):
            None.
         """
 
-        nltk.download(lexicon)
-        self._sentiment_analyzer = SentimentIntensityAnalyzer()
-        self._threshold = threshold
+        self._scanner = InputSentiment(threshold, lexicon)
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
-        sentiment_score = self._sentiment_analyzer.polarity_scores(output)
-        sentiment_score_compound = sentiment_score["compound"]
-        if sentiment_score_compound > self._threshold:
-            log.debug(f"Sentiment score: {sentiment_score}, threshold: {self._threshold}")
-
-            return output, True, 0.0
-
-        log.warning(
-            f"Sentiment score is over threshold: {sentiment_score}, threshold: {self._threshold}"
-        )
-
-        # Normalize such that -1 maps to 1 and threshold maps to 0
-        score = round((sentiment_score_compound - (-1)) / (self._threshold - (-1)), 2)
-        return output, False, score
+        return self._scanner.scan(output)

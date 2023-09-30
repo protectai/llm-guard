@@ -1,10 +1,7 @@
-import logging
-
+from llm_guard.util import logger
 from llm_guard.vault import Vault
 
 from .base import Scanner
-
-log = logging.getLogger(__name__)
 
 
 class Deanonymize(Scanner):
@@ -27,10 +24,10 @@ class Deanonymize(Scanner):
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         vault_items = self._vault.get()
         if len(vault_items) == 0:
-            log.warning("No items found in the Vault")
+            logger.warning("No items found in the Vault")
 
         for vault_item in vault_items:
-            log.debug(f"Replaced placeholder ${vault_item[0]} with real value")
+            logger.debug(f"Replaced placeholder ${vault_item[0]} with real value")
             output = output.replace(vault_item[0], vault_item[1])
 
         return output, True, 0.0
