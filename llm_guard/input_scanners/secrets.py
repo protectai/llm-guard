@@ -39,6 +39,34 @@ _default_detect_secrets_config = {
             "name": "GitHubTokenCustomDetector",
             "path": _custom_plugins_path + "/github_token.py",
         },
+        {
+            "name": "AdafruitKeyDetector",
+            "path": _custom_plugins_path + "/adafruit.py",
+        },
+        {
+            "name": "AdobeSecretDetector",
+            "path": _custom_plugins_path + "/adobe.py",
+        },
+        {
+            "name": "AgeSecretKeyDetector",
+            "path": _custom_plugins_path + "/age_secret_key.py",
+        },
+        {
+            "name": "AirtableApiKeyDetector",
+            "path": _custom_plugins_path + "/airtable_api_key.py",
+        },
+        {
+            "name": "AlgoliaApiKeyDetector",
+            "path": _custom_plugins_path + "/algolia_api_key.py",
+        },
+        {
+            "name": "AlibabaSecretDetector",
+            "path": _custom_plugins_path + "/alibaba.py",
+        },
+        {
+            "name": "AsanaSecretDetector",
+            "path": _custom_plugins_path + "/asana.py",
+        },
     ]
 }
 
