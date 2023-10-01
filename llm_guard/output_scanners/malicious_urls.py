@@ -1,13 +1,7 @@
 import re
 from typing import List
 
-from transformers import (
-    AutoModelForSequenceClassification,
-    AutoTokenizer,
-    TextClassificationPipeline,
-)
-
-from llm_guard.util import device, logger
+from llm_guard.util import device, lazy_load_dep, logger
 
 from .base import Scanner
 
@@ -36,10 +30,11 @@ class MaliciousURLs(Scanner):
             threshold (float): The threshold used to determine if the website is malicious. Defaults to 0.75.
         """
 
-        model = AutoModelForSequenceClassification.from_pretrained(_model_path)
-        self._tokenizer = AutoTokenizer.from_pretrained(_model_path)
+        transformers = lazy_load_dep("transformers")
+        model = transformers.AutoModelForSequenceClassification.from_pretrained(_model_path)
+        self._tokenizer = transformers.AutoTokenizer.from_pretrained(_model_path)
         self._threshold = threshold
-        self._text_classification_pipeline = TextClassificationPipeline(
+        self._text_classification_pipeline = transformers.TextClassificationPipeline(
             model=model,
             tokenizer=self._tokenizer,
             device=device(),

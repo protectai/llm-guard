@@ -1,8 +1,6 @@
 import math
 
-from transformers import AutoModelForSequenceClassification, AutoTokenizer
-
-from llm_guard.util import device, logger
+from llm_guard.util import device, lazy_load_dep, logger
 
 from .base import Scanner
 
@@ -28,10 +26,11 @@ class Toxicity(Scanner):
             threshold (float): The threshold used to determine toxicity. Defaults to 0.
         """
 
-        self._model = AutoModelForSequenceClassification.from_pretrained(_model_path)
+        transformers = lazy_load_dep("transformers")
+        self._model = transformers.AutoModelForSequenceClassification.from_pretrained(_model_path)
         self._model.eval()
         self._model.to(device())
-        self._tokenizer = AutoTokenizer.from_pretrained(_model_path)
+        self._tokenizer = transformers.AutoTokenizer.from_pretrained(_model_path)
         self._threshold = threshold
 
         logger.debug(f"Initialized model {_model_path} on device {device()}")

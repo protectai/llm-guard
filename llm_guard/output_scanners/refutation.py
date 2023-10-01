@@ -1,18 +1,14 @@
-import torch
-from transformers import AutoModelForSequenceClassification, AutoTokenizer
-from transformers import logging as transformers_logging
-
-from llm_guard.util import device, logger
+from llm_guard.util import device, lazy_load_dep, logger
 
 from .base import Scanner
+
+torch = lazy_load_dep("torch")
 
 _model_path = "ynie/roberta-large-snli_mnli_fever_anli_R1_R2_R3-nli"
 # _model_path = "ynie/albert-xxlarge-v2-snli_mnli_fever_anli_R1_R2_R3-nli"
 # _model_path = "ynie/bart-large-snli_mnli_fever_anli_R1_R2_R3-nli"
 # _model_path = "ynie/electra-large-discriminator-snli_mnli_fever_anli_R1_R2_R3-nli"
 # _model_path = "ynie/xlnet-large-cased-snli_mnli_fever_anli_R1_R2_R3-nli"
-
-transformers_logging.set_verbosity_error()
 
 MAX_LENGTH = 256
 
@@ -32,10 +28,13 @@ class Refutation(Scanner):
             threshold (float): The threshold used to determine refutation. Defaults to 0.
         """
 
-        self._model = AutoModelForSequenceClassification.from_pretrained(_model_path)
+        transformers = lazy_load_dep("transformers")
+        transformers.logging.set_verbosity_error()
+
+        self._model = transformers.AutoModelForSequenceClassification.from_pretrained(_model_path)
         self._model.eval()
         self._model.to(device())
-        self._tokenizer = AutoTokenizer.from_pretrained(_model_path)
+        self._tokenizer = transformers.AutoTokenizer.from_pretrained(_model_path)
         self._threshold = threshold
 
         logger.debug(f"Initialized sentence transformer {_model_path} on device {device()}")

@@ -1,6 +1,4 @@
-from transformers import pipeline
-
-from llm_guard.util import device, logger
+from llm_guard.util import device, lazy_load_dep, logger
 
 from .base import Scanner
 
@@ -22,7 +20,8 @@ class Bias(Scanner):
         """
         self._threshold = threshold
 
-        self._classifier = pipeline(
+        transformers = lazy_load_dep("transformers")
+        self._classifier = transformers.pipeline(
             "text-classification",
             model=_model_path,
             device=device(),

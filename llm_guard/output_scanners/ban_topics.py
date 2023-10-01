@@ -5,7 +5,6 @@ from llm_guard.util import device, lazy_load_dep, logger
 from .base import Scanner
 
 _model_path = "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7"
-transformers = lazy_load_dep("transformers")
 
 
 class BanTopics(Scanner):
@@ -32,6 +31,8 @@ class BanTopics(Scanner):
 
         self._topics = topics
         self._threshold = threshold
+
+        transformers = lazy_load_dep("transformers")
         self._classifier = transformers.pipeline(
             "zero-shot-classification",
             model=_model_path,
