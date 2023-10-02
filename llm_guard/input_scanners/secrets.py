@@ -17,7 +17,6 @@ _default_detect_secrets_config = {
     "plugins_used": [
         {"name": "SoftlayerDetector"},
         {"name": "StripeDetector"},
-        {"name": "SendGridDetector"},
         {"name": "NpmDetector"},
         {"name": "IbmCosHmacDetector"},
         {"name": "DiscordBotTokenDetector"},
@@ -29,7 +28,6 @@ _default_detect_secrets_config = {
         {"name": "IbmCloudIamDetector"},
         {"name": "JwtTokenDetector"},
         {"name": "MailchimpDetector"},
-        {"name": "SlackDetector"},
         {"name": "SquareOAuthDetector"},
         {"name": "PrivateKeyDetector"},
         {"name": "TwilioKeyDetector"},
@@ -66,6 +64,62 @@ _default_detect_secrets_config = {
         {
             "name": "AsanaSecretDetector",
             "path": _custom_plugins_path + "/asana.py",
+        },
+        {
+            "name": "AtlassianApiTokenDetector",
+            "path": _custom_plugins_path + "/atlassian_api_token.py",
+        },
+        {
+            "name": "AuthressAccessKeyDetector",
+            "path": _custom_plugins_path + "/authress_access_key.py",
+        },
+        {
+            "name": "BittrexDetector",
+            "path": _custom_plugins_path + "/beamer_api_token.py",
+        },
+        {
+            "name": "BitbucketDetector",
+            "path": _custom_plugins_path + "/bitbucket.py",
+        },
+        {
+            "name": "BeamerApiTokenDetector",
+            "path": _custom_plugins_path + "/bittrex.py",
+        },
+        {
+            "name": "ClojarsApiTokenDetector",
+            "path": _custom_plugins_path + "/clojars_api_token.py",
+        },
+        {
+            "name": "CodecovAccessTokenDetector",
+            "path": _custom_plugins_path + "/codecov_access_token.py",
+        },
+        {
+            "name": "CoinbaseAccessTokenDetector",
+            "path": _custom_plugins_path + "/coinbase_access_token.py",
+        },
+        {
+            "name": "ConfluentDetector",
+            "path": _custom_plugins_path + "/confluent.py",
+        },
+        {
+            "name": "ContentfulApiTokenDetector",
+            "path": _custom_plugins_path + "/contentful_api_token.py",
+        },
+        {
+            "name": "DatabricksApiTokenDetector",
+            "path": _custom_plugins_path + "/databricks_api_token.py",
+        },
+        {
+            "name": "DatadogAccessTokenDetector",
+            "path": _custom_plugins_path + "/datadog_access_token.py",
+        },
+        {
+            "name": "DefinedNetworkingApiTokenDetector",
+            "path": _custom_plugins_path + "/defined_networking_api_token.py",
+        },
+        {
+            "name": "DigitaloceanDetector",
+            "path": _custom_plugins_path + "/digitalocean.py",
         },
     ]
 }
