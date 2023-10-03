@@ -121,6 +121,50 @@ _default_detect_secrets_config = {
             "name": "DigitaloceanDetector",
             "path": _custom_plugins_path + "/digitalocean.py",
         },
+        {
+            "name": "DopplerApiTokenDetector",
+            "path": _custom_plugins_path + "/doppler_api_token.py",
+        },
+        {
+            "name": "DroneciAccessTokenDetector",
+            "path": _custom_plugins_path + "/droneci_access_token.py",
+        },
+        {
+            "name": "DuffelApiTokenDetector",
+            "path": _custom_plugins_path + "/duffel_api_token.py",
+        },
+        {
+            "name": "DynatraceApiTokenDetector",
+            "path": _custom_plugins_path + "/dynatrace_api_token.py",
+        },
+        {
+            "name": "DiscordDetector",
+            "path": _custom_plugins_path + "/discord.py",
+        },
+        {
+            "name": "DropboxDetector",
+            "path": _custom_plugins_path + "/dropbox.py",
+        },
+        {
+            "name": "EasyPostDetector",
+            "path": _custom_plugins_path + "/easypost.py",
+        },
+        {
+            "name": "EtsyAccessTokenDetector",
+            "path": _custom_plugins_path + "/etsy_access_token.py",
+        },
+        {
+            "name": "FacebookAccessTokenDetector",
+            "path": _custom_plugins_path + "/facebook_access_token.py",
+        },
+        {
+            "name": "FastlyApiKeyDetector",
+            "path": _custom_plugins_path + "/fastly_api_token.py",
+        },
+        {
+            "name": "FinicityDetector",
+            "path": _custom_plugins_path + "/finicity.py",
+        },
     ]
 }
 
