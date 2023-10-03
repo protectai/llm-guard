@@ -39,3 +39,11 @@
 | Basic        | INSERT INTO users (Name, Email... | 107.29   | 156.32   | 117.88    | 108.43 | 21.5        |
 | Intermediate | INSERT INTO users (Name, Email... | 388.51   | 397.73   | 392.32    | 391.63 | 3.44        |
 | Advanced     | INSERT INTO users (Name, Email... | 816.51   | 913.67   | 837.71    | 819.98 | 42.49       |
+
+## AWS `g5.xlarge` instance
+
+| Test Type    | Prompt (Trimmed)                  | Min (ms) | Max (ms) | Mean (ms) | Median | StdDev (ms) |
+|--------------|-----------------------------------|----------|----------|-----------|--------|-------------|
+| Basic        | INSERT INTO users (Name, Email... | 164.34   | 181.26   | 167.95    | 164.59 | 7.44        |
+| Intermediate | INSERT INTO users (Name, Email... | 180.81   | 226.96   | 190.12    | 180.93 | 20.59       |
+| Advanced     | INSERT INTO users (Name, Email... | 247.23   | 253.97   | 248.65    | 247.34 | 2.97        |

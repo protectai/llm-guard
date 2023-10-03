@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Lazy load dependencies in scanners
 - Added elapsed time in logs of `evaluate_prompt` and `evaluate_output` functions
 - New secrets detectors
+- Added GPU benchmarks on `g5.xlarge` instance
 
 ### Removed
 - Usage of `accelerate` library for inference. Instead, it will detect device using `torch`
