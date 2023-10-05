@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 
 
 class Vault:
@@ -10,8 +10,11 @@ class Vault:
     and get the list of all stored tuples.
     """
 
-    def __init__(self):
-        self._tuples = []
+    def __init__(self, tuples: Optional[List[Tuple]] = None):
+        if tuples is None:
+            tuples = []
+
+        self._tuples = tuples
 
     def append(self, new_tuple: Tuple):
         self._tuples.append(new_tuple)
