@@ -165,6 +165,30 @@ _default_detect_secrets_config = {
             "name": "FinicityDetector",
             "path": _custom_plugins_path + "/finicity.py",
         },
+        {
+            "name": "FinnhubAccessTokenDetector",
+            "path": _custom_plugins_path + "/finnhub_access_token.py",
+        },
+        {
+            "name": "FlickrAccessTokenDetector",
+            "path": _custom_plugins_path + "/flickr_access_token.py",
+        },
+        {
+            "name": "FlutterwaveDetector",
+            "path": _custom_plugins_path + "/flutterwave.py",
+        },
+        {
+            "name": "FrameIoApiTokenDetector",
+            "path": _custom_plugins_path + "/frameio_api_token.py",
+        },
+        {
+            "name": "GitLabDetector",
+            "path": _custom_plugins_path + "/gitlab.py",
+        },
+        {
+            "name": "GrafanaDetector",
+            "path": _custom_plugins_path + "/grafana.py",
+        },
     ]
 }
 
