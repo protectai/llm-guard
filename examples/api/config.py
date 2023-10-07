@@ -85,6 +85,9 @@ def get_input_scanner(scanner_name: str, vault: Vault, config: Optional[Dict] = 
     if scanner_name == "PromptInjection":
         return input_scanners.PromptInjection(**config)
 
+    if scanner_name == "PromptInjectionV2":
+        return input_scanners.PromptInjectionV2(**config)
+
     if scanner_name == "Secrets":
         return input_scanners.Secrets(**config)
 

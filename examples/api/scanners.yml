@@ -20,6 +20,8 @@ input_scanners:
     denied: ["go"]
   PromptInjection:
     threshold: 0.75
+  PromptInjectionV2:
+    threshold: 0.5
   Secrets:
     redact_mode: "all"
   Sentiment:

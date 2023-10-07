@@ -10,6 +10,7 @@ from llm_guard.input_scanners import (
     BanTopics,
     Code,
     PromptInjection,
+    PromptInjectionV2,
     Secrets,
     Sentiment,
     TokenLimit,
@@ -28,6 +29,7 @@ def init_settings() -> (List, Dict):
         "BanTopics",
         "Code",
         "PromptInjection",
+        "PromptInjectionV2",
         "Secrets",
         "Sentiment",
         "TokenLimit",
@@ -189,6 +191,26 @@ def init_settings() -> (List, Dict):
             "threshold": st_pi_threshold,
         }
 
+    if "PromptInjectionV2" in st_enabled_scanners:
+        st_piv2_expander = st.sidebar.expander(
+            "Prompt Injection V2",
+            expanded=False,
+        )
+
+        with st_piv2_expander:
+            st_piv2_threshold = st.slider(
+                label="Threshold",
+                value=0.5,
+                min_value=0.0,
+                max_value=1.0,
+                step=0.05,
+                key="prompt_injection_v2_threshold",
+            )
+
+        settings["PromptInjectionV2"] = {
+            "threshold": st_piv2_threshold,
+        }
+
     if "Secrets" in st_enabled_scanners:
         st_sec_expander = st.sidebar.expander(
             "Secrets",
@@ -306,6 +328,9 @@ def get_scanner(scanner_name: str, vault: Vault, settings: Dict):
 
     if scanner_name == "PromptInjection":
         return PromptInjection(threshold=settings["threshold"])
+
+    if scanner_name == "PromptInjectionV2":
+        return PromptInjectionV2(threshold=settings["threshold"])
 
     if scanner_name == "Secrets":
         return Secrets(redact_mode=settings["redact_mode"])

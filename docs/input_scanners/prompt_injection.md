@@ -22,24 +22,38 @@ primary ways an attacker might exploit:
 
 ## How it works
 
-It leverages the
-model [JasperLS/deberta-v3-base-injection](https://huggingface.co/JasperLS/deberta-v3-base-injection) for its operation.
-However, it's worth noting that while the current model can detect attempts effectively, it might occasionally yield
-false positives.
-
-!!! warning
-
-    Due to this limitation, one should exercise caution when considering its deployment in a production
-    environment.
+There are two versions: one popular model and another new fine-tuned model but larger and slower.
 
 While the dataset is nascent, it can be enriched, drawing from repositories of known attack patterns, notably
 from platforms like [JailbreakChat](https://www.jailbreakchat.com/).
 
-## Usage
+### v1
+
+It leverages the
+model [JasperLS/deberta-v3-base-injection](https://huggingface.co/JasperLS/deberta-v3-base-injection) for its operation.
+
+!!! warning
+
+    It's worth noting that while the current model can detect attempts effectively, it might occasionally yield false positives.
+
+Usage:
 
 ```python
 from llm_guard.input_scanners import PromptInjection
 
 scanner = PromptInjection(threshold=0.5)
+sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
+```
+
+### v2
+
+It is based on larger RoBERTa-large model [hubert233/GPTFuzz](https://huggingface.co/hubert233/GPTFuzz).
+
+Usage:
+
+```python
+from llm_guard.input_scanners import PromptInjectionV2
+
+scanner = PromptInjectionV2(threshold=0.5)
 sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
