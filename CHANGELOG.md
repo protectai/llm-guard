@@ -8,11 +8,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Langchain [example](examples/langchain_lcel.py) using [LangChain Expression Language (LCEL)](https://python.langchain.com/docs/expression_language/)
-- Added prompt injection scanner v2 model based on [hubert233/GPTFuzz](https://huggingface.co/hubert233/GPTFuzz)
+-
 
 ### Fixed
 -
+
+### Changed
+-
+
+### Removed
+-
+
+## [0.2.4] - 2023-10-07
+
+### Added
+- Langchain [example](examples/langchain_lcel.py) using [LangChain Expression Language (LCEL)](https://python.langchain.com/docs/expression_language/)
+- Added prompt injection scanner v2 model based on [hubert233/GPTFuzz](https://huggingface.co/hubert233/GPTFuzz)
 
 ### Changed
 - Using another Bias detection model which works better on different devices [valurank/distilroberta-bias](https://huggingface.co/valurank/distilroberta-bias)
@@ -24,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added elapsed time in logs of `evaluate_prompt` and `evaluate_output` functions
 - New secrets detectors
 - Added GPU benchmarks on `g5.xlarge` instance
+- Tests are running on Python 3.9, 3.10 and 3.11
 
 ### Removed
 - Usage of `accelerate` library for inference. Instead, it will detect device using `torch`
@@ -166,6 +178,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - [Toxicity](./llm_guard/output_scanners/toxicity.py)
 
 [Unreleased]: https://github.com/laiyer-ai/llm-guard/commits/main
+[0.2.4]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.2.4
 [0.2.3]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.2.3
 [0.2.2]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.2.2
 [0.2.1]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.2.1
