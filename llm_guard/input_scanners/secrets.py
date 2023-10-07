@@ -237,6 +237,54 @@ _default_detect_secrets_config = {
             "name": "KrakenAccessTokenDetector",
             "path": _custom_plugins_path + "/kraken_access_token.py",
         },
+        {
+            "name": "KucoinDetector",
+            "path": _custom_plugins_path + "/kucoin.py",
+        },
+        {
+            "name": "LaunchdarklyAccessTokenDetector",
+            "path": _custom_plugins_path + "/launchdarkly_access_token.py",
+        },
+        {
+            "name": "LinearDetector",
+            "path": _custom_plugins_path + "/linear.py",
+        },
+        {
+            "name": "LinkedInDetector",
+            "path": _custom_plugins_path + "/linkedin.py",
+        },
+        {
+            "name": "LobDetector",
+            "path": _custom_plugins_path + "/lob.py",
+        },
+        {
+            "name": "MailgunDetector",
+            "path": _custom_plugins_path + "/mailgun.py",
+        },
+        {
+            "name": "MapBoxApiTokenDetector",
+            "path": _custom_plugins_path + "/mapbox_api_token.py",
+        },
+        {
+            "name": "MattermostAccessTokenDetector",
+            "path": _custom_plugins_path + "/mattermost_access_token.py",
+        },
+        {
+            "name": "MessageBirdDetector",
+            "path": _custom_plugins_path + "/messagebird.py",
+        },
+        {
+            "name": "MicrosoftTeamsWebhookDetector",
+            "path": _custom_plugins_path + "/microsoft_teams_webhook.py",
+        },
+        {
+            "name": "NetlifyAccessTokenDetector",
+            "path": _custom_plugins_path + "/netlify_access_token.py",
+        },
+        {
+            "name": "NewRelicDetector",
+            "path": _custom_plugins_path + "/new_relic.py",
+        },
     ]
 }
 
