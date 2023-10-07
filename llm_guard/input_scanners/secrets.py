@@ -34,10 +34,6 @@ _default_detect_secrets_config = {
         {"name": "Base64HighEntropyString", "limit": 4.5},
         {"name": "HexHighEntropyString", "limit": 3.0},
         {
-            "name": "GitHubTokenCustomDetector",
-            "path": _custom_plugins_path + "/github_token.py",
-        },
-        {
             "name": "AdafruitKeyDetector",
             "path": _custom_plugins_path + "/adafruit.py",
         },
@@ -182,12 +178,36 @@ _default_detect_secrets_config = {
             "path": _custom_plugins_path + "/frameio_api_token.py",
         },
         {
+            "name": "FreshbooksAccessTokenDetector",
+            "path": _custom_plugins_path + "/freshbooks_access_token.py",
+        },
+        {
+            "name": "GCPApiKeyDetector",
+            "path": _custom_plugins_path + "/gcp_api_key.py",
+        },
+        {
+            "name": "GitHubTokenCustomDetector",
+            "path": _custom_plugins_path + "/github_token.py",
+        },
+        {
             "name": "GitLabDetector",
             "path": _custom_plugins_path + "/gitlab.py",
         },
         {
+            "name": "GitterAccessTokenDetector",
+            "path": _custom_plugins_path + "/gitter_access_token.py",
+        },
+        {
+            "name": "GoCardlessApiTokenDetector",
+            "path": _custom_plugins_path + "/gocardless_api_token.py",
+        },
+        {
             "name": "GrafanaDetector",
             "path": _custom_plugins_path + "/grafana.py",
+        },
+        {
+            "name": "HashiCorpTFApiTokenDetector",
+            "path": _custom_plugins_path + "/hashicorp_tf_api_token.py",
         },
     ]
 }
