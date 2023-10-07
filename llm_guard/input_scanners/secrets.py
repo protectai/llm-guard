@@ -209,6 +209,34 @@ _default_detect_secrets_config = {
             "name": "HashiCorpTFApiTokenDetector",
             "path": _custom_plugins_path + "/hashicorp_tf_api_token.py",
         },
+        {
+            "name": "HerokuApiKeyDetector",
+            "path": _custom_plugins_path + "/heroku_api_key.py",
+        },
+        {
+            "name": "HubSpotApiTokenDetector",
+            "path": _custom_plugins_path + "/hubspot_api_key.py",
+        },
+        {
+            "name": "HuggingFaceDetector",
+            "path": _custom_plugins_path + "/huggingface.py",
+        },
+        {
+            "name": "IntercomApiTokenDetector",
+            "path": _custom_plugins_path + "/intercom_api_key.py",
+        },
+        {
+            "name": "JFrogDetector",
+            "path": _custom_plugins_path + "/jfrog.py",
+        },
+        {
+            "name": "JWTBase64Detector",
+            "path": _custom_plugins_path + "/jwt.py",
+        },
+        {
+            "name": "KrakenAccessTokenDetector",
+            "path": _custom_plugins_path + "/kraken_access_token.py",
+        },
     ]
 }
 
