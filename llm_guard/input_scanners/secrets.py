@@ -285,6 +285,58 @@ _default_detect_secrets_config = {
             "name": "NewRelicDetector",
             "path": _custom_plugins_path + "/new_relic.py",
         },
+        {
+            "name": "NYTimesAccessTokenDetector",
+            "path": _custom_plugins_path + "/nytimes_access_token.py",
+        },
+        {
+            "name": "OktaAccessTokenDetector",
+            "path": _custom_plugins_path + "/okta_access_token.py",
+        },
+        {
+            "name": "OpenAIApiKeyDetector",
+            "path": _custom_plugins_path + "/openai_api_key.py",
+        },
+        {
+            "name": "PlanetScaleDetector",
+            "path": _custom_plugins_path + "/planetscale.py",
+        },
+        {
+            "name": "PostmanApiTokenDetector",
+            "path": _custom_plugins_path + "/postman_api_token.py",
+        },
+        {
+            "name": "PrefectApiTokenDetector",
+            "path": _custom_plugins_path + "/prefect_api_token.py",
+        },
+        {
+            "name": "PulumiApiTokenDetector",
+            "path": _custom_plugins_path + "/pulumi_api_token.py",
+        },
+        {
+            "name": "PyPiUploadTokenDetector",
+            "path": _custom_plugins_path + "/pypi_upload_token.py",
+        },
+        {
+            "name": "RapidApiAccessTokenDetector",
+            "path": _custom_plugins_path + "/rapidapi_access_token.py",
+        },
+        {
+            "name": "ReadmeApiTokenDetector",
+            "path": _custom_plugins_path + "/readme_api_token.py",
+        },
+        {
+            "name": "RubygemsApiTokenDetector",
+            "path": _custom_plugins_path + "/rubygems_api_token.py",
+        },
+        {
+            "name": "ScalingoApiTokenDetector",
+            "path": _custom_plugins_path + "/scalingo_api_token.py",
+        },
+        {
+            "name": "SendbirdDetector",
+            "path": _custom_plugins_path + "/sendbird.py",
+        },
     ]
 }
 
