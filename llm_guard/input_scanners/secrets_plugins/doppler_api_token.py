@@ -14,5 +14,5 @@ class DopplerApiTokenDetector(RegexBasedDetector):
 
     denylist = [
         # Doppler API token
-        re.compile(r"""(dp\.pt\.)(?i)[a-z0-9]{43}"""),
+        re.compile(r"""(?i)dp\.pt\.[a-z0-9]{43}"""),
     ]

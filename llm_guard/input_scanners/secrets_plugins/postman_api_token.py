@@ -13,5 +13,5 @@ class PostmanApiTokenDetector(RegexBasedDetector):
     secret_type = "Postman API Token"
 
     denylist = [
-        re.compile(r"""(?i)\b(PMAK-(?i)[a-f0-9]{24}\-[a-f0-9]{34})(?:['|\"|\n|\r|\s|\x60|;]|$)""")
+        re.compile(r"""(?i)\b(PMAK-[a-f0-9]{24}-[a-f0-9]{34})(?:['|\"|\n|\r|\s|\x60|;]|$)""")
     ]

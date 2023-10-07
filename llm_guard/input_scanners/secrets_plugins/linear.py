@@ -14,7 +14,7 @@ class LinearDetector(RegexBasedDetector):
 
     denylist = [
         # Linear API Token
-        re.compile(r"""lin_api_(?i)[a-z0-9]{40}"""),
+        re.compile(r"""(?i)lin_api_[a-z0-9]{40}"""),
         # Linear Client Secret
         re.compile(
             r"""(?i)(?:linear)(?:[0-9a-z\-_\t .]{0,20})(?:[\s|']|[\s|"]){0,3}(?:=|>|:{1,3}=|\|\|:|<=|=>|:|\?=)(?:'|\"|\s|=|\x60){0,5}([a-f0-9]{32})(?:['|\"|\n|\r|\s|\x60|;]|$)"""

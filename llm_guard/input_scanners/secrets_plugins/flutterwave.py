@@ -14,9 +14,9 @@ class FlutterwaveDetector(RegexBasedDetector):
 
     denylist = [
         # Flutterwave Encryption Key
-        re.compile(r"""FLWSECK_TEST-(?i)[a-h0-9]{12}"""),
+        re.compile(r"""(?i)FLWSECK_TEST-[a-h0-9]{12}"""),
         # Flutterwave Public Key
-        re.compile(r"""FLWPUBK_TEST-(?i)[a-h0-9]{32}-X"""),
+        re.compile(r"""(?i)FLWPUBK_TEST-[a-h0-9]{32}-X"""),
         # Flutterwave Secret Key
-        re.compile(r"""FLWSECK_TEST-(?i)[a-h0-9]{32}-X"""),
+        re.compile(r"""(?i)FLWSECK_TEST-[a-h0-9]{32}-X"""),
     ]

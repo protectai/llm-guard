@@ -14,7 +14,7 @@ class EasyPostDetector(RegexBasedDetector):
 
     denylist = [
         # EasyPost API token
-        re.compile(r"""\bEZAK(?i)[a-z0-9]{54}"""),
+        re.compile(r"""(?i)\bEZAK[a-z0-9]{54}"""),
         # EasyPost test API token
-        re.compile(r"""\bEZTK(?i)[a-z0-9]{54}"""),
+        re.compile(r"""(?i)\bEZTK[a-z0-9]{54}"""),
     ]

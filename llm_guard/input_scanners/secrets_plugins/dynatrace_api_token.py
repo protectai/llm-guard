@@ -14,5 +14,5 @@ class DynatraceApiTokenDetector(RegexBasedDetector):
 
     denylist = [
         # Dynatrace API Token
-        re.compile(r"""dt0c01\.(?i)[a-z0-9]{24}\.[a-z0-9]{64}"""),
+        re.compile(r"""(?i)dt0c01\.[a-z0-9]{24}\.[a-z0-9]{64}"""),
     ]

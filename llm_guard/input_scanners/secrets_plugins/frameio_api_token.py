@@ -14,5 +14,5 @@ class FrameIoApiTokenDetector(RegexBasedDetector):
 
     denylist = [
         # Frame.io API token
-        re.compile(r"""fio-u-(?i)[a-z0-9\-_=]{64}"""),
+        re.compile(r"""(?i)fio-u-[a-z0-9\-_=]{64}"""),
     ]

@@ -14,5 +14,5 @@ class DuffelApiTokenDetector(RegexBasedDetector):
 
     denylist = [
         # Duffel API Token
-        re.compile(r"""duffel_(test|live)_(?i)[a-z0-9_\-=]{43}"""),
+        re.compile(r"""(?i)duffel_(test|live)_[a-z0-9_\-=]{43}"""),
     ]
