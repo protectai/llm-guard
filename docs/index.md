@@ -1,6 +1,6 @@
 # LLM Guard - The Security Toolkit for LLM Interactions
 
-LLM-Guard is a comprehensive tool designed to fortify the security of Large Language Models (LLMs).
+LLM Guard by [Laiyer.ai](https://laiyer.ai) is a comprehensive tool designed to fortify the security of Large Language Models (LLMs).
 
 ## What is LLM Guard?
 

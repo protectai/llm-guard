@@ -1,6 +1,6 @@
 # LLM Guard - The Security Toolkit for LLM Interactions
 
-LLM-Guard is a comprehensive tool designed to fortify the security of Large Language Models (LLMs).
+LLM Guard by [Laiyer.ai](https://laiyer.ai) is a comprehensive tool designed to fortify the security of Large Language Models (LLMs).
 
 [**Documentation**](https://laiyer-ai.github.io/llm-guard/) | [**Demo**](https://huggingface.co/spaces/laiyer/llm-guard-playground)
 
@@ -11,7 +11,11 @@ LLM-Guard is a comprehensive tool designed to fortify the security of Large Lang
 [![Downloads](https://static.pepy.tech/badge/llm-guard/month)](https://pepy.tech/project/llm-guard)
 [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/laiyer_ai.svg?style=social&label=Follow%20%40Laiyer_AI)](https://twitter.com/laiyer_ai)
 
-**❤️ Proudly developed by the [Laiyer.ai](https://laiyer.ai/) team.**
+## Production Support / Help for companies
+
+We're eager to provide personalized assistance when deploying your LLM Guard to a production environment.
+
+- [Send Email ✉️](mailto:hello@laiyer.ai)
 
 ## What is LLM Guard?
 
@@ -77,37 +81,7 @@ python -m spacy download en_core_web_trf
 
 ## Roadmap
 
-### General
-
-- [ ] Extend language support to cover popular and emerging languages, prioritize based on community feedback.
-- [ ] Allow comparison of multiple outputs to facilitate better analysis and choice.
-- [ ] Enable scanning of logits to support streaming mode.
-- [ ] Expand examples and integrations, ensuring they cover common use-cases and are easy to follow.
-
-### Latency
-
-- [ ] Implement parallel scanning using multiprocessing to significantly reduce scanning time.
-- [ ] Provide an option to utilize lighter models for quicker scanning, while maintaining an acceptable level of accuracy.
-- [ ] Incorporate LRU cache to optimize performance by reusing previous results where applicable.
-
-### Prompt Scanners
-
-- [ ] Allow language restriction to focus scanning efforts and improve accuracy.
-- [ ] Utilize expressions for code detection to reduce dependency on models, improving speed and reliability.
-- [ ] Integrate yara for secret detection to enhance security scanning capabilities.
-- [ ] Sanitize text.
-- [ ] Support a variety of token calculators to offer more flexibility and compatibility.
-
-### Output Scanners
-
-- [ ] Sanitize text to maintain a clean, accurate scanning process.
-- [ ] Validate output formats like JSON, XML to ensure they adhere to standards.
-- [ ] Incorporate factual consistency checking to uphold the reliability of the data.
-- [ ] Scan for vulnerable libraries and provide recommendations for safer alternatives.
-- [ ] Check for license compliance to ensure legal integrity.
-- [ ] Detect insecure code patterns.
-- [ ] Identify potential SQL injection points to enhance security.
-- [ ] Verify links and provide options for whitelisting or blacklisting to maintain the quality of references.
+You can find our roadmap [here](https://llm-guard.com/#roadmap). Please don't hesitate to contribute or create issues, it helps us improve LLM Guard!
 
 ## Contributing
 
