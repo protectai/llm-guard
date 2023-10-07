@@ -7,6 +7,6 @@ sentence-transformers==2.2.2
 spacy==3.7.1
 tensorflow==2.14.0
 tiktoken==0.5.1
-torch==2.1.0
+torch==2.0.1
 transformers==4.30.2
 xformers==0.0.21
