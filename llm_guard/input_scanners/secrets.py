@@ -337,6 +337,78 @@ _default_detect_secrets_config = {
             "name": "SendbirdDetector",
             "path": _custom_plugins_path + "/sendbird.py",
         },
+        {
+            "name": "SendGridApiTokenDetector",
+            "path": _custom_plugins_path + "/sendgrid_api_token.py",
+        },
+        {
+            "name": "SendinBlueApiTokenDetector",
+            "path": _custom_plugins_path + "/sendinblue_api_token.py",
+        },
+        {
+            "name": "SentryAccessTokenDetector",
+            "path": _custom_plugins_path + "/sentry_access_token.py",
+        },
+        {
+            "name": "ShippoApiTokenDetector",
+            "path": _custom_plugins_path + "/shippo_api_token.py",
+        },
+        {
+            "name": "ShopifyDetector",
+            "path": _custom_plugins_path + "/shopify.py",
+        },
+        {
+            "name": "SidekiqDetector",
+            "path": _custom_plugins_path + "/sidekiq.py",
+        },
+        {
+            "name": "SlackDetector",
+            "path": _custom_plugins_path + "/slack.py",
+        },
+        {
+            "name": "SnykApiTokenDetector",
+            "path": _custom_plugins_path + "/snyk_api_token.py",
+        },
+        {
+            "name": "SquarespaceAccessTokenDetector",
+            "path": _custom_plugins_path + "/squarespace_access_token.py",
+        },
+        {
+            "name": "SumoLogicDetector",
+            "path": _custom_plugins_path + "/sumologic.py",
+        },
+        {
+            "name": "TelegramBotApiTokenDetector",
+            "path": _custom_plugins_path + "/telegram_bot_api_token.py",
+        },
+        {
+            "name": "TravisCiAccessTokenDetector",
+            "path": _custom_plugins_path + "/travisci_access_token.py",
+        },
+        {
+            "name": "TwitchApiTokenDetector",
+            "path": _custom_plugins_path + "/twitch_api_token.py",
+        },
+        {
+            "name": "TwitterDetector",
+            "path": _custom_plugins_path + "/twitter.py",
+        },
+        {
+            "name": "TypeformApiTokenDetector",
+            "path": _custom_plugins_path + "/typeform_api_token.py",
+        },
+        {
+            "name": "VaultDetector",
+            "path": _custom_plugins_path + "/vault.py",
+        },
+        {
+            "name": "YandexDetector",
+            "path": _custom_plugins_path + "/yandex.py",
+        },
+        {
+            "name": "ZendeskSecretKeyDetector",
+            "path": _custom_plugins_path + "/zendesk_secret_key.py",
+        },
     ]
 }
 
