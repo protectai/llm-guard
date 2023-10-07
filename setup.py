@@ -37,4 +37,5 @@ setuptools.setup(
     package_data={
         "llm_guard": ["**/*.json"],
     },
+    python_requires=">=3.9",
 )
