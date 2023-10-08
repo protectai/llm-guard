@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Regex` scanner to the prompt
 - `Language` scanners both for prompt and output
 - `JSON` output scanner
+- Best practices to the documentation
 
 ### Fixed
 -
