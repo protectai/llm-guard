@@ -82,6 +82,9 @@ def get_input_scanner(scanner_name: str, vault: Vault, config: Optional[Dict] = 
     if scanner_name == "Code":
         return input_scanners.Code(**config)
 
+    if scanner_name == "Language":
+        return input_scanners.Language(**config)
+
     if scanner_name == "PromptInjection":
         return input_scanners.PromptInjection(**config)
 
@@ -121,6 +124,9 @@ def get_output_scanner(scanner_name: str, vault: Vault, config: Optional[Dict] =
 
     if scanner_name == "Deanonymize":
         return output_scanners.Deanonymize(vault=vault)
+
+    if scanner_name == "Language":
+        return output_scanners.Bias(**config)
 
     if scanner_name == "Code":
         return output_scanners.Code(**config)

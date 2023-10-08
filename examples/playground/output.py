@@ -11,6 +11,7 @@ from llm_guard.output_scanners import (
     Bias,
     Code,
     Deanonymize,
+    Language,
     MaliciousURLs,
     NoRefusal,
     Refutation,
@@ -32,6 +33,7 @@ def init_settings() -> (List, Dict):
         "Bias",
         "Code",
         "Deanonymize",
+        "Language",
         "MaliciousURLs",
         "NoRefusal",
         "Refutation",
@@ -136,6 +138,79 @@ def init_settings() -> (List, Dict):
             st_cd_mode = st.selectbox("Mode", ["allowed", "denied"], index=0)
 
         settings["Code"] = {"languages": st_cd_languages, "mode": st_cd_mode}
+
+    if "Language" in st_enabled_scanners:
+        st_lan_expander = st.sidebar.expander(
+            "Language",
+            expanded=False,
+        )
+
+        with st_lan_expander:
+            st_lan_valid_language = st.multiselect(
+                "Languages",
+                [
+                    "af",
+                    "ar",
+                    "bg",
+                    "bn",
+                    "ca",
+                    "cs",
+                    "cy",
+                    "da",
+                    "de",
+                    "el",
+                    "en",
+                    "es",
+                    "et",
+                    "fa",
+                    "fi",
+                    "fr",
+                    "gu",
+                    "he",
+                    "hi",
+                    "hr",
+                    "hu",
+                    "id",
+                    "it",
+                    "ja",
+                    "kn",
+                    "ko",
+                    "lt",
+                    "lv",
+                    "mk",
+                    "ml",
+                    "mr",
+                    "ne",
+                    "nl",
+                    "no",
+                    "pa",
+                    "pl",
+                    "pt",
+                    "ro",
+                    "ru",
+                    "sk",
+                    "sl",
+                    "so",
+                    "sq",
+                    "sv",
+                    "sw",
+                    "ta",
+                    "te",
+                    "th",
+                    "tl",
+                    "tr",
+                    "uk",
+                    "ur",
+                    "vi",
+                    "zh-cn",
+                    "zh-tw",
+                ],
+                default=["en"],
+            )
+
+        settings["Language"] = {
+            "valid_languages": st_lan_valid_language,
+        }
 
     if "MaliciousURLs" in st_enabled_scanners:
         st_murls_expander = st.sidebar.expander(
@@ -322,6 +397,9 @@ def get_scanner(scanner_name: str, vault: Vault, settings: Dict):
 
     if scanner_name == "Deanonymize":
         return Deanonymize(vault=vault)
+
+    if scanner_name == "Language":
+        return Language(valid_languages=settings["valid_languages"])
 
     if scanner_name == "Code":
         mode = settings["mode"]

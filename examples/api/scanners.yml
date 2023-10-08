@@ -18,6 +18,8 @@ input_scanners:
   Code:
     # allowed: []
     denied: ["go"]
+  Language:
+    valid_languages: [ "en" ]
   PromptInjection:
     threshold: 0.75
   PromptInjectionV2:
@@ -52,6 +54,8 @@ output_scanners:
     #allowed: ["python"]
     denied: ["python"]
   Deanonymize:
+  Language:
+    valid_languages: [ "en" ]
   MaliciousURLs:
     threshold: 0.75
   NoRefusal:

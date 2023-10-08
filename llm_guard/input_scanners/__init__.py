@@ -3,6 +3,7 @@ from .anonymize import Anonymize
 from .ban_substrings import BanSubstrings
 from .ban_topics import BanTopics
 from .code import Code
+from .language import Language
 from .prompt_injection import PromptInjection
 from .prompt_injection_v2 import PromptInjectionV2
 from .regex import Regex
@@ -16,6 +17,7 @@ __all__ = [
     "BanSubstrings",
     "BanTopics",
     "Code",
+    "Language",
     "PromptInjection",
     "PromptInjectionV2",
     "Regex",

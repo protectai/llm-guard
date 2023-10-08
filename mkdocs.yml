@@ -117,6 +117,7 @@ nav:
       - Ban Substrings: input_scanners/ban_substrings.md
       - Ban Topics: input_scanners/ban_topics.md
       - Code: input_scanners/code.md
+      - Language: input_scanners/language.md
       - Prompt Injection: input_scanners/prompt_injection.md
       - Regex: input_scanners/regex.md
       - Secrets: input_scanners/secrets.md
@@ -129,6 +130,7 @@ nav:
       - Bias: output_scanners/bias.md
       - Code: output_scanners/code.md
       - Deanonymize: output_scanners/deanonymize.md
+      - Language: output_scanners/language.md
       - Malicious URLs: output_scanners/malicious_urls.md
       - No Refusal: output_scanners/no_refusal.md
       - Refutation: output_scanners/refutation.md
