@@ -1,7 +1,6 @@
-import re
 from typing import List, Optional
 
-from llm_guard.util import logger
+from llm_guard.input_scanners.regex import Regex as InputRegex
 
 from .base import Scanner
 
@@ -33,46 +32,7 @@ class Regex(Scanner):
             ValueError: If no patterns provided or both good and bad patterns provided.
         """
 
-        if not good_patterns:
-            good_patterns = []
-
-        if not bad_patterns:
-            bad_patterns = []
-
-        if len(good_patterns) > 0 and len(bad_patterns) > 0:
-            raise ValueError("Provide either good or bad regex patterns")
-
-        if len(good_patterns) == 0 and len(bad_patterns) == 0:
-            raise ValueError("No patterns provided")
-
-        self._good_patterns = []
-        for pattern in good_patterns:
-            self._good_patterns.append(re.compile(pattern))
-
-        self._bad_patterns = []
-        for pattern in bad_patterns:
-            self._bad_patterns.append(re.compile(pattern))
-
-        self._redact = redact
+        self._scanner = InputRegex(good_patterns, bad_patterns, redact)
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
-        if len(self._good_patterns) > 0:
-            for pattern in self._good_patterns:
-                if pattern.search(output):
-                    logger.debug(f"Pattern {pattern} matched the output")
-                    return output, True, 0.0
-
-            logger.warning(f"None of the patterns matched the output")
-            return output, False, 1.0
-
-        for pattern in self._bad_patterns:
-            if pattern.search(output):
-                logger.warning(f"Pattern {pattern} was detected in the output")
-
-                if self._redact:
-                    output = pattern.sub("[REDACTED]", output)
-
-                return output, False, 1.0
-
-        logger.debug(f"None of the patterns were found in the output")
-        return output, True, 0.0
+        return self._scanner.scan(output)

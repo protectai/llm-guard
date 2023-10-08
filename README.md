@@ -58,6 +58,7 @@ python -m spacy download en_core_web_trf
 - [BanTopics](https://laiyer-ai.github.io/llm-guard/input_scanners/ban_topics/)
 - [Code](https://laiyer-ai.github.io/llm-guard/input_scanners/code/)
 - [PromptInjection](https://laiyer-ai.github.io/llm-guard/input_scanners/prompt_injection/)
+- [Regex](https://laiyer-ai.github.io/llm-guard/input_scanners/regex/)
 - [Secrets](https://laiyer-ai.github.io/llm-guard/input_scanners/secrets/)
 - [Sentiment](https://laiyer-ai.github.io/llm-guard/input_scanners/sentiment/)
 - [TokenLimit](https://laiyer-ai.github.io/llm-guard/input_scanners/token_limit/)

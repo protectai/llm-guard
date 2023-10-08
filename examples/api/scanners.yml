@@ -22,6 +22,9 @@ input_scanners:
     threshold: 0.75
   PromptInjectionV2:
     threshold: 0.5
+  Regex:
+    # good_patterns: [""]
+    bad_patterns: [ "Bearer [A-Za-z0-9-._~+/]+" ]
   Secrets:
     redact_mode: "all"
   Sentiment:

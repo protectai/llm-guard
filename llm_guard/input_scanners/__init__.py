@@ -5,6 +5,7 @@ from .ban_topics import BanTopics
 from .code import Code
 from .prompt_injection import PromptInjection
 from .prompt_injection_v2 import PromptInjectionV2
+from .regex import Regex
 from .secrets import Secrets
 from .sentiment import Sentiment
 from .token_limit import TokenLimit
@@ -17,6 +18,7 @@ __all__ = [
     "Code",
     "PromptInjection",
     "PromptInjectionV2",
+    "Regex",
     "Secrets",
     "Sentiment",
     "TokenLimit",

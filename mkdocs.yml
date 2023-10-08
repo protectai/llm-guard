@@ -118,6 +118,7 @@ nav:
       - Ban Topics: input_scanners/ban_topics.md
       - Code: input_scanners/code.md
       - Prompt Injection: input_scanners/prompt_injection.md
+      - Regex: input_scanners/regex.md
       - Secrets: input_scanners/secrets.md
       - Sentiment: input_scanners/sentiment.md
       - Token Limit: input_scanners/token_limit.md

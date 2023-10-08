@@ -11,6 +11,7 @@ from llm_guard.input_scanners import (
     Code,
     PromptInjection,
     PromptInjectionV2,
+    Regex,
     Secrets,
     Sentiment,
     TokenLimit,
@@ -30,6 +31,7 @@ def init_settings() -> (List, Dict):
         "Code",
         "PromptInjection",
         "PromptInjectionV2",
+        "Regex",
         "Secrets",
         "Sentiment",
         "TokenLimit",
@@ -211,6 +213,36 @@ def init_settings() -> (List, Dict):
             "threshold": st_piv2_threshold,
         }
 
+    if "Regex" in st_enabled_scanners:
+        st_regex_expander = st.sidebar.expander(
+            "Regex",
+            expanded=False,
+        )
+
+        with st_regex_expander:
+            st_regex_patterns = st.text_area(
+                "Enter patterns to ban (one per line)",
+                value="Bearer [A-Za-z0-9-._~+/]+",
+                height=200,
+            ).split("\n")
+
+            st_regex_type = st.selectbox(
+                "Match type",
+                ["good", "bad"],
+                index=1,
+                help="good: allow only good patterns, bad: ban bad patterns",
+            )
+
+            st_redact = st.checkbox(
+                "Redact", value=False, help="Replace the matched bad patterns with [REDACTED]"
+            )
+
+        settings["Regex"] = {
+            "patterns": st_regex_patterns,
+            "type": st_regex_type,
+            "redact": st_redact,
+        }
+
     if "Secrets" in st_enabled_scanners:
         st_sec_expander = st.sidebar.expander(
             "Secrets",
@@ -331,6 +363,20 @@ def get_scanner(scanner_name: str, vault: Vault, settings: Dict):
 
     if scanner_name == "PromptInjectionV2":
         return PromptInjectionV2(threshold=settings["threshold"])
+
+    if scanner_name == "Regex":
+        match_type = settings["type"]
+
+        good_patterns = None
+        bad_patterns = None
+        if match_type == "good":
+            good_patterns = settings["patterns"]
+        elif match_type == "bad":
+            bad_patterns = settings["patterns"]
+
+        return Regex(
+            good_patterns=good_patterns, bad_patterns=bad_patterns, redact=settings["redact"]
+        )
 
     if scanner_name == "Secrets":
         return Secrets(redact_mode=settings["redact_mode"])
