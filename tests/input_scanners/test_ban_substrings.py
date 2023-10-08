@@ -43,5 +43,5 @@ def test_scan_all():
     )
     sanitized_prompt, valid, score = scanner.scan("Testing one and two")
     assert sanitized_prompt == "Testing [REDACTED] and [REDACTED]"
-    assert valid == False
+    assert valid is False
     assert score == 1.0

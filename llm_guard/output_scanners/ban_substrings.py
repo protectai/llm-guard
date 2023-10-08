@@ -51,6 +51,7 @@ class BanSubstrings(Scanner):
             case_sensitive=case_sensitive,
             substrings=substrings,
             redact=redact,
+            contains_all=contains_all,
         )
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
