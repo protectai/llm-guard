@@ -3,6 +3,7 @@ from typing import List, Optional
 
 from presidio_analyzer import AnalyzerEngine
 from presidio_analyzer.nlp_engine import SpacyNlpEngine
+from presidio_anonymizer import AnonymizerEngine
 
 from llm_guard.input_scanners.anonymize import (
     Anonymize,
@@ -26,6 +27,7 @@ class Sensitive(Scanner):
         self,
         entity_types: Optional[List[str]] = None,
         regex_pattern_groups_path: str = sensitive_patterns_path,
+        redact: bool = False,
     ):
         """
         Initializes an instance of the Sensitive class.
@@ -34,6 +36,7 @@ class Sensitive(Scanner):
            entity_types (Optional[List[str]]): The entity types to look for in the output. Defaults to all
                                                entity types.
            regex_pattern_groups_path (str): Path to the regex patterns file. Default is sensitive_patterns.json.
+           redact (bool): Redact found sensitive entities. Default to False.
         """
         os.environ["TOKENIZERS_PARALLELISM"] = "false"  # Disables huggingface/tokenizers warning
 
@@ -49,6 +52,8 @@ class Sensitive(Scanner):
             ),
             nlp_engine=SpacyNlpEngine({"en": "en_core_web_trf"}),
         )
+        self._anonymizer = AnonymizerEngine()
+        self._redact = redact
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         if output.strip() == "":
@@ -65,6 +70,11 @@ class Sensitive(Scanner):
             analyzer_results.extend(chunk_results)
 
         if analyzer_results:
+            if self._redact:
+                logger.debug(f"Redacting sensitive entities")
+                result = self._anonymizer.anonymize(text=output, analyzer_results=analyzer_results)
+                output = result.text
+
             risk_score = max(analyzer_result.score for analyzer_result in analyzer_results)
             logger.warning(f"Found sensitive data in the output {analyzer_results}")
             return output, False, risk_score

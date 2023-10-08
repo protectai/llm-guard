@@ -357,8 +357,9 @@ def init_settings() -> (List, Dict):
             st.caption(
                 "Check all supported entities: https://microsoft.github.io/presidio/supported_entities/#list-of-supported-entities"
             )
+            st_sens_redact = st.checkbox("Redact", value=False)
 
-        settings["Sensitive"] = {"entity_types": st_sens_entity_types}
+        settings["Sensitive"] = {"entity_types": st_sens_entity_types, "redact": st_sens_redact}
 
     if "Sentiment" in st_enabled_scanners:
         st_sent_expander = st.sidebar.expander(
@@ -467,7 +468,7 @@ def get_scanner(scanner_name: str, vault: Vault, settings: Dict):
         return Relevance(threshold=settings["threshold"])
 
     if scanner_name == "Sensitive":
-        return Sensitive(entity_types=settings["entity_types"])
+        return Sensitive(entity_types=settings["entity_types"], redact=settings["redact"])
 
     if scanner_name == "Sentiment":
         return Sentiment(threshold=settings["threshold"])

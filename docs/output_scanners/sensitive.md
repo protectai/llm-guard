@@ -24,7 +24,7 @@ with predefined internal patterns, the tool offers robust scanning capabilities.
 
 !!! note
 
-    It uses transformers based model `en_core_web_trf` which uses a more modern deep-learning architecture, but is generally
+    It uses transformers based model `en_core_web_trf` which is based on a more modern deep-learning architecture, but is generally
     slower than the default `en_core_web_lg` model.
 
 When running, the scanner inspects the model's output for specific entity types that may be considered sensitive. If no
@@ -47,11 +47,13 @@ Here's a quick example of how you can use the Sensitive Data Detector:
 ```python
 from llm_guard.output_scanners import Sensitive
 
-scanner = Sensitive(entity_types=["NAME", "EMAIL"])
+scanner = Sensitive(entity_types=["NAME", "EMAIL"], redact=True)
 sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```
 
 If you want, you can use your own patterns by giving the path in `regex_pattern_groups_path`
 
 In the example, we're particularly checking for names and emails. If the output_clean contains any PII, the `is_valid`
-will be False.
+will be `False`.
+
+Additionally, when `redact` is enabled, it will replace all sensitive entities.

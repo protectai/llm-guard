@@ -72,7 +72,8 @@ output_scanners:
   Relevance:
     threshold: 0
   Sensitive:
-    entity_types:
+    # entity_types:
+    redact: false
   Sentiment:
     threshold: -0.1
     # lexicon: "vader_lexicon"

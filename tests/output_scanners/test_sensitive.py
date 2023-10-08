@@ -16,14 +16,14 @@ from llm_guard.output_scanners.sensitive import Sensitive
         (
             "What's my boss name?",
             "John Doe is his name",
-            "John Doe is his name",
+            "<PERSON> is his name",
             False,
             0.85,
         ),  # Name in the output
     ],
 )
 def test_scan(prompt, output, expected_output, expected_valid, expected_score):
-    scanner = Sensitive()
+    scanner = Sensitive(redact=True)
     sanitized_output, valid, score = scanner.scan(prompt, output)
     assert sanitized_output == expected_output
     assert valid == expected_valid
