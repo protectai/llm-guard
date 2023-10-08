@@ -30,6 +30,7 @@ class BanSubstrings(Scanner):
         case_sensitive: bool = False,
         substrings: Optional[List[str]] = None,
         redact: bool = False,
+        contains_all: bool = False,  # contains any
     ):
         """
         Initializes BanSubstrings with a match type, case sensitivity option, and a list of substrings.
@@ -39,6 +40,7 @@ class BanSubstrings(Scanner):
             case_sensitive (bool): Determines whether the substring matching is case sensitive. Default is False.
             substrings (Optional[List[str]]): The list of substrings to be banned from the text. Default is None.
             redact (bool): Determines whether the banned substrings should be redacted from the text. Default is False.
+            contains_all (bool): Flag to indicate if need to match all substrings instead of any of them. Default is contains any.
 
         Raises:
             ValueError: If no substrings are provided or match_type is not 'str' or 'word'.

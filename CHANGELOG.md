@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -
 
 ### Changed
--
+- `BanSubstrings` can match all substrings in addition to any of them
 
 ### Removed
 -

@@ -12,7 +12,10 @@ stop_file_path = os.path.join(
     "resources",
     "prompt_stop_substrings.json",
 )
-allowed_match_type = ["str", "word"]
+
+MATCH_TYPE_STR = "str"
+MATCH_TYPE_WORD = "word"
+allowed_match_type = [MATCH_TYPE_STR, MATCH_TYPE_WORD]
 
 
 class BanSubstrings(Scanner):
@@ -24,10 +27,11 @@ class BanSubstrings(Scanner):
 
     def __init__(
         self,
-        match_type: str = "str",
+        match_type: str = MATCH_TYPE_STR,
         case_sensitive: bool = False,
         substrings: List[str] = None,
         redact: bool = False,
+        contains_all: bool = False,  # contains any
     ):
         """
         Initialize BanSubstrings object.
@@ -39,6 +43,8 @@ class BanSubstrings(Scanner):
             case_sensitive (bool, optional): Flag to indicate if the match should be case-sensitive. Default is False.
             substrings (List[str], optional): List of substrings to ban.
             redact (bool, optional): Flag to indicate if the banned substrings should be redacted. Default is False.
+            contains_all (bool): Flag to indicate if need to match all substrings instead of any of them. Default is contains any.
+
         Raises:
             ValueError: If no substrings are provided or match_type is not 'str' or 'word'.
         """
@@ -53,6 +59,7 @@ class BanSubstrings(Scanner):
         self._case_sensitive = case_sensitive
         self._substrings = substrings
         self._redact = redact
+        self._contains_all = contains_all
 
     @staticmethod
     def _redact_text(text: str, substrings: List[str]) -> str:
@@ -62,23 +69,41 @@ class BanSubstrings(Scanner):
         return redacted_text
 
     def scan(self, prompt: str) -> (str, bool, float):
-        match = False
         matched_substrings = []
+        missing_substrings = []
         for s in self._substrings:
             if self._case_sensitive:
                 s, prompt = s.lower(), prompt.lower()
 
-            if self._match_type == "str":
+            if self._match_type == MATCH_TYPE_STR:
                 if s in prompt:
-                    match = True
                     matched_substrings.append(s)
-            elif self._match_type == "word":
-                if re.search(r"\b" + s + r"\b", prompt):
-                    match = True
-                    matched_substrings.append(s)
+                else:
+                    missing_substrings.append(s)
 
-        if match:
-            logger.warning(f"Found the following banned substrings: {matched_substrings}")
+            if self._match_type == MATCH_TYPE_WORD:
+                if re.search(r"\b" + s + r"\b", prompt):
+                    matched_substrings.append(s)
+                else:
+                    missing_substrings.append(s)
+
+        if self._contains_all:
+            if len(missing_substrings) > 0:
+                logger.debug(f"Some substrings were not found: " + ", ".join(missing_substrings))
+                return prompt, True, 0.0
+
+            if self._redact:
+                prompt = self._redact_text(prompt, matched_substrings)
+                logger.debug("Redacted banned substrings")
+
+            logger.warning(f"All substrings were found")
+
+            return prompt, False, 1.0
+
+        if matched_substrings:
+            logger.warning(
+                f"Found the following banned substrings: " + ", ".join(matched_substrings)
+            )
 
             if self._redact:
                 prompt = self._redact_text(prompt, matched_substrings)

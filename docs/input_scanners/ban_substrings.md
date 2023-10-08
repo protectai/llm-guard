@@ -19,7 +19,7 @@ Additionally, the scanner can be configured to replace the banned substrings wit
 ```python
 from llm_guard.input_scanners import BanSubstrings
 
-scanner = BanSubstrings(substrings=["forbidden", "unwanted"], match_type="word", case_sensitive=False, redact=False)
+scanner = BanSubstrings(substrings=["forbidden", "unwanted"], match_type="word", case_sensitive=False, redact=False, contains_all=False)
 sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
 

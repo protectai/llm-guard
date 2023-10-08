@@ -33,3 +33,15 @@ def test_scan(prompt, redact, expected_prompt, expected_valid, expected_score):
     assert sanitized_prompt == expected_prompt
     assert valid == expected_valid
     assert score == expected_score
+
+
+def test_scan_all():
+    scanner = BanSubstrings(
+        substrings=["one", "two"],
+        redact=True,
+        contains_all=True,
+    )
+    sanitized_prompt, valid, score = scanner.scan("Testing one and two")
+    assert sanitized_prompt == "Testing [REDACTED] and [REDACTED]"
+    assert valid == False
+    assert score == 1.0
