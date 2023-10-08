@@ -125,6 +125,9 @@ def get_output_scanner(scanner_name: str, vault: Vault, config: Optional[Dict] =
     if scanner_name == "Deanonymize":
         return output_scanners.Deanonymize(vault=vault)
 
+    if scanner_name == "JSON":
+        return output_scanners.JSON(**config)
+
     if scanner_name == "Language":
         return output_scanners.Bias(**config)
 

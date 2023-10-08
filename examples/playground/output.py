@@ -6,6 +6,7 @@ from streamlit_tags import st_tags
 
 from llm_guard.input_scanners.anonymize import default_entity_types
 from llm_guard.output_scanners import (
+    JSON,
     BanSubstrings,
     BanTopics,
     Bias,
@@ -33,6 +34,7 @@ def init_settings() -> (List, Dict):
         "Bias",
         "Code",
         "Deanonymize",
+        "JSON",
         "Language",
         "MaliciousURLs",
         "NoRefusal",
@@ -140,6 +142,25 @@ def init_settings() -> (List, Dict):
             st_cd_mode = st.selectbox("Mode", ["allowed", "denied"], index=0)
 
         settings["Code"] = {"languages": st_cd_languages, "mode": st_cd_mode}
+
+    if "JSON" in st_enabled_scanners:
+        st_json_expander = st.sidebar.expander(
+            "JSON",
+            expanded=False,
+        )
+
+        with st_json_expander:
+            st_json_required_elements = st.slider(
+                label="Required elements",
+                value=0,
+                min_value=0,
+                max_value=10,
+                step=1,
+                key="json_required_elements",
+                help="The minimum number of JSON elements that should be present",
+            )
+
+        settings["JSON"] = {"required_elements": st_json_required_elements}
 
     if "Language" in st_enabled_scanners:
         st_lan_expander = st.sidebar.expander(
@@ -400,6 +421,9 @@ def get_scanner(scanner_name: str, vault: Vault, settings: Dict):
 
     if scanner_name == "Deanonymize":
         return Deanonymize(vault=vault)
+
+    if scanner_name == "JSON":
+        return JSON(required_elements=settings["required_elements"])
 
     if scanner_name == "Language":
         return Language(valid_languages=settings["valid_languages"])

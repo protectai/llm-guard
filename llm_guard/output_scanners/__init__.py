@@ -4,6 +4,7 @@ from .ban_topics import BanTopics
 from .bias import Bias
 from .code import Code
 from .deanonymize import Deanonymize
+from .json import JSON
 from .language import Language
 from .malicious_urls import MaliciousURLs
 from .no_refusal import NoRefusal
@@ -20,6 +21,7 @@ __all__ = [
     "Bias",
     "Code",
     "Deanonymize",
+    "JSON",
     "Language",
     "MaliciousURLs",
     "NoRefusal",
