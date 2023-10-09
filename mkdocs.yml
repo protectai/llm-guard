@@ -131,6 +131,7 @@ nav:
       - Bias: output_scanners/bias.md
       - Code: output_scanners/code.md
       - Deanonymize: output_scanners/deanonymize.md
+      - JSON: output_scanners/json.md
       - Language: output_scanners/language.md
       - Malicious URLs: output_scanners/malicious_urls.md
       - No Refusal: output_scanners/no_refusal.md
