@@ -13,6 +13,7 @@ from llm_guard.output_scanners import (
     Code,
     Deanonymize,
     Language,
+    LanguageSame,
     MaliciousURLs,
     NoRefusal,
     Refutation,
@@ -36,6 +37,7 @@ def init_settings() -> (List, Dict):
         "Deanonymize",
         "JSON",
         "Language",
+        "LanguageSame",
         "MaliciousURLs",
         "NoRefusal",
         "Refutation",
@@ -428,6 +430,9 @@ def get_scanner(scanner_name: str, vault: Vault, settings: Dict):
 
     if scanner_name == "Language":
         return Language(valid_languages=settings["valid_languages"])
+
+    if scanner_name == "LanguageSame":
+        return LanguageSame()
 
     if scanner_name == "Code":
         mode = settings["mode"]

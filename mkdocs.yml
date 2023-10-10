@@ -133,6 +133,7 @@ nav:
       - Deanonymize: output_scanners/deanonymize.md
       - JSON: output_scanners/json.md
       - Language: output_scanners/language.md
+      - Language Same: output_scanners/language_same.md
       - Malicious URLs: output_scanners/malicious_urls.md
       - No Refusal: output_scanners/no_refusal.md
       - Refutation: output_scanners/refutation.md

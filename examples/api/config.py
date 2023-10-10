@@ -129,7 +129,10 @@ def get_output_scanner(scanner_name: str, vault: Vault, config: Optional[Dict] =
         return output_scanners.JSON(**config)
 
     if scanner_name == "Language":
-        return output_scanners.Bias(**config)
+        return output_scanners.Language(**config)
+
+    if scanner_name == "LanguageSame":
+        return output_scanners.LanguageSame()
 
     if scanner_name == "Code":
         return output_scanners.Code(**config)
