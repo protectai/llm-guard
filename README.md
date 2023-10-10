@@ -74,6 +74,7 @@ python -m spacy download en_core_web_trf
 - [Deanonymize](https://laiyer-ai.github.io/llm-guard/output_scanners/deanonymize/)
 - [JSON](https://laiyer-ai.github.io/llm-guard/output_scanners/json/)
 - [Language](https://laiyer-ai.github.io/llm-guard/output_scanners/language/)
+- [LanguageSame](https://laiyer-ai.github.io/llm-guard/output_scanners/language_same/)
 - [MaliciousURLs](https://laiyer-ai.github.io/llm-guard/output_scanners/malicious_urls/)
 - [NoRefusal](https://laiyer-ai.github.io/llm-guard/output_scanners/no_refusal/)
 - [Refutation](https://laiyer-ai.github.io/llm-guard/output_scanners/refutation/)

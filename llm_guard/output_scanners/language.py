@@ -7,7 +7,7 @@ from .base import Scanner
 
 class Language(Scanner):
     """
-    A Scanner subclass responsible for determining the language of a given text
+    Language scanner is responsible for determining the language of a given text
     prompt and verifying its validity against a list of predefined languages.
     """
 

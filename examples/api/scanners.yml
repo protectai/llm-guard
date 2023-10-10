@@ -60,6 +60,7 @@ output_scanners:
     required_elements: 0
   Language:
     valid_languages: [ "en" ]
+  LanguageSame:
   MaliciousURLs:
     threshold: 0.75
   NoRefusal:

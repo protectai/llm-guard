@@ -14,7 +14,7 @@ At its core, the scanner leverages the capabilities of [langdetect](https://gith
 The primary function of the scanner is to analyze the model's output, determine its language, and check if it's in the
 list.
 
-!!! note
+!!! info
 
     Supported languages: `['af', 'ar', 'bg', 'bn', 'ca', 'cs', 'cy', 'da', 'de', 'el', 'en', 'es', 'et', 'fa', 'fi', 'fr', 'gu', 'he',  'pt', 'ro', 'ru', 'sk', 'sl', 'so', 'sq', 'sv', 'sw', 'ta', 'te', 'th', 'tl', 'tr', 'uk', 'ur', 'vi', 'zh-cn', 'zh-tw']`.
 

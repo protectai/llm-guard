@@ -6,6 +6,7 @@ from .code import Code
 from .deanonymize import Deanonymize
 from .json import JSON
 from .language import Language
+from .language_same import LanguageSame
 from .malicious_urls import MaliciousURLs
 from .no_refusal import NoRefusal
 from .refutation import Refutation
@@ -23,6 +24,7 @@ __all__ = [
     "Deanonymize",
     "JSON",
     "Language",
+    "LanguageSame",
     "MaliciousURLs",
     "NoRefusal",
     "Refutation",
