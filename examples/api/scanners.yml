@@ -14,8 +14,8 @@ input_scanners:
     redact: false
     contains_all: false
   BanTopics:
-    topics: ["religion"]
-    threshold: 0.75
+    topics: ["violence"]
+    threshold: 0.6
   Code:
     # allowed: []
     denied: ["go"]
@@ -48,8 +48,8 @@ output_scanners:
     redact: false
     contains_all: false
   BanTopics:
-    threshold: 0.75
-    topics: ["politics"]
+    threshold: 0.6
+    topics: ["violence"]
   Bias:
     threshold: 0.75
   Code:

@@ -14,19 +14,14 @@ of refusals can include statements like "Sorry, I can't assist with that" or "I'
 
 It leverages the power
 of HuggingFace
-model [MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7](https://huggingface.co/MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7)
+model [MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c](https://huggingface.co/MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c)
 to classify the model's output.
-
-!!! note
-
-    The languages in the dataset
-    are: `['ar', 'bn', 'de', 'es', 'fa', 'fr', 'he', 'hi', 'id', 'it', 'ja', 'ko', 'mr', 'nl', 'pl', 'ps', 'pt', 'ru', 'sv', 'sw', 'ta', 'tr', 'uk', 'ur', 'vi', 'zh']`.
 
 ## Usage
 
 ```python
 from llm_guard.output_scanners import NoRefusal
 
-scanner = NoRefusal(threshold=0.7)
+scanner = NoRefusal(threshold=0.5)
 sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```

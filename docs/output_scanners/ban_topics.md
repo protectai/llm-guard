@@ -13,14 +13,9 @@ are misaligned with the platform's guidelines or values.
 ## How it works
 
 It relies on the capabilities of the model from
-HuggingFace: [MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7](https://huggingface.co/MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7).
+HuggingFace: [MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c](https://huggingface.co/MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c).
 This model identifies the topic or theme of an output, enabling the scanner to vet the content against a predefined list
 of banned topics.
-
-!!! note
-
-    Supported
-    languages: `['ar', 'bn', 'de', 'es', 'fa', 'fr', 'he', 'hi', 'id', 'it', 'ja', 'ko', 'mr', 'nl', 'pl', 'ps', 'pt', 'ru', 'sv', 'sw', 'ta', 'tr', 'uk', 'ur', 'vi', 'zh']`.
 
 ## Usage
 

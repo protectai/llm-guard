@@ -2,8 +2,8 @@ from llm_guard.util import device, lazy_load_dep, logger
 
 from .base import Scanner
 
-_model_path = "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7"
-_categories = ["refusal"]
+_model_path = "MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c"
+_categories = ["refusal", "not_refusal"]
 
 
 class NoRefusal(Scanner):
@@ -29,7 +29,6 @@ class NoRefusal(Scanner):
         self._classifier = transformers.pipeline(
             "zero-shot-classification",
             model=_model_path,
-            device=device(),
         )
         logger.debug(f"Initialized model {_model_path} on device {device()}")
 
@@ -37,14 +36,15 @@ class NoRefusal(Scanner):
         if output.strip() == "":
             return output, True, 0.0
 
-        classifier_output = self._classifier(output, _categories, multi_label=False)
+        output_model = self._classifier(output, _categories, multi_label=False)
+        combined_output = dict(zip(output_model["labels"], output_model["scores"]))
 
-        max_score = round(max(classifier_output["scores"]) if classifier_output["scores"] else 0, 2)
+        max_score = round(combined_output["refusal"], 2)
         if max_score > self._threshold:
-            logger.warning(f"Detected refusal result with similarity score: {max_score}")
+            logger.warning(f"Refusal detected for the prompt: {combined_output}")
 
             return output, False, max_score
 
-        logger.debug(f"No refusals. Max similarity with the known refusal results: {max_score}")
+        logger.debug(f"No refusal detected: {combined_output}")
 
         return output, True, 0.0

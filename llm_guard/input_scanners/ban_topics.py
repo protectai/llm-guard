@@ -4,7 +4,7 @@ from llm_guard.util import device, lazy_load_dep, logger
 
 from .base import Scanner
 
-_model_path = "MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7"
+_model_path = "MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c"
 
 
 class BanTopics(Scanner):
@@ -14,7 +14,7 @@ class BanTopics(Scanner):
     It uses a HuggingFace model to perform zero-shot classification.
     """
 
-    def __init__(self, topics=List[str], threshold: float = 0.75):
+    def __init__(self, topics=List[str], threshold: float = 0.6):
         """
         Initialize BanTopics object.
 
@@ -43,16 +43,18 @@ class BanTopics(Scanner):
         if prompt.strip() == "":
             return prompt, True, 0.0
 
-        output = self._classifier(prompt, self._topics, multi_label=False)
+        output_model = self._classifier(prompt, self._topics, multi_label=False)
 
-        max_score = round(max(output["scores"]) if output["scores"] else 0, 2)
+        max_score = round(max(output_model["scores"]) if output_model["scores"] else 0, 2)
         if max_score > self._threshold:
             logger.warning(
-                f"Topics detected for the prompt {output['labels']} with scores: {output['scores']}"
+                f"Topics detected for the prompt {output_model['labels']} with scores: {output_model['scores']}"
             )
 
             return prompt, False, max_score
 
-        logger.debug(f"No banned topics detected ({output['labels']}, scores: {output['scores']})")
+        logger.debug(
+            f"No banned topics detected ({output_model['labels']}, scores: {output_model['scores']})"
+        )
 
         return prompt, True, 0.0

@@ -137,7 +137,7 @@ def init_settings() -> (List, Dict):
             st_bt_topics = st_tags(
                 label="List of topics",
                 text="Type and press enter",
-                value=["politics", "religion", "money", "crime"],
+                value=["violence"],
                 suggestions=[],
                 maxtags=30,
                 key="bt_topics",
@@ -145,7 +145,7 @@ def init_settings() -> (List, Dict):
 
             st_bt_threshold = st.slider(
                 label="Threshold",
-                value=0.75,
+                value=0.6,
                 min_value=0.0,
                 max_value=1.0,
                 step=0.05,

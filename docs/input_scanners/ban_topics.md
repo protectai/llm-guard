@@ -12,13 +12,9 @@ reduce the risk of generating responses that could lead to misunderstandings or 
 
 ## How it works
 
-It relies on the capabilities of the model: [MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7](https://huggingface.co/MoritzLaurer/mDeBERTa-v3-base-xnli-multilingual-nli-2mil7).
+It relies on the capabilities of the model: [MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c](https://huggingface.co/MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c).
 This model aids in identifying the underlying theme or topic of a prompt, allowing the scanner to cross-check it against
 a list of banned topics.
-
-!!! note
-
-    Supported languages: `['ar', 'bn', 'de', 'es', 'fa', 'fr', 'he', 'hi', 'id', 'it', 'ja', 'ko', 'mr', 'nl', 'pl', 'ps', 'pt', 'ru', 'sv', 'sw', 'ta', 'tr', 'uk', 'ur', 'vi', 'zh']`.
 
 ## Usage
 
