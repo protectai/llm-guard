@@ -1,11 +1,13 @@
 [
   {
     "expressions": [
-      "\\b\\d{4}-\\d{4}-\\d{4}-\\d{4}\\b"
+      "(?:(4\\d{3}[-\\s]?\\d{4}[-\\s]?\\d{4}[-\\s]?\\d{4})|(3[47]\\d{2}[-\\s]?\\d{6}[-\\s]?\\d{5})|(3(?:0[0-5]|[68]\\d)\\d{11}))"
     ],
     "name": "CREDIT_CARD_RE",
     "examples": [
-      "1234-5678-9012-3456"
+      "4111111111111111",
+      "378282246310005",
+      "30569309025904"
     ],
     "context": [],
     "score": 0.75
@@ -17,6 +19,32 @@
     "name": "UUID",
     "examples": [
       "550e8400-e29b-41d4-a716-446655440000"
+    ],
+    "context": [],
+    "score": 0.75
+  },
+  {
+    "expressions": [
+      "\\b[A-Za-z0-9._%+-]+(\\[AT\\]|@)[A-Za-z0-9.-]+(\\[DOT\\]|\\.)[A-Za-z]{2,}\\b"
+    ],
+    "name": "EMAIL_ADDRESS_RE",
+    "examples": [
+      "john.doe@laiyer.ai",
+      "john.doe[AT]laiyer[DOT]ai",
+      "john.doe[AT]laiyer.ai",
+      "john.doe@laiyer[DOT]ai"
+    ],
+    "context": [],
+    "score": 0.75
+  },
+  {
+    "expressions": [
+      "\\b\\d{3}-\\d{2}-\\d{4}\\b"
+    ],
+    "name": "US_SSN_RE",
+    "examples": [
+      "111-22-3333",
+      "987-65-4321"
     ],
     "context": [],
     "score": 0.75

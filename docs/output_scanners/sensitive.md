@@ -1,48 +1,36 @@
 # Sensitive Scanner
 
-The Sensitive scanner actively scans the output from the language model, ensuring no Personal Identifiable Information (
-PII), secrets or sensitive data slips through.
+The Sensitive Scanner serves as your digital vanguard, ensuring that the language model's output is purged of Personally Identifiable Information (PII) and other sensitive data, safeguarding user interactions.
 
 ## Attack
 
-Sensitive Information Disclosure is a noted vulnerability in Language Learning Models (LLM). Such models may
-accidentally provide responses that contain confidential data. This poses risks such as unauthorized data access,
-violations of privacy, and even more severe security breaches. Addressing this is paramount, and that's where the
-Sensitive Data Detector comes into play.
+Language Learning Models (LLMs) occasionally pose the risk of unintentionally divulging sensitive information. The consequences can range from privacy violations to considerable security threats. The Sensitive Scanner strives to mitigate this by diligently scanning the model's responses.
 
-!!! info
+Referring to the `OWASP Top 10 for Large Language Model Applications`, this falls under:
 
-    Referring to the `OWASP Top 10 for Large Language Model Applications`, this falls under:
-
-    [LLM06: Sensitive Information Disclosure]((https://owasp.org/www-project-top-10-for-large-language-model-applications/)) -
-    To combat this, it's vital to integrate data sanitization and adopt strict user policies.
+[LLM06: Sensitive Information Disclosure](https://owasp.org/www-project-top-10-for-large-language-model-applications/) -
+To combat this, it's vital to integrate data sanitization and adopt strict user policies.
 
 ## How it works
 
-It takes advantage of the [Presidio Analyzer Engine](https://github.com/microsoft/presidio/). Coupled
-with predefined internal patterns, the tool offers robust scanning capabilities.
+It uses same mechanisms and de from the [Anonymize](../input_scanners/anonymize.md) scanner.
 
-!!! note
+## Get started
 
-    It uses transformers based model `en_core_web_trf` which is based on a more modern deep-learning architecture, but is generally
-    slower than the default `en_core_web_lg` model.
+Install the Spacy model depending on the use-case:
 
-When running, the scanner inspects the model's output for specific entity types that may be considered sensitive. If no
-types are chosen, the tool defaults to scanning for all known entity types, offering comprehensive coverage.
+```sh
+# en_spacy_pii_distilbert (default)
+pip install https://huggingface.co/beki/en_spacy_pii_distilbert/resolve/main/en_spacy_pii_distilbert-any-py3-none-any.whl
 
-### Entities
+# en_spacy_pii_fast
+pip install https://huggingface.co/beki/en_spacy_pii_fast/resolve/main/en_spacy_pii_fast-any-py3-none-any.whl
 
-!!! note
+# en_core_web_trf
+pip install https://huggingface.co/spacy/en_core_web_trf/resolve/main/en_core_web_trf-any-py3-none-any.whl
+```
 
-    Entity detection only works in English right now
-
-- [List of default entities](https://github.com/laiyer-ai/llm-guard/blob/main/llm_guard/input_scanners/anonymize.py#L26-L40)
-- [Supported Presidio entities](https://microsoft.github.io/presidio/supported_entities/#list-of-supported-entities)
-- [Custom regex patterns](https://github.com/laiyer-ai/llm-guard/blob/main/llm_guard/resources/sensisitive_patterns.json)
-
-## Usage
-
-Here's a quick example of how you can use the Sensitive Data Detector:
+Configure the scanner:
 
 ```python
 from llm_guard.output_scanners import Sensitive
@@ -51,9 +39,6 @@ scanner = Sensitive(entity_types=["NAME", "EMAIL"], redact=True)
 sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```
 
-If you want, you can use your own patterns by giving the path in `regex_pattern_groups_path`
+To enhance flexibility, users can introduce their patterns through the `regex_pattern_groups_path`.
 
-In the example, we're particularly checking for names and emails. If the output_clean contains any PII, the `is_valid`
-will be `False`.
-
-Additionally, when `redact` is enabled, it will replace all sensitive entities.
+ The `redact` feature, when enabled, ensures sensitive entities are seamlessly replaced.

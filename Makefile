@@ -14,7 +14,6 @@ help:
 install-dev:
 	@echo "Installing development dependencies..."
 	@pip install -U -r requirements.txt -r requirements-dev.txt
-	@python -m spacy download en_core_web_trf
 	@pre-commit install
 
 lint:

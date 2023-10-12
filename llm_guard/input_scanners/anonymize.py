@@ -3,18 +3,16 @@ import os
 import re
 from typing import List, Optional
 
-from faker import Faker
-from presidio_analyzer import AnalyzerEngine, Pattern, PatternRecognizer, RecognizerRegistry
-from presidio_analyzer.nlp_engine import SpacyNlpEngine
 from presidio_anonymizer.core.text_replace_builder import TextReplaceBuilder
 from presidio_anonymizer.entities import PIIEntity, RecognizerResult
 
 from llm_guard.util import logger
 from llm_guard.vault import Vault
 
+from .anonymize_helpers.analyzer import RECOGNIZER_SPACY_EN_PII_DISTILBERT, allowed_recognizers
+from .anonymize_helpers.analyzer import get as get_analyzer
+from .anonymize_helpers.faker import get_fake_value
 from .base import Scanner
-
-fake = Faker(seed=100)
 
 sensitive_patterns_path = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
@@ -34,21 +32,9 @@ default_entity_types = [
     "US_BANK_NUMBER",
     "CREDIT_CARD_RE",
     "UUID",
+    "EMAIL_ADDRESS_RE",
+    "US_SSN_RE",
 ]
-_entity_faker_map = {
-    "CREDIT_CARD": fake.credit_card_number,
-    "EMAIL_ADDRESS": fake.email,
-    "IBAN_CODE": fake.iban,
-    "IP_ADDRESS": fake.ipv4,
-    "PERSON": fake.name,
-    "PHONE_NUMBER": fake.phone_number,
-    "URL": fake.url,
-    "US_SSN": fake.ssn,
-    "CREDIT_CARD_RE": fake.credit_card_number,
-    "UUID": fake.uuid4,
-}
-
-DEFAULT_LENGTH = 512  # spaCy's transformer model gives a warning if the length of the string is greater than 512.
 
 
 class Anonymize(Scanner):
@@ -68,6 +54,8 @@ class Anonymize(Scanner):
         preamble: str = "",
         regex_pattern_groups_path: str = sensitive_patterns_path,
         use_faker: bool = False,
+        recognizer: str = RECOGNIZER_SPACY_EN_PII_DISTILBERT,
+        threshold: float = 0,
     ):
         """
         Initialize an instance of Anonymize class.
@@ -80,6 +68,8 @@ class Anonymize(Scanner):
             preamble (str): Text to prepend to sanitized prompt. If not provided, defaults to an empty string.
             regex_pattern_groups_path (str): Path to a JSON file with regex pattern groups. If not provided, defaults to sensisitive_patterns.json.
             use_faker (bool): Whether to use faker instead of placeholders in applicable cases. If not provided, defaults to False, replaces with placeholders [REDACTED_PERSON_1].
+            recognizer (str): Model to recognize PII data. Default is beki/en_spacy_pii_distilbert.
+            threshold (float): Acceptance threshold. Default is 0.
         """
 
         os.environ["TOKENIZERS_PARALLELISM"] = "false"  # Disables huggingface/tokenizers warning
@@ -89,6 +79,9 @@ class Anonymize(Scanner):
             entity_types = default_entity_types.copy()
         entity_types.append("CUSTOM")
 
+        if recognizer not in allowed_recognizers:
+            raise ValueError("Recognizer is not found")
+
         if not hidden_names:
             hidden_names = []
 
@@ -97,11 +90,9 @@ class Anonymize(Scanner):
         self._allowed_names = allowed_names
         self._preamble = preamble
         self._use_faker = use_faker
-        self._analyzer = AnalyzerEngine(
-            registry=Anonymize.get_recognizers(
-                Anonymize.get_regex_patterns(regex_pattern_groups_path), hidden_names
-            ),
-            nlp_engine=SpacyNlpEngine({"en": "en_core_web_trf"}),
+        self._threshold = threshold
+        self._analyzer = get_analyzer(
+            recognizer, Anonymize.get_regex_patterns(regex_pattern_groups_path), hidden_names
         )
 
     @staticmethod
@@ -135,42 +126,6 @@ class Anonymize(Scanner):
         except json.decoder.JSONDecodeError as json_error:
             logger.warning(f"Could not parse {json_path}: {json_error}")
         return regex_groups
-
-    @staticmethod
-    def get_recognizers(regex_groups, custom_names) -> RecognizerRegistry:
-        """
-        Create a RecognizerRegistry and populate it with regex patterns and custom names.
-
-        Args:
-            regex_groups: List of regex patterns.
-            custom_names: List of custom names to recognize.
-
-        Returns:
-            RecognizerRegistry: A RecognizerRegistry object loaded with regex and custom name recognizers.
-        """
-        registry = RecognizerRegistry()
-        registry.load_predefined_recognizers()
-
-        if len(custom_names) > 0:
-            registry.add_recognizer(
-                PatternRecognizer(supported_entity="CUSTOM", deny_list=custom_names)
-            )
-
-        for pattern_data in regex_groups:
-            label = pattern_data["name"]
-            compiled_patterns = pattern_data["expressions"]
-            patterns = []
-            for pattern in compiled_patterns:
-                patterns.append(Pattern(name=label, regex=pattern, score=pattern_data["score"]))
-            registry.add_recognizer(
-                PatternRecognizer(
-                    supported_entity=label,
-                    patterns=patterns,
-                    context=pattern_data["context"],
-                )
-            )
-
-        return registry
 
     @staticmethod
     def _remove_conflicts_and_get_text_manipulation_data(
@@ -251,8 +206,9 @@ class Anonymize(Scanner):
     @staticmethod
     def _get_entity_placeholder(entity_type: str, index: int, use_faker: bool) -> str:
         result = f"[REDACTED_{entity_type}_{index}]"
-        if use_faker and entity_type in _entity_faker_map:
-            result = _entity_faker_map[entity_type]()
+        if use_faker:
+            result = get_fake_value(entity_type) or result
+
         return result
 
     @staticmethod
@@ -312,37 +268,18 @@ class Anonymize(Scanner):
         text_without_single_quotes = text.replace("'", " ")
         return text_without_single_quotes
 
-    @staticmethod
-    def get_text_chunks(full_text: str) -> List[str]:
-        if len(full_text) > DEFAULT_LENGTH:
-            text_chunks = [
-                full_text[t - DEFAULT_LENGTH : t]
-                for t in range(
-                    DEFAULT_LENGTH,
-                    len(full_text) + DEFAULT_LENGTH,
-                    DEFAULT_LENGTH,
-                )
-            ]
-        else:
-            text_chunks = [full_text]
-
-        return text_chunks
-
     def scan(self, prompt: str) -> (str, bool, float):
         risk_score = 0.0
         if prompt.strip() == "":
             return prompt, True, risk_score
 
-        analyzer_results = []
-        text_chunks = Anonymize.get_text_chunks(prompt)
-        for text_chunk_index, text in enumerate(text_chunks):
-            chunk_results = self._analyzer.analyze(
-                text=Anonymize.remove_single_quotes(text),
-                language="en",
-                entities=self._entity_types,
-                allow_list=self._allowed_names,
-            )
-            analyzer_results.extend(chunk_results)
+        analyzer_results = self._analyzer.analyze(
+            text=Anonymize.remove_single_quotes(prompt),
+            language="en",
+            entities=self._entity_types,
+            allow_list=self._allowed_names,
+            score_threshold=self._threshold,
+        )
 
         risk_score = (
             max(analyzer_result.score for analyzer_result in analyzer_results)

@@ -92,6 +92,14 @@ def init_settings() -> (List, Dict):
             st_anon_use_faker = st.checkbox(
                 "Use Faker", value=False, help="Use Faker library to generate fake data"
             )
+            st_anon_threshold = st.slider(
+                label="Threshold",
+                value=0,
+                min_value=0.0,
+                max_value=1.0,
+                step=0.1,
+                key="anon_threshold",
+            )
 
         settings["Anonymize"] = {
             "entity_types": st_anon_entity_types,
@@ -99,6 +107,7 @@ def init_settings() -> (List, Dict):
             "allowed_names": st_anon_allowed_names,
             "preamble": st_anon_preamble,
             "use_faker": st_anon_use_faker,
+            "threshold": st_anon_threshold,
         }
 
     if "BanSubstrings" in st_enabled_scanners:
@@ -410,6 +419,7 @@ def get_scanner(scanner_name: str, vault: Vault, settings: Dict):
             entity_types=settings["entity_types"],
             preamble=settings["preamble"],
             use_faker=settings["use_faker"],
+            threshold=settings["threshold"],
         )
 
     if scanner_name == "BanSubstrings":

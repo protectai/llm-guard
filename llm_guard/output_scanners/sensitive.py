@@ -1,8 +1,6 @@
 import os
 from typing import List, Optional
 
-from presidio_analyzer import AnalyzerEngine
-from presidio_analyzer.nlp_engine import SpacyNlpEngine
 from presidio_anonymizer import AnonymizerEngine
 
 from llm_guard.input_scanners.anonymize import (
@@ -10,6 +8,11 @@ from llm_guard.input_scanners.anonymize import (
     default_entity_types,
     sensitive_patterns_path,
 )
+from llm_guard.input_scanners.anonymize_helpers.analyzer import (
+    RECOGNIZER_SPACY_EN_PII_DISTILBERT,
+    allowed_recognizers,
+)
+from llm_guard.input_scanners.anonymize_helpers.analyzer import get as get_analyzer
 from llm_guard.util import logger
 
 from .base import Scanner
@@ -28,6 +31,8 @@ class Sensitive(Scanner):
         entity_types: Optional[List[str]] = None,
         regex_pattern_groups_path: str = sensitive_patterns_path,
         redact: bool = False,
+        recognizer: str = RECOGNIZER_SPACY_EN_PII_DISTILBERT,
+        threshold: float = 0,
     ):
         """
         Initializes an instance of the Sensitive class.
@@ -42,32 +47,30 @@ class Sensitive(Scanner):
 
         if not entity_types:
             logger.debug(f"No entity types provided, using default: {default_entity_types}")
-            entity_types = default_entity_types
+            entity_types = default_entity_types.copy()
         entity_types.append("CUSTOM")
 
+        if recognizer not in allowed_recognizers:
+            raise ValueError("Recognizer is not found")
+
         self._entity_types = entity_types
-        self._analyzer = AnalyzerEngine(
-            registry=Anonymize.get_recognizers(
-                Anonymize.get_regex_patterns(regex_pattern_groups_path), []
-            ),
-            nlp_engine=SpacyNlpEngine({"en": "en_core_web_trf"}),
+        self._redact = redact
+        self._threshold = threshold
+        self._analyzer = get_analyzer(
+            recognizer, Anonymize.get_regex_patterns(regex_pattern_groups_path), []
         )
         self._anonymizer = AnonymizerEngine()
-        self._redact = redact
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         if output.strip() == "":
             return prompt, True, 0.0
 
-        analyzer_results = []
-        text_chunks = Anonymize.get_text_chunks(output)
-        for text_chunk_index, text in enumerate(text_chunks):
-            chunk_results = self._analyzer.analyze(
-                text=Anonymize.remove_single_quotes(text),
-                language="en",
-                entities=self._entity_types,
-            )
-            analyzer_results.extend(chunk_results)
+        analyzer_results = self._analyzer.analyze(
+            text=Anonymize.remove_single_quotes(output),
+            language="en",
+            entities=self._entity_types,
+            score_threshold=self._threshold,
+        )
 
         if analyzer_results:
             if self._redact:

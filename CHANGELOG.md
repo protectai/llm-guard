@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [Unreleased] - 0.3.0
 
 ### Added
 - `Regex` scanner to the prompt
@@ -22,9 +22,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Sensitive` output scanner can redact found entities
 - Change to faster model for `BanTopics` prompt and output scanners [MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c](https://huggingface.co/MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c)
 - Changed model for the `NoRefusal` scanner to faster [MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c](https://huggingface.co/MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c)
+- `Anonymize` and `Sensitive` scanners support more accurate models (e.g. [beki/en_spacy_pii_distilbert](https://huggingface.co/beki/en_spacy_pii_distilbert) and ability to choose them. It also reduced the latency of this scanner
 
 ### Removed
--
+- Removed chunking in `Anonymize` and `Sensitive` scanners because it was breaking redaction
+- Usage of `sentence-transformers` library to use raw `transformers` in the `Relevance` output scanner
 
 ## [0.2.4] - 2023-10-07
 

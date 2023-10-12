@@ -16,7 +16,6 @@ WARN_COLOR=\033[33;01m
 install:
 	pip install --upgrade pip && \
 	pip install -r requirements.txt
-	python -m spacy download en_core_web_trf
 
 run:
 	DEBUG=true uvicorn app:app --reload

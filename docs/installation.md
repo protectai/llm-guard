@@ -6,6 +6,7 @@ This document describes how to download and install the LLM Guard locally.
 
 LLM Guard is supported for the following python versions:
 
+- 3.9
 - 3.10
 - 3.11
 
@@ -17,10 +18,14 @@ LLM Guard is supported for the following python versions:
 
 ```bash
 pip install llm-guard
-
-# LLM Guard Anonymize scanner requires a spaCy language model:
-python -m spacy download en_core_web_trf
 ```
+
+LLM Guard [Anonymize](./input_scanners/anonymize.md) scanner requires a spaCy language model. By default, it uses [beki/en_spacy_pii_distilbert](https://huggingface.co/beki/en_spacy_pii_distilbert):
+
+```bash
+pip install https://huggingface.co/beki/en_spacy_pii_distilbert/resolve/main/en_spacy_pii_distilbert-any-py3-none-any.whl
+```
+python -m spacy download en_core_web_trf
 
 ## Install from source
 
@@ -43,9 +48,8 @@ pip install -U -r requirements.txt -r requirements-dev.txt
 python setup.py install
 ```
 
-Then, download the Spacy model for the `Anonymize` scanner:
+Then, install the Spacy model for the [Anonymize](./input_scanners/anonymize.md) scanner (you can also choose other model):
 
 ```bash
-# download SpaCy model
-python -m spacy download en_core_web_trf
+pip install https://huggingface.co/beki/en_spacy_pii_fast/resolve/main/en_spacy_pii_fast-any-py3-none-any.whl
 ```

@@ -26,12 +26,16 @@ injection attacks, LLM-Guard ensures that your interactions with LLMs remain saf
 
 ## Installation
 
-Begin your journey with LLM Guard by downloading the package and acquiring the `en_core_web_trf` spaCy model (essential
-for the [Anonymize](https://laiyer-ai.github.io/llm-guard/input_scanners/anonymize/) scanner):
+Begin your journey with LLM Guard by downloading the package:
 
 ```sh
 pip install llm-guard
-python -m spacy download en_core_web_trf
+```
+
+And then download a preferred spaCy model for [Anonymize](https://laiyer-ai.github.io/llm-guard/input_scanners/anonymize/) scanner. By default, you can use:
+
+```sh
+pip install https://huggingface.co/beki/en_spacy_pii_fast/resolve/main/en_spacy_pii_fast-any-py3-none-any.whl
 ```
 
 ## Getting Started

@@ -7,6 +7,7 @@ input_scanners:
     # entity_types: []
     # preamble: ""
     use_faker: false
+    threshold: 0.0
   BanSubstrings:
     substrings: ["test"]
     match_type: "word"
@@ -75,6 +76,7 @@ output_scanners:
   Sensitive:
     # entity_types:
     redact: false
+    threshold: 0.0
   Sentiment:
     threshold: -0.1
     # lexicon: "vader_lexicon"

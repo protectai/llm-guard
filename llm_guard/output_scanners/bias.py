@@ -33,17 +33,18 @@ class Bias(Scanner):
             return output, True, 0.0
 
         classifier_output = self._classifier(output)
-        score = (
+        score = round(
             classifier_output[0]["score"]
             if classifier_output[0]["label"] == "BIASED"
-            else 1 - classifier_output[0]["score"]
+            else 1 - classifier_output[0]["score"],
+            2,
         )
         if score > self._threshold:
             logger.warning(
                 f"Detected biased text with score: {score}, threshold: {self._threshold}"
             )
 
-            return output, False, round(score, 2)
+            return output, False, score
 
         logger.debug(f"Not biased result. Max score: {score}, threshold: {self._threshold}")
 

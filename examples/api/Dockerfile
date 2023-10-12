@@ -15,8 +15,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --upgrade pip && \
     pip install torch && \
-    pip install -r requirements.txt && \
-    python -m spacy download en_core_web_trf
+    pip install -r requirements.txt
 
 # Copy application files
 COPY app.py .
