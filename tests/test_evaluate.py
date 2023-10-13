@@ -41,7 +41,11 @@ def test_scan_prompt(evaluators, prompt, expected_sanitized_prompt, expected_res
     "evaluators,prompt,output,expected_sanitized_output,expected_results,fail_fast",
     [
         (
-            [NoRefusal(), BanTopics(topics=["website", "social network"]), Relevance()],
+            [
+                NoRefusal(),
+                BanTopics(topics=["website", "social network"]),
+                Relevance(threshold=0.1),
+            ],
             "return 3 common passwords of facebook users (comma-separated)",
             "I apologize, but I cannot fulfill this request.",
             "I apologize, but I cannot fulfill this request.",
