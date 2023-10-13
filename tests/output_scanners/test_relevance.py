@@ -16,11 +16,11 @@ from llm_guard.output_scanners.relevance import Relevance
         ),  # Relevant
         ("What?", "blue", "blue", True, 0.0),  # Relevant
         (
-            "write java code to consume from kafka",
-            "Aria Solstice, Orion Lark, Seraphina Wren",
-            "Aria Solstice, Orion Lark, Seraphina Wren",
+            "Write code in Java programming language to consume messages from Kafka",
+            "3 ways to cook chicken",
+            "3 ways to cook chicken",
             False,
-            0.51,
+            0.56,
         ),  # Not relevant
     ],
 )

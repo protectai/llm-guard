@@ -15,5 +15,3 @@ updates:
     ignore:
       - dependency-name: "transformers"
         versions: ">4.25.1"
-      - dependency-name: "spacy"
-        versions: ">3.4.4"

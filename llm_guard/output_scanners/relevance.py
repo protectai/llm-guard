@@ -1,23 +1,12 @@
-import torch
-import torch.nn.functional as F
-
 from llm_guard.util import device, lazy_load_dep, logger
 
 from .base import Scanner
 
-_transformer_name = "sentence-transformers/all-MiniLM-L6-v2"
+MODEL_EN_BGE_BASE = "BAAI/bge-base-en-v1.5"
+MODEL_EN_BGE_LARGE = "BAAI/bge-large-en-v1.5"
+MODEL_EN_BGE_SMALL = "BAAI/bge-small-en-v1.5"
 
-
-# Mean Pooling - Take attention mask into account for correct averaging
-def mean_pooling(model_output, attention_mask, torch_device):
-    token_embeddings = model_output.last_hidden_state.to(
-        torch_device
-    )  # Move token_embeddings to MPS device
-    attention_mask = attention_mask.to(torch_device)  # Move attention_mask to MPS device
-    input_mask_expanded = attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
-    return torch.sum(token_embeddings * input_mask_expanded, 1) / torch.clamp(
-        input_mask_expanded.sum(1), min=1e-9
-    )
+_models = [MODEL_EN_BGE_LARGE, MODEL_EN_BGE_BASE, MODEL_EN_BGE_SMALL]
 
 
 class Relevance(Scanner):
@@ -29,53 +18,42 @@ class Relevance(Scanner):
     not relevant to the prompt.
     """
 
-    def __init__(self, threshold: float = 0):
+    def __init__(self, threshold: float = 0.5, model: str = MODEL_EN_BGE_BASE):
         """
         Initializes an instance of the Relevance class.
 
         Parameters:
-            threshold (float): The minimum cosine similarity (-1 to 1) between the prompt and output for the output to
-                              be considered relevant.
+            threshold (float): The minimum similarity score to compare prompt and output.
+            model (str): Model for calculating embeddings. Default is `BAAI/bge-base-en-v1.5`.
         """
 
         self._threshold = threshold
 
-        transformers = lazy_load_dep("transformers")
-        self._tokenizer = transformers.AutoTokenizer.from_pretrained(_transformer_name)
-        self._model = transformers.AutoModel.from_pretrained(_transformer_name).to(device())
+        if model not in _models:
+            raise ValueError("This model is not supported")
 
-        logger.debug(f"Initialized sentence transformer {_transformer_name} on device {device()}")
-
-    def _get_embedding(self, input_str: str):
-        encoded_input = self._tokenizer(
-            input_str.lower(), padding=True, truncation=True, return_tensors="pt"
-        ).to(device())
-        with torch.no_grad():
-            model_output = self._model(**encoded_input)
-        sentence_embeddings = mean_pooling(
-            model_output, encoded_input["attention_mask"], torch_device=device()
+        fe = lazy_load_dep("FlagEmbedding")
+        self._model = fe.FlagModel(
+            model,
+            query_instruction_for_retrieval="Represent this sentence for searching relevant passages: ",
+            use_fp16=False,
         )
-        sentence_embeddings = F.normalize(sentence_embeddings, p=2, dim=1)
-        return sentence_embeddings
+
+        logger.debug(f"Initialized model {model} on device {device()}")
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         if output.strip() == "":
             return output, True, 0.0
 
-        embedding_prompt = self._get_embedding(prompt)
-        embedding_output = self._get_embedding(output)
-        similarity = F.cosine_similarity(embedding_prompt, embedding_output).item()
+        prompt_embedding = self._model.encode(prompt)
+        output_embedding = self._model.encode(output)
+        similarity = prompt_embedding @ output_embedding.T
 
         if similarity < self._threshold:
-            logger.warning(
-                f"Result is not similar to the prompt. Score {similarity}, threshold {self._threshold}"
-            )
+            logger.warning(f"Result is not similar to the prompt. Similarity score: {similarity}")
 
-            risk_score = round(1 - (similarity + 1) / 2, 2)
-            return output, False, risk_score
+            return output, False, round(1 - similarity, 2)
 
-        logger.debug(
-            f"Result is similar to the prompt. Score {similarity}, threshold {self._threshold}"
-        )
+        logger.debug(f"Result is similar to the prompt. Similarity score: {similarity}")
 
         return output, True, 0.0

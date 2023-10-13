@@ -331,11 +331,10 @@ def init_settings() -> (List, Dict):
             st_rele_threshold = st.slider(
                 label="Threshold",
                 value=0.5,
-                min_value=-1.0,
+                min_value=0.0,
                 max_value=1.0,
                 step=0.05,
                 key="rele_threshold",
-                help="The minimum cosine similarity (-1 to 1) between the prompt and output for the output to be considered relevant.",
             )
 
         settings["Relevance"] = {"threshold": st_rele_threshold}

@@ -1,26 +1,29 @@
 # Relevance Scanner
 
-It is designed to ensure that the output of a language model stays pertinent and aligned with the provided input prompt. By comparing the similarity between the prompt and the output, the scanner offers a measure of confidence that the response from the model is contextually relevant.
+The `Relevance` Scanner ensures that a language model's output remains relevant and aligned with the given input prompt. By measuring the similarity between the input prompt and the output, the scanner provides a confidence score, indicating the contextual relevance of the response.
 
 ## How it works
 
-The scanner harnesses the power of `SentenceTransformer`, specifically the [sentence-transformers/all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) model. It works as follows:
+1. The scanner translates both the prompt and the output into vector embeddings.
+2. It calculates the cosine similarity between these embeddings.
+3. This similarity score is then compared against a predefined threshold to determine contextual relevance.
 
-- **Encoding**: Both the prompt and the model's output are transformed into vector embeddings using the `SentenceTransformer`.
-- **Cosine Similarity**: The cosine similarity between the vector embeddings of the prompt and the output is computed. This value represents the degree of similarity between the two, ranging between -1 and 1, where 1 indicates maximum similarity.
-- **Relevance Determination**: If the computed cosine similarity is below a predefined threshold, the output is deemed not relevant to the initial prompt.
 
-### Example
+**Example:**
 
 - **Prompt**: What is the primary function of the mitochondria in a cell?
 - **Output**: The Eiffel Tower is a renowned landmark in Paris, France
 - **Valid**: False
 
+The scanner leverages the [best available embedding model](https://huggingface.co/spaces/mteb/leaderboard).
+
 ## Usage
+
+You can select an embedding model suited to your needs. By default, it uses [BAAI/bge-base-en-v1.5](https://huggingface.co/BAAI/bge-base-en-v1.5).
 
 ```python
 from llm_guard.output_scanners import Relevance
 
-scanner = Relevance(threshold=0)
+scanner = Relevance(threshold=0.5)
 sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```

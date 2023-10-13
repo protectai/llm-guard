@@ -17,10 +17,12 @@ This is meant for internal use and not part of the public API.
 @lru_cache(maxsize=None)  # Unbounded cache
 def device():
     torch = lazy_load_dep("torch")
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    if torch.backends.mps.is_available() and torch.backends.mps.is_built():
-        device = torch.device("mps")
-    return device
+    if torch.cuda.is_available():
+        return torch.device("cuda:0")
+    elif torch.backends.mps.is_available():
+        return torch.device("mps")
+
+    return torch.device("cpu")
 
 
 def read_json_file(json_path: str) -> Dict[str, List[str]]:

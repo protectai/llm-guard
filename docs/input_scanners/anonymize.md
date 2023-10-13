@@ -73,7 +73,7 @@ before the model sees them.
 
 !!! info
 
-  Current entity detection functionality is English-specific.
+    Current entity detection functionality is English-specific.
 
 ## Get Started
 
