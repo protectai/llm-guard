@@ -57,19 +57,15 @@ before the model sees them.
 - **Enhanced Detection**: Beyond Presidio Analyzer's capabilities, the scanner recognizes specific patterns like Email,
   US SSN, UUID, and more.
 - **Entities Support**:
-  - Peek at
-    our [default entities](https://github.com/laiyer-ai/llm-guard/blob/main/llm_guard/input_scanners/anonymize.py#L26-L40).
-  - View
-    the [Presidio's supported entities](https://microsoft.github.io/presidio/supported_entities/#list-of-supported-entities).
-  - And, we've
-    got [custom regex patterns](https://github.com/laiyer-ai/llm-guard/blob/main/llm_guard/resources/sensisitive_patterns.json)
-    too!
+  - Peek at our [default entities](https://github.com/laiyer-ai/llm-guard/blob/main/llm_guard/input_scanners/anonymize.py#L26-L40).
+  - View the [Presidio's supported entities](https://microsoft.github.io/presidio/supported_entities/#list-of-supported-entities).
+  - And, we've got [custom regex patterns](https://github.com/laiyer-ai/llm-guard/blob/main/llm_guard/resources/sensisitive_patterns.json) too!
 - **Tailored Recognizers**:
   - Balance speed vs. accuracy with our recognizers. For an informed choice, dive into
-    the [benchmark comparisons](https://blog.px.dev/detect-pii/).
+      the [benchmark comparisons](https://blog.px.dev/detect-pii/).
   - **Top Pick: [beki/en_spacy_pii_distilbert](https://huggingface.co/beki/en_spacy_pii_distilbert)**
   - Alternatives: [beki/en_spacy_pii_fast](https://huggingface.co/beki/en_spacy_pii_fast)
-    and [en_core_trf](https://spacy.io/models/en#en_core_web_trf).
+  and [en_core_trf](https://spacy.io/models/en#en_core_web_trf).
 
 !!! info
 

@@ -6,7 +6,7 @@ MODEL_EN_BGE_BASE = "BAAI/bge-base-en-v1.5"
 MODEL_EN_BGE_LARGE = "BAAI/bge-large-en-v1.5"
 MODEL_EN_BGE_SMALL = "BAAI/bge-small-en-v1.5"
 
-_models = [MODEL_EN_BGE_LARGE, MODEL_EN_BGE_BASE, MODEL_EN_BGE_SMALL]
+all_models = [MODEL_EN_BGE_LARGE, MODEL_EN_BGE_BASE, MODEL_EN_BGE_SMALL]
 
 
 class Relevance(Scanner):
@@ -29,7 +29,7 @@ class Relevance(Scanner):
 
         self._threshold = threshold
 
-        if model not in _models:
+        if model not in all_models:
             raise ValueError("This model is not supported")
 
         fe = lazy_load_dep("FlagEmbedding")

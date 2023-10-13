@@ -21,6 +21,7 @@ from llm_guard.output_scanners import (
     Relevance,
     Sensitive,
 )
+from llm_guard.output_scanners.relevance import all_models as relevance_models
 from llm_guard.output_scanners.sentiment import Sentiment
 from llm_guard.output_scanners.toxicity import Toxicity
 from llm_guard.vault import Vault
@@ -337,7 +338,9 @@ def init_settings() -> (List, Dict):
                 key="rele_threshold",
             )
 
-        settings["Relevance"] = {"threshold": st_rele_threshold}
+            st_rele_model = st.selectbox("Embeddings model", relevance_models, index=1)
+
+        settings["Relevance"] = {"threshold": st_rele_threshold, "model": st_rele_model}
 
     if "Sensitive" in st_enabled_scanners:
         st_sens_expander = st.sidebar.expander(
@@ -481,7 +484,7 @@ def get_scanner(scanner_name: str, vault: Vault, settings: Dict):
         )
 
     if scanner_name == "Relevance":
-        return Relevance(threshold=settings["threshold"])
+        return Relevance(threshold=settings["threshold"], model=settings["model"])
 
     if scanner_name == "Sensitive":
         return Sensitive(

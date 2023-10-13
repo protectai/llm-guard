@@ -19,6 +19,7 @@ from llm_guard.input_scanners import (
     Toxicity,
 )
 from llm_guard.input_scanners.anonymize import default_entity_types
+from llm_guard.input_scanners.anonymize_helpers.analyzer import allowed_recognizers
 from llm_guard.vault import Vault
 
 logger = logging.getLogger("llm-guard-playground")
@@ -100,6 +101,11 @@ def init_settings() -> (List, Dict):
                 step=0.1,
                 key="anon_threshold",
             )
+            st_anon_recognizer = st.selectbox(
+                "Recognizer",
+                allowed_recognizers,
+                index=1,
+            )
 
         settings["Anonymize"] = {
             "entity_types": st_anon_entity_types,
@@ -108,6 +114,7 @@ def init_settings() -> (List, Dict):
             "preamble": st_anon_preamble,
             "use_faker": st_anon_use_faker,
             "threshold": st_anon_threshold,
+            "recognizer": st_anon_recognizer,
         }
 
     if "BanSubstrings" in st_enabled_scanners:
@@ -420,6 +427,7 @@ def get_scanner(scanner_name: str, vault: Vault, settings: Dict):
             preamble=settings["preamble"],
             use_faker=settings["use_faker"],
             threshold=settings["threshold"],
+            recognizer=settings["recognizer"],
         )
 
     if scanner_name == "BanSubstrings":
