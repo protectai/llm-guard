@@ -20,6 +20,7 @@ from llm_guard.output_scanners import (
     Sentiment,
     Toxicity,
 )
+from llm_guard.output_scanners.relevance import MODEL_EN_BGE_SMALL
 from llm_guard.vault import Vault
 
 vault = Vault()
@@ -87,7 +88,7 @@ advanced_scanners = [
     NoRefusal(),
     Refutation(),
     Regex(bad_patterns=[r"Bearer [A-Za-z0-9-._~+/]+"]),
-    Relevance(),
+    Relevance(model=MODEL_EN_BGE_SMALL),
     Sensitive(recognizer=RECOGNIZER_SPACY_EN_PII_FAST, redact=True),
     Sentiment(),
     Toxicity(),
