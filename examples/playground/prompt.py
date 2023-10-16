@@ -19,7 +19,10 @@ from llm_guard.input_scanners import (
     Toxicity,
 )
 from llm_guard.input_scanners.anonymize import default_entity_types
-from llm_guard.input_scanners.anonymize_helpers.analyzer import allowed_recognizers
+from llm_guard.input_scanners.anonymize_helpers.analyzer import (
+    RECOGNIZER_SPACY_EN_PII_DISTILBERT,
+    RECOGNIZER_SPACY_EN_PII_FAST,
+)
 from llm_guard.vault import Vault
 
 logger = logging.getLogger("llm-guard-playground")
@@ -95,7 +98,7 @@ def init_settings() -> (List, Dict):
             )
             st_anon_threshold = st.slider(
                 label="Threshold",
-                value=0,
+                value=0.0,
                 min_value=0.0,
                 max_value=1.0,
                 step=0.1,
@@ -103,7 +106,7 @@ def init_settings() -> (List, Dict):
             )
             st_anon_recognizer = st.selectbox(
                 "Recognizer",
-                allowed_recognizers,
+                [RECOGNIZER_SPACY_EN_PII_DISTILBERT, RECOGNIZER_SPACY_EN_PII_FAST],
                 index=1,
             )
 

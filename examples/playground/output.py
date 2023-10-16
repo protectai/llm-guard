@@ -361,10 +361,10 @@ def init_settings() -> (List, Dict):
             st.caption(
                 "Check all supported entities: https://microsoft.github.io/presidio/supported_entities/#list-of-supported-entities"
             )
-            st_sens_redact = st.checkbox("Redact", value=False)
+            st_sens_redact = st.checkbox("Redact", value=False, key="sens_redact")
             st_sens_threshold = st.slider(
                 label="Threshold",
-                value=0,
+                value=0.0,
                 min_value=0.0,
                 max_value=1.0,
                 step=0.1,

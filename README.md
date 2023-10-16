@@ -35,7 +35,7 @@ pip install llm-guard
 And then download a preferred spaCy model for [Anonymize](https://laiyer-ai.github.io/llm-guard/input_scanners/anonymize/) scanner. By default, you can use:
 
 ```sh
-pip install https://huggingface.co/beki/en_spacy_pii_fast/resolve/main/en_spacy_pii_fast-any-py3-none-any.whl
+pip install https://huggingface.co/beki/en_spacy_pii_distilbert/resolve/main/en_spacy_pii_distilbert-any-py3-none-any.whl
 ```
 
 ## Getting Started

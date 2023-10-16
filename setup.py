@@ -17,7 +17,7 @@ def parse_requirements(file_name: str) -> List[str]:
 
 setuptools.setup(
     name="llm-guard",
-    version="0.2.4",
+    version="0.3.0",
     author="Laiyer.ai",
     author_email="hello@laiyer.ai",
     description=(

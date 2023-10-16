@@ -1,5 +1,6 @@
 https://huggingface.co/beki/en_spacy_pii_distilbert/resolve/main/en_spacy_pii_distilbert-any-py3-none-any.whl
-llm-guard==0.2.4
+https://huggingface.co/beki/en_spacy_pii_fast/resolve/main/en_spacy_pii_fast-any-py3-none-any.whl
+llm-guard==0.3.0
 pandas==2.1.0
-streamlit==1.26.0
+streamlit==1.27.2
 streamlit-tags==1.2.8

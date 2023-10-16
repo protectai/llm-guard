@@ -1,7 +1,7 @@
 asyncio==3.4.3
 fastapi==0.103.2
 https://huggingface.co/beki/en_spacy_pii_distilbert/resolve/main/en_spacy_pii_distilbert-any-py3-none-any.whl
-llm-guard==0.2.4
+llm-guard==0.3.0
 pydantic==1.10.12
 pyyaml==6.0.1
 uvicorn[standard]==0.23.2
