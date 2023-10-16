@@ -6,12 +6,15 @@ from llm_guard.input_scanners import (
     BanSubstrings,
     BanTopics,
     Code,
-    PromptInjection,
+    Language,
+    PromptInjectionV2,
+    Regex,
     Secrets,
     Sentiment,
     TokenLimit,
     Toxicity,
 )
+from llm_guard.input_scanners.anonymize_helpers.analyzer import RECOGNIZER_SPACY_EN_PII_FAST
 from llm_guard.vault import Vault
 
 vault = Vault()
@@ -31,7 +34,7 @@ prompts = [
 ]
 
 # Just data leakage scanners
-basic_scanners = [Anonymize(vault), Secrets()]
+basic_scanners = [Anonymize(vault=vault, recognizer=RECOGNIZER_SPACY_EN_PII_FAST), Secrets()]
 
 
 @pytest.mark.parametrize("prompt", prompts)
@@ -42,7 +45,7 @@ def test_scan_prompt_basic(benchmark, prompt: str):
 
 
 # Data leakage and prompt injection scanners
-intermediate_scanners = [Anonymize(vault), Secrets(), PromptInjection(), Toxicity()]
+intermediate_scanners = [Anonymize(vault), Secrets(), PromptInjectionV2(), Toxicity()]
 
 
 @pytest.mark.parametrize("prompt", prompts)
@@ -57,11 +60,13 @@ def test_scan_prompt_intermediate(benchmark, prompt: str):
 
 # All scanners
 all_scanners = [
-    Anonymize(vault),
+    Anonymize(vault=vault, recognizer=RECOGNIZER_SPACY_EN_PII_FAST),
     BanSubstrings(substrings=["ACME CORP"], match_type="word"),
     BanTopics(topics=["facebook"]),
     Code(denied=["java"]),
-    PromptInjection(),
+    Language(valid_languages=["en"]),
+    PromptInjectionV2(),
+    Regex(bad_patterns=[r"Bearer [A-Za-z0-9-._~+/]+"]),
     Secrets(),
     Sentiment(),
     TokenLimit(),

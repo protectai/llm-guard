@@ -1,12 +1,16 @@
 import pytest
 
 from llm_guard import scan_output
+from llm_guard.input_scanners.anonymize_helpers.analyzer import RECOGNIZER_SPACY_EN_PII_FAST
 from llm_guard.output_scanners import (
+    JSON,
     BanSubstrings,
     BanTopics,
     Bias,
     Code,
     Deanonymize,
+    Language,
+    LanguageSame,
     MaliciousURLs,
     NoRefusal,
     Refutation,
@@ -32,7 +36,11 @@ outputs = [
 ]
 
 # Just data leakage scanners
-basic_scanners = [Deanonymize(vault), Sensitive()]
+basic_scanners = [
+    Deanonymize(vault),
+    Sensitive(recognizer=RECOGNIZER_SPACY_EN_PII_FAST, redact=True),
+    LanguageSame(),
+]
 
 
 @pytest.mark.parametrize("output", outputs)
@@ -46,7 +54,13 @@ def test_scan_output_basic(benchmark, output: str):
 
 
 # Data leakage, bias and toxicity scanners
-intermediate_scanners = [Deanonymize(vault), Sensitive(), Bias(), Toxicity()]
+intermediate_scanners = [
+    Deanonymize(vault),
+    Sensitive(recognizer=RECOGNIZER_SPACY_EN_PII_FAST, redact=True),
+    Bias(),
+    LanguageSame(),
+    Toxicity(),
+]
 
 
 @pytest.mark.parametrize("output", outputs)
@@ -66,12 +80,15 @@ advanced_scanners = [
     Bias(),
     Code(denied=["java"]),
     Deanonymize(vault),
+    JSON(),
+    Language(valid_languages=["en"]),
+    LanguageSame(),
     MaliciousURLs(),
     NoRefusal(),
     Refutation(),
     Regex(bad_patterns=[r"Bearer [A-Za-z0-9-._~+/]+"]),
     Relevance(),
-    Sensitive(),
+    Sensitive(recognizer=RECOGNIZER_SPACY_EN_PII_FAST, redact=True),
     Sentiment(),
     Toxicity(),
 ]

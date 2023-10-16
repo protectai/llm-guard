@@ -1,12 +1,10 @@
 # Input scanners benchmarks
 
-!!! info
-
-    Reference code: https://github.com/laiyer-ai/llm-guard/blob/main/benchmarks/scan_prompt_latency.py
+Reference code: [benchmarks/scan_prompt_latency.py](https://github.com/laiyer-ai/llm-guard/blob/main/benchmarks/scan_prompt_latency.py)
 
 ## Test environment
 
-- Platform: Linux
+- Platform: Amazon Linux 2
 - Python Version: 3.10.2
 
 ## Setup
