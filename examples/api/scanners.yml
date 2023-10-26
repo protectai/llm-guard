@@ -23,8 +23,6 @@ input_scanners:
   Language:
     valid_languages: [ "en" ]
   PromptInjection:
-    threshold: 0.75
-  PromptInjectionV2:
     threshold: 0.5
   Regex:
     # good_patterns: [""]

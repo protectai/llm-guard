@@ -14,10 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -
 
 ### Changed
--
+- Use single `PromptInjection` scanner with multiple models
 
 ### Removed
--
+- Remove `PromptInjectionV2` scanner to rely on the single one
 
 ## [0.3.0] - 2023-10-14
 

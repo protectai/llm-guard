@@ -7,7 +7,7 @@ from llm_guard.input_scanners import (
     BanTopics,
     Code,
     Language,
-    PromptInjectionV2,
+    PromptInjection,
     Regex,
     Secrets,
     Sentiment,
@@ -45,7 +45,7 @@ def test_scan_prompt_basic(benchmark, prompt: str):
 
 
 # Data leakage and prompt injection scanners
-intermediate_scanners = [Anonymize(vault), Secrets(), PromptInjectionV2(), Toxicity()]
+intermediate_scanners = [Anonymize(vault), Secrets(), PromptInjection(), Toxicity()]
 
 
 @pytest.mark.parametrize("prompt", prompts)
@@ -65,7 +65,7 @@ all_scanners = [
     BanTopics(topics=["facebook"]),
     Code(denied=["java"]),
     Language(valid_languages=["en"]),
-    PromptInjectionV2(),
+    PromptInjection(),
     Regex(bad_patterns=[r"Bearer [A-Za-z0-9-._~+/]+"]),
     Secrets(),
     Sentiment(),

@@ -11,7 +11,6 @@ from llm_guard.input_scanners import (
     Code,
     Language,
     PromptInjection,
-    PromptInjectionV2,
     Regex,
     Secrets,
     Sentiment,
@@ -23,6 +22,7 @@ from llm_guard.input_scanners.anonymize_helpers.analyzer import (
     RECOGNIZER_SPACY_EN_PII_DISTILBERT,
     RECOGNIZER_SPACY_EN_PII_FAST,
 )
+from llm_guard.input_scanners.prompt_injection import all_models as all_prompt_injection_models
 from llm_guard.vault import Vault
 
 logger = logging.getLogger("llm-guard-playground")
@@ -36,7 +36,6 @@ def init_settings() -> (List, Dict):
         "Code",
         "Language",
         "PromptInjection",
-        "PromptInjectionV2",
         "Regex",
         "Secrets",
         "Sentiment",
@@ -289,26 +288,6 @@ def init_settings() -> (List, Dict):
             "threshold": st_pi_threshold,
         }
 
-    if "PromptInjectionV2" in st_enabled_scanners:
-        st_piv2_expander = st.sidebar.expander(
-            "Prompt Injection V2",
-            expanded=False,
-        )
-
-        with st_piv2_expander:
-            st_piv2_threshold = st.slider(
-                label="Threshold",
-                value=0.5,
-                min_value=0.0,
-                max_value=1.0,
-                step=0.05,
-                key="prompt_injection_v2_threshold",
-            )
-
-        settings["PromptInjectionV2"] = {
-            "threshold": st_piv2_threshold,
-        }
-
     if "Regex" in st_enabled_scanners:
         st_regex_expander = st.sidebar.expander(
             "Regex",
@@ -461,10 +440,7 @@ def get_scanner(scanner_name: str, vault: Vault, settings: Dict):
         return Language(valid_languages=settings["valid_languages"])
 
     if scanner_name == "PromptInjection":
-        return PromptInjection(threshold=settings["threshold"])
-
-    if scanner_name == "PromptInjectionV2":
-        return PromptInjectionV2(threshold=settings["threshold"])
+        return PromptInjection(threshold=settings["threshold"], models=all_prompt_injection_models)
 
     if scanner_name == "Regex":
         match_type = settings["type"]

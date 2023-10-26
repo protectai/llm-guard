@@ -20,40 +20,22 @@ primary ways an attacker might exploit:
     [LLM01: Prompt Injection](https://owasp.org/www-project-top-10-for-large-language-model-applications/) - It's crucial to
     monitor and validate prompts rigorously to keep the LLM safe from such threats.
 
+## Examples
+
+- https://www.jailbreakchat.com/
+
 ## How it works
 
-There are two versions: one popular model and another new fine-tuned model but larger and slower.
+Choose models you would like to validate against:
 
-While the dataset is nascent, it can be enriched, drawing from repositories of known attack patterns, notably
-from platforms like [JailbreakChat](https://www.jailbreakchat.com/).
-
-### v1
-
-It leverages the
-model [JasperLS/deberta-v3-base-injection](https://huggingface.co/JasperLS/deberta-v3-base-injection) for its operation.
-
-!!! warning
-
-    It's worth noting that while the current model can detect attempts effectively, it might occasionally yield false positives.
+- [JasperLS/deberta-v3-base-injection](https://huggingface.co/JasperLS/deberta-v3-base-injection). It's worth noting that while the current model can detect attempts effectively, it might occasionally yield false positives.
+- [hubert233/GPTFuzz](https://huggingface.co/hubert233/GPTFuzz) based on the larger RoBERTa-large model.
 
 Usage:
 
 ```python
-from llm_guard.input_scanners import PromptInjection
+from llm_guard.input_scanners import PromptInjection, MODEL_JASPERLS
 
-scanner = PromptInjection(threshold=0.5)
-sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
-```
-
-### v2
-
-It is based on larger RoBERTa-large model [hubert233/GPTFuzz](https://huggingface.co/hubert233/GPTFuzz).
-
-Usage:
-
-```python
-from llm_guard.input_scanners import PromptInjectionV2
-
-scanner = PromptInjectionV2(threshold=0.5)
+scanner = PromptInjection(threshold=0.5, models=[MODEL_JASPERLS])
 sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```

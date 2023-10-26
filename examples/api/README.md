@@ -27,6 +27,7 @@ make run
 Or you can run it using Docker:
 
 ```sh
+make build-docker-multi
 make run-docker
 ```
 

@@ -25,7 +25,6 @@ LLM Guard [Anonymize](./input_scanners/anonymize.md) scanner requires a spaCy la
 ```bash
 pip install https://huggingface.co/beki/en_spacy_pii_distilbert/resolve/main/en_spacy_pii_distilbert-any-py3-none-any.whl
 ```
-python -m spacy download en_core_web_trf
 
 ## Install from source
 
