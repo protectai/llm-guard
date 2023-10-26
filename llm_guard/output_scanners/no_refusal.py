@@ -29,6 +29,8 @@ class NoRefusal(Scanner):
         self._classifier = transformers.pipeline(
             "zero-shot-classification",
             model=_model_path,
+            device=device(),
+            truncation=True,
         )
         logger.debug(f"Initialized model {_model_path} on device {device()}")
 

@@ -62,6 +62,7 @@ class Code(Scanner):
             model=transformers.RobertaForSequenceClassification.from_pretrained(model_name),
             tokenizer=transformers.RobertaTokenizer.from_pretrained(model_name),
             device=device(),
+            truncation=True,
         )
         self._fenced_code_regex = re.compile(r"```(?:[a-zA-Z0-9]*\n)?(.*?)```", re.DOTALL)
         self._inline_code_regex = re.compile(r"`(.*?)`")

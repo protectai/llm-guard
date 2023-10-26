@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -
 
 ### Fixed
--
+- Handling long prompts
 
 ### Changed
 - Use single `PromptInjection` scanner with multiple models

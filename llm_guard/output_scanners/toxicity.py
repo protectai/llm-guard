@@ -43,7 +43,7 @@ class Toxicity(Scanner):
             prompt,
             output,
             truncation=True,
-            max_length=512,
+            max_length=self._tokenizer.model_max_length,
             return_token_type_ids=False,
             return_tensors="pt",
             return_attention_mask=True,

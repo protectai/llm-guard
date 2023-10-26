@@ -10,8 +10,6 @@ _model_path = "ynie/roberta-large-snli_mnli_fever_anli_R1_R2_R3-nli"
 # _model_path = "ynie/electra-large-discriminator-snli_mnli_fever_anli_R1_R2_R3-nli"
 # _model_path = "ynie/xlnet-large-cased-snli_mnli_fever_anli_R1_R2_R3-nli"
 
-MAX_LENGTH = 256
-
 
 class Refutation(Scanner):
     """
@@ -46,7 +44,7 @@ class Refutation(Scanner):
         tokenized_input_seq_pair = self._tokenizer.encode_plus(
             prompt,
             output,
-            max_length=MAX_LENGTH,
+            max_length=self._tokenizer.model_max_length,
             return_token_type_ids=True,
             truncation=True,
         )

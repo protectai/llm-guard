@@ -52,12 +52,11 @@ class PromptInjection(Scanner):
 
         pipelines = {}
         for model_path in models:
-            model = transformers.AutoModelForSequenceClassification.from_pretrained(model_path)
-            tokenizer = transformers.AutoTokenizer.from_pretrained(model_path)
-
-            pipelines[model_path] = transformers.TextClassificationPipeline(
-                model=model,
-                tokenizer=tokenizer,
+            pipelines[model_path] = transformers.pipeline(
+                "text-classification",
+                model=model_path,
+                tokenizer=model_path,
+                truncation=True,
                 device=device(),
             )
 
