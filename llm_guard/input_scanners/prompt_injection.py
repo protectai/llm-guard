@@ -57,6 +57,7 @@ class PromptInjection(Scanner):
                 model=model_path,
                 tokenizer=model_path,
                 truncation=True,
+                max_length=512,
                 device=device(),
             )
 

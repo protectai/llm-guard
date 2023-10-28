@@ -13,7 +13,7 @@ from llm_guard.output_scanners.refutation import Refutation
             "Many people around the world eat meat and fish as part of their diet. Therefore, the statement that all "
             "humans are vegetarians is incorrect.",
             False,
-            0.88,
+            1.0,
         ),  # Refutation
         (
             "Birds can fly",

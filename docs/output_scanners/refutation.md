@@ -13,12 +13,11 @@ The scanner aims to highlight such inconsistencies in the output.
 ## How it works
 
 The scanner leverages pretrained natural language inference (NLI) models from HuggingFace, such
-as [ynie/roberta-large-snli_mnli_fever_anli_R1_R2_R3-nli](https://huggingface.co/ynie/roberta-large-snli_mnli_fever_anli_R1_R2_R3-nli) (
-and other variants), to determine the relationship between a given prompt and the generated output.
+as [MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c](https://huggingface.co/MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c) (same model that is used for the [BanTopics](./ban_topics.md) scanner), to determine the relationship between a given prompt and the generated output.
 
-A high contradiction score indicates that the output refutes the prompt.
+Natural language inference is the task of determining whether a “hypothesis” is true (entailment), false (contradiction), or undetermined (neutral) given a “premise”.
 
-This calculated refutation score is then compared to a pre-set threshold. Outputs that cross this threshold are flagged
+This calculated score is then compared to a configured threshold. Outputs that cross this threshold are flagged
 as contradictory.
 
 ## Usage
