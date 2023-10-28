@@ -1,7 +1,24 @@
 # Input scanners benchmarks
 
-Reference
-code: [benchmarks/scan_prompt_latency.py](https://github.com/laiyer-ai/llm-guard/blob/main/benchmarks/scan_prompt_latency.py)
+## How to run
+
+Choose scanner you would like to evaluate, and run the following command:
+
+```sh
+python benchmarks/run.py input Anonymize
+```
+
+Output example:
+
+```json
+{
+    "Scanner": "Anonymize",
+    "Scanner Type": "input",
+    "Time Taken (seconds)": 0.051,
+    "Total Length Processed": 317,
+    "Characters per Second": 6156.12
+}
+```
 
 ## Test environment
 

@@ -1,11 +1,9 @@
-.PHONY: help lint test benchmark-prompt-scanners benchmark-output-scanners build docs-serve install-dev publish clean
+.PHONY: help lint test build docs-serve install-dev publish clean
 
 help:
 	@echo "Available commands:"
 	@echo "make lint                      - Check code with linters using pre-commit."
 	@echo "make test                      - Run unit tests using pytest."
-	@echo "make benchmark-prompt-scanners - Benchmark prompt scanners."
-	@echo "make benchmark-output-scanners - Benchmark output scanners."
 	@echo "make build                     - Build the package for PyPI."
 	@echo "make docs-serve                - Serve documentation using mkdocs."
 	@echo "make install-dev               - Install development dependencies."
@@ -23,14 +21,6 @@ lint:
 test:
 	@echo "Running tests..."
 	@pytest --exitfirst --verbose --failed-first --cov=.
-
-benchmark-prompt-scanners:
-	@echo "Running benchmarks for prompt scanners..."
-	@pytest ./benchmarks/scan_prompt_latency.py
-
-benchmark-output-scanners:
-	@echo "Running benchmarks for output scanners..."
-	@pytest ./benchmarks/scan_output_latency.py
 
 build:
 	@echo "Building for PyPI..."

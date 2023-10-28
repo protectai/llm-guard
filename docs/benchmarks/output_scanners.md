@@ -1,7 +1,24 @@
 # Output scanners benchmarks
 
-Reference
-code: [benchmarks/scan_output_latency.py](https://github.com/laiyer-ai/llm-guard/blob/main/benchmarks/scan_output_latency.py)
+## How to run
+
+Choose scanner you would like to evaluate, and run the following command:
+
+```sh
+python benchmarks/run.py output NoRefusal
+```
+
+Output example:
+
+```json
+{
+    "Scanner": "NoRefusal",
+    "Scanner Type": "output",
+    "Time Taken (seconds)": 0.42,
+    "Total Length Processed": 47,
+    "Characters per Second": 111.78
+}
+```
 
 ## Test environment
 
