@@ -15,9 +15,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Use single `PromptInjection` scanner with multiple models
+- Benchmarks are measured for each scanner individually
+- In the `Refutation` output scanner use the same model for the NLI as used in the `BanTopics`
 
 ### Removed
 - Remove `PromptInjectionV2` scanner to rely on the single one
+- Langchain `LLMChain` example as this functionality is deprecated, use `LCEL` instead
 
 ## [0.3.0] - 2023-10-14
 

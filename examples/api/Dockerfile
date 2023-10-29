@@ -18,11 +18,7 @@ RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
 # Copy application files
-COPY app.py .
-COPY schemas.py .
-COPY cache.py .
-COPY config.py .
-COPY scanners.yml .
+COPY src/ .
 
 # Create a non-root user and set user environment variables
 RUN useradd -m -u 1000 user

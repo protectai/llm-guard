@@ -3,9 +3,8 @@
 ### --------------------------------------------------------------------------------------------------------------------
 
 # Docker config
-DOCKER_IMAGE_NAME=llm-guard-api
-DOCKER_HUB_USERNAME=laiyer
-VERSION=latest
+DOCKER_IMAGE_NAME=laiyer/llm-guard-api
+VERSION=0.3.0
 
 # Other config
 NO_COLOR=\033[0m
@@ -18,18 +17,12 @@ install:
 	pip install -r requirements.txt
 
 run:
-	DEBUG=true uvicorn app:app --reload
+	DEBUG=true uvicorn src.app:app --reload
 
-build-docker:
-	@docker build -t $(DOCKER_IMAGE_NAME):$(VERSION) .
+build-docker-multi:
+	@docker buildx build --platform linux/amd64,linux/arm64 -t $(DOCKER_IMAGE_NAME):$(VERSION) -t $(DOCKER_IMAGE_NAME):latest . --push
 
 run-docker: build-docker
 	@docker run -p 8000:8000 -e DEBUG='true' $(DOCKER_IMAGE_NAME):$(VERSION)
-
-tag-docker:
-	@docker tag $(DOCKER_IMAGE_NAME):$(VERSION) $(DOCKER_HUB_USERNAME)/$(DOCKER_IMAGE_NAME):$(VERSION)
-
-push-docker: tag-docker
-	@docker push $(DOCKER_HUB_USERNAME)/$(DOCKER_IMAGE_NAME):$(VERSION)
 
 .PHONY: install run build-docker run-docker

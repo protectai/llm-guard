@@ -1,11 +1,9 @@
 import asyncio
 import concurrent.futures
 import logging
+import os
 import time
 
-import schemas
-from cache import InMemoryCache
-from config import get_env_config, load_scanners_from_config
 from fastapi import FastAPI, HTTPException, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
@@ -16,6 +14,15 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from llm_guard import scan_output, scan_prompt
 from llm_guard.vault import Vault
 
+from .cache import InMemoryCache
+from .config import get_env_config, load_scanners_from_config
+from .schemas import (
+    AnalyzeOutputRequest,
+    AnalyzeOutputResponse,
+    AnalyzePromptRequest,
+    AnalyzePromptResponse,
+)
+
 config = get_env_config()
 
 logger = logging.getLogger(__name__)
@@ -24,7 +31,7 @@ is_debug = config["debug"]
 if is_debug:
     logger.setLevel(logging.DEBUG)
 
-version = "0.0.2"
+version = "0.0.3"
 
 
 def create_app():
@@ -34,7 +41,11 @@ def create_app():
     )
 
     vault = Vault()
-    input_scanners, output_scanners = load_scanners_from_config(vault)
+    scanners_config_file = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),
+        "scanners.yml",
+    )
+    input_scanners, output_scanners = load_scanners_from_config(vault, scanners_config_file)
 
     if config["scan_fail_fast"] == True:
         logger.debug("Scan fail fast is enabled")
@@ -81,8 +92,8 @@ def register_routes(
 
     @app.post("/analyze/output", tags=["Analyze"])
     async def analyze_output(
-        request: schemas.AnalyzeOutputRequest,
-    ) -> schemas.AnalyzeOutputResponse:
+        request: AnalyzeOutputRequest,
+    ) -> AnalyzeOutputResponse:
         logger.debug(f"Received analyze request: {request}")
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
@@ -101,7 +112,7 @@ def register_routes(
                     timeout=config["scan_output_timeout"],
                 )
 
-                response = schemas.AnalyzeOutputResponse(
+                response = AnalyzeOutputResponse(
                     sanitized_output=sanitized_output,
                     is_valid=all(results_valid.values()),
                     scanners=results_score,
@@ -119,8 +130,8 @@ def register_routes(
 
     @app.post("/analyze/prompt", tags=["Analyze"])
     async def analyze_prompt(
-        request: schemas.AnalyzePromptRequest,
-    ) -> schemas.AnalyzePromptResponse:
+        request: AnalyzePromptRequest,
+    ) -> AnalyzePromptResponse:
         logger.debug(f"Received analyze request: {request}")
         cached_result = cache.get(request.prompt)
 
@@ -128,7 +139,7 @@ def register_routes(
             logger.debug("Response was found in cache")
             cached_result["is_cached"] = True
 
-            return schemas.AnalyzePromptResponse(**cached_result)
+            return AnalyzePromptResponse(**cached_result)
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
             loop = asyncio.get_event_loop()
@@ -145,7 +156,7 @@ def register_routes(
                     timeout=config["scan_prompt_timeout"],
                 )
 
-                response = schemas.AnalyzePromptResponse(
+                response = AnalyzePromptResponse(
                     sanitized_prompt=sanitized_prompt,
                     is_valid=all(results_valid.values()),
                     scanners=results_score,
