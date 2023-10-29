@@ -38,7 +38,7 @@ pip install https://huggingface.co/beki/en_spacy_pii_distilbert/resolve/main/en_
 
 **Examples**:
 
-- Get started with [ChatGPT and LLM Guard](https://github.com/laiyer-ai/llm-guard/blob/main/examples/openai.py).
+- Get started with [ChatGPT and LLM Guard](https://github.com/laiyer-ai/llm-guard/blob/main/examples/openai_api.py).
 
 ## Roadmap
 

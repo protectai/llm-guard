@@ -9,8 +9,8 @@ This example demonstrates how to use LLM Guard as a firewall of OpenAI ChatGPT c
 export OPENAI_API_KEY="<your key>"
 ```
 
-2. Run [openai.py](https://github.com/laiyer-ai/llm-guard/blob/main/examples/openai.py)
+2. Run [openai_api.py](https://github.com/laiyer-ai/llm-guard/blob/main/examples/openai_api.py)
 
 ```bash
-python examples/openai.py
+python examples/openai_api.py
 ```

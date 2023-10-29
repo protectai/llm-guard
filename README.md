@@ -51,7 +51,7 @@ pip install https://huggingface.co/beki/en_spacy_pii_distilbert/resolve/main/en_
 
 **Examples**:
 
-- Get started with [ChatGPT and LLM Guard](./examples/openai.py).
+- Get started with [ChatGPT and LLM Guard](./examples/openai_api.py).
 
 ## Supported scanners
 
