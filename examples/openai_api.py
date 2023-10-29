@@ -31,8 +31,13 @@ if any(results_valid.values()) is False:
 print(f"Prompt: {sanitized_prompt}")
 
 response = openai.ChatCompletion.create(
-    model="gpt-4-0613",
-    messages=[{"role": "user", "content": sanitized_prompt}],
+    model="gpt-3.5-turbo",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": sanitized_prompt},
+    ],
+    temperature=0,
+    max_tokens=512,
 )
 response_text = response["choices"][0]["message"]["content"]
 sanitized_response_text, results_valid, results_score = scan_output(
