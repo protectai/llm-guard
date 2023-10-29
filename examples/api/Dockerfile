@@ -17,9 +17,6 @@ RUN pip install --upgrade pip && \
     pip install torch && \
     pip install -r requirements.txt
 
-# Copy application files
-COPY src/ .
-
 # Create a non-root user and set user environment variables
 RUN useradd -m -u 1000 user
 ENV HOME=/home/user \
@@ -30,7 +27,7 @@ USER user
 WORKDIR $HOME/app
 
 # Copy the application to the user's directory
-COPY --chown=user . $HOME/app
+COPY --chown=user src/ $HOME/app
 
 # Expose the port the app runs on
 EXPOSE 8000

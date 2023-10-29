@@ -4,24 +4,23 @@ import logging
 import os
 import time
 
+from cache import InMemoryCache
+from config import get_env_config, load_scanners_from_config
 from fastapi import FastAPI, HTTPException, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from starlette.exceptions import HTTPException as StarletteHTTPException
-
-from llm_guard import scan_output, scan_prompt
-from llm_guard.vault import Vault
-
-from .cache import InMemoryCache
-from .config import get_env_config, load_scanners_from_config
-from .schemas import (
+from schemas import (
     AnalyzeOutputRequest,
     AnalyzeOutputResponse,
     AnalyzePromptRequest,
     AnalyzePromptResponse,
 )
+from starlette.exceptions import HTTPException as StarletteHTTPException
+
+from llm_guard import scan_output, scan_prompt
+from llm_guard.vault import Vault
 
 config = get_env_config()
 
