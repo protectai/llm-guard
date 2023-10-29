@@ -13,7 +13,7 @@ A simple web UI to run LLM Guard demo based on the [streamlit](https://streamlit
 
 ## Running locally
 
-1. Clone the repo and move to the `examples/playground` folder
+1. Clone the repo `https://huggingface.co/spaces/laiyer/llm-guard-playground`
 
 2. Install dependencies (preferably in a virtual environment)
 
