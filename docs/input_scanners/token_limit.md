@@ -40,3 +40,23 @@ sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 !!! note
 
     Models supported for encoding `cl100k_base`: `gpt-4`, `gpt-3.5-turbo`, `text-embedding-ada-002`.
+
+## Benchmarks
+
+Environment:
+
+- Platform: Amazon Linux 2
+- Python Version: 3.11.6
+
+Run the following script:
+
+```sh
+python benchmarks/run.py input TokenLimit
+```
+
+Results:
+
+| Instance          | Time taken, s | Characters per Second | Total Length Processed |
+|-------------------|---------------|-----------------------|------------------------|
+| inf1.xlarge (AWS) | 0.001         | 239045.65             | 282                    |
+| m5.large (AWS)    | 0.001         | 246207.79             | 282                    |

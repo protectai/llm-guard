@@ -19,7 +19,8 @@ Additionally, the scanner can be configured to replace the banned substrings wit
 ```python
 from llm_guard.input_scanners import BanSubstrings
 
-scanner = BanSubstrings(substrings=["forbidden", "unwanted"], match_type="word", case_sensitive=False, redact=False, contains_all=False)
+scanner = BanSubstrings(substrings=["forbidden", "unwanted"], match_type="word", case_sensitive=False, redact=False,
+                        contains_all=False)
 sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
 
@@ -28,3 +29,27 @@ whole words. To ban substrings irrespective of their word boundaries, simply cha
 
 There is also a dataset prepared of harmful substrings for
 prompts: [prompt_stop_substrings.json](https://github.com/laiyer-ai/llm-guard/blob/main/llm_guard/resources/prompt_stop_substrings.json)
+
+## Benchmarks
+
+Environment:
+
+- Platform: Amazon Linux 2
+- Python Version: 3.11.6
+
+Run the following script:
+
+```sh
+python benchmarks/run.py input BanSubstrings
+```
+
+Results:
+
+| Instance          | Time taken, s | Characters per Second | Total Length Processed |
+|-------------------|---------------|-----------------------|------------------------|
+| inf1.xlarge (AWS) | 0.0           | 243606.68             | 45                     |
+| m5.large (AWS)    | 0.0           | 216970.99             | 45                     |
+
+!!! info:
+
+    This scanner uses built-in functions, which makes it fast.

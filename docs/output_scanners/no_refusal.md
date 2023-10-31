@@ -25,3 +25,23 @@ from llm_guard.output_scanners import NoRefusal
 scanner = NoRefusal(threshold=0.5)
 sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```
+
+## Benchmarks
+
+Environment:
+
+- Platform: Amazon Linux 2
+- Python Version: 3.11.6
+
+Run the following script:
+
+```sh
+python benchmarks/run.py output NoRefusal
+```
+
+Results:
+
+| Instance          | Time taken, s | Characters per Second | Total Length Processed |
+|-------------------|---------------|-----------------------|------------------------|
+| inf1.xlarge (AWS) | 0.257         | 182.76                | 47                     |
+| m5.large (AWS)    | 0.486         | 96.65                 | 47                     |

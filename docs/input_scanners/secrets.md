@@ -41,3 +41,23 @@ Here's what those options do:
 - `detect_secrets_config`: This allows for a custom configuration for the `detect-secrets` library.
 - `redact_mode`: It defines how the detected secrets will be redacted—options include partial redaction, complete
   hiding, or replacing with a hash.
+
+## Benchmarks
+
+Environment:
+
+- Platform: Amazon Linux 2
+- Python Version: 3.11.6
+
+Run the following script:
+
+```sh
+python benchmarks/run.py input Secrets
+```
+
+Results:
+
+| Instance          | Time taken, s | Characters per Second | Total Length Processed |
+|-------------------|---------------|-----------------------|------------------------|
+| inf1.xlarge (AWS) | 0.081         | 741.52                | 60                     |
+| m5.large (AWS)    | 0.093         | 646.87                | 60                     |

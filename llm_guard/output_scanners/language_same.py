@@ -12,28 +12,30 @@ class LanguageSame(Scanner):
         """
         Initializes the LanguageSame scanner.
         """
-        self._lang_detect = lazy_load_dep("langdetect")
+        self._lang_detect = lazy_load_dep("ftlangdetect")
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         if prompt.strip() == "" or output.strip() == "":
             return prompt, True, 0.0
 
         try:
-            prompt_language = self._lang_detect.detect(prompt)
+            prompt_result = self._lang_detect.detect(prompt)
         except self._lang_detect.LangDetectException as e:
             logger.warning(f"Could not detect prompt language: {e}")
-            prompt_language = ""
+            prompt_result = {"lang": "", "score": 0.0}
 
         try:
-            output_language = self._lang_detect.detect(output)
+            output_result = self._lang_detect.detect(output)
         except self._lang_detect.LangDetectException as e:
             logger.warning(f"Could not detect output language: {e}")
-            output_language = ""
+            output_result = {"lang": "", "score": 0.0}
 
-        if prompt_language == output_language:
-            logger.debug(f"Prompt and output are in the same language: {output_language}")
+        if prompt_result["lang"] == output_result["lang"]:
+            logger.debug(f'Prompt and output are in the same language: {output_result["lang"]}')
             return output, True, 0.0
 
-        logger.warning(f"Prompt is in {prompt_language} but output is in {output_language}")
+        logger.warning(
+            f'Prompt is in {prompt_result["lang"]} ({prompt_result["score"]}) but output is in {output_result["lang"]} ({output_result["score"]})'
+        )
 
         return output, False, 1.0

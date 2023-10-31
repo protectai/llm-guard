@@ -30,3 +30,7 @@ sanitized_model_output, is_valid, risk_score = scanner.scan(sanitized_prompt, mo
 ```
 
 After running the above code, `sanitized_model_output` will have the real details instead of placeholders.
+
+## Benchmarks
+
+It uses data structures and replace function, which makes it fast.

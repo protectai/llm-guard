@@ -28,7 +28,8 @@ primary ways an attacker might exploit:
 
 Choose models you would like to validate against:
 
-- [JasperLS/deberta-v3-base-injection](https://huggingface.co/JasperLS/deberta-v3-base-injection). It's worth noting that while the current model can detect attempts effectively, it might occasionally yield false positives.
+- [JasperLS/deberta-v3-base-injection](https://huggingface.co/JasperLS/deberta-v3-base-injection). It's worth noting
+  that while the current model can detect attempts effectively, it might occasionally yield false positives.
 - [hubert233/GPTFuzz](https://huggingface.co/hubert233/GPTFuzz) based on the larger RoBERTa-large model.
 
 Usage:
@@ -39,3 +40,24 @@ from llm_guard.input_scanners import PromptInjection, MODEL_JASPERLS
 scanner = PromptInjection(threshold=0.5, models=[MODEL_JASPERLS])
 sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
+
+## Benchmarks
+
+Environment:
+
+- Platform: Amazon Linux 2
+- Python Version: 3.11.6
+
+Run the following script:
+
+```sh
+python benchmarks/run.py input PromptInjection
+```
+
+Results:
+
+| Instance                | Time taken, s | Characters per Second | Total Length Processed |
+|-------------------------|---------------|-----------------------|------------------------|
+| inf1.xlarge (AWS)       | 0.2           | 1921.18               | 384                    |
+| m5.large (AWS)          | 0.344         | 1116.45               | 384                    |
+| g5.xlarge (AWS) **GPU** | 0.539         | 712.43                | 384                    |

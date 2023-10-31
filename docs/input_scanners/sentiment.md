@@ -11,7 +11,8 @@ monitoring and moderating user sentiment is crucial.
 
 ## How it works
 
-The sentiment score is calculated using nltk's `Vader` sentiment analyzer. The `SentimentIntensityAnalyzer` produces a sentiment score ranging from -1 to 1:
+The sentiment score is calculated using nltk's `Vader` sentiment analyzer. The `SentimentIntensityAnalyzer` produces a
+sentiment score ranging from -1 to 1:
 
 - -1 represents a completely negative sentiment.
 - 0 represents a neutral sentiment.
@@ -32,3 +33,23 @@ sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 For a deeper understanding of the sentiment analysis process and its underlying methods, consult:
 
 - [NLTK's Sentiment Analysis Guide](https://www.nltk.org/howto/sentiment.html)
+
+## Benchmarks
+
+Environment:
+
+- Platform: Amazon Linux 2
+- Python Version: 3.11.6
+
+Run the following script:
+
+```sh
+python benchmarks/run.py input Sentiment
+```
+
+Results:
+
+| Instance          | Time taken, s | Characters per Second | Total Length Processed |
+|-------------------|---------------|-----------------------|------------------------|
+| inf1.xlarge (AWS) | 0.001         | 345038.05             | 225                    |
+| m5.large (AWS)    | 0.001         | 313844.3              | 225                    |

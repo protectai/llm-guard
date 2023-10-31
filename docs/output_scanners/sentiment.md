@@ -32,3 +32,23 @@ sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 For a deeper understanding of the sentiment analysis process and its underlying methods, consult:
 
 - [NLTK's Sentiment Analysis Guide](https://www.nltk.org/howto/sentiment.html)
+
+## Benchmarks
+
+Environment:
+
+- Platform: Amazon Linux 2
+- Python Version: 3.11.6
+
+Run the following script:
+
+```sh
+python benchmarks/run.py output Sentiment
+```
+
+Results:
+
+| Instance          | Time taken, s | Characters per Second | Total Length Processed |
+|-------------------|---------------|-----------------------|------------------------|
+| inf1.xlarge (AWS) | 0.0           | 242083.67             | 61                     |
+| m5.large (AWS)    | 0.0           | 224905.52             | 61                     |

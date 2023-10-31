@@ -27,3 +27,7 @@ from llm_guard.output_scanners import Regex
 scanner = Regex(bad_patterns=[r"Bearer [A-Za-z0-9-._~+/]+"], redact=True)
 sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```
+
+## Benchmarks
+
+It uses data structures and replace function, which makes it fast.

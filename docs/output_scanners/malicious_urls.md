@@ -27,3 +27,23 @@ from llm_guard.output_scanners import MaliciousURLs
 scanner = MaliciousURLs(threshold=0.7)
 sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```
+
+## Benchmarks
+
+Environment:
+
+- Platform: Amazon Linux 2
+- Python Version: 3.11.6
+
+Run the following script:
+
+```sh
+python benchmarks/run.py output MaliciousURLs
+```
+
+Results:
+
+| Instance          | Time taken, s | Characters per Second | Total Length Processed |
+|-------------------|---------------|-----------------------|------------------------|
+| inf1.xlarge (AWS) | 0.064         | 798.7                 | 51                     |
+| m5.large (AWS)    | 0.103         | 495.23                | 51                     |

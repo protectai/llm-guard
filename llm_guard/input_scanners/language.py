@@ -19,7 +19,7 @@ class Language(Scanner):
             valid_languages (List[str]): A list of valid language codes.
         """
 
-        self._lang_detect = lazy_load_dep("langdetect")
+        self._lang_detect = lazy_load_dep("ftlangdetect")
         self._valid_languages = valid_languages
 
     def scan(self, prompt: str) -> (str, bool, float):
@@ -27,15 +27,17 @@ class Language(Scanner):
             return prompt, True, 0.0
 
         try:
-            language = self._lang_detect.detect(prompt)
+            result = self._lang_detect.detect(prompt)
         except self._lang_detect.LangDetectException as e:
             logger.warning(f"Could not detect language: {e}")
-            language = ""
+            result = {"lang": "", "score": 0.0}
 
-        if language in self._valid_languages:
-            logger.debug(f"Language '{language}' is found in the text and valid")
+        if result["lang"] in self._valid_languages:
+            logger.debug(
+                f'Language "{result["lang"]}" is found in the text and valid (score: {result["score"]})'
+            )
             return prompt, True, 0.0
 
-        logger.warning(f"Language '{language}' is not allowed")
+        logger.warning(f'Language "{result["lang"]}" is not allowed (score: {result["score"]})')
 
         return prompt, False, 1.0

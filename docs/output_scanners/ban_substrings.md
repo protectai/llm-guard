@@ -44,3 +44,7 @@ whole words. To ban substrings irrespective of their word boundaries, simply cha
 
 There is also a dataset prepared of harmful substrings for
 prompts: [output_stop_substrings.json](https://github.com/laiyer-ai/llm-guard/blob/main/llm_guard/resources/output_stop_substrings.json)
+
+## Benchmarks
+
+It uses data structures and replace function, which makes it fast.

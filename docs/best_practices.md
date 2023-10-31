@@ -2,7 +2,7 @@
 
 ## Performance Optimization
 
-1. **Benchmark Analysis**: Before choosing the scanners, it's crucial to understand their performance on different instances. Review the benchmarks for [input](./benchmarks/input_scanners.md) and [output](./benchmarks/output_scanners.md) scanners to make an informed decision based on your specific requirements.
+1. **Benchmark Analysis**: Before choosing the scanners, it's crucial to understand their performance on different instances. Review the benchmarks for each scanner to make an informed decision based on your specific requirements.
 
 2. **Model Size Trade-off**: Opting for smaller models will expedite processing, reducing latency. However, this comes at the cost of accuracy. We are actively working on providing compact versions with minimal accuracy trade-offs.
 

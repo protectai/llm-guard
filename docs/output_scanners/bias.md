@@ -29,3 +29,23 @@ from llm_guard.output_scanners import Bias
 scanner = Bias(threshold=0.5)
 sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```
+
+## Benchmarks
+
+Environment:
+
+- Platform: Amazon Linux 2
+- Python Version: 3.11.6
+
+Run the following script:
+
+```sh
+python benchmarks/run.py output Bias
+```
+
+Results:
+
+| Instance          | Time taken, s | Characters per Second | Total Length Processed |
+|-------------------|---------------|-----------------------|------------------------|
+| inf1.xlarge (AWS) | 0.034         | 3790.06               | 128                    |
+| m5.large (AWS)    | 0.057         | 2242.91               | 128                    |

@@ -10,7 +10,9 @@ This scanner is designed to detect these JSON structures and validate their corr
 
 ## How it works
 
-At its core, the scanner utilizes regular expressions and the built-in `json` library to detect potential JSON structures and subsequently validate them. It can also be configured to ensure a certain number of valid JSON structures are present in the output.
+At its core, the scanner utilizes regular expressions and the built-in `json` library to detect potential JSON
+structures and subsequently validate them. It can also be configured to ensure a certain number of valid JSON structures
+are present in the output.
 
 !!! note
 
@@ -24,3 +26,23 @@ from llm_guard.output_scanners import JSON
 scanner = JSON(required_elements=1)
 sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```
+
+## Benchmarks
+
+Environment:
+
+- Platform: Amazon Linux 2
+- Python Version: 3.11.6
+
+Run the following script:
+
+```sh
+python benchmarks/run.py output JSON
+```
+
+Results:
+
+| Instance          | Time taken, s | Characters per Second | Total Length Processed |
+|-------------------|---------------|-----------------------|------------------------|
+| inf1.xlarge (AWS) | 0.001         | 295008.48             | 221                    |
+| m5.large (AWS)    | 0.001         | 298405.09             | 221                    |

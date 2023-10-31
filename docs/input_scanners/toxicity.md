@@ -37,3 +37,23 @@ shortcomings:
 
 Some comments referring to specific identity subgroups, such as "Muslim", might not be classified accurately. This is a
 known limitation and work is ongoing to improve this aspect.
+
+## Benchmarks
+
+Environment:
+
+- Platform: Amazon Linux 2
+- Python Version: 3.11.6
+
+Run the following script:
+
+```sh
+python benchmarks/run.py input Toxicity
+```
+
+Results:
+
+| Instance          | Time taken, s | Characters per Second | Total Length Processed |
+|-------------------|---------------|-----------------------|------------------------|
+| inf1.xlarge (AWS) | 0.036         | 2726.15               | 97                     |
+| m5.large (AWS)    | 0.061         | 1592.14               | 97                     |

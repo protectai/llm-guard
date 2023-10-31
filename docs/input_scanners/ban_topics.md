@@ -12,7 +12,8 @@ reduce the risk of generating responses that could lead to misunderstandings or 
 
 ## How it works
 
-It relies on the capabilities of the model: [MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c](https://huggingface.co/MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c).
+It relies on the capabilities of the
+model: [MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c](https://huggingface.co/MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c).
 This model aids in identifying the underlying theme or topic of a prompt, allowing the scanner to cross-check it against
 a list of banned topics.
 
@@ -24,3 +25,24 @@ from llm_guard.input_scanners import BanTopics
 scanner = BanTopics(topics=["violence"], threshold=0.5)
 sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
+
+## Benchmarks
+
+Environment:
+
+- Platform: Amazon Linux 2
+- Python Version: 3.11.6
+
+Run the following script:
+
+```sh
+python benchmarks/run.py input BanTopics
+```
+
+Results:
+
+| Instance                | Time taken, s | Characters per Second | Total Length Processed |
+|-------------------------|---------------|-----------------------|------------------------|
+| inf1.xlarge (AWS)       | 0.396         | 252.38                | 100                    |
+| m5.large (AWS)          | 0.727         | 137.51                | 100                    |
+| g5.xlarge (AWS) **GPU** | 0.4           | 250.11                | 100                    |

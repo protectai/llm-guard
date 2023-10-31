@@ -27,3 +27,23 @@ from llm_guard.output_scanners import Relevance
 scanner = Relevance(threshold=0.5)
 sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```
+
+## Benchmarks
+
+Environment:
+
+- Platform: Amazon Linux 2
+- Python Version: 3.11.6
+
+Run the following script:
+
+```sh
+python benchmarks/run.py output Relevance
+```
+
+Results:
+
+| Instance          | Time taken, s | Characters per Second | Total Length Processed |
+|-------------------|---------------|-----------------------|------------------------|
+| inf1.xlarge (AWS) | 0.043         | 509.48                | 22                     |
+| m5.large (AWS)    | 0.075         | 294.05                | 22                     |

@@ -29,3 +29,23 @@ from llm_guard.output_scanners import Toxicity
 scanner = Toxicity(threshold=0.7)
 sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```
+
+## Benchmarks
+
+Environment:
+
+- Platform: Amazon Linux 2
+- Python Version: 3.11.6
+
+Run the following script:
+
+```sh
+python benchmarks/run.py output Toxicity
+```
+
+Results:
+
+| Instance          | Time taken, s | Characters per Second | Total Length Processed |
+|-------------------|---------------|-----------------------|------------------------|
+| inf1.xlarge (AWS) | 0.111         | 1961.58               | 217                    |
+| m5.large (AWS)    | 0.162         | 1336.85               | 217                    |

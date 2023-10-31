@@ -19,7 +19,7 @@ to either whitelist or blacklist specific languages, thus retaining full control
 user queries.
 
 !!! note
-    The scanner is currently limited to extracting and detecting code snippets from Markdown in the following languages:
+The scanner is currently limited to extracting and detecting code snippets from Markdown in the following languages:
 
     - Go
     - Java
@@ -36,3 +36,24 @@ from llm_guard.input_scanners import Code
 scanner = Code(denied=["python"])
 sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
+
+## Benchmarks
+
+Environment:
+
+- Platform: Amazon Linux 2
+- Python Version: 3.11.6
+
+Run the following script:
+
+```sh
+python benchmarks/run.py input Code
+```
+
+Results:
+
+| Instance                | Time taken, s | Characters per Second | Total Length Processed |
+|-------------------------|---------------|-----------------------|------------------------|
+| inf1.xlarge (AWS)       | 0.062         | 4029.3                | 248                    |
+| m5.large (AWS)          | 0.112         | 2215.66               | 248                    |
+| g5.xlarge (AWS) **GPU** | 0.358         | 692.11                | 248                    |

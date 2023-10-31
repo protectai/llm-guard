@@ -27,3 +27,27 @@ from llm_guard.input_scanners import Regex
 scanner = Regex(bad_patterns=[r"Bearer [A-Za-z0-9-._~+/]+"], redact=True)
 sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
+
+## Benchmarks
+
+Environment:
+
+- Platform: Amazon Linux 2
+- Python Version: 3.11.6
+
+Run the following script:
+
+```sh
+python benchmarks/run.py input Regex
+```
+
+Results:
+
+| Instance          | Time taken, s | Characters per Second | Total Length Processed |
+|-------------------|---------------|-----------------------|------------------------|
+| inf1.xlarge (AWS) | 0.0           | 301838.7              | 36                     |
+| m5.large (AWS)    | 0.0           | 310778.85             | 36                     |
+
+!!! info:
+
+    This scanner uses built-in functions, which makes it fast.

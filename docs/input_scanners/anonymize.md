@@ -57,15 +57,19 @@ before the model sees them.
 - **Enhanced Detection**: Beyond Presidio Analyzer's capabilities, the scanner recognizes specific patterns like Email,
   US SSN, UUID, and more.
 - **Entities Support**:
-  - Peek at our [default entities](https://github.com/laiyer-ai/llm-guard/blob/main/llm_guard/input_scanners/anonymize.py#L26-L40).
-  - View the [Presidio's supported entities](https://microsoft.github.io/presidio/supported_entities/#list-of-supported-entities).
-  - And, we've got [custom regex patterns](https://github.com/laiyer-ai/llm-guard/blob/main/llm_guard/resources/sensisitive_patterns.json) too!
+  - Peek at
+    our [default entities](https://github.com/laiyer-ai/llm-guard/blob/main/llm_guard/input_scanners/anonymize.py#L26-L40).
+  - View
+    the [Presidio's supported entities](https://microsoft.github.io/presidio/supported_entities/#list-of-supported-entities).
+  - And, we've
+    got [custom regex patterns](https://github.com/laiyer-ai/llm-guard/blob/main/llm_guard/resources/sensisitive_patterns.json)
+    too!
 - **Tailored Recognizers**:
   - Balance speed vs. accuracy with our recognizers. For an informed choice, dive into
-      the [benchmark comparisons](https://blog.px.dev/detect-pii/).
+    the [benchmark comparisons](https://blog.px.dev/detect-pii/).
   - **Top Pick: [beki/en_spacy_pii_distilbert](https://huggingface.co/beki/en_spacy_pii_distilbert)**
   - Alternatives: [beki/en_spacy_pii_fast](https://huggingface.co/beki/en_spacy_pii_fast)
-  and [en_core_trf](https://spacy.io/models/en#en_core_web_trf).
+    and [en_core_trf](https://spacy.io/models/en#en_core_web_trf).
 
 !!! info
 
@@ -100,7 +104,8 @@ Configure the `Anonymize` Scanner:
 from llm_guard.input_scanners import Anonymize
 from llm_guard.input_scanners.anonymize_helpers.analyzer import RECOGNIZER_SPACY_EN_PII_FAST
 
-scanner = Anonymize(vault, preamble="Insert before prompt", allowed_names=["John Doe"], hidden_names=["Test LLC"], recognizer=RECOGNIZER_SPACY_EN_PII_FAST)
+scanner = Anonymize(vault, preamble="Insert before prompt", allowed_names=["John Doe"], hidden_names=["Test LLC"],
+                    recognizer=RECOGNIZER_SPACY_EN_PII_FAST)
 sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
 
@@ -114,3 +119,27 @@ sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 
 Retrieving Original Data: To revert to the initial data, utilize the [Deanonymize](../output_scanners/deanonymize.md)
 scanner.
+
+## Benchmarks
+
+Environment:
+
+- Platform: Amazon Linux 2
+- Python Version: 3.11.6
+
+Run the following script:
+
+```sh
+python benchmarks/run.py input Anonymize
+```
+
+Results:
+
+| Instance                | Setup                                           | Time taken, s | Characters per Second | Total Length Processed |
+|-------------------------|-------------------------------------------------|---------------|-----------------------|------------------------|
+| inf1.xlarge (AWS)       | `recognizer=RECOGNIZER_SPACY_EN_PII_FAST`       | 0.067         | 4719.12               | 317                    |
+| m5.large (AWS)          | `recognizer=RECOGNIZER_SPACY_EN_PII_FAST`       | 0.126         | 2522.17               | 317                    |
+| g5.xlarge (AWS) **GPU** | `recognizer=RECOGNIZER_SPACY_EN_PII_FAST`       | 0.065         | 4844.37               | 317                    |
+| inf1.xlarge (AWS)       | `recognizer=RECOGNIZER_SPACY_EN_PII_DISTILBERT` | 0.134         | 2373.23               | 317                    |
+| m5.large (AWS)          | `recognizer=RECOGNIZER_SPACY_EN_PII_DISTILBERT` | 0.187         | 1693.19               | 317                    |
+| g5.xlarge (AWS) **GPU** | `recognizer=RECOGNIZER_SPACY_EN_PII_DISTILBERT` | 0.154         | 2061.57               | 317                    |
