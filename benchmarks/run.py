@@ -1,7 +1,10 @@
 import argparse
 import json
+import timeit
 from functools import lru_cache
-from time import perf_counter
+from typing import Dict, List
+
+import numpy
 
 from llm_guard import input_scanners, output_scanners
 from llm_guard.input_scanners.anonymize_helpers.analyzer import RECOGNIZER_SPACY_EN_PII_FAST
@@ -107,7 +110,7 @@ def build_output_scanner(scanner_name: str) -> OutputScanner:
 
 
 @lru_cache(maxsize=None)
-def get_input_test_data() -> dict:
+def get_input_test_data() -> Dict:
     with open("input_examples.json", "r") as file:
         return json.load(file)
 
@@ -120,36 +123,45 @@ def get_output_test_data() -> (str, str):
     return {key: tuple(value) for key, value in data.items()}
 
 
-def benchmark_input_scanner(scanner_name: str):
+def benchmark_input_scanner(scanner_name: str, repeat_times: int = 5) -> (List, int):
     scanner = build_input_scanner(scanner_name)
 
     prompt = get_input_test_data()[scanner_name]
 
-    start_time = perf_counter()
-    scanner.scan(prompt)
-    end_time = perf_counter()
+    latency_list = timeit.repeat(lambda: scanner.scan(prompt), number=1, repeat=repeat_times)
 
-    time_taken = end_time - start_time
-
-    characters_per_second = len(prompt) / time_taken
-
-    return time_taken, characters_per_second, len(prompt)
+    return latency_list, len(prompt)
 
 
-def benchmark_output_scanner(scanner_name: str) -> tuple:
+def benchmark_output_scanner(scanner_name: str, repeat_times: int = 5) -> (List, int):
     scanner = build_output_scanner(scanner_name)
 
     prompt, output = get_output_test_data()[scanner_name]
 
-    start_time = perf_counter()
-    scanner.scan(prompt, output)
-    end_time = perf_counter()
+    latency_list = timeit.repeat(
+        lambda: scanner.scan(prompt, output), number=1, repeat=repeat_times
+    )
 
-    time_taken = end_time - start_time
+    return latency_list, len(output)
 
-    characters_per_second = len(output) / time_taken
 
-    return time_taken, characters_per_second, len(output)
+def get_output(scanner_name: str, scanner_type: str, latency_list, input_length: int) -> Dict:
+    latency_ms = sum(latency_list) / float(len(latency_list)) * 1000.0
+    latency_variance = numpy.var(latency_list, dtype=numpy.float64) * 1000.0
+    throughput = input_length * (1000.0 / latency_ms)
+
+    return {
+        "scanner": scanner_name,
+        "scanner Type": scanner_type,
+        "input_length": input_length,
+        "test_times": len(latency_list),
+        "latency_variance": f"{latency_variance:.2f}",
+        "latency_90_percentile": f"{numpy.percentile(latency_list, 90) * 1000.0:.2f}",
+        "latency_95_percentile": f"{numpy.percentile(latency_list, 95) * 1000.0:.2f}",
+        "latency_99_percentile": f"{numpy.percentile(latency_list, 99) * 1000.0:.2f}",
+        "average_latency_ms": f"{latency_ms:.2f}",
+        "QPS": f"{throughput:.2f}",
+    }
 
 
 def main():
@@ -162,20 +174,14 @@ def main():
     args = parser.parse_args()
 
     if args.type == "input":
-        time_taken, characters_per_second, length = benchmark_input_scanner(args.scanner)
+        latency_list, length = benchmark_input_scanner(args.scanner)
     elif args.type == "output":
-        time_taken, characters_per_second, length = benchmark_output_scanner(args.scanner)
+        latency_list, length = benchmark_output_scanner(args.scanner)
     else:
         raise ValueError("Type is not found")
 
     # Structured Output
-    output = {
-        "Scanner": args.scanner,
-        "Scanner Type": args.type,
-        "Time Taken (seconds)": round(time_taken, 3),
-        "Total Length Processed": length,
-        "Characters per Second": round(characters_per_second, 2),
-    }
+    output = get_output(args.scanner, args.type, latency_list, length)
     print(json.dumps(output, indent=4))
 
 
