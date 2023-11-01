@@ -32,7 +32,7 @@ def build_input_scanner(scanner_name: str) -> InputScanner:
         return input_scanners.Code(denied=["java"])
 
     if scanner_name == "Language":
-        return input_scanners.Language(valid_languages=["en"])
+        return input_scanners.Language(valid_languages=["en", "es"])
 
     if scanner_name == "PromptInjection":
         return input_scanners.PromptInjection()
@@ -77,7 +77,7 @@ def build_output_scanner(scanner_name: str) -> OutputScanner:
         return output_scanners.JSON()
 
     if scanner_name == "Language":
-        return output_scanners.Language(valid_languages=["en"])
+        return output_scanners.Language(valid_languages=["en", "es"])
 
     if scanner_name == "LanguageSame":
         return output_scanners.LanguageSame()

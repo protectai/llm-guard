@@ -25,6 +25,11 @@ def device():
     return torch.device("cpu")
 
 
+@lru_cache(maxsize=None)  # Unbounded cache
+def is_onnx_supported() -> bool:
+    return str(device()) == "cpu" and importlib.util.find_spec("optimum.onnxruntime") is not None
+
+
 def read_json_file(json_path: str) -> Dict[str, List[str]]:
     """
     Reads a JSON file and returns its contents as a Python dictionary.
@@ -88,3 +93,10 @@ def lazy_load_dep(import_name: str, package_name: Optional[str] = None):
         )
 
     return importlib.import_module(import_name)
+
+
+def calculate_risk_score(score: float, threshold: float) -> float:
+    risk_score = round(1.0 - abs(score - threshold), 1)
+
+    # Ensure risk score is between 0 and 1
+    return min(max(risk_score, 0), 1)

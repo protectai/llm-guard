@@ -11,15 +11,23 @@ class Language(Scanner):
     prompt and verifying its validity against a list of predefined languages.
     """
 
-    def __init__(self, valid_languages: List[str]):
+    def __init__(
+        self, valid_languages: List[str], low_accuracy_mode: bool = False, threshold: float = 0.7
+    ):
         """
         Initializes the Language scanner with a list of valid languages.
 
         Parameters:
             valid_languages (List[str]): A list of valid language codes.
+            low_accuracy_mode (bool): High detection accuracy comes at the cost of being noticeably slower than other language detectors.
+            threshold (float): Minimum confidence score
         """
 
-        self._scanner = InputLanguage(valid_languages=valid_languages)
+        self._scanner = InputLanguage(
+            valid_languages=valid_languages,
+            low_accuracy_mode=low_accuracy_mode,
+            threshold=threshold,
+        )
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         return self._scanner.scan(output)
