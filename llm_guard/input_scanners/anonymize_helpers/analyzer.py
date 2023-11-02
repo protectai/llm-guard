@@ -1,17 +1,11 @@
+from typing import Dict
+
+import spacy
 from presidio_analyzer import AnalyzerEngine, Pattern, PatternRecognizer, RecognizerRegistry
 from presidio_analyzer.nlp_engine import NlpEngine, NlpEngineProvider
 
-from .spacy_recognizer import CustomSpacyRecognizer
-
-RECOGNIZER_SPACY_EN_TRF = "en_core_web_trf"
-RECOGNIZER_SPACY_EN_PII_DISTILBERT = "en_spacy_pii_distilbert"
-RECOGNIZER_SPACY_EN_PII_FAST = "en_spacy_pii_fast"
-
-allowed_recognizers = [
-    RECOGNIZER_SPACY_EN_TRF,
-    RECOGNIZER_SPACY_EN_PII_DISTILBERT,
-    RECOGNIZER_SPACY_EN_PII_FAST,
-]
+from .ner_mapping import ALL_RECOGNIZER_CONF
+from .transformers_recognizer import TransformersRecognizer
 
 
 def _add_recognizers(
@@ -50,25 +44,36 @@ def _add_recognizers(
     return registry
 
 
-def _get_nlp_engine(recognizer: str) -> NlpEngine:
+def _get_nlp_engine() -> NlpEngine:
+    # Use small spacy model, for faster inference.
+    if not spacy.util.is_package("en_core_web_sm"):
+        spacy.cli.download("en_core_web_sm")
+
     configuration = {
         "nlp_engine_name": "spacy",
-        "models": [{"lang_code": "en", "model_name": recognizer}],
+        "models": [{"lang_code": "en", "model_name": "en_core_web_sm"}],
     }
 
-    provider = NlpEngineProvider(nlp_configuration=configuration)
-    return provider.create_engine()
+    return NlpEngineProvider(nlp_configuration=configuration).create_engine()
 
 
-def get(recognizer: str, regex_groups, custom_names) -> AnalyzerEngine:
-    nlp_engine = _get_nlp_engine(recognizer)
+def get_analyzer(recognizer_conf: Dict, regex_groups, custom_names) -> AnalyzerEngine:
+    if recognizer_conf not in ALL_RECOGNIZER_CONF:
+        raise ValueError("Recognizer configuration is not found")
+
+    nlp_engine = _get_nlp_engine()
+
+    model_path = recognizer_conf.get("DEFAULT_MODEL_PATH")
+    supported_entities = recognizer_conf.get("PRESIDIO_SUPPORTED_ENTITIES")
+    transformers_recognizer = TransformersRecognizer(
+        model_path=model_path, supported_entities=supported_entities
+    )
+    transformers_recognizer.load_transformer(**recognizer_conf)
 
     registry = RecognizerRegistry()
     registry.load_predefined_recognizers(nlp_engine=nlp_engine)
     registry = _add_recognizers(registry, regex_groups, custom_names)
-    if recognizer != RECOGNIZER_SPACY_EN_TRF:
-        spacy_recognizer = CustomSpacyRecognizer()
-        registry.add_recognizer(spacy_recognizer)
-        registry.remove_recognizer("SpacyRecognizer")
+    registry.add_recognizer(transformers_recognizer)
+    registry.remove_recognizer("SpacyRecognizer")
 
     return AnalyzerEngine(nlp_engine=nlp_engine, registry=registry, supported_languages=["en"])

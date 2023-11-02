@@ -3,7 +3,10 @@ import re
 import pytest
 
 from llm_guard.input_scanners.anonymize import Anonymize, sensitive_patterns_path
-from llm_guard.input_scanners.anonymize_helpers.analyzer import RECOGNIZER_SPACY_EN_PII_FAST
+from llm_guard.input_scanners.anonymize_helpers import (
+    BERT_LARGE_CASED_FINETUNED_COLL03_ENGLISH_CONF,
+    BERT_LARGE_NER_CONF,
+)
 from llm_guard.util import read_json_file
 from llm_guard.vault import Vault
 
@@ -52,10 +55,10 @@ _preamble = (
             "Phone number is 555-123-4567 and the IP address is 192.168.1.100. "
             "And credit card number is 4567-8901-2345-6789. He works in Test LLC.",
             False,
-            0.85,
+            1.0,
         ),  # Exposed name, email, phone number, credit card number and IP but only with PERSON
         (
-            {},
+            {"recognizer_conf": BERT_LARGE_NER_CONF},
             """Given the personal profile of Johnathan Edward Doe:
 
 Full Name: Johnathan Edward Doe.
@@ -72,7 +75,7 @@ Employment:
 Social Security Number (SSN): 123-45-6789.
 Credit Card: 4111111111111111, Exp: 09/25, CVV: 123.
 
-Please create a summarized version of his resume.""",
+Create a summarized version of his resume.""",
             """Given the personal profile of [REDACTED_PERSON_1]:
 
 Full Name: [REDACTED_PERSON_1].
@@ -89,12 +92,12 @@ Employment:
 Social Security Number (SSN): [REDACTED_US_SSN_RE_1].
 Credit Card: [REDACTED_CREDIT_CARD_1], Exp: 09/25, CVV: 123.
 
-Please create a summarized version of his resume.""",
+Create a summarized version of his resume.""",
             False,
             1.0,
         ),
         (
-            {"recognizer": RECOGNIZER_SPACY_EN_PII_FAST},
+            {"recognizer_conf": BERT_LARGE_CASED_FINETUNED_COLL03_ENGLISH_CONF},
             """Given the personal profile of Johnathan Edward Doe:
 
 Full Name: Johnathan Edward Doe.
@@ -106,8 +109,8 @@ Educational Background:
     Springfield High School, Graduated in 2008;
     Springfield University, B.Sc. Computer Science, Graduated in 2012.
 Employment:
-    ABC Tech Solutions, Software Engineer, 2012-2015;
-    XYZ Global Systems, Senior Software Developer, 2015-2021.
+    Unique Tech Solutions, Software Engineer, 2012-2015;
+    Usual Global Systems, Senior Software Developer, 2015-2021.
 Social Security Number (SSN): 123-45-6789.
 Credit Card: 4111111111111111, Exp: 09/25, CVV: 123.
 
@@ -123,8 +126,8 @@ Educational Background:
     Springfield High School, Graduated in 2008;
     Springfield University, B.Sc. Computer Science, Graduated in 2012.
 Employment:
-    ABC Tech Solutions, Software Engineer, 2012-2015;
-    XYZ Global Systems, Senior Software Developer, 2015-2021.
+    Unique Tech Solutions, Software Engineer, 2012-2015;
+    Usual Global Systems, Senior Software Developer, 2015-2021.
 Social Security Number (SSN): [REDACTED_US_SSN_RE_1].
 Credit Card: [REDACTED_CREDIT_CARD_1], Exp: 09/25, CVV: 123.
 

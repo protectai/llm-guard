@@ -1,7 +1,7 @@
 import json
 import os
 import re
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 from presidio_anonymizer.core.text_replace_builder import TextReplaceBuilder
 from presidio_anonymizer.entities import PIIEntity, RecognizerResult
@@ -9,9 +9,7 @@ from presidio_anonymizer.entities import PIIEntity, RecognizerResult
 from llm_guard.util import logger
 from llm_guard.vault import Vault
 
-from .anonymize_helpers.analyzer import RECOGNIZER_SPACY_EN_PII_DISTILBERT, allowed_recognizers
-from .anonymize_helpers.analyzer import get as get_analyzer
-from .anonymize_helpers.faker import get_fake_value
+from .anonymize_helpers import BERT_BASE_NER_CONF, get_analyzer, get_fake_value
 from .base import Scanner
 
 sensitive_patterns_path = os.path.join(
@@ -54,7 +52,7 @@ class Anonymize(Scanner):
         preamble: str = "",
         regex_pattern_groups_path: str = sensitive_patterns_path,
         use_faker: bool = False,
-        recognizer: str = RECOGNIZER_SPACY_EN_PII_DISTILBERT,
+        recognizer_conf: Optional[Dict] = BERT_BASE_NER_CONF,
         threshold: float = 0,
     ):
         """
@@ -68,7 +66,7 @@ class Anonymize(Scanner):
             preamble (str): Text to prepend to sanitized prompt. If not provided, defaults to an empty string.
             regex_pattern_groups_path (str): Path to a JSON file with regex pattern groups. If not provided, defaults to sensisitive_patterns.json.
             use_faker (bool): Whether to use faker instead of placeholders in applicable cases. If not provided, defaults to False, replaces with placeholders [REDACTED_PERSON_1].
-            recognizer (str): Model to recognize PII data. Default is beki/en_spacy_pii_distilbert.
+            recognizer_conf (Optional[Dict]): Configuration to recognize PII data. Default is dslim/bert-base-NER.
             threshold (float): Acceptance threshold. Default is 0.
         """
 
@@ -78,9 +76,6 @@ class Anonymize(Scanner):
             logger.debug(f"No entity types provided, using default: {default_entity_types}")
             entity_types = default_entity_types.copy()
         entity_types.append("CUSTOM")
-
-        if recognizer not in allowed_recognizers:
-            raise ValueError("Recognizer is not found")
 
         if not hidden_names:
             hidden_names = []
@@ -92,7 +87,7 @@ class Anonymize(Scanner):
         self._use_faker = use_faker
         self._threshold = threshold
         self._analyzer = get_analyzer(
-            recognizer, Anonymize.get_regex_patterns(regex_pattern_groups_path), hidden_names
+            recognizer_conf, Anonymize.get_regex_patterns(regex_pattern_groups_path), hidden_names
         )
 
     @staticmethod
@@ -281,10 +276,11 @@ class Anonymize(Scanner):
             score_threshold=self._threshold,
         )
 
-        risk_score = (
+        risk_score = round(
             max(analyzer_result.score for analyzer_result in analyzer_results)
             if analyzer_results
-            else 0.0
+            else 0.0,
+            1,
         )
         analyzer_results = self._remove_conflicts_and_get_text_manipulation_data(analyzer_results)
         merged_results = self._merge_entities_with_whitespace_between(prompt, analyzer_results)

@@ -7,7 +7,6 @@ from typing import Dict, List
 import numpy
 
 from llm_guard import input_scanners, output_scanners
-from llm_guard.input_scanners.anonymize_helpers.analyzer import RECOGNIZER_SPACY_EN_PII_FAST
 from llm_guard.input_scanners.base import Scanner as InputScanner
 from llm_guard.output_scanners.base import Scanner as OutputScanner
 from llm_guard.output_scanners.relevance import MODEL_EN_BGE_SMALL
@@ -18,7 +17,7 @@ vault = Vault()
 
 def build_input_scanner(scanner_name: str) -> InputScanner:
     if scanner_name == "Anonymize":
-        return input_scanners.Anonymize(vault=vault, recognizer=RECOGNIZER_SPACY_EN_PII_FAST)
+        return input_scanners.Anonymize(vault=vault)
 
     if scanner_name == "BanSubstrings":
         return input_scanners.BanSubstrings(
@@ -98,7 +97,7 @@ def build_output_scanner(scanner_name: str) -> OutputScanner:
         return output_scanners.Relevance(model=MODEL_EN_BGE_SMALL)
 
     if scanner_name == "Sensitive":
-        return output_scanners.Sensitive(recognizer=RECOGNIZER_SPACY_EN_PII_FAST, redact=True)
+        return output_scanners.Sensitive(redact=True)
 
     if scanner_name == "Sentiment":
         return output_scanners.Sentiment()

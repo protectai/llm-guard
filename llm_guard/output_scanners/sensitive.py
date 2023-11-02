@@ -1,5 +1,5 @@
 import os
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 from presidio_anonymizer import AnonymizerEngine
 
@@ -8,11 +8,7 @@ from llm_guard.input_scanners.anonymize import (
     default_entity_types,
     sensitive_patterns_path,
 )
-from llm_guard.input_scanners.anonymize_helpers.analyzer import (
-    RECOGNIZER_SPACY_EN_PII_DISTILBERT,
-    allowed_recognizers,
-)
-from llm_guard.input_scanners.anonymize_helpers.analyzer import get as get_analyzer
+from llm_guard.input_scanners.anonymize_helpers import BERT_BASE_NER_CONF, get_analyzer
 from llm_guard.util import logger
 
 from .base import Scanner
@@ -31,7 +27,7 @@ class Sensitive(Scanner):
         entity_types: Optional[List[str]] = None,
         regex_pattern_groups_path: str = sensitive_patterns_path,
         redact: bool = False,
-        recognizer: str = RECOGNIZER_SPACY_EN_PII_DISTILBERT,
+        recognizer_conf: Optional[Dict] = BERT_BASE_NER_CONF,
         threshold: float = 0,
     ):
         """
@@ -42,6 +38,8 @@ class Sensitive(Scanner):
                                                entity types.
            regex_pattern_groups_path (str): Path to the regex patterns file. Default is sensitive_patterns.json.
            redact (bool): Redact found sensitive entities. Default to False.
+           recognizer_conf (Optional[Dict]): Configuration to recognize PII data. Default is dslim/bert-base-NER.
+           threshold (float): Acceptance threshold. Default is 0.
         """
         os.environ["TOKENIZERS_PARALLELISM"] = "false"  # Disables huggingface/tokenizers warning
 
@@ -50,14 +48,11 @@ class Sensitive(Scanner):
             entity_types = default_entity_types.copy()
         entity_types.append("CUSTOM")
 
-        if recognizer not in allowed_recognizers:
-            raise ValueError("Recognizer is not found")
-
         self._entity_types = entity_types
         self._redact = redact
         self._threshold = threshold
         self._analyzer = get_analyzer(
-            recognizer, Anonymize.get_regex_patterns(regex_pattern_groups_path), []
+            recognizer_conf, Anonymize.get_regex_patterns(regex_pattern_groups_path), []
         )
         self._anonymizer = AnonymizerEngine()
 
