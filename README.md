@@ -32,12 +32,6 @@ Begin your journey with LLM Guard by downloading the package:
 pip install llm-guard
 ```
 
-And then download a preferred spaCy model for [Anonymize](https://laiyer-ai.github.io/llm-guard/input_scanners/anonymize/) scanner. By default, you can use:
-
-```sh
-pip install https://huggingface.co/beki/en_spacy_pii_distilbert/resolve/main/en_spacy_pii_distilbert-any-py3-none-any.whl
-```
-
 ## Getting Started
 
 **Important Notes**:
@@ -52,41 +46,42 @@ pip install https://huggingface.co/beki/en_spacy_pii_distilbert/resolve/main/en_
 **Examples**:
 
 - Get started with [ChatGPT and LLM Guard](./examples/openai_api.py).
+- Deploy LLM Guard as [API](https://llm-guard.com/usage/api/)
 
 ## Supported scanners
 
 ### Prompt scanners
 
-- [Anonymize](https://laiyer-ai.github.io/llm-guard/input_scanners/anonymize/)
-- [BanSubstrings](https://laiyer-ai.github.io/llm-guard/input_scanners/ban_substrings/)
-- [BanTopics](https://laiyer-ai.github.io/llm-guard/input_scanners/ban_topics/)
-- [Code](https://laiyer-ai.github.io/llm-guard/input_scanners/code/)
-- [Language](https://laiyer-ai.github.io/llm-guard/input_scanners/language/)
-- [PromptInjection](https://laiyer-ai.github.io/llm-guard/input_scanners/prompt_injection/)
-- [Regex](https://laiyer-ai.github.io/llm-guard/input_scanners/regex/)
-- [Secrets](https://laiyer-ai.github.io/llm-guard/input_scanners/secrets/)
-- [Sentiment](https://laiyer-ai.github.io/llm-guard/input_scanners/sentiment/)
-- [TokenLimit](https://laiyer-ai.github.io/llm-guard/input_scanners/token_limit/)
-- [Toxicity](https://laiyer-ai.github.io/llm-guard/input_scanners/toxicity/)
+- [Anonymize](  https://llm-guard.com/input_scanners/anonymize/)
+- [BanSubstrings](  https://llm-guard.com/input_scanners/ban_substrings/)
+- [BanTopics](  https://llm-guard.com/input_scanners/ban_topics/)
+- [Code](  https://llm-guard.com/input_scanners/code/)
+- [Language](  https://llm-guard.com/input_scanners/language/)
+- [PromptInjection](  https://llm-guard.com/input_scanners/prompt_injection/)
+- [Regex](  https://llm-guard.com/input_scanners/regex/)
+- [Secrets](  https://llm-guard.com/input_scanners/secrets/)
+- [Sentiment](  https://llm-guard.com/input_scanners/sentiment/)
+- [TokenLimit](  https://llm-guard.com/input_scanners/token_limit/)
+- [Toxicity](  https://llm-guard.com/input_scanners/toxicity/)
 
 ### Output scanners
 
-- [BanSubstrings](https://laiyer-ai.github.io/llm-guard/output_scanners/ban_substrings/)
-- [BanTopics](https://laiyer-ai.github.io/llm-guard/output_scanners/ban_topics/)
-- [Bias](https://laiyer-ai.github.io/llm-guard/output_scanners/bias/)
-- [Code](https://laiyer-ai.github.io/llm-guard/output_scanners/code/)
-- [Deanonymize](https://laiyer-ai.github.io/llm-guard/output_scanners/deanonymize/)
-- [JSON](https://laiyer-ai.github.io/llm-guard/output_scanners/json/)
-- [Language](https://laiyer-ai.github.io/llm-guard/output_scanners/language/)
-- [LanguageSame](https://laiyer-ai.github.io/llm-guard/output_scanners/language_same/)
-- [MaliciousURLs](https://laiyer-ai.github.io/llm-guard/output_scanners/malicious_urls/)
-- [NoRefusal](https://laiyer-ai.github.io/llm-guard/output_scanners/no_refusal/)
-- [Refutation](https://laiyer-ai.github.io/llm-guard/output_scanners/refutation/)
-- [Regex](https://laiyer-ai.github.io/llm-guard/output_scanners/regex/)
-- [Relevance](https://laiyer-ai.github.io/llm-guard/output_scanners/relevance/)
-- [Sensitive](https://laiyer-ai.github.io/llm-guard/output_scanners/sensitive/)
-- [Sentiment](https://laiyer-ai.github.io/llm-guard/output_scanners/sentiment/)
-- [Toxicity](https://laiyer-ai.github.io/llm-guard/output_scanners/toxicity/)
+- [BanSubstrings](  https://llm-guard.com/output_scanners/ban_substrings/)
+- [BanTopics](  https://llm-guard.com/output_scanners/ban_topics/)
+- [Bias](  https://llm-guard.com/output_scanners/bias/)
+- [Code](  https://llm-guard.com/output_scanners/code/)
+- [Deanonymize](  https://llm-guard.com/output_scanners/deanonymize/)
+- [JSON](  https://llm-guard.com/output_scanners/json/)
+- [Language](  https://llm-guard.com/output_scanners/language/)
+- [LanguageSame](  https://llm-guard.com/output_scanners/language_same/)
+- [MaliciousURLs](  https://llm-guard.com/output_scanners/malicious_urls/)
+- [NoRefusal](  https://llm-guard.com/output_scanners/no_refusal/)
+- [Refutation](  https://llm-guard.com/output_scanners/refutation/)
+- [Regex](  https://llm-guard.com/output_scanners/regex/)
+- [Relevance](  https://llm-guard.com/output_scanners/relevance/)
+- [Sensitive](  https://llm-guard.com/output_scanners/sensitive/)
+- [Sentiment](  https://llm-guard.com/output_scanners/sentiment/)
+- [Toxicity](  https://llm-guard.com/output_scanners/toxicity/)
 
 ## Roadmap
 

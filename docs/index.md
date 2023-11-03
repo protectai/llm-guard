@@ -19,12 +19,6 @@ Begin your journey with LLM Guard by downloading the package:
 pip install llm-guard
 ```
 
-And then download a preferred spaCy model for [Anonymize](./input_scanners/anonymize.md) scanner. By default, you can use:
-
-```sh
-pip install https://huggingface.co/beki/en_spacy_pii_distilbert/resolve/main/en_spacy_pii_distilbert-any-py3-none-any.whl
-```
-
 ## Getting Started
 
 **Important Notes**:

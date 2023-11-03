@@ -53,7 +53,7 @@ before the model sees them.
 ## Features
 
 - **Integration with [Presidio Analyzer](https://github.com/microsoft/presidio/)**: Leverages the Presidio Analyzer
-  library, crafted with Python's spaCy, for precise detection of private data.
+  library, crafted with spaCy, flair and transformers libraries, for precise detection of private data.
 - **Enhanced Detection**: Beyond Presidio Analyzer's capabilities, the scanner recognizes specific patterns like Email,
   US SSN, UUID, and more.
 - **Entities Support**:
@@ -65,30 +65,15 @@ before the model sees them.
     got [custom regex patterns](https://github.com/laiyer-ai/llm-guard/blob/main/llm_guard/resources/sensisitive_patterns.json)
     too!
 - **Tailored Recognizers**:
-  - Balance speed vs. accuracy with our recognizers. For an informed choice, dive into
-    the [benchmark comparisons](https://blog.px.dev/detect-pii/).
-  - **Top Pick: [beki/en_spacy_pii_distilbert](https://huggingface.co/beki/en_spacy_pii_distilbert)**
-  - Alternatives: [beki/en_spacy_pii_fast](https://huggingface.co/beki/en_spacy_pii_fast)
-    and [en_core_trf](https://spacy.io/models/en#en_core_web_trf).
+  - Balance speed vs. accuracy of the recognizers.
+  - **Top Pick: [dslim/bert-base-NER](https://huggingface.co/dslim/bert-base-NER)**
+  - Alternatives: [dslim/bert-large-NER](https://huggingface.co/dslim/bert-large-NER).
 
 !!! info
 
     Current entity detection functionality is English-specific.
 
 ## Get Started
-
-Install the Spacy model depending on the use-case:
-
-```sh
-# en_spacy_pii_distilbert (default)
-pip install https://huggingface.co/beki/en_spacy_pii_distilbert/resolve/main/en_spacy_pii_distilbert-any-py3-none-any.whl
-
-# en_spacy_pii_fast
-pip install https://huggingface.co/beki/en_spacy_pii_fast/resolve/main/en_spacy_pii_fast-any-py3-none-any.whl
-
-# en_core_web_trf
-python -m spacy download en_core_web_trf
-```
 
 Initialize the `Vault`: The Vault archives data that's been redacted.
 
@@ -102,10 +87,9 @@ Configure the `Anonymize` Scanner:
 
 ```python
 from llm_guard.input_scanners import Anonymize
-from llm_guard.input_scanners.anonymize_helpers.analyzer import RECOGNIZER_SPACY_EN_PII_FAST
+from llm_guard.input_scanners.anonymize_helpers import BERT_LARGE_NER_CONF
 
-scanner = Anonymize(vault, preamble="Insert before prompt", allowed_names=["John Doe"], hidden_names=["Test LLC"],
-                    recognizer=RECOGNIZER_SPACY_EN_PII_FAST)
+scanner = Anonymize(vault, preamble="Insert before prompt", allowed_names=["John Doe"], hidden_names=["Test LLC"], recognizer_conf=BERT_LARGE_NER_CONF)
 sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
 
@@ -114,7 +98,7 @@ sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 - `entity_types`: Opt for particular information types to redact.
 - `regex_pattern_groups_path`: Input a path for personalized patterns.
 - `use_faker`: Substitutes eligible entities with fabricated data.
-- `recognizer`: Selects the model to identify PII data (Default: `en_spacy_pii_distilbert`).
+- `recognizer_conf`: Configures recognizer for the PII data detection.
 - `threshold`: Sets the acceptance threshold (Default: `0`).
 
 Retrieving Original Data: To revert to the initial data, utilize the [Deanonymize](../output_scanners/deanonymize.md)

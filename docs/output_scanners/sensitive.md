@@ -20,19 +20,6 @@ It uses same mechanisms and de from the [Anonymize](../input_scanners/anonymize.
 
 ## Get started
 
-Install the Spacy model depending on the use-case:
-
-```sh
-# en_spacy_pii_distilbert (default)
-pip install https://huggingface.co/beki/en_spacy_pii_distilbert/resolve/main/en_spacy_pii_distilbert-any-py3-none-any.whl
-
-# en_spacy_pii_fast
-pip install https://huggingface.co/beki/en_spacy_pii_fast/resolve/main/en_spacy_pii_fast-any-py3-none-any.whl
-
-# en_core_web_trf
-pip install https://huggingface.co/spacy/en_core_web_trf/resolve/main/en_core_web_trf-any-py3-none-any.whl
-```
-
 Configure the scanner:
 
 ```python

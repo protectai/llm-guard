@@ -8,7 +8,7 @@ With the rise of sophisticated LLMs, there has been an increase in attempts to m
 Some common tactics employed by users to attack LLMs include:
 
 - **Jailbreaks and Prompt Injections in different languages**. For example, by utilizing unique aspects of the Japanese
-  language to try and confuse the model.
+  language to try and confuse the model. Paper: [Multilingual Jailbreak Challenges in Large Language Models](https://arxiv.org/abs/2310.06474)
 - **Encapsulation & Overloading**: Using excessive code or surrounding prompts with a plethora of special characters to
   overload or trick the model.
 

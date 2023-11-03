@@ -20,12 +20,6 @@ LLM Guard is supported for the following python versions:
 pip install llm-guard
 ```
 
-LLM Guard [Anonymize](./input_scanners/anonymize.md) scanner requires a spaCy language model. By default, it uses [beki/en_spacy_pii_distilbert](https://huggingface.co/beki/en_spacy_pii_distilbert):
-
-```bash
-pip install https://huggingface.co/beki/en_spacy_pii_distilbert/resolve/main/en_spacy_pii_distilbert-any-py3-none-any.whl
-```
-
 ## Install from source
 
 To install LLM Guard from source, first clone the repo:
@@ -45,10 +39,4 @@ Then, install the package using `pip`:
 # install the repo
 pip install -U -r requirements.txt -r requirements-dev.txt
 python setup.py install
-```
-
-Then, install the Spacy model for the [Anonymize](./input_scanners/anonymize.md) scanner (you can also choose other model):
-
-```bash
-pip install https://huggingface.co/beki/en_spacy_pii_fast/resolve/main/en_spacy_pii_fast-any-py3-none-any.whl
 ```
