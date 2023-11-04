@@ -38,6 +38,9 @@ class MaliciousURLs(Scanner):
             model=model,
             tokenizer=self._tokenizer,
             device=device(),
+            truncation=True,
+            padding=True,
+            max_length=self._tokenizer.model_max_length,
         )
         logger.debug(f"Initialized model {_model_path} on device {device()}")
 
@@ -56,9 +59,7 @@ class MaliciousURLs(Scanner):
         logger.debug(f"Found {len(urls)} URLs in the output")
 
         urls_str = ", ".join(urls)
-        result = self._text_classification_pipeline(
-            urls_str, truncation=True, padding=True, max_length=self._tokenizer.model_max_length
-        )
+        result = self._text_classification_pipeline(urls_str)
         malware_score = (
             result[0]["score"] if result[0]["label"] == "MALWARE" else 1 - result[0]["score"]
         )

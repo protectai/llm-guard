@@ -96,7 +96,34 @@ def lazy_load_dep(import_name: str, package_name: Optional[str] = None):
 
 
 def calculate_risk_score(score: float, threshold: float) -> float:
-    risk_score = round(1.0 - abs(score - threshold), 1)
-
+    risk_score = round(abs(score - threshold) / threshold, 1)
     # Ensure risk score is between 0 and 1
     return min(max(risk_score, 0), 1)
+
+
+def split_text(text: str, chunk_size: int) -> List[str]:
+    text = text.strip()
+    return [text[i : i + chunk_size] for i in range(0, len(text), chunk_size)]
+
+
+def split_text_by_sentences(text: str, max_chunk_size: int) -> List[str]:
+    nltk = lazy_load_dep("nltk")
+    nltk.download("punkt")  # Download the Punkt tokenizer models
+
+    sentences = nltk.sent_tokenize(text.strip())
+    chunks = []
+    chunk = []
+    chunk_size = 0
+    for sentence in sentences:
+        sentence_length = len(sentence)
+        if chunk_size + sentence_length <= max_chunk_size:
+            chunk.append(sentence)
+            chunk_size += sentence_length
+        else:
+            if chunk:  # Check if chunk is non-empty
+                chunks.append(" ".join(chunk))
+            chunk = [sentence]
+            chunk_size = sentence_length
+    if chunk:  # Don't forget the last chunk, and check if it's non-empty
+        chunks.append(" ".join(chunk))
+    return [chunk for chunk in chunks if chunk.strip()]

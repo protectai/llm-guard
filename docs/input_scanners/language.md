@@ -25,13 +25,18 @@ list. It supports the [following languages](https://github.com/pemistahl/lingua-
 ```python
 from llm_guard.input_scanners import Language
 
-scanner = Language(valid_languages=["en", ...], low_accuracy_mode=True)  # Add other valid language codes (ISO 639-1) as needed
+scanner = Language(valid_languages=["en"], all_languages=["en", "de", "es", "it"], low_accuracy_mode=True)  # Add other valid language codes (ISO 639-1) as needed
 sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
 
 !!! info
 
     In high accuracy mode, the language detector consumes approximately 800 MB of memory if all language models are loaded. In low accuracy mode (default), memory consumption is reduced to approximately 60 MB.
+
+## Optimization
+
+1. Use `low_accuracy_mode` if possible.
+2. Specify languages you'd need to analyze using `all_languages` parameter.
 
 ## Benchmarks
 

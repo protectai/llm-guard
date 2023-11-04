@@ -28,16 +28,17 @@ primary ways an attacker might exploit:
 
 Choose models you would like to validate against:
 
-- [JasperLS/deberta-v3-base-injection](https://huggingface.co/JasperLS/deberta-v3-base-injection). It's worth noting
+- [deepset/deberta-v3-base-injection](https://huggingface.co/deepset/deberta-v3-base-injection). It's worth noting
   that while the current model can detect attempts effectively, it might occasionally yield false positives.
 - [hubert233/GPTFuzz](https://huggingface.co/hubert233/GPTFuzz) based on the larger RoBERTa-large model.
 
 Usage:
 
 ```python
-from llm_guard.input_scanners import PromptInjection, MODEL_JASPERLS
+from llm_guard.input_scanners import PromptInjection
+from llm_guard.input_scanners.prompt_injection import MODEL_DEEPSET
 
-scanner = PromptInjection(threshold=0.5, models=[MODEL_JASPERLS])
+scanner = PromptInjection(threshold=0.5, models=[MODEL_DEEPSET])
 sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
 

@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from llm_guard.input_scanners.language import Language as InputLanguage
 
@@ -12,19 +12,25 @@ class Language(Scanner):
     """
 
     def __init__(
-        self, valid_languages: List[str], low_accuracy_mode: bool = False, threshold: float = 0.7
+        self,
+        valid_languages: List[str],
+        all_languages: Optional[List[str]] = None,
+        low_accuracy_mode: bool = False,
+        threshold: float = 0.7,
     ):
         """
         Initializes the Language scanner with a list of valid languages.
 
         Parameters:
             valid_languages (List[str]): A list of valid language codes.
+            all_languages (Optional[List[str]]): All languages to load for detection. Default is all spoken languages.
             low_accuracy_mode (bool): High detection accuracy comes at the cost of being noticeably slower than other language detectors.
             threshold (float): Minimum confidence score
         """
 
         self._scanner = InputLanguage(
             valid_languages=valid_languages,
+            all_languages=all_languages,
             low_accuracy_mode=low_accuracy_mode,
             threshold=threshold,
         )

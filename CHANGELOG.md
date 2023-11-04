@@ -18,7 +18,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Benchmarks are measured for each scanner individually
 - In the `Refutation` output scanner use the same model for the NLI as used in the `BanTopics`
 - Benchmarks for each individual scanner instead of one common
-- Use [fasttext-langdetect](https://github.com/zafercavdar/fasttext-langdetect/) in the `Language` and `LanguageSame` scanners
+- Use `deepset/deberta-v3-base-injection` model for the `PromptInjection` scanner
+- Optimization of `PromptInjection` scanner by using `batch_size=1`
+- Use `lingua-language-detector` instead of `langdetect` in the `Language` scanner
+- Upgrade all libraries including `transformers` to the latest versions
+- Use Transformers recognizers in the `Anonymize` and `Sensitive` scanner to improve named-entity recognition
 
 ### Removed
 - Remove `PromptInjectionV2` scanner to rely on the single one with a choice
