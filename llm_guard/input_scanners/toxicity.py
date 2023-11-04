@@ -1,4 +1,4 @@
-from llm_guard.transformers_helpers import pipeline
+from llm_guard.transformers_helpers import pipeline_text_classification
 from llm_guard.util import logger
 
 from .base import Scanner
@@ -31,8 +31,11 @@ class Toxicity(Scanner):
         """
 
         self._threshold = threshold
-        self._pipeline = pipeline(
-            "text-classification", model=_model_path, use_onnx=use_onnx, padding=True
+        self._pipeline = pipeline_text_classification(
+            model=_model_path,
+            use_onnx=use_onnx,
+            padding=True,
+            truncation=True,
         )
 
     def scan(self, prompt: str) -> (str, bool, float):

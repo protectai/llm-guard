@@ -5,7 +5,7 @@ BERT_BASE_NER_CONF = {
         "ORGANIZATION",
     ],
     "DEFAULT_MODEL_PATH": "dslim/bert-base-NER",
-    "LABELS_TO_IGNORE": ["O"],
+    "LABELS_TO_IGNORE": ["O", "CARDINAL"],
     "DEFAULT_EXPLANATION": "Identified as {} by the dslim/bert-base-NER NER model",
     "SUB_WORD_AGGREGATION": "simple",
     "DATASET_TO_PRESIDIO_MAPPING": {
@@ -33,7 +33,7 @@ BERT_LARGE_NER_CONF = {
         "ORGANIZATION",
     ],
     "DEFAULT_MODEL_PATH": "dslim/bert-large-NER",
-    "LABELS_TO_IGNORE": ["O"],
+    "LABELS_TO_IGNORE": ["O", "CARDINAL"],
     "DEFAULT_EXPLANATION": "Identified as {} by the dslim/bert-large-NER NER model",
     "SUB_WORD_AGGREGATION": "simple",
     "DATASET_TO_PRESIDIO_MAPPING": {

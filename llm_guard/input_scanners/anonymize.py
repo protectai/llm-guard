@@ -9,7 +9,12 @@ from presidio_anonymizer.entities import PIIEntity, RecognizerResult
 from llm_guard.util import logger
 from llm_guard.vault import Vault
 
-from .anonymize_helpers import BERT_BASE_NER_CONF, get_analyzer, get_fake_value
+from .anonymize_helpers import (
+    BERT_BASE_NER_CONF,
+    get_analyzer,
+    get_fake_value,
+    get_transformers_recognizer,
+)
 from .base import Scanner
 
 sensitive_patterns_path = os.path.join(
@@ -54,6 +59,7 @@ class Anonymize(Scanner):
         use_faker: bool = False,
         recognizer_conf: Optional[Dict] = BERT_BASE_NER_CONF,
         threshold: float = 0,
+        use_onnx: bool = False,
     ):
         """
         Initialize an instance of Anonymize class.
@@ -68,6 +74,7 @@ class Anonymize(Scanner):
             use_faker (bool): Whether to use faker instead of placeholders in applicable cases. If not provided, defaults to False, replaces with placeholders [REDACTED_PERSON_1].
             recognizer_conf (Optional[Dict]): Configuration to recognize PII data. Default is dslim/bert-base-NER.
             threshold (float): Acceptance threshold. Default is 0.
+            use_onnx (bool): Whether to use ONNX runtime for inference. Default is False.
         """
 
         os.environ["TOKENIZERS_PARALLELISM"] = "false"  # Disables huggingface/tokenizers warning
@@ -86,8 +93,12 @@ class Anonymize(Scanner):
         self._preamble = preamble
         self._use_faker = use_faker
         self._threshold = threshold
+
+        transformers_recognizer = get_transformers_recognizer(recognizer_conf, use_onnx)
         self._analyzer = get_analyzer(
-            recognizer_conf, Anonymize.get_regex_patterns(regex_pattern_groups_path), hidden_names
+            transformers_recognizer,
+            Anonymize.get_regex_patterns(regex_pattern_groups_path),
+            hidden_names,
         )
 
     @staticmethod

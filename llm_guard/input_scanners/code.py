@@ -1,7 +1,7 @@
 import re
 from typing import List, Optional
 
-from llm_guard.transformers_helpers import pipeline
+from llm_guard.transformers_helpers import pipeline_text_classification
 from llm_guard.util import logger
 
 from .base import Scanner
@@ -60,7 +60,9 @@ class Code(Scanner):
         self._denied = denied
         self._threshold = threshold
 
-        self._pipeline = pipeline("text-classification", model=_model_path, use_onnx=use_onnx)
+        self._pipeline = pipeline_text_classification(
+            model=_model_path, use_onnx=use_onnx, truncation=True
+        )
 
         self._fenced_code_regex = re.compile(r"```(?:[a-zA-Z0-9]*\n)?(.*?)```", re.DOTALL)
         self._inline_code_regex = re.compile(r"`(.*?)`")

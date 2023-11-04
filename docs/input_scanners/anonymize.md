@@ -104,6 +104,18 @@ sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 Retrieving Original Data: To revert to the initial data, utilize the [Deanonymize](../output_scanners/deanonymize.md)
 scanner.
 
+## Optimizations
+
+### ONNX
+
+The scanner can be optimized by converting the model to ONNX format. This can be done by setting the `use_onnx`.
+
+Make sure to install the `onnxruntime` package:
+
+```sh
+pip install onnx onnxruntime optimum[onnxruntime]
+```
+
 ## Benchmarks
 
 Environment:

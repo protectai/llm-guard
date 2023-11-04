@@ -1,4 +1,3 @@
-import os
 from typing import Dict, List, Optional
 
 from presidio_anonymizer import AnonymizerEngine
@@ -8,7 +7,11 @@ from llm_guard.input_scanners.anonymize import (
     default_entity_types,
     sensitive_patterns_path,
 )
-from llm_guard.input_scanners.anonymize_helpers import BERT_BASE_NER_CONF, get_analyzer
+from llm_guard.input_scanners.anonymize_helpers import (
+    BERT_BASE_NER_CONF,
+    get_analyzer,
+    get_transformers_recognizer,
+)
 from llm_guard.util import logger
 
 from .base import Scanner
@@ -29,6 +32,7 @@ class Sensitive(Scanner):
         redact: bool = False,
         recognizer_conf: Optional[Dict] = BERT_BASE_NER_CONF,
         threshold: float = 0,
+        use_onnx: bool = False,
     ):
         """
         Initializes an instance of the Sensitive class.
@@ -40,9 +44,8 @@ class Sensitive(Scanner):
            redact (bool): Redact found sensitive entities. Default to False.
            recognizer_conf (Optional[Dict]): Configuration to recognize PII data. Default is dslim/bert-base-NER.
            threshold (float): Acceptance threshold. Default is 0.
+           use_onnx (bool): Use ONNX model for inference. Default is False.
         """
-        os.environ["TOKENIZERS_PARALLELISM"] = "false"  # Disables huggingface/tokenizers warning
-
         if not entity_types:
             logger.debug(f"No entity types provided, using default: {default_entity_types}")
             entity_types = default_entity_types.copy()
@@ -51,8 +54,10 @@ class Sensitive(Scanner):
         self._entity_types = entity_types
         self._redact = redact
         self._threshold = threshold
+
+        transformers_recognizer = get_transformers_recognizer(recognizer_conf, use_onnx)
         self._analyzer = get_analyzer(
-            recognizer_conf, Anonymize.get_regex_patterns(regex_pattern_groups_path), []
+            transformers_recognizer, Anonymize.get_regex_patterns(regex_pattern_groups_path), []
         )
         self._anonymizer = AnonymizerEngine()
 

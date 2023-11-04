@@ -1,6 +1,5 @@
 import importlib
 from functools import lru_cache
-from typing import Optional
 
 from .util import device, lazy_load_dep, logger
 
@@ -19,12 +18,8 @@ def is_onnx_supported() -> bool:
     return is_supported
 
 
-def pipeline(
-    task: str, model: str, max_length: Optional[int] = None, use_onnx: bool = False, **kwargs
-):
-    import transformers
-
-    # transformers = lazy_load_dep("transformers")
+def pipeline_text_classification(model: str, use_onnx: bool = False, **kwargs):
+    transformers = lazy_load_dep("transformers")
     tf_tokenizer = transformers.AutoTokenizer.from_pretrained(model)
 
     if use_onnx and is_onnx_supported() is False:
@@ -36,21 +31,49 @@ def pipeline(
         tf_model = optimum_onnxruntime.ORTModelForSequenceClassification.from_pretrained(
             model, export=True
         )
-        logger.debug(f"Initialized ONNX model {model} on device {device()}")
+        logger.debug(
+            f"Initialized text-classification pipeline for ONNX model {model} on device {device()}"
+        )
     else:
         tf_model = transformers.AutoModelForSequenceClassification.from_pretrained(model)
-        logger.debug(f"Initialized model {model} on device {device()}")
+        logger.debug(
+            f"Initialized text-classification pipeline for model {model} on device {device()}"
+        )
 
-    if max_length is None:
-        max_length = tf_tokenizer.model_max_length
+    if kwargs.get("max_length", None) is None:
+        kwargs["max_length"] = tf_tokenizer.model_max_length
 
     return transformers.pipeline(
-        task,
+        "text-classification",
         model=tf_model,
         tokenizer=tf_tokenizer,
         device=device(),
-        truncation=True,
-        max_length=max_length,
-        batch_size=1,
+        **kwargs,
+    )
+
+
+def pipeline_ner(model: str, use_onnx: bool = False, **kwargs):
+    transformers = lazy_load_dep("transformers")
+    tf_tokenizer = transformers.AutoTokenizer.from_pretrained(model)
+
+    if use_onnx and is_onnx_supported() is False:
+        logger.warning("ONNX is not supported on this machine. Using PyTorch instead of ONNX.")
+        use_onnx = False
+
+    if use_onnx:
+        optimum_onnxruntime = lazy_load_dep("optimum.onnxruntime", "optimum[onnxruntime]")
+        tf_model = optimum_onnxruntime.ORTModelForTokenClassification.from_pretrained(
+            model, export=True
+        )
+        logger.debug(f"Initialized ner pipeline for ONNX model {model} on device {device()}")
+    else:
+        tf_model = transformers.AutoModelForTokenClassification.from_pretrained(model)
+        logger.debug(f"Initialized ner pipeline for model {model} on device {device()}")
+
+    return transformers.pipeline(
+        "ner",
+        model=tf_model,
+        tokenizer=tf_tokenizer,
+        device=device(),
         **kwargs,
     )

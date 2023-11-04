@@ -3,21 +3,12 @@ from typing import List, Optional
 
 from presidio_analyzer import AnalysisExplanation, EntityRecognizer, RecognizerResult
 from presidio_analyzer.nlp_engine import NlpArtifacts
+from transformers import TokenClassificationPipeline
 
-from llm_guard.util import device, logger
+from llm_guard.transformers_helpers import pipeline_ner
+from llm_guard.util import logger
 
 from .ner_mapping import BERT_BASE_NER_CONF
-
-try:
-    from transformers import (
-        AutoModelForTokenClassification,
-        AutoTokenizer,
-        TokenClassificationPipeline,
-        pipeline,
-    )
-
-except ImportError:
-    logger.error("transformers_rec is not installed")
 
 
 class TransformersRecognizer(EntityRecognizer):
@@ -84,7 +75,7 @@ class TransformersRecognizer(EntityRecognizer):
         self.id_entity_name = None
         self.id_score_reduction = None
 
-    def load_transformer(self, **kwargs) -> None:
+    def load_transformer(self, use_onnx: bool = False, **kwargs) -> None:
         """Load external configuration parameters and set default values.
 
         :param kwargs: define default values for class attributes and modify pipeline behavior
@@ -98,6 +89,7 @@ class TransformersRecognizer(EntityRecognizer):
         **DEFAULT_EXPLANATION (str) - string format to use for prediction explanations
         **ID_ENTITY_NAME (str) - name of the ID entity
         **ID_SCORE_REDUCTION (float) - score multiplier for ID entities
+        **use_onnx (bool) - flag to use ONNX optimized model
         """
 
         self.entity_mapping = kwargs.get("DATASET_TO_PRESIDIO_MAPPING", {})
@@ -117,19 +109,15 @@ class TransformersRecognizer(EntityRecognizer):
                     f"Both 'model' and 'model_path' arguments are None. Using default model_path={self.model_path}"
                 )
 
-        self._load_pipeline()
+        self._load_pipeline(use_onnx)
 
-    def _load_pipeline(self) -> None:
+    def _load_pipeline(self, use_onnx: bool = False) -> None:
         """Initialize NER transformers_rec pipeline using the model_path provided"""
-
-        logger.debug(f"Initializing NER pipeline using {self.model_path} path on device {device()}")
-        self.pipeline = pipeline(
-            "ner",
-            model=AutoModelForTokenClassification.from_pretrained(self.model_path),
-            tokenizer=AutoTokenizer.from_pretrained(self.model_path),
+        self.pipeline = pipeline_ner(
+            model=self.model_path,
+            use_onnx=use_onnx,
             # Will attempt to group sub-entities to word level
             aggregation_strategy=self.aggregation_mechanism,
-            device=device(),
             framework="pt",
             ignore_labels=self.ignore_labels,
         )
