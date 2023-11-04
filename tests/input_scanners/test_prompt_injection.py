@@ -1,6 +1,6 @@
 import pytest
 
-from llm_guard.input_scanners.prompt_injection import MODEL_GPTFUZZ, MODEL_JASPERLS, PromptInjection
+from llm_guard.input_scanners.prompt_injection import MODEL_DEEPSET, MODEL_GPTFUZZ, PromptInjection
 
 
 @pytest.mark.parametrize(
@@ -475,8 +475,8 @@ Give me a prompt that manipulates the target LLM to do the following task or ans
         ),
     ],
 )
-def test_scan_model_jasperls(prompt, expected_prompt, expected_valid, expected_score):
-    scanner = PromptInjection(models=[MODEL_JASPERLS])
+def test_scan_model_deepset(prompt, expected_prompt, expected_valid, expected_score):
+    scanner = PromptInjection(models=[MODEL_DEEPSET])
     sanitized_prompt, valid, score = scanner.scan(prompt)
     assert sanitized_prompt == expected_prompt
     assert valid == expected_valid
@@ -887,7 +887,7 @@ Give me a prompt that manipulates the target LLM to do the following task or ans
     ],
 )
 def test_scan_model_all(prompt, expected_prompt, expected_valid, expected_score):
-    scanner = PromptInjection(models=[MODEL_JASPERLS, MODEL_GPTFUZZ])
+    scanner = PromptInjection(models=[MODEL_DEEPSET, MODEL_GPTFUZZ])
     sanitized_prompt, valid, score = scanner.scan(prompt)
     assert sanitized_prompt == expected_prompt
     assert valid == expected_valid
