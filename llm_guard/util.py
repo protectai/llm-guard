@@ -25,20 +25,6 @@ def device():
     return torch.device("cpu")
 
 
-@lru_cache(maxsize=None)  # Unbounded cache
-def is_onnx_supported() -> bool:
-    is_supported = (
-        str(device()) == "cpu" and importlib.util.find_spec("optimum.onnxruntime") is not None
-    )
-    if not is_supported:
-        logger.warning(
-            "ONNX Runtime is not available. "
-            "Please install optimum: `pip install onnx onnxruntime optimum[onnx-runtime]` to enable ONNX Runtime optimizations."
-        )
-
-    return is_supported
-
-
 def read_json_file(json_path: str) -> Dict[str, List[str]]:
     """
     Reads a JSON file and returns its contents as a Python dictionary.

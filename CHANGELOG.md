@@ -19,11 +19,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - In the `Refutation` output scanner use the same model for the NLI as used in the `BanTopics`
 - Benchmarks for each individual scanner instead of one common
 - Use `deepset/deberta-v3-base-injection` model for the `PromptInjection` scanner
-- Optimization of `PromptInjection` scanner by using `batch_size=1`
+- Optimization of scanners on GPU by using `batch_size=1`
 - Use `lingua-language-detector` instead of `langdetect` in the `Language` scanner
 - Upgrade all libraries including `transformers` to the latest versions
 - Use Transformers recognizers in the `Anonymize` and `Sensitive` scanner to improve named-entity recognition
-- Optimization of `Toxicity` scanner by using `batch_size=1` and possibility to use ONNX runtime
+- Possibility of using ONNX runtime in scanners by enabling `use_onnx` parameter
 
 ### Removed
 - Remove `PromptInjectionV2` scanner to rely on the single one with a choice

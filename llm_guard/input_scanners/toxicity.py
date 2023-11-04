@@ -1,4 +1,5 @@
-from llm_guard.util import device, is_onnx_supported, lazy_load_dep, logger
+from llm_guard.transformers_helpers import pipeline
+from llm_guard.util import logger
 
 from .base import Scanner
 
@@ -30,35 +31,15 @@ class Toxicity(Scanner):
         """
 
         self._threshold = threshold
-
-        transformers = lazy_load_dep("transformers")
-        tokenizer = transformers.AutoTokenizer.from_pretrained(_model_path)
-
-        if use_onnx and is_onnx_supported():
-            optimum_onnxruntime = lazy_load_dep("optimum.onnxruntime", "optimum[onnxruntime]")
-            model = optimum_onnxruntime.ORTModelForSequenceClassification.from_pretrained(
-                _model_path, export=True
-            )
-            logger.debug(f"Initialized ONNX model {_model_path} on device {device()}")
-        else:
-            model = transformers.AutoModelForSequenceClassification.from_pretrained(_model_path)
-            logger.debug(f"Initialized model {_model_path} on device {device()}")
-
-        self._text_classification_pipeline = transformers.TextClassificationPipeline(
-            model=model,
-            tokenizer=tokenizer,
-            device=device(),
-            truncation=True,
-            padding=True,
-            max_length=tokenizer.model_max_length,
-            batch_size=1,
+        self._pipeline = pipeline(
+            "text-classification", model=_model_path, use_onnx=use_onnx, padding=True
         )
 
     def scan(self, prompt: str) -> (str, bool, float):
         if prompt.strip() == "":
             return prompt, True, 0.0
 
-        result = self._text_classification_pipeline(prompt)
+        result = self._pipeline(prompt)
 
         toxicity_score = (
             result[0]["score"] if result[0]["label"] == "toxic" else 1 - result[0]["score"]

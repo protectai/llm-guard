@@ -40,6 +40,8 @@ known limitation and work is ongoing to improve this aspect.
 
 ## Optimizations
 
+### ONNX
+
 The scanner can run on ONNX Runtime, which provides a significant performance boost on CPU instances.
 
 To enable it, install the `onnxruntime` package:

@@ -18,6 +18,7 @@ class Code(Scanner):
         allowed: Optional[List[str]] = None,
         denied: Optional[List[str]] = None,
         threshold: float = 0.5,
+        use_onnx: bool = False,
     ):
         """
         Initializes an instance of the Code class.
@@ -26,12 +27,13 @@ class Code(Scanner):
             allowed (Optional[List[str]]): A list of programming languages that are allowed in the model output.
             denied (Optional[List[str]]): A list of programming languages that are not allowed in the model output.
             threshold (float): The threshold for the model output to be considered valid. Default is 0.5.
+            use_onnx (bool): Whether to use ONNX for inference. Default is False.
 
         Raises:
             ValueError: If both 'allowed' and 'denied' lists are provided or if both are empty.
         """
 
-        self._scanner = InputCode(allowed, denied, threshold)
+        self._scanner = InputCode(allowed, denied, threshold, use_onnx)
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         return self._scanner.scan(output)

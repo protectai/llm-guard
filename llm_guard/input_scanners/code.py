@@ -1,11 +1,12 @@
 import re
 from typing import List, Optional
 
-from llm_guard.util import device, lazy_load_dep, logger
+from llm_guard.transformers_helpers import pipeline
+from llm_guard.util import logger
 
 from .base import Scanner
 
-model_name = "huggingface/CodeBERTa-language-id"
+_model_path = "huggingface/CodeBERTa-language-id"
 
 SUPPORTED_LANGUAGES = ["go", "java", "javascript", "php", "python", "ruby"]
 
@@ -23,6 +24,7 @@ class Code(Scanner):
         allowed: Optional[List[str]] = None,
         denied: Optional[List[str]] = None,
         threshold: float = 0.5,
+        use_onnx: bool = False,
     ):
         """
         Initializes Code with the allowed and denied languages.
@@ -31,6 +33,7 @@ class Code(Scanner):
             allowed (Optional[List[str]]): A list of allowed languages. Default is an empty list.
             denied (Optional[List[str]]): A list of denied languages. Default is an empty list.
             threshold (float): The threshold for the risk score. Default is 0.5.
+            use_onnx (bool): Whether to use ONNX for inference. Default is False.
 
         Raises:
             ValueError: If both 'allowed' and 'denied' lists are provided or if both are empty.
@@ -57,17 +60,10 @@ class Code(Scanner):
         self._denied = denied
         self._threshold = threshold
 
-        transformers = lazy_load_dep("transformers")
-        self._pipeline = transformers.TextClassificationPipeline(
-            model=transformers.RobertaForSequenceClassification.from_pretrained(model_name),
-            tokenizer=transformers.RobertaTokenizer.from_pretrained(model_name),
-            device=device(),
-            truncation=True,
-        )
+        self._pipeline = pipeline("text-classification", model=_model_path, use_onnx=use_onnx)
+
         self._fenced_code_regex = re.compile(r"```(?:[a-zA-Z0-9]*\n)?(.*?)```", re.DOTALL)
         self._inline_code_regex = re.compile(r"`(.*?)`")
-
-        logger.debug(f"Initialized model {model_name} on device {device()}")
 
     def _extract_code_blocks(self, markdown: str) -> List[str]:
         # Extract fenced code blocks (between triple backticks)
