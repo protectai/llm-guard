@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use `lingua-language-detector` instead of `langdetect` in the `Language` scanner
 - Upgrade all libraries including `transformers` to the latest versions
 - Use Transformers recognizers in the `Anonymize` and `Sensitive` scanner to improve named-entity recognition
+- Optimization of `Toxicity` scanner by using `batch_size=1` and possibility to use ONNX runtime
 
 ### Removed
 - Remove `PromptInjectionV2` scanner to rely on the single one with a choice

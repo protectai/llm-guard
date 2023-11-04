@@ -1,4 +1,4 @@
-from llm_guard.util import device, lazy_load_dep, logger
+from llm_guard.util import device, is_onnx_supported, lazy_load_dep, logger
 
 from .base import Scanner
 
@@ -17,35 +17,48 @@ class Toxicity(Scanner):
     considered toxic.
     """
 
-    def __init__(self, threshold: float = 0.7):
+    def __init__(self, threshold: float = 0.7, use_onnx: bool = False):
         """
         Initializes Toxicity with a threshold for toxicity.
 
         Parameters:
            threshold (float): Threshold for toxicity. Default is 0.7.
+           use_onnx (bool): Whether to use ONNX for inference. Default is False.
 
         Raises:
            None.
         """
 
-        transformers = lazy_load_dep("transformers")
-        model = transformers.AutoModelForSequenceClassification.from_pretrained(_model_path)
-        self._tokenizer = transformers.AutoTokenizer.from_pretrained(_model_path)
         self._threshold = threshold
+
+        transformers = lazy_load_dep("transformers")
+        tokenizer = transformers.AutoTokenizer.from_pretrained(_model_path)
+
+        if use_onnx and is_onnx_supported():
+            optimum_onnxruntime = lazy_load_dep("optimum.onnxruntime", "optimum[onnxruntime]")
+            model = optimum_onnxruntime.ORTModelForSequenceClassification.from_pretrained(
+                _model_path, export=True
+            )
+            logger.debug(f"Initialized ONNX model {_model_path} on device {device()}")
+        else:
+            model = transformers.AutoModelForSequenceClassification.from_pretrained(_model_path)
+            logger.debug(f"Initialized model {_model_path} on device {device()}")
+
         self._text_classification_pipeline = transformers.TextClassificationPipeline(
             model=model,
-            tokenizer=self._tokenizer,
+            tokenizer=tokenizer,
             device=device(),
+            truncation=True,
+            padding=True,
+            max_length=tokenizer.model_max_length,
+            batch_size=1,
         )
-        logger.debug(f"Initialized model {_model_path} on device {device()}")
 
     def scan(self, prompt: str) -> (str, bool, float):
         if prompt.strip() == "":
             return prompt, True, 0.0
 
-        result = self._text_classification_pipeline(
-            prompt, truncation=True, padding=True, max_length=self._tokenizer.model_max_length
-        )
+        result = self._text_classification_pipeline(prompt)
 
         toxicity_score = (
             result[0]["score"] if result[0]["label"] == "toxic" else 1 - result[0]["score"]

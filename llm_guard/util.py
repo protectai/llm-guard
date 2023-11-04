@@ -27,7 +27,16 @@ def device():
 
 @lru_cache(maxsize=None)  # Unbounded cache
 def is_onnx_supported() -> bool:
-    return str(device()) == "cpu" and importlib.util.find_spec("optimum.onnxruntime") is not None
+    is_supported = (
+        str(device()) == "cpu" and importlib.util.find_spec("optimum.onnxruntime") is not None
+    )
+    if not is_supported:
+        logger.warning(
+            "ONNX Runtime is not available. "
+            "Please install optimum: `pip install onnx onnxruntime optimum[onnx-runtime]` to enable ONNX Runtime optimizations."
+        )
+
+    return is_supported
 
 
 def read_json_file(json_path: str) -> Dict[str, List[str]]:
