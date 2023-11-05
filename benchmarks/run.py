@@ -122,7 +122,7 @@ def get_output_test_data() -> (str, str):
     return {key: tuple(value) for key, value in data.items()}
 
 
-def benchmark_input_scanner(scanner_name: str, repeat_times: int = 5) -> (List, int):
+def benchmark_input_scanner(scanner_name: str, repeat_times: int) -> (List, int):
     scanner = build_input_scanner(scanner_name)
 
     prompt = get_input_test_data()[scanner_name]
@@ -132,7 +132,7 @@ def benchmark_input_scanner(scanner_name: str, repeat_times: int = 5) -> (List, 
     return latency_list, len(prompt)
 
 
-def benchmark_output_scanner(scanner_name: str, repeat_times: int = 5) -> (List, int):
+def benchmark_output_scanner(scanner_name: str, repeat_times: int) -> (List, int):
     scanner = build_output_scanner(scanner_name)
 
     prompt, output = get_output_test_data()[scanner_name]
@@ -169,13 +169,19 @@ def main():
         "type", choices=["input", "output"], help="Type of the scanner to benchmark."
     )
     parser.add_argument("scanner", type=str, help="Name of the scanner class to benchmark.")
+    parser.add_argument(
+        "--repeat",
+        type=int,
+        default=5,
+        help="Number of times to repeat the benchmark.",
+    )
 
     args = parser.parse_args()
 
     if args.type == "input":
-        latency_list, length = benchmark_input_scanner(args.scanner)
+        latency_list, length = benchmark_input_scanner(args.scanner, args.repeat)
     elif args.type == "output":
-        latency_list, length = benchmark_output_scanner(args.scanner)
+        latency_list, length = benchmark_output_scanner(args.scanner, args.repeat)
     else:
         raise ValueError("Type is not found")
 

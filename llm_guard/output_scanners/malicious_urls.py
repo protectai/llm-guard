@@ -1,7 +1,8 @@
 import re
 from typing import List
 
-from llm_guard.util import device, lazy_load_dep, logger
+from llm_guard.transformers_helpers import pipeline_text_classification
+from llm_guard.util import logger
 
 from .base import Scanner
 
@@ -22,27 +23,22 @@ class MaliciousURLs(Scanner):
     URLs as either malicious or benign to safeguard users from potential threats.
     """
 
-    def __init__(self, threshold=0.75):
+    def __init__(self, threshold=0.75, use_onnx: bool = False):
         """
         Initializes an instance of the MaliciousURLs class.
 
         Parameters:
             threshold (float): The threshold used to determine if the website is malicious. Defaults to 0.75.
+            use_onnx (bool): Whether to use the ONNX version of the model. Defaults to False.
         """
 
-        transformers = lazy_load_dep("transformers")
-        model = transformers.AutoModelForSequenceClassification.from_pretrained(_model_path)
-        self._tokenizer = transformers.AutoTokenizer.from_pretrained(_model_path)
         self._threshold = threshold
-        self._text_classification_pipeline = transformers.TextClassificationPipeline(
-            model=model,
-            tokenizer=self._tokenizer,
-            device=device(),
+        self._classifier = pipeline_text_classification(
+            model=_model_path,
             truncation=True,
             padding=True,
-            max_length=self._tokenizer.model_max_length,
+            use_onnx=use_onnx,
         )
-        logger.debug(f"Initialized model {_model_path} on device {device()}")
 
     @staticmethod
     def extract_urls(text: str) -> List[str]:
@@ -59,7 +55,7 @@ class MaliciousURLs(Scanner):
         logger.debug(f"Found {len(urls)} URLs in the output")
 
         urls_str = ", ".join(urls)
-        result = self._text_classification_pipeline(urls_str)
+        result = self._classifier(urls_str)
         malware_score = (
             result[0]["score"] if result[0]["label"] == "MALWARE" else 1 - result[0]["score"]
         )

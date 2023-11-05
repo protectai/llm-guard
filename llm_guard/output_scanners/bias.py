@@ -1,4 +1,5 @@
-from llm_guard.util import device, lazy_load_dep, logger
+from llm_guard.transformers_helpers import pipeline_text_classification
+from llm_guard.util import logger
 
 from .base import Scanner
 
@@ -10,24 +11,22 @@ class Bias(Scanner):
     This class is designed to detect and evaluate potential biases in text using a pretrained model from HuggingFace.
     """
 
-    def __init__(self, threshold: float = 0.75):
+    def __init__(self, threshold: float = 0.75, use_onnx: bool = False):
         """
         Initializes the Bias scanner with a probability threshold for bias detection.
 
         Parameters:
            threshold (float): The threshold above which a text is considered biased.
                               Default is 0.75.
+           use_onnx (bool): Whether to use ONNX instead of PyTorch for inference.
         """
         self._threshold = threshold
 
-        transformers = lazy_load_dep("transformers")
-        self._classifier = transformers.pipeline(
-            "text-classification",
+        self._classifier = pipeline_text_classification(
             model=_model_path,
-            device=device(),
             truncation=True,
+            use_onnx=use_onnx,
         )
-        logger.debug(f"Initialized model {_model_path} on device {device()}")
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         if output.strip() == "":
