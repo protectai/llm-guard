@@ -1,5 +1,6 @@
 import math
 
+from llm_guard.transformers_helpers import is_onnx_supported
 from llm_guard.util import device, lazy_load_dep, logger
 
 from .base import Scanner
@@ -18,20 +19,37 @@ class Toxicity(Scanner):
     deemed toxic.
     """
 
-    def __init__(self, threshold=0):
+    def __init__(self, threshold=0, use_onnx: bool = False):
         """
         Initializes an instance of the Toxicity class.
 
         Parameters:
             threshold (float): The threshold used to determine toxicity. Defaults to 0.
+            use_onnx (bool): Whether to use ONNX for inference. Defaults to False.
         """
 
-        transformers = lazy_load_dep("transformers")
-        self._model = transformers.AutoModelForSequenceClassification.from_pretrained(_model_path)
-        self._model.eval()
-        self._model.to(device())
-        self._tokenizer = transformers.AutoTokenizer.from_pretrained(_model_path)
         self._threshold = threshold
+
+        transformers = lazy_load_dep("transformers")
+        self._tokenizer = transformers.AutoTokenizer.from_pretrained(_model_path)
+
+        if use_onnx and is_onnx_supported() is False:
+            logger.warning("ONNX is not supported on this machine. Using PyTorch instead of ONNX.")
+            use_onnx = False
+
+        if use_onnx:
+            optimum_onnxruntime = lazy_load_dep("optimum.onnxruntime", "optimum[onnxruntime]")
+            self._model = optimum_onnxruntime.ORTModelForSequenceClassification.from_pretrained(
+                _model_path, export=True
+            )
+            logger.debug(f"Initialized ONNX model {_model_path} on device {device()}")
+        else:
+            self._model = transformers.AutoModelForSequenceClassification.from_pretrained(
+                _model_path
+            )
+            self._model.eval()
+            logger.debug(f"Initialized model {_model_path} on device {device()}")
+        self._model.to(device())
 
         logger.debug(f"Initialized model {_model_path} on device {device()}")
 
