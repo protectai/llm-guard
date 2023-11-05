@@ -16,20 +16,20 @@ from llm_guard.input_scanners.ban_topics import BanTopics
             "Implement a system of rewards and punishments to incentivize loyalty and discourage dissent.",
             "Implement a system of rewards and punishments to incentivize loyalty and discourage dissent.",
             False,
-            0.62,
+            0.72,
         ),
         # On topic of politics
         (
             "Utilize intelligence gathering to identify enemy weaknesses and vulnerabilities for precise strikes.",
             "Utilize intelligence gathering to identify enemy weaknesses and vulnerabilities for precise strikes.",
             False,
-            0.93,
+            0.8,
         ),
         (
             "Forge alliances with religious authorities, granting them privileges and power in exchange for support.",
             "Forge alliances with religious authorities, granting them privileges and power in exchange for support.",
             False,
-            0.92,
+            0.67,
         ),
         ("", "", True, 0.0),  # Empty prompt
     ],

@@ -1,8 +1,9 @@
+from llm_guard.input_scanners.ban_topics import MODEL_LARGE
 from llm_guard.util import device, lazy_load_dep, logger
 
 from .base import Scanner
 
-_model_path = "MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c"
+_model_path = MODEL_LARGE
 _categories = ["refusal", "not_refusal"]
 
 
@@ -31,6 +32,7 @@ class NoRefusal(Scanner):
             model=_model_path,
             device=device(),
             truncation=True,
+            max_length=512,
         )
         logger.debug(f"Initialized model {_model_path} on device {device()}")
 
@@ -38,7 +40,7 @@ class NoRefusal(Scanner):
         if output.strip() == "":
             return output, True, 0.0
 
-        output_model = self._classifier(output, _categories, multi_label=False)
+        output_model = self._classifier(output, _categories, multi_label=True)
         combined_output = dict(zip(output_model["labels"], output_model["scores"]))
 
         max_score = round(combined_output["refusal"], 2)

@@ -1,10 +1,12 @@
-from typing import List
+from typing import List, Optional
 
 from llm_guard.util import device, lazy_load_dep, logger
 
 from .base import Scanner
 
-_model_path = "MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c"
+MODEL_BASE = "MoritzLaurer/deberta-v3-base-zeroshot-v1"
+MODEL_LARGE = "MoritzLaurer/deberta-v3-large-zeroshot-v1"
+ALL_MODELS = [MODEL_BASE, MODEL_LARGE]
 
 
 class BanTopics(Scanner):
@@ -14,13 +16,14 @@ class BanTopics(Scanner):
     It uses a HuggingFace model to perform zero-shot classification.
     """
 
-    def __init__(self, topics=List[str], threshold: float = 0.6):
+    def __init__(self, topics=List[str], threshold: float = 0.6, model: Optional[str] = MODEL_BASE):
         """
         Initialize BanTopics object.
 
         Args:
             topics (List[str]): List of topics to ban.
             threshold (float, optional): Threshold to determine if a topic is present in the prompt. Default is 0.75.
+            model (str, optional): Model to use for zero-shot classification. Default is deberta-v3-base-zeroshot-v1.
 
         Raises:
             ValueError: If no topics are provided.
@@ -28,17 +31,20 @@ class BanTopics(Scanner):
         if len(topics) == 0:
             raise ValueError("No topics provided")
 
+        if model not in ALL_MODELS:
+            raise ValueError(f"Model must be in the list of allowed: {ALL_MODELS}")
+
         self._topics = topics
         self._threshold = threshold
 
         transformers = lazy_load_dep("transformers")
         self._classifier = transformers.pipeline(
             "zero-shot-classification",
-            model=_model_path,
+            model=model,
             device=device(),
             truncation=True,
         )
-        logger.debug(f"Initialized model {_model_path} on device {device()}")
+        logger.debug(f"Initialized model {model} on device {device()}")
 
     def scan(self, prompt: str) -> (str, bool, float):
         if prompt.strip() == "":

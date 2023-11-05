@@ -13,7 +13,7 @@ are misaligned with the platform's guidelines or values.
 ## How it works
 
 It relies on the capabilities of the model from
-HuggingFace: [MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c](https://huggingface.co/MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c).
+HuggingFace: [MoritzLaurer/deberta-v3-base-zeroshot-v1](https://huggingface.co/MoritzLaurer/deberta-v3-base-zeroshot-v1).
 This model identifies the topic or theme of an output, enabling the scanner to vet the content against a predefined list
 of banned topics.
 

@@ -13,7 +13,7 @@ The scanner aims to highlight such inconsistencies in the output.
 ## How it works
 
 The scanner leverages pretrained natural language inference (NLI) models from HuggingFace, such
-as [MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c](https://huggingface.co/MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c) (
+as [MoritzLaurer/deberta-v3-base-zeroshot-v1](https://huggingface.co/MoritzLaurer/deberta-v3-base-zeroshot-v1) (
 same model that is used for the [BanTopics](./ban_topics.md) scanner), to determine the relationship between a given
 prompt and the generated output.
 

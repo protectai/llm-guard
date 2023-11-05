@@ -14,7 +14,7 @@ of refusals can include statements like "Sorry, I can't assist with that" or "I'
 
 It leverages the power
 of HuggingFace
-model [MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c](https://huggingface.co/MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c)
+model [MoritzLaurer/deberta-v3-large-zeroshot-v1](https://huggingface.co/MoritzLaurer/deberta-v3-large-zeroshot-v1)
 to classify the model's output.
 
 ## Usage

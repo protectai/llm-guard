@@ -13,7 +13,7 @@ reduce the risk of generating responses that could lead to misunderstandings or 
 ## How it works
 
 It relies on the capabilities of the
-model: [MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c](https://huggingface.co/MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c).
+model: [MoritzLaurer/deberta-v3-base-zeroshot-v1](https://huggingface.co/MoritzLaurer/deberta-v3-base-zeroshot-v1).
 This model aids in identifying the underlying theme or topic of a prompt, allowing the scanner to cross-check it against
 a list of banned topics.
 

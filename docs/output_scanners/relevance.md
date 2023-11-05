@@ -28,6 +28,10 @@ scanner = Relevance(threshold=0.5)
 sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```
 
+## Optimization
+
+You can use smaller model `BAAI/bge-small-en-v1.5` (`MODEL_EN_BGE_SMALL`) to speed up the scanner. It is 4 times faster than the default model, but it is less accurate.
+
 ## Benchmarks
 
 Environment:

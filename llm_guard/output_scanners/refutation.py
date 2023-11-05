@@ -1,10 +1,11 @@
+from llm_guard.input_scanners.ban_topics import MODEL_BASE
 from llm_guard.util import device, lazy_load_dep, logger
 
 from .base import Scanner
 
 torch = lazy_load_dep("torch")
 
-_model_path = "MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c"
+_model_path = MODEL_BASE
 
 
 class Refutation(Scanner):
