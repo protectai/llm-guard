@@ -35,7 +35,7 @@ class Relevance(Scanner):
         fe = lazy_load_dep("FlagEmbedding")
         self._model = fe.FlagModel(
             model,
-            query_instruction_for_retrieval="Represent this sentence for searching relevant passages: ",
+            query_instruction_for_retrieval=None,
             use_fp16=False,
         )
 
