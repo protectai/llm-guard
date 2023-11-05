@@ -27,11 +27,6 @@ Applying LLM Guard to your application could be as simple as wrapping your LLM u
 
 Example can be found in [langchain_llm.py](https://github.com/laiyer-ai/llm-guard/blob/main/examples/langchain_llm.py).
 
-## LLM Chain
-
-In [langchain_chain.py](https://github.com/laiyer-ai/llm-guard/blob/main/examples/langchain_chain.py), you can find
-custom `LLMGuard` chain, which can be used instead of common `LLMChain`.
-
 ## LangChain Expression Language (LCEL)
 
 [LangChain Expression Language or LCEL](https://python.langchain.com/docs/expression_language/) is a declarative way to easily compose chains together.
