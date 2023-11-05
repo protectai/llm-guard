@@ -8,16 +8,16 @@ import numpy
 
 from llm_guard import input_scanners, output_scanners
 from llm_guard.input_scanners.base import Scanner as InputScanner
+from llm_guard.input_scanners.prompt_injection import MODEL_DEEPSET, MODEL_GPTFUZZ
 from llm_guard.output_scanners.base import Scanner as OutputScanner
-from llm_guard.output_scanners.relevance import MODEL_EN_BGE_SMALL
 from llm_guard.vault import Vault
 
 vault = Vault()
 
 
-def build_input_scanner(scanner_name: str) -> InputScanner:
+def build_input_scanner(scanner_name: str, use_onnx: bool) -> InputScanner:
     if scanner_name == "Anonymize":
-        return input_scanners.Anonymize(vault=vault)
+        return input_scanners.Anonymize(vault=vault, use_onnx=use_onnx)
 
     if scanner_name == "BanSubstrings":
         return input_scanners.BanSubstrings(
@@ -28,13 +28,15 @@ def build_input_scanner(scanner_name: str) -> InputScanner:
         return input_scanners.BanTopics(topics=["violence", "attack", "war"])
 
     if scanner_name == "Code":
-        return input_scanners.Code(denied=["java"])
+        return input_scanners.Code(denied=["java"], use_onnx=use_onnx)
 
     if scanner_name == "Language":
         return input_scanners.Language(valid_languages=["en", "es"])
 
     if scanner_name == "PromptInjection":
-        return input_scanners.PromptInjection()
+        return input_scanners.PromptInjection(
+            models=[MODEL_DEEPSET, MODEL_GPTFUZZ], use_onnx=use_onnx
+        )
 
     if scanner_name == "Regex":
         return input_scanners.Regex(bad_patterns=[r"Bearer [A-Za-z0-9-._~+/]+"])
@@ -49,12 +51,12 @@ def build_input_scanner(scanner_name: str) -> InputScanner:
         return input_scanners.TokenLimit(limit=50)
 
     if scanner_name == "Toxicity":
-        return input_scanners.Toxicity()
+        return input_scanners.Toxicity(use_onnx=use_onnx)
 
     raise ValueError("Scanner not found")
 
 
-def build_output_scanner(scanner_name: str) -> OutputScanner:
+def build_output_scanner(scanner_name: str, use_onnx: bool) -> OutputScanner:
     if scanner_name == "BanSubstrings":
         return output_scanners.BanSubstrings(
             substrings=["backdoor", "malware", "virus"], match_type="word"
@@ -64,10 +66,10 @@ def build_output_scanner(scanner_name: str) -> OutputScanner:
         return output_scanners.BanTopics(topics=["violence", "attack", "war"])
 
     if scanner_name == "Bias":
-        return output_scanners.Bias()
+        return output_scanners.Bias(use_onnx=use_onnx)
 
     if scanner_name == "Code":
-        return output_scanners.Code(denied=["java"])
+        return output_scanners.Code(denied=["java"], use_onnx=use_onnx)
 
     if scanner_name == "Deanonymize":
         return output_scanners.Deanonymize(vault)
@@ -82,7 +84,7 @@ def build_output_scanner(scanner_name: str) -> OutputScanner:
         return output_scanners.LanguageSame()
 
     if scanner_name == "MaliciousURLs":
-        return output_scanners.MaliciousURLs()
+        return output_scanners.MaliciousURLs(use_onnx=use_onnx)
 
     if scanner_name == "NoRefusal":
         return output_scanners.NoRefusal()
@@ -94,16 +96,16 @@ def build_output_scanner(scanner_name: str) -> OutputScanner:
         return output_scanners.Regex(bad_patterns=[r"Bearer [A-Za-z0-9-._~+/]+"])
 
     if scanner_name == "Relevance":
-        return output_scanners.Relevance(model=MODEL_EN_BGE_SMALL)
+        return output_scanners.Relevance()
 
     if scanner_name == "Sensitive":
-        return output_scanners.Sensitive(redact=True)
+        return output_scanners.Sensitive(redact=True, use_onnx=use_onnx)
 
     if scanner_name == "Sentiment":
         return output_scanners.Sentiment()
 
     if scanner_name == "Toxicity":
-        return output_scanners.Toxicity()
+        return output_scanners.Toxicity(use_onnx=use_onnx)
 
     raise ValueError("Scanner not found")
 
@@ -122,8 +124,8 @@ def get_output_test_data() -> (str, str):
     return {key: tuple(value) for key, value in data.items()}
 
 
-def benchmark_input_scanner(scanner_name: str, repeat_times: int) -> (List, int):
-    scanner = build_input_scanner(scanner_name)
+def benchmark_input_scanner(scanner_name: str, repeat_times: int, use_onnx: bool) -> (List, int):
+    scanner = build_input_scanner(scanner_name, use_onnx=use_onnx)
 
     prompt = get_input_test_data()[scanner_name]
 
@@ -132,8 +134,8 @@ def benchmark_input_scanner(scanner_name: str, repeat_times: int) -> (List, int)
     return latency_list, len(prompt)
 
 
-def benchmark_output_scanner(scanner_name: str, repeat_times: int) -> (List, int):
-    scanner = build_output_scanner(scanner_name)
+def benchmark_output_scanner(scanner_name: str, repeat_times: int, use_onnx: bool) -> (List, int):
+    scanner = build_output_scanner(scanner_name, use_onnx=use_onnx)
 
     prompt, output = get_output_test_data()[scanner_name]
 
@@ -175,13 +177,19 @@ def main():
         default=5,
         help="Number of times to repeat the benchmark.",
     )
+    parser.add_argument(
+        "--use-onnx",
+        type=bool,
+        default=False,
+        help="Whether to use ONNX for inference, when possible.",
+    )
 
     args = parser.parse_args()
 
     if args.type == "input":
-        latency_list, length = benchmark_input_scanner(args.scanner, args.repeat)
+        latency_list, length = benchmark_input_scanner(args.scanner, args.repeat, args.use_onnx)
     elif args.type == "output":
-        latency_list, length = benchmark_output_scanner(args.scanner, args.repeat)
+        latency_list, length = benchmark_output_scanner(args.scanner, args.repeat, args.use_onnx)
     else:
         raise ValueError("Type is not found")
 

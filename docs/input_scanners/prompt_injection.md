@@ -42,6 +42,22 @@ scanner = PromptInjection(threshold=0.5, models=[MODEL_DEEPSET])
 sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
 
+## Optimizations
+
+### ONNX
+
+The scanner can run on ONNX Runtime, which provides a significant performance boost on CPU instances.
+
+To enable it, install the `onnxruntime` package:
+
+```sh
+pip install onnx onnxruntime optimum[onnxruntime]
+```
+
+!!! note
+
+    It doesn't support all models.
+
 ## Benchmarks
 
 Environment:

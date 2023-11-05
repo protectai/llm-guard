@@ -1,6 +1,7 @@
 from typing import Dict, List, Optional
 
-from llm_guard.util import device, lazy_load_dep, logger
+from llm_guard.transformers_helpers import pipeline_text_classification
+from llm_guard.util import logger
 
 from .base import Scanner
 
@@ -9,6 +10,7 @@ MODEL_DEEPSET = {
     "path": "deepset/deberta-v3-base-injection",
     "label": "INJECTION",
     "max_length": 512,
+    "onnx_supported": False,
 }
 
 # This dataset is more up-to-date. However, it performs slower because based on RoBERTa-large model.
@@ -16,6 +18,7 @@ MODEL_GPTFUZZ = {
     "path": "hubert233/GPTFuzz",
     "label": 1,
     "max_length": 512,
+    "onnx_supported": True,
 }
 
 ALL_MODELS = [
@@ -30,13 +33,16 @@ class PromptInjection(Scanner):
     detect if a prompt is attempting to perform an injection attack.
     """
 
-    def __init__(self, models: Optional[List[Dict]] = None, threshold: float = 0.5):
+    def __init__(
+        self, models: Optional[List[Dict]] = None, threshold: float = 0.5, use_onnx: bool = False
+    ):
         """
         Initializes PromptInjection with a threshold.
 
         Parameters:
             models (List[Dict], optional): Chosen models to classify prompt. Default is JasperLS.
             threshold (float): Threshold for the injection score. Default is 0.75.
+            use_onnx (bool): Whether to use ONNX for inference. Defaults to False.
 
         Raises:
             ValueError: If non-existent models were provided.
@@ -53,29 +59,18 @@ class PromptInjection(Scanner):
 
         logger.debug(f"Prompt injection models: {models}")
 
-        transformers = lazy_load_dep("transformers")
-
         pipelines = {}
         for model in models:
             try:
-                tf_tokenizer = transformers.AutoTokenizer.from_pretrained(model["path"])
-                tf_model = transformers.AutoModelForSequenceClassification.from_pretrained(
-                    model["path"]
-                )
-
-                pipelines[model["path"]] = transformers.pipeline(
-                    "text-classification",
-                    model=tf_model,
-                    tokenizer=tf_tokenizer,
+                pipelines[model["path"]] = pipeline_text_classification(
+                    model=model["path"],
+                    use_onnx=use_onnx and model["onnx_supported"],
                     truncation=True,
                     max_length=model["max_length"],
                     batch_size=1,
-                    device=device(),
                 )
             except Exception as err:
                 logger.error(f"Failed to load model: {err}")
-
-            logger.debug(f"Initialized model {model['path']} on device {device()}")
 
         self._text_classification_pipelines = pipelines
 

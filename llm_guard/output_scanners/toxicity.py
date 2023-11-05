@@ -49,9 +49,8 @@ class Toxicity(Scanner):
             )
             self._model.eval()
             logger.debug(f"Initialized model {_model_path} on device {device()}")
-        self._model.to(device())
 
-        logger.debug(f"Initialized model {_model_path} on device {device()}")
+        self._model.to(device())
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         if prompt.strip() == "":
