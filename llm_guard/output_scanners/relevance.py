@@ -33,10 +33,15 @@ class Relevance(Scanner):
             raise ValueError("This model is not supported")
 
         fe = lazy_load_dep("FlagEmbedding")
+
+        use_fp16 = True
+        if str(device()) == "mps":
+            use_fp16 = False
+
         self._model = fe.FlagModel(
             model,
             query_instruction_for_retrieval=None,
-            use_fp16=False,
+            use_fp16=use_fp16,
         )
 
         logger.debug(f"Initialized model {model} on device {device()}")
