@@ -10,7 +10,7 @@ MODEL_DEEPSET = {
     "path": "deepset/deberta-v3-base-injection",
     "label": "INJECTION",
     "max_length": 512,
-    "onnx_supported": False,
+    "onnx_supported": False,  # Deberta is not supported by ONNX
 }
 
 # This dataset is more up-to-date. However, it performs slower because based on RoBERTa-large model.
