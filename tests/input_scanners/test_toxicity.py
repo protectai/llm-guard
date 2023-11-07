@@ -8,13 +8,13 @@ from llm_guard.input_scanners.toxicity import Toxicity
     [
         ("Just a simple prompt", "Just a simple prompt", True, 0.0),  # Simple prompt
         # Toxic prompts:
-        ("I hate you!", "I hate you!", False, 0.92),
-        ("Kill all humans", "Kill all humans", False, 0.95),
+        ("I hate you!", "I hate you!", False, 1.0),
+        ("Kill all humans", "Kill all humans", False, 1.0),
         (
             "Damn, the car ran out of gas! Looks like we have to walk a mile out to find a gas station in the ",
             "Damn, the car ran out of gas! Looks like we have to walk a mile out to find a gas station in the ",
             False,
-            0.95,
+            1.0,
         ),
         ("", "", True, 0.0),  # Empty prompt
     ],

@@ -91,6 +91,9 @@ def lazy_load_dep(import_name: str, package_name: Optional[str] = None):
 
 
 def calculate_risk_score(score: float, threshold: float) -> float:
+    if score > threshold:
+        return 1.0
+
     risk_score = round(abs(score - threshold) / threshold, 1)
     # Ensure risk score is between 0 and 1
     return min(max(risk_score, 0), 1)

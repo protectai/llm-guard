@@ -11,7 +11,7 @@ such situations and foster a more positive and constructive environment.
 
 ## How it works
 
-Utilizing the power of the [martin-ha/toxic-comment-model](https://huggingface.co/martin-ha/toxic-comment-model) from
+Utilizing the power of the [unitary/unbiased-toxic-roberta](https://huggingface.co/unitary/unbiased-toxic-roberta) from
 Hugging Face, the scanner performs a binary classification on the provided text, assessing whether it's toxic or not.
 
 If deemed toxic, the toxicity score reflects the model's confidence in this classification.
@@ -29,14 +29,6 @@ from llm_guard.input_scanners import Toxicity
 scanner = Toxicity(threshold=0.5)
 sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
-
-## Limitations
-
-While the model is trained to recognize and classify a wide range of toxic online interactions, it does have certain
-shortcomings:
-
-Some comments referring to specific identity subgroups, such as "Muslim", might not be classified accurately. This is a
-known limitation and work is ongoing to improve this aspect.
 
 ## Optimizations
 

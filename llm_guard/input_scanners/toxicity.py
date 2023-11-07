@@ -1,9 +1,17 @@
 from llm_guard.transformers_helpers import pipeline_text_classification
-from llm_guard.util import logger
+from llm_guard.util import calculate_risk_score, logger
 
 from .base import Scanner
 
-_model_path = "martin-ha/toxic-comment-model"
+_model_path = "unitary/unbiased-toxic-roberta"
+_toxic_labels = [
+    "toxicity",
+    "severe_toxicity",
+    "obscene",
+    "threat",
+    "insult",
+    "identity_attack",
+]
 
 
 class Toxicity(Scanner):
@@ -33,8 +41,8 @@ class Toxicity(Scanner):
         self._threshold = threshold
         self._pipeline = pipeline_text_classification(
             model=_model_path,
+            return_all_scores=True,
             use_onnx=use_onnx,
-            padding=True,
             truncation=True,
         )
 
@@ -42,20 +50,24 @@ class Toxicity(Scanner):
         if prompt.strip() == "":
             return prompt, True, 0.0
 
-        result = self._pipeline(prompt)
+        results = self._pipeline(prompt)
 
-        toxicity_score = (
-            result[0]["score"] if result[0]["label"] == "toxic" else 1 - result[0]["score"]
-        )
-        if toxicity_score > self._threshold:
-            logger.warning(
-                f"Detected toxic prompt with score: {toxicity_score}, threshold: {self._threshold}"
-            )
+        highest_toxicity_score = 0.0
+        toxicity_above_threshold = []
+        for result in results[0]:
+            if result["label"] not in _toxic_labels:
+                continue
 
-            return prompt, False, round(toxicity_score, 2)
+            if result["score"] > self._threshold:
+                toxicity_above_threshold.append(result)
+            if result["score"] > highest_toxicity_score:
+                highest_toxicity_score = result["score"]
 
-        logger.debug(
-            f"Not toxicity in the prompt. Max score: {toxicity_score}, threshold: {self._threshold}"
-        )
+        if len(toxicity_above_threshold) > 0:
+            logger.warning(f"Detected toxicity in the text: {toxicity_above_threshold}")
+
+            return prompt, False, calculate_risk_score(highest_toxicity_score, self._threshold)
+
+        logger.debug(f"Not toxicity found in the text. Results: {results}")
 
         return prompt, True, 0.0
