@@ -49,6 +49,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Anonymize` and `Sensitive` scanners support more accurate models (e.g. [beki/en_spacy_pii_distilbert](https://huggingface.co/beki/en_spacy_pii_distilbert) and ability to choose them. It also reduced the latency of this scanner
 - Usage of `sentence-transformers` library replaced with `FlagEmbedding` in the `Relevance` output scanner
 - Ability to choose embedding model in `Relevance` scanner and use the [best model](https://huggingface.co/spaces/mteb/leaderboard) currently available
+- Cache tokenizers in memory to improve performance
 
 ### Removed
 - Removed chunking in `Anonymize` and `Sensitive` scanners because it was breaking redaction
