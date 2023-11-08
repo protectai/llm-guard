@@ -4,6 +4,20 @@ from functools import lru_cache
 from .util import device, lazy_load_dep, logger
 
 
+@lru_cache(maxsize=None)  # Set maxsize=None for an unbounded cache
+def get_tokenizer(model_identifier: str):
+    """
+    This function loads a tokenizer given a model identifier and caches it.
+    Subsequent calls with the same model_identifier will return the cached tokenizer.
+
+    Args:
+        model_identifier (str): The model identifier to load the tokenizer for.
+    """
+    transformers = lazy_load_dep("transformers")
+    tokenizer = transformers.AutoTokenizer.from_pretrained(model_identifier)
+    return tokenizer
+
+
 @lru_cache(maxsize=None)  # Unbounded cache
 def is_onnx_supported() -> bool:
     is_supported = (
@@ -20,7 +34,7 @@ def is_onnx_supported() -> bool:
 
 def pipeline_text_classification(model: str, use_onnx: bool = False, **kwargs):
     transformers = lazy_load_dep("transformers")
-    tf_tokenizer = transformers.AutoTokenizer.from_pretrained(model)
+    tf_tokenizer = get_tokenizer(model)
 
     if use_onnx and is_onnx_supported() is False:
         logger.warning("ONNX is not supported on this machine. Using PyTorch instead of ONNX.")
@@ -54,7 +68,7 @@ def pipeline_text_classification(model: str, use_onnx: bool = False, **kwargs):
 
 def pipeline_ner(model: str, use_onnx: bool = False, **kwargs):
     transformers = lazy_load_dep("transformers")
-    tf_tokenizer = transformers.AutoTokenizer.from_pretrained(model)
+    tf_tokenizer = get_tokenizer(model)
 
     if use_onnx and is_onnx_supported() is False:
         logger.warning("ONNX is not supported on this machine. Using PyTorch instead of ONNX.")

@@ -1,4 +1,5 @@
 from llm_guard.input_scanners.ban_topics import MODEL_BASE
+from llm_guard.transformers_helpers import get_tokenizer
 from llm_guard.util import device, lazy_load_dep, logger
 
 from .base import Scanner
@@ -26,7 +27,7 @@ class Refutation(Scanner):
         self._threshold = threshold
 
         transformers = lazy_load_dep("transformers")
-        self._tokenizer = transformers.AutoTokenizer.from_pretrained(_model_path)
+        self._tokenizer = get_tokenizer(_model_path)
         self._model = transformers.AutoModelForSequenceClassification.from_pretrained(
             _model_path
         ).to(device())

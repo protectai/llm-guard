@@ -6,6 +6,8 @@
 
 2. **Model Size Trade-off**: Opting for smaller models will expedite processing, reducing latency. However, this comes at the cost of accuracy. We are actively working on providing compact versions with minimal accuracy trade-offs.
 
+3. **Use ONNX Runtime for CPU**: [ONNX Runtime](https://onnxruntime.ai/) is a high-performance inference engine for machine learning models. When possible, we recommend using ONNX Runtime for serving the models.
+
 ## Serving Configurations
 
 1. **Fast Failure Mode**: Enable the `fail_fast` mode while serving to ensure early exits, preventing the wait for all scanners to complete, thus optimizing the response time.
