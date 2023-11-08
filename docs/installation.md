@@ -1,10 +1,8 @@
 # Installing LLM Guard
 
-This document describes how to download and install the LLM Guard locally.
+## Prerequisites
 
-## Supported Python Versions
-
-LLM Guard is supported for the following python versions:
+Supported Python versions:
 
 - 3.9
 - 3.10

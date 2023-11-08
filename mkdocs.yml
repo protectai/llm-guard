@@ -108,6 +108,7 @@ nav:
   - Installation: installation.md
   - Quickstart: quickstart.md
   - Best practices: best_practices.md
+  - Changelog: changelog.md
   - Usage:
     - OpenAI: usage/openai.md
     - Langchain: usage/langchain.md
