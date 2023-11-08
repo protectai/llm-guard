@@ -42,7 +42,7 @@ The scanner can be optimized by converting the model to ONNX format. This can be
 Make sure to install the `onnxruntime` package:
 
 ```sh
-pip install onnx onnxruntime optimum[onnxruntime]
+pip install llm-guard[onnxruntime]
 ```
 
 ## Benchmarks

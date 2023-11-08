@@ -1,13 +1,21 @@
 import os
+import re
 from typing import List
 
 import setuptools
-from setuptools import find_packages
+from setuptools import find_namespace_packages
 
 here = os.path.abspath(os.path.dirname(__file__))
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
+
+try:
+    filepath = "llm_guard/version.py"
+    with open(filepath) as version_file:
+        (__version__,) = re.findall('__version__ = "(.*)"', version_file.read())
+except Exception as error:
+    assert False, "Error: Could not open '%s' due %s\n" % (filepath, error)
 
 
 def parse_requirements(file_name: str) -> List[str]:
@@ -15,9 +23,20 @@ def parse_requirements(file_name: str) -> List[str]:
         return [require.strip() for require in f if require.strip() and not require.startswith("#")]
 
 
+TESTS_REQUIRE = parse_requirements("requirements-dev.txt")
+
+EXTRAS_REQUIRE = {
+    "onnxruntime": [
+        "onnx",
+        "onnxruntime>=1.11.0",
+        "optimum[onnxruntime]",
+    ],
+    "tests": TESTS_REQUIRE,
+}
+
 setuptools.setup(
     name="llm-guard",
-    version="0.3.0",
+    version=__version__,
     author="Laiyer.ai",
     author_email="hello@laiyer.ai",
     description=(
@@ -29,8 +48,9 @@ setuptools.setup(
     license="MIT",
     keywords="llm, language model, security, adversarial attacks, prompt injection, prompt leakage, PII detection, "
     "self-hardening, firewall",
-    packages=find_packages(),
+    packages=find_namespace_packages(include=["llm_guard*"]),
     install_requires=parse_requirements("requirements.txt"),
+    extras_require=EXTRAS_REQUIRE,
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/laiyer-ai/llm-guard",

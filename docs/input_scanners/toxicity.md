@@ -39,7 +39,7 @@ The scanner can run on ONNX Runtime, which provides a significant performance bo
 To enable it, install the `onnxruntime` package:
 
 ```sh
-pip install onnx onnxruntime optimum[onnxruntime]
+pip install llm-guard[onnxruntime]
 ```
 
 And set the `use_onnx` parameter to `True`:
