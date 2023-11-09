@@ -78,9 +78,9 @@ class JSON(Scanner):
                 valid_jsons.append(json_candidate)
                 continue
 
-            logger.warning(f"Found invalid JSON: {json_candidate}. Trying to repair it...")
-
             if self._repair:
+                logger.warning(f"Found invalid JSON: {json_candidate}. Trying to repair it...")
+
                 repaired_json = self.repair_json(json_candidate)
                 if not self.is_valid_json(repaired_json):
                     logger.warning(f"Could not repair JSON: {repaired_json}. Skipping...")
