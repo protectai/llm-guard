@@ -1,17 +1,19 @@
 # JSON Scanner
 
-This scanner identifies and validates the presence of JSON structures within given outputs.
+This scanner identifies and validates the presence of JSON structures within given outputs, and returns a repaired JSON if possible.
 
 ## Challenge
 
 There might be cases where it's necessary to validate the presence of properly formatted JSONs in outputs.
 
-This scanner is designed to detect these JSON structures and validate their correctness.
+This scanner is designed to detect these JSON structures, validate their correctness and return a repaired JSON.
 
 ## How it works
 
 At its core, the scanner utilizes regular expressions and the built-in `json` library to detect potential JSON
-structures and subsequently validate them. It can also be configured to ensure a certain number of valid JSON structures
+structures and subsequently validate them. To repair, it uses [json_repair](https://github.com/mangiucugna/json_repair) library.
+
+It can also be configured to ensure a certain number of valid JSON structures
 are present in the output.
 
 !!! note

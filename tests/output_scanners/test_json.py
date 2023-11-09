@@ -55,7 +55,14 @@ from llm_guard.output_scanners.json import JSON
             "Here is the result: {'test'; 'test'}",
             False,
             1.0,
-        ),  # Bad JSON
+        ),  # Bad JSON, can't be repaired
+        (
+            "Return bad JSON that can be repaired",
+            'Here is the result: {"name": John, "age": 30, "city": "New York"}',
+            'Here is the result: {"name": "John", "age": 30, "city": "New York"}',
+            True,
+            0.0,
+        ),  # Bad JSON can be repaired
     ],
 )
 def test_scan(prompt, output, expected_output, expected_valid, expected_score):

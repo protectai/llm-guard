@@ -67,7 +67,6 @@ class PromptInjection(Scanner):
                     use_onnx=use_onnx and model["onnx_supported"],
                     truncation=True,
                     max_length=model["max_length"],
-                    batch_size=1,
                 )
             except Exception as err:
                 logger.error(f"Failed to load model: {err}")

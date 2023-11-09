@@ -4,12 +4,12 @@ from .ban_topics import BanTopics
 from .bias import Bias
 from .code import Code
 from .deanonymize import Deanonymize
+from .factual_consistency import FactualConsistency
 from .json import JSON
 from .language import Language
 from .language_same import LanguageSame
 from .malicious_urls import MaliciousURLs
 from .no_refusal import NoRefusal
-from .refutation import Refutation
 from .regex import Regex
 from .relevance import Relevance
 from .sensitive import Sensitive
@@ -27,7 +27,7 @@ __all__ = [
     "LanguageSame",
     "MaliciousURLs",
     "NoRefusal",
-    "Refutation",
+    "FactualConsistency",
     "Regex",
     "Relevance",
     "Sensitive",

@@ -62,6 +62,7 @@ def pipeline_text_classification(model: str, use_onnx: bool = False, **kwargs):
         model=tf_model,
         tokenizer=tf_tokenizer,
         device=device(),
+        batch_size=1,
         **kwargs,
     )
 
@@ -89,5 +90,6 @@ def pipeline_ner(model: str, use_onnx: bool = False, **kwargs):
         model=tf_model,
         tokenizer=tf_tokenizer,
         device=device(),
+        batch_size=1,
         **kwargs,
     )

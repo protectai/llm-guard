@@ -137,7 +137,7 @@ nav:
       - Language Same: output_scanners/language_same.md
       - Malicious URLs: output_scanners/malicious_urls.md
       - No Refusal: output_scanners/no_refusal.md
-      - Refutation: output_scanners/refutation.md
+      - Factual Consistency: output_scanners/factual_consistency.md
       - Regex: output_scanners/regex.md
       - Relevance: output_scanners/relevance.md
       - Sensitive: output_scanners/sensitive.md

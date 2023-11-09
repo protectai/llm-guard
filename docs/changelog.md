@@ -51,6 +51,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Ability to choose embedding model in `Relevance` scanner and use the [best model](https://huggingface.co/spaces/mteb/leaderboard) currently available
 - Cache tokenizers in memory to improve performance
 - Moved API deployment to `llm_guard_api`
+- `JSON` scanner can repair the JSON if it is broken
+- Rename `Refutation` scanner to `FactualConsistency` to better reflect its purpose
 
 ### Removed
 - Removed chunking in `Anonymize` and `Sensitive` scanners because it was breaking redaction
@@ -155,7 +157,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.0] - 2023-08-12
 
 ### Added
-- [Refutation output scanner](./output_scanners/refutation.md)
+- [Refutation output scanner](./output_scanners/factual_consistency.md)
 - [MaliciousURLs output scanner](./output_scanners/malicious_urls.md)
 - [Secrets prompt scanner](./input_scanners/secrets.md)
 

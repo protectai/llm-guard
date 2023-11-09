@@ -89,8 +89,8 @@ def build_output_scanner(scanner_name: str, use_onnx: bool) -> OutputScanner:
     if scanner_name == "NoRefusal":
         return output_scanners.NoRefusal()
 
-    if scanner_name == "Refutation":
-        return output_scanners.Refutation()
+    if scanner_name == "FactualConsistency":
+        return output_scanners.FactualConsistency()
 
     if scanner_name == "Regex":
         return output_scanners.Regex(bad_patterns=[r"Bearer [A-Za-z0-9-._~+/]+"])

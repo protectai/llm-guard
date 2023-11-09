@@ -1,4 +1,4 @@
-# Refutation Scanner
+# Factual Consistency Scanner
 
 This scanner is designed to assess if the given content contradicts or refutes a certain statement or prompt. It acts as
 a tool for ensuring the consistency and correctness of language model outputs, especially in contexts where logical
@@ -26,9 +26,9 @@ as contradictory.
 ## Usage
 
 ```python
-from llm_guard.output_scanners import Refutation
+from llm_guard.output_scanners import FactualConsistency
 
-scanner = Refutation(threshold=0.7)
+scanner = FactualConsistency(minimum_score=0.7)
 sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```
 
@@ -42,7 +42,7 @@ Environment:
 Run the following script:
 
 ```sh
-python benchmarks/run.py output Refutation
+python benchmarks/run.py output FactualConsistency
 ```
 
 Results:

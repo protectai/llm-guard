@@ -3,25 +3,26 @@ import re
 
 import regex
 
-from llm_guard.util import logger
+from llm_guard.util import lazy_load_dep, logger
 
 from .base import Scanner
 
 
 class JSON(Scanner):
     """
-    A scanner class to detect and validate JSON structures within a given output.
+    A scanner class to detect, validate and repair JSON structures within a given output.
 
-    It primarily serves to detect JSON objects and arrays using regular expressions
-    and then to validate them to ensure their correctness.
+    It primarily serves to detect JSON objects and arrays using regular expressions,
+    then to validate them to ensure their correctness and finally to repair them if necessary.
     """
 
-    def __init__(self, required_elements: int = 0):
+    def __init__(self, required_elements: int = 0, repair: bool = True):
         """Initialize the JSON scanner.
 
         Args:
             required_elements (int, optional): The minimum number of JSON elements
             that should be present. Defaults to 0.
+            repair (bool, optional): Whether to repair the broken JSON. Defaults to False.
         """
         self._required_elements = required_elements
 
@@ -41,6 +42,27 @@ class JSON(Scanner):
         except ValueError:
             return False
 
+    @staticmethod
+    def repair_json(json_str: str) -> str:
+        """Repair a broken JSON string.
+
+        Args:
+            json_str (str): The input string to repair.
+
+        Returns:
+            str: The repaired JSON string.
+        """
+
+        json_repair = lazy_load_dep("json_repair.json_repair", "json_repair")
+        try:
+            parser = json_repair.JSONParser(json_str)
+            parsed_json = parser.parse()
+            repaired_json = json.dumps(parsed_json)
+        except ValueError:
+            return json_str
+
+        return repaired_json
+
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         if prompt.strip() == "":
             return output, True, 0.0
@@ -49,8 +71,23 @@ class JSON(Scanner):
         json_candidates = regex.findall(r"(?<!\\)(?:\\\\)*\{(?:[^{}]|(?R))*\}", output, re.DOTALL)
 
         # Validate each JSON
-        valid_jsons = [candidate for candidate in json_candidates if self.is_valid_json(candidate)]
+        valid_jsons = []
+        for json_candidate in json_candidates:
+            if self.is_valid_json(json_candidate):
+                valid_jsons.append(json_candidate)
+                continue
 
+            logger.warning(f"Found invalid JSON: {json_candidate}. Trying to repair it...")
+
+            repaired_json = self.repair_json(json_candidate)
+            if not self.is_valid_json(repaired_json):
+                logger.warning(f"Could not repair JSON: {repaired_json}. Skipping...")
+                continue
+
+            valid_jsons.append(repaired_json)
+            output = output.replace(json_candidate, repaired_json)
+
+        # Check if there are enough valid JSONs
         if len(valid_jsons) < self._required_elements:
             logger.warning(
                 f"There should be at least {self._required_elements} JSONs but {len(valid_jsons)} found"

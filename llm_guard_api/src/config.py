@@ -140,8 +140,8 @@ def get_output_scanner(scanner_name: str, vault: Vault, config: Optional[Dict] =
     if scanner_name == "NoRefusal":
         return output_scanners.NoRefusal(**config)
 
-    if scanner_name == "Refutation":
-        return output_scanners.Refutation(**config)
+    if scanner_name == "FactualConsistency":
+        return output_scanners.FactualConsistency(**config)
 
     if scanner_name == "Regex":
         return output_scanners.Regex(**config)

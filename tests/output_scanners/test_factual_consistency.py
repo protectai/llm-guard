@@ -1,6 +1,6 @@
 import pytest
 
-from llm_guard.output_scanners.refutation import Refutation
+from llm_guard.output_scanners.factual_consistency import FactualConsistency
 
 
 @pytest.mark.parametrize(
@@ -32,7 +32,7 @@ from llm_guard.output_scanners.refutation import Refutation
     ],
 )
 def test_scan(prompt, output, expected_output, expected_valid, expected_score):
-    scanner = Refutation()
+    scanner = FactualConsistency()
     sanitized_output, valid, score = scanner.scan(prompt, output)
     assert sanitized_output == expected_output
     assert valid == expected_valid

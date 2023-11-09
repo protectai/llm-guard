@@ -64,7 +64,7 @@ output_scanners:
     threshold: 0.75
   NoRefusal:
     threshold: 0.5
-  Refutation:
+  FactualConsistency:
     threshold: 0.5
   Regex:
     # good_patterns: [""]
