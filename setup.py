@@ -3,7 +3,7 @@ import re
 from typing import List
 
 import setuptools
-from setuptools import find_namespace_packages
+from setuptools import find_packages
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -48,7 +48,10 @@ setuptools.setup(
     license="MIT",
     keywords="llm, language model, security, adversarial attacks, prompt injection, prompt leakage, PII detection, "
     "self-hardening, firewall",
-    packages=find_namespace_packages(include=["llm_guard*"]),
+    packages=find_packages(
+        include=["llm_guard", "llm_guard.*"],
+        exclude=["tests", "tests.*", "llm_guard_api", "llm_guard_api.*"],
+    ),
     install_requires=parse_requirements("requirements.txt"),
     extras_require=EXTRAS_REQUIRE,
     long_description=long_description,

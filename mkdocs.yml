@@ -11,8 +11,8 @@ copyright: |
 
 theme:
   name: material
-  favicon: img/favicon.ico
-  logo: img/logo.png
+  favicon: assets/favicon.ico
+  logo: assets/logo.png
   icon:
     repo: fontawesome/brands/github
     admonition:

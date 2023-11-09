@@ -16,7 +16,7 @@ def scan_input_toxicity_scanner(params) -> str:
     threshold = float(params.get("threshold", 0.7))
     scanner = Toxicity(threshold)
     sanitized_input, is_valid, risk_score = scanner.scan(text)
-    print(risk_score)
+
     if is_valid:
         return sanitized_input
     else:

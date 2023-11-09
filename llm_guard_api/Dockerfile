@@ -15,7 +15,8 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --upgrade pip && \
     pip install torch && \
-    pip install -r requirements.txt
+    pip install -r requirements.txt && \
+    python -m spacy download en_core_web_sm
 
 # Create a non-root user and set user environment variables
 RUN useradd -m -u 1000 user

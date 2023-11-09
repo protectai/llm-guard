@@ -25,6 +25,7 @@ class JSON(Scanner):
             repair (bool, optional): Whether to repair the broken JSON. Defaults to False.
         """
         self._required_elements = required_elements
+        self._repair = repair
 
     @staticmethod
     def is_valid_json(json_str: str) -> bool:
@@ -79,13 +80,14 @@ class JSON(Scanner):
 
             logger.warning(f"Found invalid JSON: {json_candidate}. Trying to repair it...")
 
-            repaired_json = self.repair_json(json_candidate)
-            if not self.is_valid_json(repaired_json):
-                logger.warning(f"Could not repair JSON: {repaired_json}. Skipping...")
-                continue
+            if self._repair:
+                repaired_json = self.repair_json(json_candidate)
+                if not self.is_valid_json(repaired_json):
+                    logger.warning(f"Could not repair JSON: {repaired_json}. Skipping...")
+                    continue
 
-            valid_jsons.append(repaired_json)
-            output = output.replace(json_candidate, repaired_json)
+                valid_jsons.append(repaired_json)
+                output = output.replace(json_candidate, repaired_json)
 
         # Check if there are enough valid JSONs
         if len(valid_jsons) < self._required_elements:

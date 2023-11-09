@@ -30,7 +30,7 @@ is_debug = config["debug"]
 if is_debug:
     logger.setLevel(logging.DEBUG)
 
-version = "0.0.3"
+version = "0.0.4"
 
 
 def create_app():
@@ -46,7 +46,7 @@ def create_app():
     )
     input_scanners, output_scanners = load_scanners_from_config(vault, scanners_config_file)
 
-    if config["scan_fail_fast"] == True:
+    if config["scan_fail_fast"]:
         logger.debug("Scan fail fast is enabled")
 
     app = FastAPI(
