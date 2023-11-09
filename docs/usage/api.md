@@ -6,7 +6,7 @@ This example demonstrates how to use LLM Guard as an API.
 
 ## Installation
 
-1. Copy the code from [examples/api](https://github.com/laiyer-ai/llm-guard/tree/main/examples/api)
+1. Copy the code from [llm_guard_api](https://github.com/laiyer-ai/llm-guard/tree/main/llm_guard_api)
 
 2. Install dependencies (preferably in a virtual environment)
 
@@ -69,4 +69,4 @@ docker run -d -p 8001:8000 -e DEBUG='false' laiyer/llm-guard-api:latest
 
 ## Schema
 
-<swagger-ui src="https://raw.githubusercontent.com/laiyer-ai/llm-guard/main/examples/api/openapi.json" />
+<swagger-ui src="https://raw.githubusercontent.com/laiyer-ai/llm-guard/main/llm_guard_api/openapi.json" />

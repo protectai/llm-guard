@@ -50,6 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Usage of `sentence-transformers` library replaced with `FlagEmbedding` in the `Relevance` output scanner
 - Ability to choose embedding model in `Relevance` scanner and use the [best model](https://huggingface.co/spaces/mteb/leaderboard) currently available
 - Cache tokenizers in memory to improve performance
+- Moved API deployment to `llm_guard_api`
 
 ### Removed
 - Removed chunking in `Anonymize` and `Sensitive` scanners because it was breaking redaction
@@ -95,7 +96,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - New pages in the docs about usage of LLM Guard
 - Benchmark of AWS EC2 `inf1.xlarge` instance
-- Example of API with Docker in [examples/api](https://github.com/laiyer-ai/llm-guard/tree/main/examples/api)
+- Example of API with Docker in [llm_guard_api](https://github.com/laiyer-ai/llm-guard/tree/main/llm_guard_api)
 - `Regex` output scanner can redact the text using a regular expression
 
 ### Changed
