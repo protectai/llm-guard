@@ -19,7 +19,7 @@ We're eager to provide personalized assistance when deploying your LLM Guard to 
 
 ## What is LLM Guard?
 
-![LLM-Guard](https://raw.githubusercontent.com/laiyer-ai/llm-guard/ddba0d6f696ca539628c04bc81978b07e3d4ccb9/docs/img/flow.png?raw=true)
+![LLM-Guard](https://raw.githubusercontent.com/laiyer-ai/llm-guard/ddba0d6f696ca539628c04bc81978b07e3d4ccb9/docs/assets/flow.png?raw=true)
 
 By offering sanitization, detection of harmful language, prevention of data leakage, and resistance against prompt
 injection attacks, LLM-Guard ensures that your interactions with LLMs remain safe and secure.

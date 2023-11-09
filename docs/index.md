@@ -4,7 +4,7 @@ LLM Guard by [Laiyer.ai](https://laiyer.ai) is a comprehensive tool designed to 
 
 ## What is LLM Guard?
 
-![LLM-Guard](./img/flow.png)
+![LLM-Guard](./assets/flow.png)
 
 By offering sanitization, detection of harmful language, prevention of data leakage, and resistance against prompt
 injection attacks, LLM-Guard ensures that your interactions with LLMs remain safe and secure.
