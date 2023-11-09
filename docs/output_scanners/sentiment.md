@@ -48,7 +48,7 @@ python benchmarks/run.py output Sentiment
 
 Results:
 
-| Instance          | Time taken, s | Characters per Second | Total Length Processed |
-|-------------------|---------------|-----------------------|------------------------|
-| inf1.xlarge (AWS) | 0.0           | 242083.67             | 61                     |
-| m5.large (AWS)    | 0.0           | 224905.52             | 61                     |
+| Instance           | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS       |
+|--------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|-----------|
+| AWS m5.xlarge      | 61           | 5          | 0.00             | 0.21                  | 0.22                  | 0.24                  | 0.16                 | 374752.26 |
+| AWS g5.xlarge      | 61           | 5          | 0.00             | 0.18                  | 0.19                  | 0.20                  | 0.15                 | 420189.48 |

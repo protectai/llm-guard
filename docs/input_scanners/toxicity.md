@@ -59,7 +59,8 @@ python benchmarks/run.py input Toxicity
 
 Results:
 
-| Instance          | Time taken, s | Characters per Second | Total Length Processed |
-|-------------------|---------------|-----------------------|------------------------|
-| inf1.xlarge (AWS) | 0.036         | 2726.15               | 97                     |
-| m5.large (AWS)    | 0.061         | 1592.14               | 97                     |
+| Instance                | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS     |
+|-------------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|---------|
+| AWS m5.xlarge           | 97           | 5          | 2.86             | 140.00                | 166.73                | 188.11                | 86.41                | 1122.57 |
+| AWS m5.xlarge with ONNX | 97           | 5          | 0.00             | 35.66                 | 36.07                 | 36.40                 | 34.59                | 2804.45 |
+| AWS g5.xlarge GPU       | 97           | 5          | 29.64            | 266.58                | 352.57                | 421.36                | 94.24                | 1029.32 |

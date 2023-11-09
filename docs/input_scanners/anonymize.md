@@ -89,7 +89,8 @@ Configure the `Anonymize` Scanner:
 from llm_guard.input_scanners import Anonymize
 from llm_guard.input_scanners.anonymize_helpers import BERT_LARGE_NER_CONF
 
-scanner = Anonymize(vault, preamble="Insert before prompt", allowed_names=["John Doe"], hidden_names=["Test LLC"], recognizer_conf=BERT_LARGE_NER_CONF)
+scanner = Anonymize(vault, preamble="Insert before prompt", allowed_names=["John Doe"], hidden_names=["Test LLC"],
+                    recognizer_conf=BERT_LARGE_NER_CONF)
 sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
 
@@ -131,11 +132,8 @@ python benchmarks/run.py input Anonymize
 
 Results:
 
-| Instance                | Setup                                           | Time taken, s | Characters per Second | Total Length Processed |
-|-------------------------|-------------------------------------------------|---------------|-----------------------|------------------------|
-| inf1.xlarge (AWS)       | `recognizer=RECOGNIZER_SPACY_EN_PII_FAST`       | 0.067         | 4719.12               | 317                    |
-| m5.large (AWS)          | `recognizer=RECOGNIZER_SPACY_EN_PII_FAST`       | 0.126         | 2522.17               | 317                    |
-| g5.xlarge (AWS) **GPU** | `recognizer=RECOGNIZER_SPACY_EN_PII_FAST`       | 0.065         | 4844.37               | 317                    |
-| inf1.xlarge (AWS)       | `recognizer=RECOGNIZER_SPACY_EN_PII_DISTILBERT` | 0.134         | 2373.23               | 317                    |
-| m5.large (AWS)          | `recognizer=RECOGNIZER_SPACY_EN_PII_DISTILBERT` | 0.187         | 1693.19               | 317                    |
-| g5.xlarge (AWS) **GPU** | `recognizer=RECOGNIZER_SPACY_EN_PII_DISTILBERT` | 0.154         | 2061.57               | 317                    |
+| Instance                | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS      |
+|-------------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|----------|
+| AWS m5.xlarge           | 317          | 5          | 6.11             | 255.64                | 294.57                | 325.71                | 177.13               | 1789.64  |
+| AWS m5.xlarge with ONNX | 317          | 5          | 0.73             | 155.64                | 169.13                | 179.93                | 128.64               | 2464.29  |
+| AWS g5.xlarge GPU       | 317          | 5          | 38.50            | 321.59                | 419.60                | 498.01                | 125.18               | 2532.35  |

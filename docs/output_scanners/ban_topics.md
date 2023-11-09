@@ -41,7 +41,7 @@ python benchmarks/run.py output BanTopics
 
 Results:
 
-| Instance          | Time taken, s | Characters per Second | Total Length Processed |
-|-------------------|---------------|-----------------------|------------------------|
-| inf1.xlarge (AWS) | 0.448         | 198.84                | 89                     |
-| m5.large (AWS)    | 0.775         | 114.8                 | 89                     |
+| Instance          | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS    |
+|-------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|--------|
+| AWS m5.xlarge     | 89           | 5          | 3.04             | 514.25                | 541.15                | 562.67                | 457.99               | 194.33 |
+| AWS g5.xlarge GPU | 89           | 5          | 35.44            | 331.25                | 425.26                | 500.46                | 142.77               | 623.37 |

@@ -43,11 +43,6 @@ python benchmarks/run.py input Regex
 
 Results:
 
-| Instance          | Time taken, s | Characters per Second | Total Length Processed |
-|-------------------|---------------|-----------------------|------------------------|
-| inf1.xlarge (AWS) | 0.0           | 301838.7              | 36                     |
-| m5.large (AWS)    | 0.0           | 310778.85             | 36                     |
-
 !!! info:
 
     This scanner uses built-in functions, which makes it fast.

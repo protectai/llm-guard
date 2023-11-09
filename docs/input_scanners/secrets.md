@@ -57,7 +57,7 @@ python benchmarks/run.py input Secrets
 
 Results:
 
-| Instance          | Time taken, s | Characters per Second | Total Length Processed |
-|-------------------|---------------|-----------------------|------------------------|
-| inf1.xlarge (AWS) | 0.081         | 741.52                | 60                     |
-| m5.large (AWS)    | 0.093         | 646.87                | 60                     |
+| Instance            | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS      |
+|---------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|----------|
+| AWS m5.xlarge       | 60           | 5          | 2.92             | 83.84                 | 110.85                | 132.45                | 29.75                | 2016.83  |
+| AWS g5.xlarge GPU       | 60           | 5          | 3.34             | 89.20                 | 118.11                | 141.23                | 31.39                | 1911.67  |

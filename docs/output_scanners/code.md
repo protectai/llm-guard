@@ -64,6 +64,8 @@ python benchmarks/run.py output Code
 
 Results:
 
+
+
 | Instance          | Time taken, s | Characters per Second | Total Length Processed |
 |-------------------|---------------|-----------------------|------------------------|
 | inf1.xlarge (AWS) | 0.034         | 4730.51               | 159                    |

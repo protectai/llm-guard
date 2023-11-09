@@ -43,13 +43,6 @@ Run the following script:
 python benchmarks/run.py input BanSubstrings
 ```
 
-Results:
-
-| Instance          | Time taken, s | Characters per Second | Total Length Processed |
-|-------------------|---------------|-----------------------|------------------------|
-| inf1.xlarge (AWS) | 0.0           | 243606.68             | 45                     |
-| m5.large (AWS)    | 0.0           | 216970.99             | 45                     |
-
 !!! info:
 
     This scanner uses built-in functions, which makes it fast.

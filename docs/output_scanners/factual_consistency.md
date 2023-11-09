@@ -47,7 +47,7 @@ python benchmarks/run.py output FactualConsistency
 
 Results:
 
-| Instance          | Time taken, s | Characters per Second | Total Length Processed |
-|-------------------|---------------|-----------------------|------------------------|
-| inf1.xlarge (AWS) | 0.168         | 832.18                | 140                    |
-| m5.large (AWS)    | 0.306         | 457.5                 | 140                    |
+| Instance              | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS     |
+|-----------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|---------|
+| AWS m5.xlarge         | 140          | 5          | 3.01             | 234.94                | 262.31                | 284.20                | 180.00               | 777.78  |
+| AWS g5.xlarge GPU     | 140          | 5          | 34.23            | 295.96                | 388.34                | 462.24                | 110.70               | 1264.69 |

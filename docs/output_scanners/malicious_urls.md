@@ -55,7 +55,8 @@ python benchmarks/run.py output MaliciousURLs
 
 Results:
 
-| Instance          | Time taken, s | Characters per Second | Total Length Processed |
-|-------------------|---------------|-----------------------|------------------------|
-| inf1.xlarge (AWS) | 0.064         | 798.7                 | 51                     |
-| m5.large (AWS)    | 0.103         | 495.23                | 51                     |
+| Instance                       | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS      |
+|--------------------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|----------|
+| AWS m5.xlarge                  | 51           | 5          | 2.98             | 139.24                | 166.48                | 188.27                | 84.53                | 603.32   |
+| AWS m5.xlarge with ONNX        | 51           | 5          | 0.00             | 30.39                 | 30.67                 | 30.90                 | 29.71                | 1716.69  |
+| AWS g5.xlarge                  | 51           | 5          | 29.51            | 265.51                | 351.32                | 419.96                | 93.57                | 545.05   |

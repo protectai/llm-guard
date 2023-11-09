@@ -39,7 +39,7 @@ python benchmarks/run.py output Language
 
 Results:
 
-| Instance          | Time taken, s | Characters per Second | Total Length Processed |
-|-------------------|---------------|-----------------------|------------------------|
-| inf1.xlarge (AWS) | 0.395         | 35.42                 | 14                     |
-| m5.large (AWS)    | 0.362         | 38.64                 | 14                     |
+| Instance             | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS    |
+|----------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|--------|
+| AWS m5.xlarge        | 14           | 5          | 5.27             | 112.01                | 148.29                | 177.32                | 39.36                | 355.65 |
+| AWS g5.xlarge GPU    | 14           | 5          | 3.09             | 86.59                 | 114.36                | 136.57                | 30.98                | 451.90 |

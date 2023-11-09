@@ -60,7 +60,8 @@ python benchmarks/run.py output Sensitive
 
 Results:
 
-| Instance          | Time taken, s | Characters per Second | Total Length Processed |
-|-------------------|---------------|-----------------------|------------------------|
-| inf1.xlarge (AWS) | 0.037         | 819.59                | 30                     |
-| m5.large (AWS)    | 0.038         | 782.76                | 30                     |
+| Instance                 | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS     |
+|--------------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|---------|
+| AWS m5.xlarge            | 30           | 5          | 4.48             | 162.42                | 195.80                | 222.50                | 95.26                | 314.91  |
+| AWS m5.xlarge with ONNX  | 30           | 5          | 0.23             | 75.19                 | 82.71                 | 88.72                 | 59.75                | 502.10  |
+| AWS g5.xlarge GPU        | 30           | 5          | 33.82            | 290.10                | 381.92                | 455.38                | 105.93               | 283.20  |

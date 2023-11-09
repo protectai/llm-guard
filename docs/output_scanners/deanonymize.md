@@ -33,4 +33,6 @@ After running the above code, `sanitized_model_output` will have the real detail
 
 ## Benchmarks
 
-It uses data structures and replace function, which makes it fast.
+!!! note
+
+    It uses data structures and replace function, which makes it fast.

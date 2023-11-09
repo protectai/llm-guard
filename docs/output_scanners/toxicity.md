@@ -50,7 +50,8 @@ python benchmarks/run.py output Toxicity
 
 Results:
 
-| Instance          | Time taken, s | Characters per Second | Total Length Processed |
-|-------------------|---------------|-----------------------|------------------------|
-| inf1.xlarge (AWS) | 0.111         | 1961.58               | 217                    |
-| m5.large (AWS)    | 0.162         | 1336.85               | 217                    |
+| Instance                     | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS      |
+|------------------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|----------|
+| AWS m5.xlarge                | 217          | 5          | 2.89             | 154.18                | 181.05                | 202.55                | 100.40               | 2161.43  |
+| AWS m5.xlarge with ONNX      | 217          | 5          | 0.00             | 51.64                 | 51.93                 | 52.15                 | 50.95                | 4259.33  |
+| AWS g5.xlarge                | 217          | 5          | 33.35            | 282.36                | 373.59                | 446.56                | 99.57                | 2179.37  |

@@ -73,8 +73,7 @@ python benchmarks/run.py input PromptInjection
 
 Results:
 
-| Instance                | Time taken, s | Characters per Second | Total Length Processed |
-|-------------------------|---------------|-----------------------|------------------------|
-| inf1.xlarge (AWS)       | 0.2           | 1921.18               | 384                    |
-| m5.large (AWS)          | 0.344         | 1116.45               | 384                    |
-| g5.xlarge (AWS) **GPU** | 0.539         | 712.43                | 384                    |
+| Instance          | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS     |
+|-------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|---------|
+| AWS m5.xlarge     | 384          | 5          | 3.00             | 269.14                | 295.71                | 316.97                | 212.87               | 1803.91 |
+| AWS g5.xlarge GPU | 384          | 5          | 17.00            | 211.63                | 276.70                | 328.76                | 81.01                | 4739.91 |

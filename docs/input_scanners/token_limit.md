@@ -56,7 +56,7 @@ python benchmarks/run.py input TokenLimit
 
 Results:
 
-| Instance          | Time taken, s | Characters per Second | Total Length Processed |
-|-------------------|---------------|-----------------------|------------------------|
-| inf1.xlarge (AWS) | 0.001         | 239045.65             | 282                    |
-| m5.large (AWS)    | 0.001         | 246207.79             | 282                    |
+| Instance          | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS        |
+|-------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|------------|
+| AWS m5.xlarge     | 282          | 5          | 0.00             | 0.69                  | 0.86                  | 1.01                  | 0.31                 | 914308.54  |
+| AWS g5.xlarge GPU | 282          | 5          | 0.00             | 0.60                  | 0.76                  | 0.89                  | 0.27                 | 1039014.63 |

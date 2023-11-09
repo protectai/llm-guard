@@ -30,4 +30,6 @@ sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 
 ## Benchmarks
 
-It uses data structures and replace function, which makes it fast.
+!!! info
+
+    It uses data structures and replace function, which makes it fast.

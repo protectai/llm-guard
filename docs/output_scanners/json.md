@@ -1,6 +1,7 @@
 # JSON Scanner
 
-This scanner identifies and validates the presence of JSON structures within given outputs, and returns a repaired JSON if possible.
+This scanner identifies and validates the presence of JSON structures within given outputs, and returns a repaired JSON
+if possible.
 
 ## Challenge
 
@@ -11,7 +12,8 @@ This scanner is designed to detect these JSON structures, validate their correct
 ## How it works
 
 At its core, the scanner utilizes regular expressions and the built-in `json` library to detect potential JSON
-structures and subsequently validate them. To repair, it uses [json_repair](https://github.com/mangiucugna/json_repair) library.
+structures and subsequently validate them. To repair, it uses [json_repair](https://github.com/mangiucugna/json_repair)
+library.
 
 It can also be configured to ensure a certain number of valid JSON structures
 are present in the output.
@@ -44,7 +46,7 @@ python benchmarks/run.py output JSON
 
 Results:
 
-| Instance          | Time taken, s | Characters per Second | Total Length Processed |
-|-------------------|---------------|-----------------------|------------------------|
-| inf1.xlarge (AWS) | 0.001         | 295008.48             | 221                    |
-| m5.large (AWS)    | 0.001         | 298405.09             | 221                    |
+| Instance      | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS          |
+|---------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|--------------|
+| AWS m5.xlarge | 221          | 5          | 0.00             | 0.38                  | 0.49                  | 0.58                  | 0.15                 | 1,488,702.70 |
+| AWS g5.xlarge | 221          | 5          | 0.00             | 0.35                  | 0.45                  | 0.53                  | 0.14                 | 1,590,701.66 |

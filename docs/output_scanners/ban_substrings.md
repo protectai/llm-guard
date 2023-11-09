@@ -47,4 +47,6 @@ prompts: [output_stop_substrings.json](https://github.com/laiyer-ai/llm-guard/bl
 
 ## Benchmarks
 
-It uses data structures and replace function, which makes it fast.
+!!! info
+
+    It uses data structures and replace function, which makes it fast.
