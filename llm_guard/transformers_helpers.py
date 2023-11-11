@@ -1,5 +1,6 @@
 import importlib
 from functools import lru_cache
+from typing import Optional
 
 from .util import device, lazy_load_dep, logger
 
@@ -25,25 +26,30 @@ def is_onnx_supported() -> bool:
     )
     if not is_supported:
         logger.warning(
-            "ONNX Runtime is not available. "
+            "Device is not CPU or ONNX Runtime is not available. "
             "Please install optimum: `pip install onnx onnxruntime optimum[onnx-runtime]` to enable ONNX Runtime optimizations."
         )
 
     return is_supported
 
 
-def pipeline_text_classification(model: str, use_onnx: bool = False, **kwargs):
+def pipeline_text_classification(
+    model: str, onnx_model: Optional[str] = None, use_onnx: bool = False, **kwargs
+):
     transformers = lazy_load_dep("transformers")
-    tf_tokenizer = get_tokenizer(model)
 
     if use_onnx and is_onnx_supported() is False:
         logger.warning("ONNX is not supported on this machine. Using PyTorch instead of ONNX.")
         use_onnx = False
 
     if use_onnx:
+        if onnx_model is not None:
+            model = onnx_model
+
         optimum_onnxruntime = lazy_load_dep("optimum.onnxruntime", "optimum[onnxruntime]")
+
         tf_model = optimum_onnxruntime.ORTModelForSequenceClassification.from_pretrained(
-            model, export=True
+            model, export=onnx_model is None
         )
         logger.debug(
             f"Initialized text-classification pipeline for ONNX model {model} on device {device()}"
@@ -54,6 +60,7 @@ def pipeline_text_classification(model: str, use_onnx: bool = False, **kwargs):
             f"Initialized text-classification pipeline for model {model} on device {device()}"
         )
 
+    tf_tokenizer = get_tokenizer(model)
     if kwargs.get("max_length", None) is None:
         kwargs["max_length"] = tf_tokenizer.model_max_length
 

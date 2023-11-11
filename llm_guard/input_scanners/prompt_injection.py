@@ -8,17 +8,17 @@ from .base import Scanner
 # This model has been known to yield high false positive rates and might not be suited for production use.
 MODEL_DEEPSET = {
     "path": "deepset/deberta-v3-base-injection",
+    "onnx_path": "laiyer/deberta-v3-base-injection",
     "label": "INJECTION",
-    "max_length": 512,
-    "onnx_supported": False,  # Deberta is not supported by ONNX
+    "max_length": None,
 }
 
 # This dataset is more up-to-date. However, it performs slower because based on RoBERTa-large model.
 MODEL_GPTFUZZ = {
     "path": "hubert233/GPTFuzz",
+    "onnx_path": "laiyer/GPTFuzz",
     "label": 1,
     "max_length": 512,
-    "onnx_supported": True,
 }
 
 ALL_MODELS = [
@@ -64,7 +64,8 @@ class PromptInjection(Scanner):
             try:
                 pipelines[model["path"]] = pipeline_text_classification(
                     model=model["path"],
-                    use_onnx=use_onnx and model["onnx_supported"],
+                    use_onnx=use_onnx,
+                    onnx_model=model["onnx_path"],
                     truncation=True,
                     max_length=model["max_length"],
                 )

@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -
 
 ### Changed
--
+- Using ONNX converted models hosted by Laiyer on HuggingFace
 
 ### Removed
 -

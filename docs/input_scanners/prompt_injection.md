@@ -46,17 +46,13 @@ sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 
 ### ONNX
 
-The scanner can run on ONNX Runtime, which provides a significant performance boost on CPU instances.
+The scanner can run on ONNX Runtime, which provides a significant performance boost on CPU instances. It will fetch Laiyer's ONNX converted models from [Hugging Face Hub](https://huggingface.co/laiyer).
 
 To enable it, install the `onnxruntime` package:
 
 ```sh
 pip install llm-guard[onnxruntime]
 ```
-
-!!! note
-
-    It doesn't support all models.
 
 ## Benchmarks
 
