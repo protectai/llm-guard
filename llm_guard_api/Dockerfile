@@ -14,7 +14,7 @@ WORKDIR /app
 # Copy requirements and install Python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir wheel && \
+    pip install --no-cache-dir torch && \
     pip install --no-cache-dir -r requirements.txt && \
     python -m spacy download en_core_web_sm
 
