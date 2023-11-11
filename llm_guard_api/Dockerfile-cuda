@@ -1,21 +1,28 @@
-# Use the Python 3.11 slim image
-FROM python:3.11-slim
+# Start from an NVIDIA CUDA base image with Python 3
+FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04
 
-# Install system packages
+# Install Python and other necessary packages
 RUN apt-get update && apt-get install -y \
+    python3-pip \
+    python3-dev \
     build-essential \
     curl \
     software-properties-common \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Alias python3 to python
+RUN ln -s /usr/bin/python3 /usr/bin/python
+
+# Upgrade pip
+RUN pip3 install --no-cache-dir --upgrade pip
 
 # Set the working directory
 WORKDIR /app
 
 # Copy requirements and install Python dependencies
 COPY requirements.txt .
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir wheel && \
-    pip install --no-cache-dir -r requirements.txt && \
+RUN pip3 install --no-cache-dir torch --extra-index-url https://download.pytorch.org/whl/cu118 && \
+    pip3 install --no-cache-dir -r requirements.txt && \
     python -m spacy download en_core_web_sm
 
 # Create a non-root user and set user environment variables

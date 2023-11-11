@@ -16,13 +16,19 @@ install:
 	pip install --upgrade pip && \
 	pip install -r requirements.txt
 
-run:
-	DEBUG=true uvicorn src.app:app --reload
-
 build-docker-multi:
 	@docker buildx build --platform linux/amd64,linux/arm64 -t $(DOCKER_IMAGE_NAME):$(VERSION) -t $(DOCKER_IMAGE_NAME):latest . --push
 
-run-docker: build-docker
-	@docker run -p 8000:8000 -e DEBUG='true' $(DOCKER_IMAGE_NAME):$(VERSION)
+build-docker-cuda-multi:
+	@docker buildx build --platform linux/amd64 -t $(DOCKER_IMAGE_NAME):$(VERSION)-cuda -t $(DOCKER_IMAGE_NAME):latest-cuda -f Dockerfile-cuda . --push
 
-.PHONY: install run build-docker run-docker
+run:
+	cd ./src && DEBUG=true uvicorn app:app --reload
+
+run-docker:
+	@docker run -p 8000:8000 -e DEBUG='true' -v ./src/config:/home/user/app/config $(DOCKER_IMAGE_NAME):$(VERSION)
+
+run-docker-cuda:
+	@docker run --gpus all -p 8000:8000 -e DEBUG='true' -v ./src/config:/home/user/app/config $(DOCKER_IMAGE_NAME):$(VERSION)-cuda
+
+.PHONY: install run build-docker-multi build-docker-cuda-multi run-docker run-docker-cuda

@@ -24,7 +24,7 @@ from llm_guard.vault import Vault
 
 config = get_env_config()
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("llm-guard-api")
 logger.setLevel(logging.INFO)
 is_debug = config["debug"]
 if is_debug:
@@ -42,16 +42,17 @@ def create_app():
     vault = Vault()
     scanners_config_file = os.path.join(
         os.path.dirname(os.path.abspath(__file__)),
+        "config",
         "scanners.yml",
     )
-    input_scanners, output_scanners = load_scanners_from_config(vault, scanners_config_file)
+    input_scanners, output_scanners = load_scanners_from_config(config, vault, scanners_config_file)
 
     if config["scan_fail_fast"]:
         logger.debug("Scan fail fast is enabled")
 
     app = FastAPI(
         title="LLM Guard API",
-        description="API to run LLM Guard scanners",
+        description="API to run LLM Guard scanners.",
         debug=is_debug,
         version=version,
         openapi_url="/openapi.json" if is_debug else None,  # hide docs in production

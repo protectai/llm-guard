@@ -41,7 +41,7 @@ class Toxicity(Scanner):
         self._threshold = threshold
         self._pipeline = pipeline_text_classification(
             model=_model_path,
-            return_all_scores=True,
+            top_k=None,
             use_onnx=use_onnx,
             truncation=True,
         )

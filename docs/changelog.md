@@ -38,6 +38,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use the newest `MoritzLaurer/deberta-v3-base-zeroshot-v1` model for the `BanTopics` and `Refutation` scanners
 - Use the newest `MoritzLaurer/deberta-v3-large-zeroshot-v1` model for the `NoRefusal` scanner
 - Use better `unitary/unbiased-toxic-roberta` model for Toxicity scanners (both input and output)
+- ONNX on API deployment for faster CPU inference
+- CUDA on API deployment for faster GPU inference
 
 ### Removed
 - Remove `PromptInjectionV2` scanner to rely on the single one with a choice
