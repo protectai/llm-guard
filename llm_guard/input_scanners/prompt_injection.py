@@ -10,7 +10,7 @@ MODEL_DEEPSET = {
     "path": "deepset/deberta-v3-base-injection",
     "onnx_path": "laiyer/deberta-v3-base-injection",
     "label": "INJECTION",
-    "max_length": None,
+    "max_length": 512,
 }
 
 # This dataset is more up-to-date. However, it performs slower because based on RoBERTa-large model.
