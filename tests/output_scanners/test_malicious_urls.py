@@ -15,8 +15,8 @@ from llm_guard.output_scanners.malicious_urls import MaliciousURLs
         ),  # Good output
         (
             "What is the most popular website?",
-            "It's http://www.marketingbyinternet.com/mo/e56508df639f6ce7d55c81ee3fcd5ba8/",
-            "It's http://www.marketingbyinternet.com/mo/e56508df639f6ce7d55c81ee3fcd5ba8/",
+            "It's http://socialsocietyedu.com/components/com_wa/config.bin and http://facebuk.co/signup.html",
+            "It's http://socialsocietyedu.com/components/com_wa/config.bin and http://facebuk.co/signup.html",
             False,
             1.0,
         ),  # Bad output

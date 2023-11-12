@@ -7,6 +7,7 @@ from llm_guard.util import logger
 from .base import Scanner
 
 _model_path = "huggingface/CodeBERTa-language-id"
+_model_path_onnx = "laiyer/CodeBERTa-language-id-onnx"
 
 SUPPORTED_LANGUAGES = ["go", "java", "javascript", "php", "python", "ruby"]
 
@@ -61,7 +62,7 @@ class Code(Scanner):
         self._threshold = threshold
 
         self._pipeline = pipeline_text_classification(
-            model=_model_path, use_onnx=use_onnx, truncation=True
+            model=_model_path, onnx_model=_model_path_onnx, use_onnx=use_onnx, truncation=True
         )
 
         self._fenced_code_regex = re.compile(r"```(?:[a-zA-Z0-9]*\n)?(.*?)```", re.DOTALL)

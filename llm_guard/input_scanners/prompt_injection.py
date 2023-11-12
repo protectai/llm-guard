@@ -8,7 +8,7 @@ from .base import Scanner
 # This model has been known to yield high false positive rates and might not be suited for production use.
 MODEL_DEEPSET = {
     "path": "deepset/deberta-v3-base-injection",
-    "onnx_path": "laiyer/deberta-v3-base-injection",
+    "onnx_path": "laiyer/deberta-v3-base-injection-onnx",
     "label": "INJECTION",
     "max_length": 512,
 }
@@ -16,7 +16,7 @@ MODEL_DEEPSET = {
 # This dataset is more up-to-date. However, it performs slower because based on RoBERTa-large model.
 MODEL_GPTFUZZ = {
     "path": "hubert233/GPTFuzz",
-    "onnx_path": "laiyer/GPTFuzz",
+    "onnx_path": "laiyer/GPTFuzz-onnx",
     "label": 1,
     "max_length": 512,
 }

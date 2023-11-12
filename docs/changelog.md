@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Using ONNX converted models hosted by Laiyer on HuggingFace
+- Switched to better model for MaliciousURLs scanner - [DunnBC22/codebert-base-Malicious_URLs](https://huggingface.co/DunnBC22/codebert-base-Malicious_URLs)
 
 ### Removed
 -

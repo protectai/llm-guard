@@ -13,7 +13,7 @@ output.
 
 ## How it works
 
-The scanner uses the [elftsdmr/malware-url-detect](https://huggingface.co/elftsdmr/malware-url-detect) model from
+The scanner uses the [DunnBC22/codebert-base-Malicious_URLs](https://huggingface.co/DunnBC22/codebert-base-Malicious_URLs) model from
 HuggingFace to evaluate the security of a given URL.
 
 The model provides a score between 0 and 1 for a URL being malware. This score is then compared against a pre-set
@@ -32,7 +32,7 @@ sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 
 ### ONNX
 
-The scanner can be optimized by converting the model to ONNX format. This can be done by setting the `use_onnx`.
+The scanner can be optimized by using the ONNX converted model [laiyer/codebert-base-Malicious_URLs-onnx](https://huggingface.co/laiyer/codebert-base-Malicious_URLs-onnx). This can be done by setting the `use_onnx`.
 
 To enable it, install the `onnxruntime` package:
 

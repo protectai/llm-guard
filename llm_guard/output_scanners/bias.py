@@ -4,6 +4,7 @@ from llm_guard.util import logger
 from .base import Scanner
 
 _model_path = "valurank/distilroberta-bias"
+_model_path_onnx = "laiyer/distilroberta-bias-onnx"
 
 
 class Bias(Scanner):
@@ -24,6 +25,7 @@ class Bias(Scanner):
 
         self._classifier = pipeline_text_classification(
             model=_model_path,
+            onnx_model=_model_path_onnx,
             truncation=True,
             use_onnx=use_onnx,
         )
