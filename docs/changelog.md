@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Using ONNX converted models hosted by Laiyer on HuggingFace
 - Switched to better model for MaliciousURLs scanner - [DunnBC22/codebert-base-Malicious_URLs](https://huggingface.co/DunnBC22/codebert-base-Malicious_URLs)
 - `BanTopics`, `NoRefusal`, `FactualConsistency` and `Relevance` scanners support ONNX inference
-- `Toxicity` and `Relevance` rely on optimized ONNX models
+- `Relevance` rely on optimized ONNX models
 - Switched to using `transformers` in `Relevance` scanner to have less dependencies
 - Updated benchmarks for relevant scanners
 

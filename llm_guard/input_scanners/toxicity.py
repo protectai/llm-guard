@@ -5,7 +5,7 @@ from .base import Scanner
 
 _model_path = (
     "unitary/unbiased-toxic-roberta",
-    "dcferreira/detoxify-optimized",  # Optimized model for ONNX (O4)
+    "laiyer/unbiased-toxic-roberta-onnx",  # ONNX model
 )
 _toxic_labels = [
     "toxicity",

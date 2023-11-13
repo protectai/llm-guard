@@ -65,7 +65,8 @@ python benchmarks/run.py output Relevance
 
 Results:
 
-| Instance          | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS    |
-|-------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|--------|
-| AWS m5.xlarge     | 22           | 5          | 2.95             | 196.86                | 223.97                | 245.66                | 142.39               | 154.51 |
-| AWS g5.xlarge GPU | 22           | 5          | 28.59            | 269.77                | 354.29                | 421.90                | 100.63               | 218.62 |
+| Instance                | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS    |
+|-------------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|--------|
+| AWS m5.xlarge           | 22           | 5          | 2.95             | 196.86                | 223.97                | 245.66                | 142.39               | 154.51 |
+| AWS m5.xlarge with ONNX | 22           | 5          | 0.25             | 52.00                 | 59.90                 | 66.23                 | 35.92                | 612.47 |
+| AWS g5.xlarge GPU       | 22           | 5          | 28.59            | 269.77                | 354.29                | 421.90                | 100.63               | 218.62 |
