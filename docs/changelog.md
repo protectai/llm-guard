@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `BanTopics`, `NoRefusal`, `FactualConsistency` and `Relevance` scanners support ONNX inference
 - `Toxicity` and `Relevance` rely on optimized ONNX models
 - Switched to using `transformers` in `Relevance` scanner to have less dependencies
+- Updated benchmarks for relevant scanners
 
 ### Removed
 -

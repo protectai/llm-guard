@@ -13,7 +13,8 @@ output.
 
 ## How it works
 
-The scanner uses the [DunnBC22/codebert-base-Malicious_URLs](https://huggingface.co/DunnBC22/codebert-base-Malicious_URLs) model from
+The scanner uses
+the [DunnBC22/codebert-base-Malicious_URLs](https://huggingface.co/DunnBC22/codebert-base-Malicious_URLs) model from
 HuggingFace to evaluate the security of a given URL.
 
 The model provides a score between 0 and 1 for a URL being malware. This score is then compared against a pre-set
@@ -32,7 +33,8 @@ sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 
 ### ONNX
 
-The scanner can be optimized by using the ONNX converted model [laiyer/codebert-base-Malicious_URLs-onnx](https://huggingface.co/laiyer/codebert-base-Malicious_URLs-onnx).
+The scanner can be optimized by using the ONNX converted
+model [laiyer/codebert-base-Malicious_URLs-onnx](https://huggingface.co/laiyer/codebert-base-Malicious_URLs-onnx).
 
 To enable it, install the `onnxruntime` package:
 
@@ -57,8 +59,8 @@ python benchmarks/run.py output MaliciousURLs
 
 Results:
 
-| Instance                       | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS      |
-|--------------------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|----------|
-| AWS m5.xlarge                  | 51           | 5          | 2.98             | 139.24                | 166.48                | 188.27                | 84.53                | 603.32   |
-| AWS m5.xlarge with ONNX        | 51           | 5          | 0.00             | 30.39                 | 30.67                 | 30.90                 | 29.71                | 1716.69  |
-| AWS g5.xlarge                  | 51           | 5          | 29.51            | 265.51                | 351.32                | 419.96                | 93.57                | 545.05   |
+| Instance                | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS    |
+|-------------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|--------|
+| AWS m5.xlarge           | 51           | 5          | 2.28             | 170.71                | 193.44                | 211.62                | 120.92               | 421.78 |
+| AWS m5.xlarge with ONNX | 51           | 5          | 0.09             | 81.78                 | 86.39                 | 90.09                 | 72.42                | 704.18 |
+| AWS g5.xlarge           | 51           | 5          | 28.80            | 270.73                | 355.51                | 423.34                | 100.89               | 505.5  |

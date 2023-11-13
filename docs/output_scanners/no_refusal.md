@@ -30,7 +30,8 @@ sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 
 ### ONNX
 
-The scanner can run on ONNX Runtime, which provides a significant performance boost on CPU instances. It will fetch Laiyer's ONNX converted models from [Hugging Face Hub](https://huggingface.co/laiyer).
+The scanner can run on ONNX Runtime, which provides a significant performance boost on CPU instances. It will fetch
+Laiyer's ONNX converted models from [Hugging Face Hub](https://huggingface.co/laiyer).
 
 To enable it, install the `onnxruntime` package:
 
@@ -55,7 +56,8 @@ python benchmarks/run.py output NoRefusal
 
 Results:
 
-| Instance           | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS     |
-|--------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|---------|
-| AWS m5.xlarge      | 47           | 5          | 2.86             | 1048.77               | 1075.02               | 1096.03               | 994.49               | 47.26   |
-| AWS g5.xlarge GPU  | 47           | 5          | 28.92            | 319.38                | 404.24                | 472.13                | 149.02               | 315.40  |
+| Instance                | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS    |
+|-------------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|--------|
+| AWS m5.xlarge           | 47           | 5          | 2.86             | 1048.77               | 1075.02               | 1096.03               | 994.49               | 47.26  |
+| AWS m5.xlarge with ONNX | 47           | 5          | 0.10             | 258.20                | 262.98                | 266.80                | 247.92               | 189.57 |
+| AWS g5.xlarge GPU       | 47           | 5          | 28.92            | 319.38                | 404.24                | 472.13                | 149.02               | 315.40 |

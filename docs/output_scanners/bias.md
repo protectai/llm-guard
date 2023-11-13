@@ -62,5 +62,5 @@ Results:
 | Instance                     | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS     |
 |------------------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|---------|
 | AWS m5.xlarge                | 128          | 5          | 2.96             | 111.97                | 139.15                | 160.88                | 57.55                | 2224.21 |
-| AWS m5.xlarge with ONNX      | 128          | 5          | 0.00             | 29.52                 | 29.79                 | 30.00                 | 28.82                | 4441.22 |
+| AWS m5.xlarge with ONNX      | 128          | 5          | 0.00             | 17.51                 | 17.87                 | 18.16                 | 16.77                | 7633.97 |
 | AWS g5.xlarge GPU            | 128          | 5          | 32.51            | 275.34                | 365.39                | 437.44                | 94.85                | 1349.48 |
