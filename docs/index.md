@@ -43,25 +43,13 @@ pip install llm-guard
 - [ ] Enable scanning of logits to support streaming mode.
 - [ ] Expand examples and integrations, ensuring they cover common use-cases and are easy to follow.
 
-### Latency
-
-- [ ] Implement parallel scanning using multiprocessing to significantly reduce scanning time.
-- [ ] Provide an option to utilize lighter models for quicker scanning, while maintaining an acceptable level of accuracy.
-- [ ] Incorporate LRU cache to optimize performance by reusing previous results where applicable.
-
 ### Prompt Scanners
 
-- [ ] Allow language restriction to focus scanning efforts and improve accuracy.
 - [ ] Utilize expressions for code detection to reduce dependency on models, improving speed and reliability.
-- [ ] Integrate yara for secret detection to enhance security scanning capabilities.
-- [ ] Sanitize text.
 - [ ] Support a variety of token calculators to offer more flexibility and compatibility.
 
 ### Output Scanners
 
-- [ ] Sanitize text to maintain a clean, accurate scanning process.
-- [ ] Validate output formats like JSON, XML to ensure they adhere to standards.
-- [ ] Incorporate factual consistency checking to uphold the reliability of the data.
 - [ ] Scan for vulnerable libraries and provide recommendations for safer alternatives.
 - [ ] Check for license compliance to ensure legal integrity.
 - [ ] Detect insecure code patterns.
