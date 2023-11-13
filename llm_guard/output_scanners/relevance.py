@@ -1,11 +1,22 @@
+from typing import Tuple
+
 from llm_guard.transformers_helpers import get_tokenizer, is_onnx_supported
 from llm_guard.util import device, lazy_load_dep, logger
 
 from .base import Scanner
 
-MODEL_EN_BGE_BASE = "BAAI/bge-base-en-v1.5"
-MODEL_EN_BGE_LARGE = "BAAI/bge-large-en-v1.5"
-MODEL_EN_BGE_SMALL = "BAAI/bge-small-en-v1.5"
+MODEL_EN_BGE_BASE = (
+    "BAAI/bge-base-en-v1.5",
+    "zeroshot/bge-base-en-v1.5-quant",  # Quantized and converted to ONNX version of BGE base
+)
+MODEL_EN_BGE_LARGE = (
+    "BAAI/bge-large-en-v1.5",
+    "zeroshot/bge-large-en-v1.5-quant",  # Quantized and converted to ONNX version of BGE large
+)
+MODEL_EN_BGE_SMALL = (
+    "BAAI/bge-small-en-v1.5",
+    "zeroshot/bge-small-en-v1.5-quant",  # Quantized and converted to ONNX version of BGE small
+)
 
 all_models = [MODEL_EN_BGE_LARGE, MODEL_EN_BGE_BASE, MODEL_EN_BGE_SMALL]
 
@@ -23,14 +34,14 @@ class Relevance(Scanner):
     """
 
     def __init__(
-        self, threshold: float = 0.5, model: str = MODEL_EN_BGE_BASE, use_onnx: bool = False
+        self, threshold: float = 0.5, model: Tuple = MODEL_EN_BGE_BASE, use_onnx: bool = False
     ):
         """
         Initializes an instance of the Relevance class.
 
         Parameters:
             threshold (float): The minimum similarity score to compare prompt and output.
-            model (str): Model for calculating embeddings. Default is `BAAI/bge-base-en-v1.5`.
+            model (Tuple): Model for calculating embeddings. Default is `BAAI/bge-base-en-v1.5`.
             use_onnx (bool): Whether to use the ONNX version of the model. Defaults to False.
         """
 
@@ -38,27 +49,30 @@ class Relevance(Scanner):
 
         if model not in all_models:
             raise ValueError("This model is not supported")
+        model_path = model[0]
 
         self.pooling_method = "cls"
         self.normalize_embeddings = True
 
-        self._tokenizer = get_tokenizer(model)
         if use_onnx and is_onnx_supported() is False:
             logger.warning("ONNX is not supported on this machine. Using PyTorch instead of ONNX.")
             use_onnx = False
 
         if use_onnx:
+            model_path = model[1]
             optimum_onnxruntime = lazy_load_dep("optimum.onnxruntime", "optimum[onnxruntime]")
             self._model = optimum_onnxruntime.ORTModelForFeatureExtraction.from_pretrained(
-                model,
-                export=True,
+                model_path,
+                export=False,
             )
-            logger.debug(f"Initialized ONNX model {model} on device {device()}")
+            logger.debug(f"Initialized ONNX model {model_path} on device {device()}")
         else:
             transformers = lazy_load_dep("transformers")
-            self._model = transformers.AutoModel.from_pretrained(model).to(device())
-            logger.debug(f"Initialized model {model} on device {device()}")
+            self._model = transformers.AutoModel.from_pretrained(model_path).to(device())
+            logger.debug(f"Initialized model {model_path} on device {device()}")
             self._model.eval()
+
+        self._tokenizer = get_tokenizer(model_path)
 
     def pooling(self, last_hidden_state: torch.Tensor, attention_mask: torch.Tensor = None):
         if self.pooling_method == "cls":
