@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Switched to better model for MaliciousURLs scanner - [DunnBC22/codebert-base-Malicious_URLs](https://huggingface.co/DunnBC22/codebert-base-Malicious_URLs)
 - `BanTopics`, `NoRefusal` and `FactualConsistency` scanners support ONNX inference
 - `Toxicity` relies on optimized ONNX model
+- Switched to using `transformers` in `Relevance` scanner
 
 ### Removed
 -

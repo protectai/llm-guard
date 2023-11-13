@@ -8,6 +8,9 @@ MODEL_EN_BGE_SMALL = "BAAI/bge-small-en-v1.5"
 
 all_models = [MODEL_EN_BGE_LARGE, MODEL_EN_BGE_BASE, MODEL_EN_BGE_SMALL]
 
+torch = lazy_load_dep("torch")
+np = lazy_load_dep("numpy")
+
 
 class Relevance(Scanner):
     """
@@ -32,26 +35,47 @@ class Relevance(Scanner):
         if model not in all_models:
             raise ValueError("This model is not supported")
 
-        fe = lazy_load_dep("FlagEmbedding")
+        self.pooling_method = "cls"
+        self.normalize_embeddings = True
 
-        use_fp16 = True
-        if str(device()) == "mps":
-            use_fp16 = False
-
-        self._model = fe.FlagModel(
-            model,
-            query_instruction_for_retrieval=None,
-            use_fp16=use_fp16,
-        )
+        transformers = lazy_load_dep("transformers")
+        self._tokenizer = transformers.AutoTokenizer.from_pretrained(model)
+        self._model = transformers.AutoModel.from_pretrained(model).to(device())
+        self._model.eval()
 
         logger.debug(f"Initialized model {model} on device {device()}")
+
+    def pooling(self, last_hidden_state: torch.Tensor, attention_mask: torch.Tensor = None):
+        if self.pooling_method == "cls":
+            return last_hidden_state[:, 0]
+        elif self.pooling_method == "mean":
+            s = torch.sum(last_hidden_state * attention_mask.unsqueeze(-1).float(), dim=1)
+            d = attention_mask.sum(dim=1, keepdim=True).float()
+            return s / d
+
+    @torch.no_grad()
+    def _encode(self, sentence: str, max_length: int = 512) -> np.ndarray:
+        inputs = self._tokenizer(
+            [sentence],
+            padding=True,
+            truncation=True,
+            return_tensors="pt",
+            max_length=max_length,
+        ).to(device())
+        last_hidden_state = self._model(**inputs, return_dict=True).last_hidden_state
+        embeddings = self.pooling(last_hidden_state, inputs["attention_mask"])
+        if self.normalize_embeddings:
+            embeddings = torch.nn.functional.normalize(embeddings, dim=-1)
+        embeddings = embeddings.cpu().numpy()
+
+        return embeddings[0]
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         if output.strip() == "":
             return output, True, 0.0
 
-        prompt_embedding = self._model.encode(prompt)
-        output_embedding = self._model.encode(output)
+        prompt_embedding = self._encode(prompt)
+        output_embedding = self._encode(output)
         similarity = prompt_embedding @ output_embedding.T
 
         if similarity < self._threshold:

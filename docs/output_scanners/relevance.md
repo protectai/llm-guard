@@ -8,7 +8,6 @@ The `Relevance` Scanner ensures that a language model's output remains relevant 
 2. It calculates the cosine similarity between these embeddings.
 3. This similarity score is then compared against a predefined threshold to determine contextual relevance.
 
-
 **Example:**
 
 - **Prompt**: What is the primary function of the mitochondria in a cell?
