@@ -34,7 +34,7 @@ sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 
 ### ONNX
 
-The scanner can run on ONNX Runtime, which provides a significant performance boost on CPU instances.
+The scanner can run on ONNX Runtime, which provides a significant performance boost on CPU instances. It uses an optimized model [dcferreira/detoxify-optimized](https://huggingface.co/dcferreira/detoxify-optimized) for that.
 
 To enable it, install the `onnxruntime` package:
 

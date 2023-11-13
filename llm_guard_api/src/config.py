@@ -83,7 +83,7 @@ def get_input_scanner(
         return input_scanners.BanSubstrings(**scanner_config)
 
     if scanner_name == "BanTopics":
-        return input_scanners.BanTopics(**scanner_config)
+        return input_scanners.BanTopics(use_onnx=config["use_onnx"], **scanner_config)
 
     if scanner_name == "Code":
         return input_scanners.Code(use_onnx=config["use_onnx"], **scanner_config)
@@ -122,13 +122,16 @@ def get_output_scanner(
         return output_scanners.BanSubstrings(**scanner_config)
 
     if scanner_name == "BanTopics":
-        return output_scanners.BanTopics(**scanner_config)
+        return output_scanners.BanTopics(use_onnx=config["use_onnx"], **scanner_config)
 
     if scanner_name == "Bias":
         return output_scanners.Bias(use_onnx=config["use_onnx"], **scanner_config)
 
     if scanner_name == "Deanonymize":
         return output_scanners.Deanonymize(vault=vault)
+
+    if scanner_name == "FactualConsistency":
+        return output_scanners.FactualConsistency(use_onnx=config["use_onnx"], **scanner_config)
 
     if scanner_name == "JSON":
         return output_scanners.JSON(**scanner_config)
@@ -146,10 +149,7 @@ def get_output_scanner(
         return output_scanners.MaliciousURLs(use_onnx=config["use_onnx"], **scanner_config)
 
     if scanner_name == "NoRefusal":
-        return output_scanners.NoRefusal(**scanner_config)
-
-    if scanner_name == "FactualConsistency":
-        return output_scanners.FactualConsistency(**scanner_config)
+        return output_scanners.NoRefusal(use_onnx=config["use_onnx"], **scanner_config)
 
     if scanner_name == "Regex":
         return output_scanners.Regex(**scanner_config)

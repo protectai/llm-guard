@@ -25,7 +25,7 @@ def build_input_scanner(scanner_name: str, use_onnx: bool) -> InputScanner:
         )
 
     if scanner_name == "BanTopics":
-        return input_scanners.BanTopics(topics=["violence", "attack", "war"])
+        return input_scanners.BanTopics(topics=["violence", "attack", "war"], use_onnx=use_onnx)
 
     if scanner_name == "Code":
         return input_scanners.Code(denied=["java"], use_onnx=use_onnx)
@@ -63,7 +63,7 @@ def build_output_scanner(scanner_name: str, use_onnx: bool) -> OutputScanner:
         )
 
     if scanner_name == "BanTopics":
-        return output_scanners.BanTopics(topics=["violence", "attack", "war"])
+        return output_scanners.BanTopics(topics=["violence", "attack", "war"], use_onnx=use_onnx)
 
     if scanner_name == "Bias":
         return output_scanners.Bias(use_onnx=use_onnx)
@@ -87,10 +87,10 @@ def build_output_scanner(scanner_name: str, use_onnx: bool) -> OutputScanner:
         return output_scanners.MaliciousURLs(use_onnx=use_onnx)
 
     if scanner_name == "NoRefusal":
-        return output_scanners.NoRefusal()
+        return output_scanners.NoRefusal(use_onnx=use_onnx)
 
     if scanner_name == "FactualConsistency":
-        return output_scanners.FactualConsistency()
+        return output_scanners.FactualConsistency(use_onnx=use_onnx)
 
     if scanner_name == "Regex":
         return output_scanners.Regex(bad_patterns=[r"Bearer [A-Za-z0-9-._~+/]+"])

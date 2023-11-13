@@ -1,9 +1,10 @@
 from llm_guard.input_scanners.ban_topics import MODEL_LARGE
-from llm_guard.util import device, lazy_load_dep, logger
+from llm_guard.transformers_helpers import pipeline_zero_shot_classification
+from llm_guard.util import logger
 
 from .base import Scanner
 
-_model_path = MODEL_LARGE
+_model = MODEL_LARGE
 _categories = ["refusal", "not_refusal"]
 
 
@@ -16,25 +17,24 @@ class NoRefusal(Scanner):
     Refusals are common when the prompt breaches policies defined by the model.
     """
 
-    def __init__(self, threshold: float = 0.5):
+    def __init__(self, threshold: float = 0.5, use_onnx: bool = False):
         """
         Initializes an instance of the NoRefusal class.
 
         Parameters:
             threshold (float): The similarity threshold to consider an output as refusal.
+            use_onnx (bool): Whether to use the ONNX version of the model. Defaults to False.
         """
 
         self._threshold = threshold
 
-        transformers = lazy_load_dep("transformers")
-        self._classifier = transformers.pipeline(
-            "zero-shot-classification",
-            model=_model_path,
-            device=device(),
-            truncation=True,
+        self._classifier = pipeline_zero_shot_classification(
+            model=_model["path"],
+            onnx_model=_model["onnx_path"],
+            use_onnx=use_onnx,
             max_length=512,
+            truncation=True,
         )
-        logger.debug(f"Initialized model {_model_path} on device {device()}")
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         if output.strip() == "":

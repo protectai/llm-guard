@@ -4,6 +4,7 @@ from llm_guard.util import calculate_risk_score, logger
 from .base import Scanner
 
 _model_path = "unitary/unbiased-toxic-roberta"
+_onnx_model_path = "dcferreira/detoxify-optimized"  # Optimized model for ONNX (O4)
 _toxic_labels = [
     "toxicity",
     "severe_toxicity",
@@ -17,10 +18,6 @@ _toxic_labels = [
 class Toxicity(Scanner):
     """
     A toxicity scanner that uses a pretrained Hugging Face model to assess the toxicity of a given text.
-
-    The class uses a binary toxicity classifier. A score is calculated based on the model's prediction. If the predicted
-    label is 'toxic', the score is the model's confidence score. If the predicted label is 'not toxic', the score is
-    1 minus the model's confidence score.
 
     If the toxicity score is less than a predefined threshold, the text is considered non-toxic. Otherwise, it is
     considered toxic.
@@ -41,6 +38,7 @@ class Toxicity(Scanner):
         self._threshold = threshold
         self._pipeline = pipeline_text_classification(
             model=_model_path,
+            onnx_model=_onnx_model_path,
             top_k=None,
             use_onnx=use_onnx,
             truncation=True,

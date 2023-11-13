@@ -12,10 +12,13 @@ are misaligned with the platform's guidelines or values.
 
 ## How it works
 
-It relies on the capabilities of the model from
-HuggingFace: [MoritzLaurer/deberta-v3-base-zeroshot-v1](https://huggingface.co/MoritzLaurer/deberta-v3-base-zeroshot-v1).
-This model identifies the topic or theme of an output, enabling the scanner to vet the content against a predefined list
-of banned topics.
+It relies on the capabilities of the following models:
+
+- [MoritzLaurer/deberta-v3-base-zeroshot-v1](https://huggingface.co/MoritzLaurer/deberta-v3-base-zeroshot-v1)
+- [MoritzLaurer/deberta-v3-large-zeroshot-v1](https://huggingface.co/MoritzLaurer/deberta-v3-large-zeroshot-v1)
+
+These models aid in identifying the underlying theme or topic of an output, allowing the scanner to cross-check it against
+a list of banned topics.
 
 ## Usage
 
@@ -25,6 +28,22 @@ from llm_guard.output_scanners import BanTopics
 scanner = BanTopics(topics=["violence"], threshold=0.5)
 sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```
+
+## Optimizations
+
+### ONNX
+
+The scanner can run on ONNX Runtime, which provides a significant performance boost on CPU instances. It will fetch Laiyer's ONNX converted models from [Hugging Face Hub](https://huggingface.co/laiyer).
+
+To enable it, install the `onnxruntime` package:
+
+```sh
+pip install llm-guard[onnxruntime]
+```
+
+### Use smaller models
+
+You can rely on base model variant (default) to reduce the latency and memory footprint.
 
 ## Benchmarks
 

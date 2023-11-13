@@ -1,11 +1,18 @@
-from typing import List, Optional
+from typing import Dict, List, Optional
 
-from llm_guard.util import device, lazy_load_dep, logger
+from llm_guard.transformers_helpers import pipeline_zero_shot_classification
+from llm_guard.util import logger
 
 from .base import Scanner
 
-MODEL_BASE = "MoritzLaurer/deberta-v3-base-zeroshot-v1"
-MODEL_LARGE = "MoritzLaurer/deberta-v3-large-zeroshot-v1"
+MODEL_BASE = {
+    "path": "MoritzLaurer/deberta-v3-base-zeroshot-v1",
+    "onnx_path": "laiyer/deberta-v3-base-zeroshot-v1-onnx",
+}
+MODEL_LARGE = {
+    "path": "MoritzLaurer/deberta-v3-large-zeroshot-v1",
+    "onnx_path": "laiyer/deberta-v3-large-zeroshot-v1-onnx",
+}
 ALL_MODELS = [MODEL_BASE, MODEL_LARGE]
 
 
@@ -16,14 +23,21 @@ class BanTopics(Scanner):
     It uses a HuggingFace model to perform zero-shot classification.
     """
 
-    def __init__(self, topics=List[str], threshold: float = 0.6, model: Optional[str] = MODEL_BASE):
+    def __init__(
+        self,
+        topics=List[str],
+        threshold: float = 0.6,
+        model: Optional[Dict] = None,
+        use_onnx: bool = False,
+    ):
         """
         Initialize BanTopics object.
 
         Args:
             topics (List[str]): List of topics to ban.
             threshold (float, optional): Threshold to determine if a topic is present in the prompt. Default is 0.75.
-            model (str, optional): Model to use for zero-shot classification. Default is deberta-v3-base-zeroshot-v1.
+            model (Dict, optional): Model to use for zero-shot classification. Default is deberta-v3-base-zeroshot-v1.
+            use_onnx (bool, optional): Whether to use ONNX for inference. Default is False.
 
         Raises:
             ValueError: If no topics are provided.
@@ -31,20 +45,21 @@ class BanTopics(Scanner):
         if len(topics) == 0:
             raise ValueError("No topics provided")
 
+        if model is None:
+            model = MODEL_BASE
+
         if model not in ALL_MODELS:
             raise ValueError(f"Model must be in the list of allowed: {ALL_MODELS}")
 
         self._topics = topics
         self._threshold = threshold
 
-        transformers = lazy_load_dep("transformers")
-        self._classifier = transformers.pipeline(
-            "zero-shot-classification",
-            model=model,
-            device=device(),
+        self._classifier = pipeline_zero_shot_classification(
+            model=model["path"],
+            onnx_model=model["onnx_path"],
+            use_onnx=use_onnx,
             truncation=True,
         )
-        logger.debug(f"Initialized model {model} on device {device()}")
 
     def scan(self, prompt: str) -> (str, bool, float):
         if prompt.strip() == "":

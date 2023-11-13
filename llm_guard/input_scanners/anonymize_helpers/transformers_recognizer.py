@@ -74,6 +74,7 @@ class TransformersRecognizer(EntityRecognizer):
         self.chunk_length = None
         self.id_entity_name = None
         self.id_score_reduction = None
+        self.onnx_model_path = None
 
     def load_transformer(self, use_onnx: bool = False, **kwargs) -> None:
         """Load external configuration parameters and set default values.
@@ -101,10 +102,12 @@ class TransformersRecognizer(EntityRecognizer):
         self.chunk_length = kwargs.get("CHUNK_SIZE", 600)
         self.id_entity_name = kwargs.get("ID_ENTITY_NAME", "ID")
         self.id_score_reduction = kwargs.get("ID_SCORE_REDUCTION", 0.5)
+        self.onnx_model_path = kwargs.get("ONNX_MODEL_PATH", None)
 
         if not self.pipeline:
             if not self.model_path:
                 self.model_path = "dslim/bert-base-NER"
+                self.onnx_model_path = "optimum/bert-base-NER"
                 logger.warning(
                     f"Both 'model' and 'model_path' arguments are None. Using default model_path={self.model_path}"
                 )
@@ -115,6 +118,7 @@ class TransformersRecognizer(EntityRecognizer):
         """Initialize NER transformers_rec pipeline using the model_path provided"""
         self.pipeline = pipeline_ner(
             model=self.model_path,
+            onnx_model=self.onnx_model_path,
             use_onnx=use_onnx,
             # Will attempt to group sub-entities to word level
             aggregation_strategy=self.aggregation_mechanism,

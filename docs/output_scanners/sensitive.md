@@ -37,7 +37,7 @@ The `redact` feature, when enabled, ensures sensitive entities are seamlessly re
 
 ### ONNX
 
-The scanner can be optimized by converting the model to ONNX format. This can be done by setting the `use_onnx`.
+The scanner can run on ONNX Runtime, which provides a significant performance boost on CPU instances. It will fetch Laiyer's ONNX converted models from [Hugging Face Hub](https://huggingface.co/laiyer).
 
 Make sure to install the `onnxruntime` package:
 

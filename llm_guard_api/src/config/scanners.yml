@@ -54,6 +54,8 @@ output_scanners:
     #allowed: ["python"]
     denied: ["python"]
   Deanonymize:
+  FactualConsistency:
+    minimum_score: 0.5
   JSON:
     required_elements: 0
     repair: true
@@ -64,8 +66,6 @@ output_scanners:
     threshold: 0.75
   NoRefusal:
     threshold: 0.5
-  FactualConsistency:
-    minimum_score: 0.5
   Regex:
     # good_patterns: [""]
     bad_patterns: ["Bearer [A-Za-z0-9-._~+/]+"]

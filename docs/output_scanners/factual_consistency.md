@@ -32,6 +32,18 @@ scanner = FactualConsistency(minimum_score=0.7)
 sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```
 
+## Optimizations
+
+### ONNX
+
+The scanner can run on ONNX Runtime, which provides a significant performance boost on CPU instances. It will fetch Laiyer's ONNX converted models from [Hugging Face Hub](https://huggingface.co/laiyer).
+
+To enable it, install the `onnxruntime` package:
+
+```sh
+pip install llm-guard[onnxruntime]
+```
+
 ## Benchmarks
 
 Environment:

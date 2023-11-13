@@ -27,7 +27,7 @@ sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 
 ### ONNX
 
-The scanner can be optimized by converting the model to ONNX format. This can be done by setting the `use_onnx`.
+The scanner can run on ONNX Runtime, which provides a significant performance boost on CPU instances. It uses an optimized model [dcferreira/detoxify-optimized](https://huggingface.co/dcferreira/detoxify-optimized) for that.
 
 To enable it, install the `onnxruntime` package:
 

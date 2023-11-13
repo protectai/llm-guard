@@ -12,9 +12,12 @@ reduce the risk of generating responses that could lead to misunderstandings or 
 
 ## How it works
 
-It relies on the capabilities of the
-model: [MoritzLaurer/deberta-v3-base-zeroshot-v1](https://huggingface.co/MoritzLaurer/deberta-v3-base-zeroshot-v1).
-This model aids in identifying the underlying theme or topic of a prompt, allowing the scanner to cross-check it against
+It relies on the capabilities of the following models:
+
+- [MoritzLaurer/deberta-v3-base-zeroshot-v1](https://huggingface.co/MoritzLaurer/deberta-v3-base-zeroshot-v1)
+- [MoritzLaurer/deberta-v3-large-zeroshot-v1](https://huggingface.co/MoritzLaurer/deberta-v3-large-zeroshot-v1)
+
+These models aid in identifying the underlying theme or topic of a prompt, allowing the scanner to cross-check it against
 a list of banned topics.
 
 ## Usage
@@ -25,6 +28,22 @@ from llm_guard.input_scanners import BanTopics
 scanner = BanTopics(topics=["violence"], threshold=0.5)
 sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
+
+## Optimizations
+
+### ONNX
+
+The scanner can run on ONNX Runtime, which provides a significant performance boost on CPU instances. It will fetch Laiyer's ONNX converted models from [Hugging Face Hub](https://huggingface.co/laiyer).
+
+To enable it, install the `onnxruntime` package:
+
+```sh
+pip install llm-guard[onnxruntime]
+```
+
+### Use smaller models
+
+You can rely on base model variant (default) to reduce the latency and memory footprint.
 
 ## Benchmarks
 
