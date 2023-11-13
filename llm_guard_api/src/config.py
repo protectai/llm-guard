@@ -155,7 +155,7 @@ def get_output_scanner(
         return output_scanners.Regex(**scanner_config)
 
     if scanner_name == "Relevance":
-        return output_scanners.Relevance(**scanner_config)
+        return output_scanners.Relevance(use_onnx=config["use_onnx"], **scanner_config)
 
     if scanner_name == "Sensitive":
         return output_scanners.Sensitive(use_onnx=config["use_onnx"], **scanner_config)

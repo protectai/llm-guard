@@ -1,3 +1,4 @@
+from llm_guard.transformers_helpers import get_tokenizer, is_onnx_supported
 from llm_guard.util import device, lazy_load_dep, logger
 
 from .base import Scanner
@@ -21,13 +22,16 @@ class Relevance(Scanner):
     not relevant to the prompt.
     """
 
-    def __init__(self, threshold: float = 0.5, model: str = MODEL_EN_BGE_BASE):
+    def __init__(
+        self, threshold: float = 0.5, model: str = MODEL_EN_BGE_BASE, use_onnx: bool = False
+    ):
         """
         Initializes an instance of the Relevance class.
 
         Parameters:
             threshold (float): The minimum similarity score to compare prompt and output.
             model (str): Model for calculating embeddings. Default is `BAAI/bge-base-en-v1.5`.
+            use_onnx (bool): Whether to use the ONNX version of the model. Defaults to False.
         """
 
         self._threshold = threshold
@@ -38,12 +42,23 @@ class Relevance(Scanner):
         self.pooling_method = "cls"
         self.normalize_embeddings = True
 
-        transformers = lazy_load_dep("transformers")
-        self._tokenizer = transformers.AutoTokenizer.from_pretrained(model)
-        self._model = transformers.AutoModel.from_pretrained(model).to(device())
-        self._model.eval()
+        self._tokenizer = get_tokenizer(model)
+        if use_onnx and is_onnx_supported() is False:
+            logger.warning("ONNX is not supported on this machine. Using PyTorch instead of ONNX.")
+            use_onnx = False
 
-        logger.debug(f"Initialized model {model} on device {device()}")
+        if use_onnx:
+            optimum_onnxruntime = lazy_load_dep("optimum.onnxruntime", "optimum[onnxruntime]")
+            self._model = optimum_onnxruntime.ORTModelForFeatureExtraction.from_pretrained(
+                model,
+                export=True,
+            )
+            logger.debug(f"Initialized ONNX model {model} on device {device()}")
+        else:
+            transformers = lazy_load_dep("transformers")
+            self._model = transformers.AutoModel.from_pretrained(model).to(device())
+            logger.debug(f"Initialized model {model} on device {device()}")
+            self._model.eval()
 
     def pooling(self, last_hidden_state: torch.Tensor, attention_mask: torch.Tensor = None):
         if self.pooling_method == "cls":

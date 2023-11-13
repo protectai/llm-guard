@@ -32,7 +32,7 @@ class NoRefusal(Scanner):
             model=_model["path"],
             onnx_model=_model["onnx_path"],
             use_onnx=use_onnx,
-            max_length=512,
+            max_length=_model["max_length"],
             truncation=True,
         )
 

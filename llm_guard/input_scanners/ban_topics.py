@@ -8,10 +8,12 @@ from .base import Scanner
 MODEL_BASE = {
     "path": "MoritzLaurer/deberta-v3-base-zeroshot-v1",
     "onnx_path": "laiyer/deberta-v3-base-zeroshot-v1-onnx",
+    "max_length": 512,
 }
 MODEL_LARGE = {
     "path": "MoritzLaurer/deberta-v3-large-zeroshot-v1",
     "onnx_path": "laiyer/deberta-v3-large-zeroshot-v1-onnx",
+    "max_length": 512,
 }
 ALL_MODELS = [MODEL_BASE, MODEL_LARGE]
 
@@ -58,6 +60,7 @@ class BanTopics(Scanner):
             model=model["path"],
             onnx_model=model["onnx_path"],
             use_onnx=use_onnx,
+            max_length=model["max_length"],
             truncation=True,
         )
 

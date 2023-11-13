@@ -41,13 +41,15 @@ sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 
 ### ONNX
 
-The scanner can be optimized by using the ONNX converted model [laiyer/CodeBERTa-language-id-onnx](https://huggingface.co/laiyer/CodeBERTa-language-id-onnx). This can be done by setting the `use_onnx`.
+The scanner can be optimized by using the ONNX converted model [laiyer/CodeBERTa-language-id-onnx](https://huggingface.co/laiyer/CodeBERTa-language-id-onnx).
 
 Make sure to install the `onnxruntime` package:
 
 ```sh
 pip install llm-guard[onnxruntime]
 ```
+
+And set `use_onnx=True`.
 
 ## Benchmarks
 

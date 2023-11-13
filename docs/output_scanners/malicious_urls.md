@@ -32,13 +32,15 @@ sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 
 ### ONNX
 
-The scanner can be optimized by using the ONNX converted model [laiyer/codebert-base-Malicious_URLs-onnx](https://huggingface.co/laiyer/codebert-base-Malicious_URLs-onnx). This can be done by setting the `use_onnx`.
+The scanner can be optimized by using the ONNX converted model [laiyer/codebert-base-Malicious_URLs-onnx](https://huggingface.co/laiyer/codebert-base-Malicious_URLs-onnx).
 
 To enable it, install the `onnxruntime` package:
 
 ```sh
 pip install llm-guard[onnxruntime]
 ```
+
+And set `use_onnx=True`.
 
 ## Benchmarks
 

@@ -38,6 +38,8 @@ To enable it, install the `onnxruntime` package:
 pip install llm-guard[onnxruntime]
 ```
 
+And set `use_onnx=True`.
+
 ## Benchmarks
 
 Environment:

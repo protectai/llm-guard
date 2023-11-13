@@ -3,8 +3,10 @@ from llm_guard.util import calculate_risk_score, logger
 
 from .base import Scanner
 
-_model_path = "unitary/unbiased-toxic-roberta"
-_onnx_model_path = "dcferreira/detoxify-optimized"  # Optimized model for ONNX (O4)
+_model_path = (
+    "unitary/unbiased-toxic-roberta",
+    "dcferreira/detoxify-optimized",  # Optimized model for ONNX (O4)
+)
 _toxic_labels = [
     "toxicity",
     "severe_toxicity",
@@ -37,8 +39,8 @@ class Toxicity(Scanner):
 
         self._threshold = threshold
         self._pipeline = pipeline_text_classification(
-            model=_model_path,
-            onnx_model=_onnx_model_path,
+            model=_model_path[0],
+            onnx_model=_model_path[1],
             top_k=None,
             use_onnx=use_onnx,
             truncation=True,

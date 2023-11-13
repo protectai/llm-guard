@@ -6,8 +6,11 @@ from llm_guard.util import calculate_risk_score, logger
 
 from .base import Scanner
 
-_model_path = "DunnBC22/codebert-base-Malicious_URLs"
-_model_path_onnx = "laiyer/codebert-base-Malicious_URLs-onnx"
+_model_path = (
+    "DunnBC22/codebert-base-Malicious_URLs",
+    "laiyer/codebert-base-Malicious_URLs-onnx",  # ONNX version
+)
+
 _malicious_labels = [
     "defacement",
     "phishing",
@@ -40,8 +43,8 @@ class MaliciousURLs(Scanner):
 
         self._threshold = threshold
         self._classifier = pipeline_text_classification(
-            model=_model_path,
-            onnx_model=_model_path_onnx,
+            model=_model_path[0],
+            onnx_model=_model_path[1],
             truncation=True,
             use_onnx=use_onnx,
             top_k=None,

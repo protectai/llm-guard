@@ -3,8 +3,10 @@ from llm_guard.util import logger
 
 from .base import Scanner
 
-_model_path = "valurank/distilroberta-bias"
-_model_path_onnx = "laiyer/distilroberta-bias-onnx"
+_model_path = (
+    "valurank/distilroberta-bias",
+    "laiyer/distilroberta-bias-onnx",  # ONNX model
+)
 
 
 class Bias(Scanner):
@@ -24,8 +26,8 @@ class Bias(Scanner):
         self._threshold = threshold
 
         self._classifier = pipeline_text_classification(
-            model=_model_path,
-            onnx_model=_model_path_onnx,
+            model=_model_path[0],
+            onnx_model=_model_path[1],
             truncation=True,
             use_onnx=use_onnx,
         )
