@@ -89,7 +89,7 @@ def get_input_scanner(
         return input_scanners.Code(use_onnx=config["use_onnx"], **scanner_config)
 
     if scanner_name == "Language":
-        return input_scanners.Language(**scanner_config)
+        return input_scanners.Language(use_onnx=config["use_onnx"], **scanner_config)
 
     if scanner_name == "PromptInjection":
         return input_scanners.PromptInjection(use_onnx=config["use_onnx"], **scanner_config)
@@ -137,10 +137,10 @@ def get_output_scanner(
         return output_scanners.JSON(**scanner_config)
 
     if scanner_name == "Language":
-        return output_scanners.Language(**scanner_config)
+        return output_scanners.Language(use_onnx=config["use_onnx"], **scanner_config)
 
     if scanner_name == "LanguageSame":
-        return output_scanners.LanguageSame(**scanner_config)
+        return output_scanners.LanguageSame(use_onnx=config["use_onnx"], **scanner_config)
 
     if scanner_name == "Code":
         return output_scanners.Code(use_onnx=config["use_onnx"], **scanner_config)

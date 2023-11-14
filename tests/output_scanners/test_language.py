@@ -12,12 +12,12 @@ from llm_guard.output_scanners.language import Language
             "Me llamo Sofía",
             "Me llamo Sofía",
             False,
-            0.2,
+            1.0,
         ),  # Spanish
     ],
 )
 def test_scan(prompt, output, expected_output, expected_valid, expected_score):
-    scanner = Language(valid_languages=["en"], all_languages=["en", "de"])
+    scanner = Language(valid_languages=["en"])
     sanitized_output, valid, score = scanner.scan(
         prompt,
         output,

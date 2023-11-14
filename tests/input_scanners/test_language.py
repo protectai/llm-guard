@@ -23,7 +23,7 @@ from llm_guard.input_scanners.language import Language
     ],
 )
 def test_scan(prompt, expected_prompt, expected_valid, expected_score):
-    scanner = Language(valid_languages=["en"], all_languages=["en", "de", "es", "it"])
+    scanner = Language(valid_languages=["en"])
     sanitized_prompt, valid, score = scanner.scan(prompt)
     assert sanitized_prompt == expected_prompt
     assert valid == expected_valid

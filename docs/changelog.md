@@ -20,9 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Relevance` rely on optimized ONNX models
 - Switched to using `transformers` in `Relevance` scanner to have less dependencies
 - Updated benchmarks for relevant scanners
+- Use `papluca/xlm-roberta-base-language-detection` model for the `Language` and `LanguageSame` scanner
 
 ### Removed
--
+- Remove `lingua-language-detector` dependency from `Language` and `LanguageSame` scanners
 
 ## [0.3.1] - 2023-11-09
 

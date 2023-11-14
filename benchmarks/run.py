@@ -31,7 +31,7 @@ def build_input_scanner(scanner_name: str, use_onnx: bool) -> InputScanner:
         return input_scanners.Code(denied=["java"], use_onnx=use_onnx)
 
     if scanner_name == "Language":
-        return input_scanners.Language(valid_languages=["en", "es"])
+        return input_scanners.Language(valid_languages=["en", "es"], use_onnx=use_onnx)
 
     if scanner_name == "PromptInjection":
         return input_scanners.PromptInjection(
@@ -78,10 +78,10 @@ def build_output_scanner(scanner_name: str, use_onnx: bool) -> OutputScanner:
         return output_scanners.JSON()
 
     if scanner_name == "Language":
-        return output_scanners.Language(valid_languages=["en", "es"])
+        return output_scanners.Language(valid_languages=["en", "es"], use_onnx=use_onnx)
 
     if scanner_name == "LanguageSame":
-        return output_scanners.LanguageSame()
+        return output_scanners.LanguageSame(use_onnx=use_onnx)
 
     if scanner_name == "MaliciousURLs":
         return output_scanners.MaliciousURLs(use_onnx=use_onnx)

@@ -16,27 +16,39 @@ The Language Scanner is designed to identify such attempts, assess the authentic
 
 ## How it works
 
-At its core, the scanner leverages the capabilities of [lingua-py](https://github.com/pemistahl/lingua-py) library.
+At its core, the scanner leverages the capabilities of [papluca/xlm-roberta-base-language-detection](https://huggingface.co/papluca/xlm-roberta-base-language-detection) model.
 The primary function of the scanner is to analyze the input prompt, determine its language, and check if it's in the
-list. It supports the [following languages](https://github.com/pemistahl/lingua-py#3-which-languages-are-supported).
+list.
+
+It supports the 22 languages:
+
+```text
+arabic (ar), bulgarian (bg), german (de), modern greek (el), english (en), spanish (es), french (fr), hindi (hi), italian (it), japanese (ja), dutch (nl), polish (pl), portuguese (pt), russian (ru), swahili (sw), thai (th), turkish (tr), urdu (ur), vietnamese (vi), and chinese (zh)
+```
 
 ## Usage
 
 ```python
 from llm_guard.input_scanners import Language
 
-scanner = Language(valid_languages=["en"], all_languages=["en", "de", "es", "it"], low_accuracy_mode=True)  # Add other valid language codes (ISO 639-1) as needed
+scanner = Language(valid_languages=["en"])  # Add other valid language codes (ISO 639-1) as needed
 sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
 
-!!! info
-
-    In high accuracy mode, the language detector consumes approximately 800 MB of memory if all language models are loaded. In low accuracy mode (default), memory consumption is reduced to approximately 60 MB.
-
 ## Optimization
 
-1. Use `low_accuracy_mode` if possible.
-2. Specify languages you'd need to analyze using `all_languages` parameter.
+### ONNX
+
+The scanner can run on ONNX Runtime, which provides a significant performance boost on CPU instances. It will fetch
+Laiyer's ONNX converted models from [Hugging Face Hub](https://huggingface.co/laiyer).
+
+To enable it, install the `onnxruntime` package:
+
+```sh
+pip install llm-guard[onnxruntime]
+```
+
+And set `use_onnx=True`.
 
 ## Benchmarks
 

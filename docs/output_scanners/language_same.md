@@ -12,11 +12,17 @@ outputs.
 
 ## How it works
 
-The scanner predominantly utilizes the [lingua-py](https://github.com/pemistahl/lingua-py) library to discern the
-language of both the input prompt and the output. It supports the [following languages](https://github.com/pemistahl/lingua-py#3-which-languages-are-supported).
+At its core, the scanner leverages the capabilities of [papluca/xlm-roberta-base-language-detection](https://huggingface.co/papluca/xlm-roberta-base-language-detection) model to discern the
+language of both the input prompt and the output.
 
 It then checks whether both detected languages are the same. If they are not, it indicates a potential language
 discrepancy.
+
+It supports the 22 languages:
+
+```text
+arabic (ar), bulgarian (bg), german (de), modern greek (el), english (en), spanish (es), french (fr), hindi (hi), italian (it), japanese (ja), dutch (nl), polish (pl), portuguese (pt), russian (ru), swahili (sw), thai (th), turkish (tr), urdu (ur), vietnamese (vi), and chinese (zh)
+```
 
 !!! note
 
@@ -30,6 +36,21 @@ from llm_guard.output_scanners import LanguageSame
 scanner = LanguageSame()
 sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```
+
+## Optimization
+
+### ONNX
+
+The scanner can run on ONNX Runtime, which provides a significant performance boost on CPU instances. It will fetch
+Laiyer's ONNX converted models from [Hugging Face Hub](https://huggingface.co/laiyer).
+
+To enable it, install the `onnxruntime` package:
+
+```sh
+pip install llm-guard[onnxruntime]
+```
+
+And set `use_onnx=True`.
 
 ## Benchmarks
 
