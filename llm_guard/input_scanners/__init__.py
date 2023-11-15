@@ -10,6 +10,7 @@ from .secrets import Secrets
 from .sentiment import Sentiment
 from .token_limit import TokenLimit
 from .toxicity import Toxicity
+from .util import get_scanner_by_name
 
 __all__ = [
     "Anonymize",
@@ -23,4 +24,5 @@ __all__ = [
     "Sentiment",
     "TokenLimit",
     "Toxicity",
+    "get_scanner_by_name",
 ]
