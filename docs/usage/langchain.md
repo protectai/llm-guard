@@ -26,6 +26,6 @@ We can chain LLM Guard and the LLM sequentially. This means that we check if LLM
 
 And then use another scanner to check if the output from the LLM is safe to be sent to the user.
 
-In [examples/langchain.py](https://github.com/laiyer-ai/llm-guard/blob/main/examples/examples/langchain.py), you can find an example of how to use LCEL to compose LLM Guard chains.
+In [examples/langchain.py](https://github.com/laiyer-ai/llm-guard/blob/main/examples/langchain.py), you can find an example of how to use LCEL to compose LLM Guard chains.
 
-Additionally, there is a Jupyter Notebook available with more details: [examples/langchain.ipynb](https://github.com/laiyer-ai/llm-guard/blob/main/examples/examples/langchain.ipynb).
+Additionally, there is a Jupyter Notebook available with more details: [examples/langchain.ipynb](https://github.com/laiyer-ai/llm-guard/blob/main/examples/langchain.ipynb).
