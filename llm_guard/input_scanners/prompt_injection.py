@@ -1,7 +1,7 @@
 from typing import Dict, List, Optional
 
 from llm_guard.transformers_helpers import pipeline_text_classification
-from llm_guard.util import logger
+from llm_guard.util import calculate_risk_score, logger
 
 from .base import Scanner
 
@@ -34,7 +34,7 @@ class PromptInjection(Scanner):
     """
 
     def __init__(
-        self, models: Optional[List[Dict]] = None, threshold: float = 0.5, use_onnx: bool = False
+        self, models: Optional[List[Dict]] = None, threshold: float = 0.9, use_onnx: bool = False
     ):
         """
         Initializes PromptInjection with a threshold.
@@ -97,7 +97,7 @@ class PromptInjection(Scanner):
                     f"Detected prompt injection using {model_path} with score: {injection_score}"
                 )
 
-                return prompt, False, injection_score
+                return prompt, False, calculate_risk_score(injection_score, self._threshold)
 
             logger.debug(
                 f"No prompt injection detected using {model_path}, score: {injection_score}"

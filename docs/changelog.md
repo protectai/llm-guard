@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Switched to using `transformers` in `Relevance` scanner to have less dependencies
 - Updated benchmarks for relevant scanners
 - Use `papluca/xlm-roberta-base-language-detection` model for the `Language` and `LanguageSame` scanner
+- `PromptInjection` calculates risk score based on the defined threshold
 
 ### Removed
 - Remove `lingua-language-detector` dependency from `Language` and `LanguageSame` scanners
