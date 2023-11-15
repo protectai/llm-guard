@@ -20,20 +20,8 @@ export OPENAI_API_KEY="<your key>"
 
 ## Usage
 
-### Security prompt using LangChain Expression Language (LCEL)
-
 [LangChain Expression Language or LCEL](https://python.langchain.com/docs/expression_language/) is a declarative way to easily compose chains together.
 
 We can chain LLM Guard and the LLM sequentially. This means that we check if LLM Guard has identified any security risk in the prompt before it is sent to the LLM to get an output.
 
-In [examples/langchain_lcel.py](https://github.com/laiyer-ai/llm-guard/blob/main/examples/examples/langchain_lcel.py), you can find an example of how to use LCEL to compose LLM Guard chains.
-
-## LLM Wrapper
-
-!!! info
-
-    This is recommended way to integrate but it has limitation when using in the asynchronous mode.
-
-Applying LLM Guard to your application could be as simple as wrapping your LLM using the `LLMGuard` class by replacing `llm=OpenAI()` with `llm=LLMGuard(base_llm=OpenAI(), input_scanners=[], output_scanners=[])`.
-
-Example can be found in [langchain_llm.py](https://github.com/laiyer-ai/llm-guard/blob/main/examples/langchain_llm.py).
+In [examples/langchain.py](https://github.com/laiyer-ai/llm-guard/blob/main/examples/examples/langchain.py), you can find an example of how to use LCEL to compose LLM Guard chains.

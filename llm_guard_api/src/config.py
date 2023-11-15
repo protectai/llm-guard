@@ -73,6 +73,9 @@ def load_scanners_from_config(config: Dict, vault: Vault, file_name: str) -> (Li
 def get_input_scanner(
     scanner_name: str, config: Dict, vault: Vault, scanner_config: Optional[Dict] = None
 ):
+    if scanner_config is None:
+        scanner_config = {}
+
     if scanner_name == "Anonymize":
         scanner_config["vault"] = vault
 
@@ -92,6 +95,9 @@ def get_input_scanner(
 def get_output_scanner(
     scanner_name: str, config: Dict, vault: Vault, scanner_config: Optional[Dict] = None
 ):
+    if scanner_config is None:
+        scanner_config = {}
+
     if scanner_name == "Deanonymize":
         scanner_config["vault"] = vault
 

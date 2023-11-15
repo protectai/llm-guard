@@ -5,13 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] - 0.3.2
+## [Unreleased] - 0.3.3
 
 ### Added
 -
 
 ### Fixed
 -
+
+### Changed
+-
+
+### Removed
+-
+
+## [0.3.2] - 2023-11-15
 
 ### Changed
 - Using ONNX converted models hosted by Laiyer on HuggingFace
@@ -22,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated benchmarks for relevant scanners
 - Use `papluca/xlm-roberta-base-language-detection` model for the `Language` and `LanguageSame` scanner
 - `PromptInjection` calculates risk score based on the defined threshold
+- Up-to-date Langchain integration using LCEL
 
 ### Removed
 - Remove `lingua-language-detector` dependency from `Language` and `LanguageSame` scanners
@@ -236,6 +245,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - [Toxicity](./output_scanners/toxicity.md)
 
 [Unreleased]: https://github.com/laiyer-ai/llm-guard/commits/main
+[0.3.2]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.3.2
 [0.3.1]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.3.1
 [0.3.0]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.3.0
 [0.2.4]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.2.4

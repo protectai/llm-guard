@@ -1,6 +1,6 @@
 asyncio==3.4.3
 fastapi==0.104.1
-llm-guard==0.3.1
+llm-guard==0.3.2
 llm-guard[onnxruntime]==0.3.1
 pydantic==1.10.12
 pyyaml==6.0.1
