@@ -73,97 +73,41 @@ def load_scanners_from_config(config: Dict, vault: Vault, file_name: str) -> (Li
 def get_input_scanner(
     scanner_name: str, config: Dict, vault: Vault, scanner_config: Optional[Dict] = None
 ):
-    if scanner_config is None:
-        scanner_config = {}
-
     if scanner_name == "Anonymize":
-        return input_scanners.Anonymize(vault=vault, use_onnx=config["use_onnx"], **scanner_config)
+        scanner_config["vault"] = vault
 
-    if scanner_name == "BanSubstrings":
-        return input_scanners.BanSubstrings(**scanner_config)
+    if scanner_name in [
+        "Anonymize",
+        "BanTopics",
+        "Code",
+        "Language",
+        "PromptInjection",
+        "Toxicity",
+    ]:
+        scanner_config["use_onnx"] = config["use_onnx"]
 
-    if scanner_name == "BanTopics":
-        return input_scanners.BanTopics(use_onnx=config["use_onnx"], **scanner_config)
-
-    if scanner_name == "Code":
-        return input_scanners.Code(use_onnx=config["use_onnx"], **scanner_config)
-
-    if scanner_name == "Language":
-        return input_scanners.Language(use_onnx=config["use_onnx"], **scanner_config)
-
-    if scanner_name == "PromptInjection":
-        return input_scanners.PromptInjection(use_onnx=config["use_onnx"], **scanner_config)
-
-    if scanner_name == "Regex":
-        return input_scanners.Regex(**scanner_config)
-
-    if scanner_name == "Secrets":
-        return input_scanners.Secrets(**scanner_config)
-
-    if scanner_name == "Sentiment":
-        return input_scanners.Sentiment(**scanner_config)
-
-    if scanner_name == "TokenLimit":
-        return input_scanners.TokenLimit(**scanner_config)
-
-    if scanner_name == "Toxicity":
-        return input_scanners.Toxicity(use_onnx=config["use_onnx"], **scanner_config)
-
-    raise ValueError("Unknown scanner name")
+    return input_scanners.get_scanner_by_name(scanner_name, scanner_config)
 
 
 def get_output_scanner(
     scanner_name: str, config: Dict, vault: Vault, scanner_config: Optional[Dict] = None
 ):
-    if scanner_config is None:
-        scanner_config = {}
-
-    if scanner_name == "BanSubstrings":
-        return output_scanners.BanSubstrings(**scanner_config)
-
-    if scanner_name == "BanTopics":
-        return output_scanners.BanTopics(use_onnx=config["use_onnx"], **scanner_config)
-
-    if scanner_name == "Bias":
-        return output_scanners.Bias(use_onnx=config["use_onnx"], **scanner_config)
-
     if scanner_name == "Deanonymize":
-        return output_scanners.Deanonymize(vault=vault)
+        scanner_config["vault"] = vault
 
-    if scanner_name == "FactualConsistency":
-        return output_scanners.FactualConsistency(use_onnx=config["use_onnx"], **scanner_config)
+    if scanner_name in [
+        "BanTopics",
+        "Bias",
+        "Code",
+        "FactualConsistency",
+        "Language",
+        "LanguageSame",
+        "MaliciousURLs",
+        "NoRefusal",
+        "Relevance",
+        "Sensitive",
+        "Toxicity",
+    ]:
+        scanner_config["use_onnx"] = config["use_onnx"]
 
-    if scanner_name == "JSON":
-        return output_scanners.JSON(**scanner_config)
-
-    if scanner_name == "Language":
-        return output_scanners.Language(use_onnx=config["use_onnx"], **scanner_config)
-
-    if scanner_name == "LanguageSame":
-        return output_scanners.LanguageSame(use_onnx=config["use_onnx"], **scanner_config)
-
-    if scanner_name == "Code":
-        return output_scanners.Code(use_onnx=config["use_onnx"], **scanner_config)
-
-    if scanner_name == "MaliciousURLs":
-        return output_scanners.MaliciousURLs(use_onnx=config["use_onnx"], **scanner_config)
-
-    if scanner_name == "NoRefusal":
-        return output_scanners.NoRefusal(use_onnx=config["use_onnx"], **scanner_config)
-
-    if scanner_name == "Regex":
-        return output_scanners.Regex(**scanner_config)
-
-    if scanner_name == "Relevance":
-        return output_scanners.Relevance(use_onnx=config["use_onnx"], **scanner_config)
-
-    if scanner_name == "Sensitive":
-        return output_scanners.Sensitive(use_onnx=config["use_onnx"], **scanner_config)
-
-    if scanner_name == "Sentiment":
-        return output_scanners.Sentiment(**scanner_config)
-
-    if scanner_name == "Toxicity":
-        return output_scanners.Toxicity(use_onnx=config["use_onnx"], **scanner_config)
-
-    raise ValueError("Unknown scanner name")
+    return output_scanners.get_scanner_by_name(scanner_name, scanner_config)

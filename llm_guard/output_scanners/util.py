@@ -20,6 +20,16 @@ from .toxicity import Toxicity
 
 
 def get_scanner_by_name(scanner_name: str, scanner_config: Optional[Dict] = None) -> Scanner:
+    """
+    Get scanner by name.
+
+    Args:
+        scanner_name (str): Name of scanner.
+        scanner_config (Optional[Dict], optional): Scanner configuration. Defaults to None.
+
+    Raises:
+        ValueError: If scanner name is unknown.
+    """
     if scanner_config is None:
         scanner_config = {}
 
