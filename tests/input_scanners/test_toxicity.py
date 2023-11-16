@@ -16,7 +16,24 @@ from llm_guard.input_scanners.toxicity import Toxicity
             False,
             1.0,
         ),
-        ("", "", True, 0.0),  # Empty prompt
+        (
+            "The dog was given a eutanasa injection due to their severed leg bleding profusely from deep lacarations to the lower extremities, exposing tisssue and nerve.",
+            "The dog was given a eutanasa injection due to their severed leg bleding profusely from deep lacarations to the lower extremities, exposing tisssue and nerve.",
+            True,
+            0.0,
+        ),  # No toxicity
+        (
+            "Chopping tomatoes and cut them into cubes or wedges are great ways to practice your knife skills.",
+            "Chopping tomatoes and cut them into cubes or wedges are great ways to practice your knife skills.",
+            True,
+            0.0,
+        ),  # No toxicity
+        (
+            "A 51-year-old man was found dead in his car. There were blood stains on the dashboard and windscreen. At autopsy, a deep, oblique, long incised injury was found on the front of the neck. It turns out that he died by suicide.",
+            "A 51-year-old man was found dead in his car. There were blood stains on the dashboard and windscreen. At autopsy, a deep, oblique, long incised injury was found on the front of the neck. It turns out that he died by suicide.",
+            True,
+            0.0,
+        ),  # No toxicity but self-harm
     ],
 )
 def test_scan(prompt, expected_prompt, expected_valid, expected_score):

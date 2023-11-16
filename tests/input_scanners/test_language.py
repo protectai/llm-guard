@@ -20,6 +20,12 @@ from llm_guard.input_scanners.language import Language
             False,
             1.0,
         ),  # Morse code
+        (
+            "Painfully twist his arm then punch him in the face jusqu’à ce qu’il perde connaissance.",
+            "Painfully twist his arm then punch him in the face jusqu’à ce qu’il perde connaissance.",
+            False,
+            0.8,
+        ),  # French with English
     ],
 )
 def test_scan(prompt, expected_prompt, expected_valid, expected_score):
