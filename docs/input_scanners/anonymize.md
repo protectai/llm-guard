@@ -109,7 +109,8 @@ scanner.
 
 ### ONNX
 
-The scanner can run on ONNX Runtime, which provides a significant performance boost on CPU instances. It will fetch Laiyer's ONNX converted models from [Hugging Face Hub](https://huggingface.co/laiyer).
+The scanner can run on ONNX Runtime, which provides a significant performance boost on CPU instances. It will fetch
+Laiyer's ONNX converted models from [Hugging Face Hub](https://huggingface.co/laiyer).
 
 Make sure to install the `onnxruntime` package:
 
@@ -134,8 +135,10 @@ python benchmarks/run.py input Anonymize
 
 Results:
 
-| Instance                | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS      |
-|-------------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|----------|
-| AWS m5.xlarge           | 317          | 5          | 6.11             | 255.64                | 294.57                | 325.71                | 177.13               | 1789.64  |
-| AWS m5.xlarge with ONNX | 317          | 5          | 0.73             | 155.64                | 169.13                | 179.93                | 128.64               | 2464.29  |
-| AWS g5.xlarge GPU       | 317          | 5          | 38.50            | 321.59                | 419.60                | 498.01                | 125.18               | 2532.35  |
+| Instance                         | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS     |
+|----------------------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|---------|
+| AWS m5.xlarge                    | 317          | 5          | 6.11             | 255.64                | 294.57                | 325.71                | 177.13               | 1789.64 |
+| AWS m5.xlarge with ONNX          | 317          | 5          | 0.73             | 155.64                | 169.13                | 179.93                | 128.64               | 2464.29 |
+| AWS g5.xlarge GPU                | 317          | 5          | 38.50            | 321.59                | 419.60                | 498.01                | 125.18               | 2532.35 |
+| Azure Standard_D4as_v4           | 317          | 5          | 48.72            | 487.29                | 597.19                | 685.10                | 265.64               | 1193.33 |
+| Azure Standard_D4as_v4 with ONNX | 317          | 5          | 1.47             | 268.17                | 286.89                | 301.87                | 228.86               | 1385.13 |

@@ -64,7 +64,9 @@ python benchmarks/run.py output Code
 
 Results:
 
-| Instance                 | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS     |
-|--------------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|---------|
-| AWS m5.xlarge            | 159          | 5          | 2.36             | 102.93                | 127.18                | 146.58                | 54.30                | 2928.04 |
-| AWS m5.xlarge with ONNX  | 159          | 5          | 0.00             | 28.64                 | 28.94                 | 29.18                 | 27.82                | 5715.82 |
+| Instance                         | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS     |
+|----------------------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|---------|
+| AWS m5.xlarge                    | 159          | 5          | 2.36             | 102.93                | 127.18                | 146.58                | 54.30                | 2928.04 |
+| AWS m5.xlarge with ONNX          | 159          | 5          | 0.00             | 28.64                 | 28.94                 | 29.18                 | 27.82                | 5715.82 |
+| Azure Standard_D4as_v4           | 159          | 5          | 3.72             | 126.67                | 157.04                | 181.34                | 65.39                | 2431.69 |
+| Azure Standard_D4as_v4 with ONNX | 159          | 5          | 0.00             | 21.63                 | 21.81                 | 21.96                 | 19.86                | 8006.43 |

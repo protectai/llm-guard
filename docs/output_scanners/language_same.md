@@ -67,7 +67,9 @@ python benchmarks/run.py output LanguageSame
 
 Results:
 
-| Scanner            | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS     |
-|--------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|---------|
-| AWS m5.xlarge      | 14           | 5          | 58.23            | 370.31                | 490.94                | 587.45                | 128.94               | 108.57  |
-| AWS g5.xlarge GPU  | 14           | 5          | 39.80            | 307.85                | 407.57                | 487.35                | 108.32               | 129.25  |
+| Scanner                          | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS    |
+|----------------------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|--------|
+| AWS m5.xlarge                    | 14           | 5          | 58.23            | 370.31                | 490.94                | 587.45                | 128.94               | 108.57 |
+| AWS g5.xlarge GPU                | 14           | 5          | 39.80            | 307.85                | 407.57                | 487.35                | 108.32               | 129.25 |
+| Azure Standard_D4as_v4           | 14           | 5          | 3.71             | 228.11                | 257.62                | 281.23                | 165.40               | 84.64  |
+| Azure Standard_D4as_v4 with ONNX | 14           | 5          | 0.00             | 81.06                 | 81.56                 | 81.96                 | 79.10                | 176.98 |

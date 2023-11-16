@@ -57,7 +57,8 @@ python benchmarks/run.py input Secrets
 
 Results:
 
-| Instance            | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS      |
-|---------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|----------|
-| AWS m5.xlarge       | 60           | 5          | 2.92             | 83.84                 | 110.85                | 132.45                | 29.75                | 2016.83  |
-| AWS g5.xlarge GPU       | 60           | 5          | 3.34             | 89.20                 | 118.11                | 141.23                | 31.39                | 1911.67  |
+| Instance               | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS     |
+|------------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|---------|
+| AWS m5.xlarge          | 60           | 5          | 2.92             | 83.84                 | 110.85                | 132.45                | 29.75                | 2016.83 |
+| AWS g5.xlarge GPU      | 60           | 5          | 3.34             | 89.20                 | 118.11                | 141.23                | 31.39                | 1911.67 |
+| Azure Standard_D4as_v4 | 60           | 5          | 5.46             | 114.56                | 180.92                | 40.56                 | 421.46               | 1479.37 |

@@ -62,8 +62,10 @@ python benchmarks/run.py output BanTopics
 
 Results:
 
-| Instance                | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS    |
-|-------------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|--------|
-| AWS m5.xlarge           | 89           | 5          | 2.39             | 485.00                | 509.32                | 528.78                | 435.82               | 204.21 |
-| AWS m5.xlarge with ONNX | 89           | 5          | 0.09             | 165.61                | 170.05                | 173.60                | 155.90               | 570.87 |
-| AWS g5.xlarge GPU       | 89           | 5          | 35.44            | 331.25                | 425.26                | 500.46                | 142.77               | 623.37 |
+| Instance                         | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS    |
+|----------------------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|--------|
+| AWS m5.xlarge                    | 89           | 5          | 2.39             | 485.00                | 509.32                | 528.78                | 435.82               | 204.21 |
+| AWS m5.xlarge with ONNX          | 89           | 5          | 0.09             | 165.61                | 170.05                | 173.60                | 155.90               | 570.87 |
+| AWS g5.xlarge GPU                | 89           | 5          | 35.44            | 331.25                | 425.26                | 500.46                | 142.77               | 623.37 |
+| Azure Standard_D4as_v4           | 89           | 5          | 3.91             | 547.06                | 577.87                | 602.53                | 483.73               | 183.99 |
+| Azure Standard_D4as_v4 with ONNX | 89           | 5          | 0.06             | 176.34                | 179.65                | 182.30                | 168.16               | 529.25 |
