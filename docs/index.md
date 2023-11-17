@@ -2,14 +2,14 @@
 
 LLM Guard by [Laiyer.ai](https://laiyer.ai) is a comprehensive tool designed to fortify the security of Large Language Models (LLMs).
 
+[**Playground**](https://huggingface.co/spaces/laiyer/llm-guard-playground) | [**Changelog**](./changelog.md) | [**Blog**](https://substack.com/@laiyer) | [**Slack**](https://join.slack.com/t/laiyerai/shared_invite/zt-26i905g3a-dB2~3~EkETRobSqe3PUbNA)
+
 ## What is LLM Guard?
 
 ![LLM-Guard](./assets/flow.png)
 
 By offering sanitization, detection of harmful language, prevention of data leakage, and resistance against prompt
 injection attacks, LLM-Guard ensures that your interactions with LLMs remain safe and secure.
-
-[Demo](https://huggingface.co/spaces/laiyer/llm-guard-playground)
 
 ## Installation
 
@@ -27,7 +27,7 @@ pip install llm-guard
   out-of-the-box, please be informed that we're constantly improving and updating the repository.
 - Base functionality requires a limited number of libraries. As you explore more advanced features, necessary libraries
   will be automatically installed.
-- Ensure you're using Python version 3.8.1 or higher. Confirm with: `python --version`.
+- Ensure you're using Python version 3.9 or higher. Confirm with: `python --version`.
 - Library installation issues? Consider upgrading pip: `python -m pip install --upgrade pip`.
 
 **Examples**:
@@ -56,8 +56,23 @@ pip install llm-guard
 - [ ] Identify potential SQL injection points to enhance security.
 - [ ] Verify links and provide options for whitelisting or blacklisting to maintain the quality of references.
 
-## Contributing
+## Community, Contributing, Docs & Support
 
-Got ideas, feedback, or wish to contribute? We'd love to hear from you! [Email us](mailto:hello@laiyer.ai).
+LLM Guard is an open source solution.
+We are committed to a transparent development process and highly appreciate any contributions.
+Whether you are helping us fix bugs, propose new features, improve our documentation or spread the word,
+we would love to have you as part of our community.
 
-For detailed guidelines on contributions, kindly refer to our [contribution guide](https://github.com/laiyer-ai/llm-guard/blob/main/CONTRIBUTING.md).
+- Give us a ⭐️ github star ⭐️ on the top of this page to support what we're doing,
+  it means a lot for open source projects!
+- Read our
+  [docs](https://laiyer-ai.github.io/llm-guard/)
+  for more info about how to use and customize deepchecks, and for step-by-step tutorials.
+- Post a [Github
+  Issue](https://github.com/laiyer-ai/llm-guard/issues) to submit a bug report, feature request, or suggest an improvement.
+- To contribute to the package, check out our [contribution guidelines](https://github.com/laiyer-ai/llm-guard/blob/main/CONTRIBUTING.md), and open a PR.
+
+Join our Slack to give us feedback, connect with the maintainers and fellow users, ask questions,
+get help for package usage or contributions, or engage in discussions about LLM security!
+
+<a href="https://join.slack.com/t/laiyerai/shared_invite/zt-26i905g3a-dB2~3~EkETRobSqe3PUbNA"><img src="./assets/join-our-slack-community.png" width="200"></a>
