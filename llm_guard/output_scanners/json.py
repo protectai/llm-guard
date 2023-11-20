@@ -54,11 +54,11 @@ class JSON(Scanner):
             str: The repaired JSON string.
         """
 
-        json_repair = lazy_load_dep("json_repair.json_repair", "json_repair")
+        json_repair = lazy_load_dep("json_repair")
         try:
-            parser = json_repair.JSONParser(json_str)
-            parsed_json = parser.parse()
-            repaired_json = json.dumps(parsed_json)
+            repaired_json = json_repair.repair_json(
+                json_str, skip_json_loads=True, return_objects=False
+            )
         except ValueError:
             return json_str
 
