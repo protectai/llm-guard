@@ -22,7 +22,7 @@ input_scanners:
   Language:
     valid_languages: [ "en" ]
   PromptInjection:
-    threshold: 0.5
+    threshold: 0.9
   Regex:
     # good_patterns: [""]
     bad_patterns: [ "Bearer [A-Za-z0-9-._~+/]+" ]

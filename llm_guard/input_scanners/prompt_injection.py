@@ -32,7 +32,7 @@ class PromptInjection(Scanner):
 
         Parameters:
             models (List[Dict], optional): Chosen models to classify prompt. Default is Laiyer's one..
-            threshold (float): Threshold for the injection score. Default is 0.75.
+            threshold (float): Threshold for the injection score. Default is 0.9.
             use_onnx (bool): Whether to use ONNX for inference. Defaults to False.
 
         Raises:
