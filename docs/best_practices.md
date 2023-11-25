@@ -14,6 +14,8 @@
 
 2. **Scanner Selection**: Assess the relevance of different scanners for your use-case. Instead of employing all scanners synchronously, which might overwhelm the system, consider using them asynchronously. This approach enhances observability, aiding in precise debugging and performance monitoring.
 
+3. **Request Sampling**: Run slower scanners on a sample of requests to reduce the overall latency. This approach is especially useful when the system is under heavy load.
+
 ## Observability and Debugging
 
 1. **Logging and Metrics**: Implement robust logging and metric collection to monitor the system's performance and health.

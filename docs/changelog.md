@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Upgraded `json_repair` library ([issue](https://github.com/laiyer-ai/llm-guard/issues/44))
+- Use proprietary prompt injection detection model [laiyer/deberta-v3-base-prompt-injection](https://huggingface.co/laiyer/deberta-v3-base-prompt-injection)
 
 ### Removed
 -

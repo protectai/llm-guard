@@ -54,6 +54,7 @@ def get_tokenizer_and_model_for_classification(
         use_onnx = False
 
     if use_onnx:
+        subfolder = "onnx" if onnx_model == model else ""
         if onnx_model is not None:
             model = onnx_model
 
@@ -62,7 +63,9 @@ def get_tokenizer_and_model_for_classification(
 
         optimum_onnxruntime = lazy_load_dep("optimum.onnxruntime", "optimum[onnxruntime]")
         tf_model = optimum_onnxruntime.ORTModelForSequenceClassification.from_pretrained(
-            model, export=onnx_model is None
+            model,
+            export=onnx_model is None,
+            subfolder=subfolder,
         )
         logger.debug(f"Initialized classification ONNX model {model} on device {device()}")
     else:

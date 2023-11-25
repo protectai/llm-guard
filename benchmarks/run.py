@@ -8,7 +8,6 @@ import numpy
 
 from llm_guard import input_scanners, output_scanners
 from llm_guard.input_scanners.base import Scanner as InputScanner
-from llm_guard.input_scanners.prompt_injection import MODEL_DEEPSET, MODEL_GPTFUZZ
 from llm_guard.output_scanners.base import Scanner as OutputScanner
 from llm_guard.vault import Vault
 
@@ -34,9 +33,7 @@ def build_input_scanner(scanner_name: str, use_onnx: bool) -> InputScanner:
         return input_scanners.Language(valid_languages=["en", "es"], use_onnx=use_onnx)
 
     if scanner_name == "PromptInjection":
-        return input_scanners.PromptInjection(
-            models=[MODEL_DEEPSET, MODEL_GPTFUZZ], use_onnx=use_onnx
-        )
+        return input_scanners.PromptInjection(use_onnx=use_onnx)
 
     if scanner_name == "Regex":
         return input_scanners.Regex(bad_patterns=[r"Bearer [A-Za-z0-9-._~+/]+"])

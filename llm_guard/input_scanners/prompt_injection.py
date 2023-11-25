@@ -5,25 +5,16 @@ from llm_guard.util import calculate_risk_score, logger
 
 from .base import Scanner
 
-# This model has been known to yield high false positive rates and might not be suited for production use.
-MODEL_DEEPSET = {
-    "path": "deepset/deberta-v3-base-injection",
-    "onnx_path": "laiyer/deberta-v3-base-injection-onnx",
+# This model is proprietary but open source.
+MODEL_LAIYER = {
+    "path": "laiyer/deberta-v3-base-prompt-injection",
+    "onnx_path": "laiyer/deberta-v3-base-prompt-injection",  # extract from onnx folder
     "label": "INJECTION",
     "max_length": 512,
 }
 
-# This dataset is more up-to-date. However, it performs slower because based on RoBERTa-large model.
-MODEL_GPTFUZZ = {
-    "path": "hubert233/GPTFuzz",
-    "onnx_path": "laiyer/GPTFuzz-onnx",
-    "label": 1,
-    "max_length": 512,
-}
-
 ALL_MODELS = [
-    MODEL_DEEPSET,
-    MODEL_GPTFUZZ,
+    MODEL_LAIYER,
 ]
 
 
@@ -40,7 +31,7 @@ class PromptInjection(Scanner):
         Initializes PromptInjection with a threshold.
 
         Parameters:
-            models (List[Dict], optional): Chosen models to classify prompt. Default is JasperLS.
+            models (List[Dict], optional): Chosen models to classify prompt. Default is Laiyer's one..
             threshold (float): Threshold for the injection score. Default is 0.75.
             use_onnx (bool): Whether to use ONNX for inference. Defaults to False.
 
@@ -51,7 +42,7 @@ class PromptInjection(Scanner):
         self._threshold = threshold
 
         if models is None:
-            models = [MODEL_DEEPSET]
+            models = ALL_MODELS
 
         for model in models:
             if model not in ALL_MODELS:

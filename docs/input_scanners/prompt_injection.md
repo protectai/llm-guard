@@ -28,17 +28,17 @@ primary ways an attacker might exploit:
 
 Choose models you would like to validate against:
 
-- [deepset/deberta-v3-base-injection](https://huggingface.co/deepset/deberta-v3-base-injection). It's worth noting
-  that while the current model can detect attempts effectively, it might occasionally yield false positives.
-- [hubert233/GPTFuzz](https://huggingface.co/hubert233/GPTFuzz) based on the larger RoBERTa-large model.
+[laiyer/deberta-v3-base-prompt-injection](https://huggingface.co/laiyer/deberta-v3-base-prompt-injection).
+This model is a fine-tuned version of the `microsoft/deberta-v3-base` on multiple dataset of prompt injections and normal prompts to classify text.
+It aims to identify prompt injections, classifying inputs into two categories: `0` for no injection and `1` for injection detected. We are still testing it.
 
 Usage:
 
 ```python
 from llm_guard.input_scanners import PromptInjection
-from llm_guard.input_scanners.prompt_injection import MODEL_DEEPSET
+from llm_guard.input_scanners.prompt_injection import MODEL_LAIYER
 
-scanner = PromptInjection(threshold=0.5, models=[MODEL_DEEPSET])
+scanner = PromptInjection(threshold=0.5, models=[MODEL_LAIYER])
 sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
 
