@@ -76,3 +76,10 @@ Join our Slack to give us feedback, connect with the maintainers and fellow user
 get help for package usage or contributions, or engage in discussions about LLM security!
 
 <a href="https://join.slack.com/t/laiyerai/shared_invite/zt-26i905g3a-dB2~3~EkETRobSqe3PUbNA"><img src="./assets/join-our-slack-community.png" width="200"></a>
+
+## Supporters
+
+LLM Guard is supported by the following organizations:
+
+- [Google Patch Rewards program](https://bughunters.google.com/open-source-security/patch-rewards)
+- [JetBrains](https://jb.gg/OpenSourceSupport)

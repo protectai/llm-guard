@@ -109,3 +109,10 @@ get help for package usage or contributions, or engage in discussions about LLM 
 We're eager to provide personalized assistance when deploying your LLM Guard to a production environment.
 
 - [Send Email ✉️](mailto:hello@laiyer.ai)
+
+## Supporters
+
+LLM Guard is supported by the following organizations:
+
+- [Google Patch Rewards program](https://bughunters.google.com/open-source-security/patch-rewards)
+- [JetBrains](https://jb.gg/OpenSourceSupport)
