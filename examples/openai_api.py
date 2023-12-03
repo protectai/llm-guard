@@ -6,14 +6,14 @@ If it is not already set, it can be set by using `export OPENAI_API_KEY=YOUR_API
 
 import os
 
-import openai
+from openai import OpenAI
 
 from llm_guard import scan_output, scan_prompt
 from llm_guard.input_scanners import Anonymize, PromptInjection, TokenLimit, Toxicity
 from llm_guard.output_scanners import Deanonymize, NoRefusal, Relevance, Sensitive
 from llm_guard.vault import Vault
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 vault = Vault()
 input_scanners = [Anonymize(vault), Toxicity(), TokenLimit(), PromptInjection()]
 output_scanners = [Deanonymize(vault), NoRefusal(), Relevance(), Sensitive()]
@@ -30,7 +30,7 @@ if any(results_valid.values()) is False:
 
 print(f"Prompt: {sanitized_prompt}")
 
-response = openai.ChatCompletion.create(
+response = client.chat.completions.create(
     model="gpt-3.5-turbo",
     messages=[
         {"role": "system", "content": "You are a helpful assistant."},
@@ -39,7 +39,7 @@ response = openai.ChatCompletion.create(
     temperature=0,
     max_tokens=512,
 )
-response_text = response["choices"][0]["message"]["content"]
+response_text = response.choices[0].message.content
 sanitized_response_text, results_valid, results_score = scan_output(
     output_scanners, sanitized_prompt, response_text
 )
