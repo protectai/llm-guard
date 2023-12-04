@@ -8,6 +8,6 @@ protobuf==3.20.3
 regex==2023.10.3
 sentencepiece==0.1.99
 tiktoken==0.5.1
-torch==2.0.1
+torch==2.1.1
 transformers==4.35.0
 xformers==0.0.22
