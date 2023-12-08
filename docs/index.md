@@ -2,7 +2,7 @@
 
 LLM Guard by [Laiyer.ai](https://laiyer.ai) is a comprehensive tool designed to fortify the security of Large Language Models (LLMs).
 
-[**Playground**](https://huggingface.co/spaces/laiyer/llm-guard-playground) | [**Changelog**](./changelog.md) | [**Blog**](https://substack.com/@laiyer) | [**Slack**](https://join.slack.com/t/laiyerai/shared_invite/zt-26i905g3a-dB2~3~EkETRobSqe3PUbNA)
+[**Playground**](https://huggingface.co/spaces/laiyer/llm-guard-playground) | [**Changelog**](./changelog.md) | [**Blog**](https://substack.com/@laiyer) | [**Slack**](https://join.slack.com/t/laiyerai/shared_invite/zt-28jv3ci39-sVxXrLs3rQdaN3mIl9IT~w)
 
 ## What is LLM Guard?
 
@@ -75,7 +75,7 @@ we would love to have you as part of our community.
 Join our Slack to give us feedback, connect with the maintainers and fellow users, ask questions,
 get help for package usage or contributions, or engage in discussions about LLM security!
 
-<a href="https://join.slack.com/t/laiyerai/shared_invite/zt-26i905g3a-dB2~3~EkETRobSqe3PUbNA"><img src="./assets/join-our-slack-community.png" width="200"></a>
+<a href="https://join.slack.com/t/laiyerai/shared_invite/zt-28jv3ci39-sVxXrLs3rQdaN3mIl9IT~w"><img src="./assets/join-our-slack-community.png" width="200"></a>
 
 ## Supporters
 

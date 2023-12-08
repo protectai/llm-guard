@@ -2,7 +2,7 @@
 
 LLM Guard by [Laiyer.ai](https://laiyer.ai) is a comprehensive tool designed to fortify the security of Large Language Models (LLMs).
 
-[**Documentation**](https://laiyer-ai.github.io/llm-guard/) | [**Playground**](https://huggingface.co/spaces/laiyer/llm-guard-playground) | [**Changelog**](https://llm-guard.com/changelog/) | [**Blog**](https://substack.com/@laiyer) | [**Slack**](https://join.slack.com/t/laiyerai/shared_invite/zt-26i905g3a-dB2~3~EkETRobSqe3PUbNA)
+[**Documentation**](https://laiyer-ai.github.io/llm-guard/) | [**Playground**](https://huggingface.co/spaces/laiyer/llm-guard-playground) | [**Changelog**](https://llm-guard.com/changelog/) | [**Blog**](https://substack.com/@laiyer) | [**Slack**](https://join.slack.com/t/laiyerai/shared_invite/zt-28jv3ci39-sVxXrLs3rQdaN3mIl9IT~w)
 
 [![GitHub
 stars](https://img.shields.io/github/stars/laiyer-ai/llm-guard.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/laiyer-ai/llm-guard/stargazers/)
@@ -102,7 +102,7 @@ we would love to have you as part of our community.
 Join our Slack to give us feedback, connect with the maintainers and fellow users, ask questions,
 get help for package usage or contributions, or engage in discussions about LLM security!
 
-<a href="https://join.slack.com/t/laiyerai/shared_invite/zt-26i905g3a-dB2~3~EkETRobSqe3PUbNA"><img src="https://github.com/laiyer-ai/llm-guard/blob/main/docs/assets/join-our-slack-community.png?raw=true" width="200"></a>
+<a href="https://join.slack.com/t/laiyerai/shared_invite/zt-28jv3ci39-sVxXrLs3rQdaN3mIl9IT~w"><img src="https://github.com/laiyer-ai/llm-guard/blob/main/docs/assets/join-our-slack-community.png?raw=true" width="200"></a>
 
 ### Production Support
 
