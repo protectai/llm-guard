@@ -25,7 +25,7 @@ Configure the scanner:
 ```python
 from llm_guard.output_scanners import Sensitive
 
-scanner = Sensitive(entity_types=["NAME", "EMAIL"], redact=True)
+scanner = Sensitive(entity_types=["PERSON", "EMAIL"], redact=True)
 sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```
 
