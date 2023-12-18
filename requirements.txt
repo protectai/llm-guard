@@ -9,6 +9,6 @@ protobuf==3.20.3
 regex==2023.10.3
 sentencepiece==0.1.99
 tiktoken==0.5.2
-torch==2.0.1
+torch==2.1.2
 transformers==4.36.1
 xformers==0.0.22
