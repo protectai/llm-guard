@@ -52,10 +52,12 @@ And set `use_onnx=True`.
 
 ## Benchmarks
 
-Environment:
+Test setup:
 
 - Platform: Amazon Linux 2
 - Python Version: 3.11.6
+- Input length: 1362
+- Test times: 5
 
 Run the following script:
 
@@ -65,9 +67,10 @@ python benchmarks/run.py input Language
 
 Results:
 
-| Instance                         | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS     |
-|----------------------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|---------|
-| AWS m5.xlarge                    | 1362         | 5          | 181.05           | 669.05                | 881.74                | 1051.90               | 243.45               | 5594.68 |
-| AWS g5.xlarge GPU                | 1362         | 5          | 230.33           | 750.71                | 990.65                | 1182.61               | 270.74               | 5030.57 |
-| Azure Standard_D4as_v4           | 1362         | 5          | 4.45             | 406.71                | 439.73                | 466.15                | 339.31               | 4014.05 |
-| Azure Standard_D4as_v4 with ONNX | 1362         | 5          | 0.01             | 288.10                | 289.15                | 289.99                | 285.00               | 4778.90 |
+| Instance                         | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS       |
+|----------------------------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|-----------|
+| AWS m5.xlarge                    | 181.05           | 669.05                | 881.74                | 1051.90               | 243.45               | 5594.68   |
+| AWS g5.xlarge GPU                | 230.33           | 750.71                | 990.65                | 1182.61               | 270.74               | 5030.57   |
+| AWS g5.xlarge GPU with ONNX      | 0.01             | 11.24                 | 12.94                 | 14.30                 | 7.79                 | 174817.81 |
+| Azure Standard_D4as_v4           | 4.45             | 406.71                | 439.73                | 466.15                | 339.31               | 4014.05   |
+| Azure Standard_D4as_v4 with ONNX | 0.01             | 288.10                | 289.15                | 289.99                | 285.00               | 4778.90   |

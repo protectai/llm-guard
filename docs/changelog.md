@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Upgraded all libraries to the latest versions
 - Improvements to the documentation
 - `Deanonymize` scanner supports matching strategies
-- Support of ONNX runtime on GPU for even faster inference
+- Support of ONNX runtime on GPU for even faster inference (with massive latency improvements) and updated benchmarks
 
 ### Removed
 - Usage of `dbmdz/bert-large-cased-finetuned-conll03-english` in the `Anonymize` scanner

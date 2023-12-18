@@ -60,6 +60,19 @@ python benchmarks/run.py output BanTopics
 
 Results:
 
+{
+    "scanner": "BanTopics",
+    "scanner Type": "output",
+    "input_length": 89,
+    "test_times": 5,
+    "latency_variance": "0.11",
+    "latency_90_percentile": "32.46",
+    "latency_95_percentile": "37.74",
+    "latency_99_percentile": "41.96",
+    "average_latency_ms": "21.69",
+    "QPS": "4103.63"
+}
+
 | Instance                         | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS    |
 |----------------------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|--------|
 | AWS m5.xlarge                    | 89           | 5          | 2.39             | 485.00                | 509.32                | 528.78                | 435.82               | 204.21 |

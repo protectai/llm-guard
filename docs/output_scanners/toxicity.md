@@ -41,10 +41,12 @@ And set `use_onnx=True`.
 
 ## Benchmarks
 
-Environment:
+Test setup:
 
 - Platform: Amazon Linux 2
 - Python Version: 3.11.6
+- Input length: 217
+- Test times: 5
 
 Run the following script:
 
@@ -54,10 +56,11 @@ python benchmarks/run.py output Toxicity
 
 Results:
 
-| Instance                         | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS     |
-|----------------------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|---------|
-| AWS m5.xlarge                    | 217          | 5          | 2.89             | 154.18                | 181.05                | 202.55                | 100.40               | 2161.43 |
-| AWS m5.xlarge with ONNX          | 217          | 5          | 0.00             | 49.61                 | 49.98                 | 50.28                 | 48.77                | 4449.47 |
-| AWS g5.xlarge                    | 217          | 5          | 33.35            | 282.36                | 373.59                | 446.56                | 99.57                | 2179.37 |
-| Azure Standard_D4as_v4           | 217          | 5          | 3.90             | 182.94                | 213.16                | 237.33                | 118.62               | 1829.38 |
-| Azure Standard_D4as_v4 with ONNX | 217          | 5          | 0.07             | 70.81                 | 73.93                 | 76.43                 | 61.40                | 3534.14 |
+| Instance                         | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS      |
+|----------------------------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|----------|
+| AWS m5.xlarge                    | 2.89             | 154.18                | 181.05                | 202.55                | 100.40               | 2161.43  |
+| AWS m5.xlarge with ONNX          | 0.00             | 49.61                 | 49.98                 | 50.28                 | 48.77                | 4449.47  |
+| AWS g5.xlarge GPU                | 33.35            | 282.36                | 373.59                | 446.56                | 99.57                | 2179.37  |
+| AWS g5.xlarge GPU with ONNX      | 0.01             | 8.00                  | 9.56                  | 10.81                 | 4.85                 | 44719.38 |
+| Azure Standard_D4as_v4           | 3.90             | 182.94                | 213.16                | 237.33                | 118.62               | 1829.38  |
+| Azure Standard_D4as_v4 with ONNX | 0.07             | 70.81                 | 73.93                 | 76.43                 | 61.40                | 3534.14  |
