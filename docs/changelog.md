@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Upgraded all libraries to the latest versions
 - Improvements to the documentation
+- `Deanonymize` scanner supports matching strategies
 
 ### Removed
 -

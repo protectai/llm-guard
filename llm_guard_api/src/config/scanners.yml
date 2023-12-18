@@ -54,6 +54,7 @@ output_scanners:
     #allowed: ["python"]
     denied: ["python"]
   Deanonymize:
+    matching_strategy: "exact"
   FactualConsistency:
     minimum_score: 0.5
   JSON:

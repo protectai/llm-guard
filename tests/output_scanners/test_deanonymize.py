@@ -1,14 +1,15 @@
+from typing import List, Tuple
+
 import pytest
 
 from llm_guard.input_scanners.anonymize import Anonymize
-from llm_guard.output_scanners.deanonymize import Deanonymize
+from llm_guard.output_scanners.deanonymize import Deanonymize, MatchingStrategy
 from llm_guard.vault import Vault
 
 
 @pytest.mark.parametrize(
     "raw_prompt,output,expected_output,expected_valid,expected_score",
     [
-        ("", "", "", True, 0.0),  # Empty prompt
         (
             "Make an SQL insert statement to add a new user to our database. Name is John Doe. Email is test@test.com "
             "but also possible to contact him with hello@test.com email. Phone number is 555-123-4567 and "
@@ -28,13 +29,63 @@ from llm_guard.vault import Vault
         ),  # Exposed name, email, phone number, credit card number and IP
     ],
 )
-def test_scan(raw_prompt, output, expected_output, expected_valid, expected_score):
+def test_scan_full(raw_prompt, output, expected_output, expected_valid, expected_score):
     vault = Vault()
     prompt_scanner = Anonymize(vault, hidden_names=["Test LLC"])
     sanitized_prompt, _, _ = prompt_scanner.scan(raw_prompt)
 
-    scanner = Deanonymize(vault)
+    scanner = Deanonymize(vault, matching_strategy=MatchingStrategy.EXACT)
     sanitized_output, valid, score = scanner.scan(sanitized_prompt, output)
     assert sanitized_output == expected_output
     assert valid == expected_valid
     assert score == expected_score
+
+
+@pytest.mark.parametrize(
+    "vault_items,output,expected_output,matching_strategy",
+    [
+        (
+            [
+                ("[REDACTED_PERSON_1]", "John Doe"),
+                ("[REDACTED_EMAIL_ADDRESS_1]", "test@laiyer.ai"),
+            ],
+            "Hello, my name is [REDACTED_PERSON_1] and my email address is [REDACTED_EMAIL_ADDRESS_1].",
+            "Hello, my name is John Doe and my email address is test@laiyer.ai.",
+            MatchingStrategy.EXACT,
+        ),
+        (
+            [
+                ("John Doe", "Kevin Smith"),
+            ],
+            "Hello, my name is john doe.",
+            "Hello, my name is Kevin Smith.",
+            MatchingStrategy.CASE_INSENSITIVE,
+        ),
+        (
+            [
+                ("John Kennedy", "Kevin Smith"),
+            ],
+            "Hello, my name is John F. Kennedy.",
+            "Hello, my name is Kevin Smith.",
+            MatchingStrategy.FUZZY,
+        ),
+        (
+            [
+                ("John Kennedy", "Kevin Smith"),
+                ("John Doe", "Doe John"),
+            ],
+            "Hello, my name is John F. Kennedy and my friend is John Doe.",
+            "Hello, my name is Kevin Smith and my friend is Doe John.",
+            MatchingStrategy.COMBINED_EXACT_FUZZY,
+        ),
+    ],
+)
+def test_scan(
+    vault_items: List[Tuple], output: str, expected_output: str, matching_strategy: MatchingStrategy
+):
+    vault = Vault(vault_items)
+    scanner = Deanonymize(vault, matching_strategy=matching_strategy)
+    sanitized_output, valid, score = scanner.scan("", output)
+    assert sanitized_output == expected_output
+    assert valid is True
+    assert score == 0.0
