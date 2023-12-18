@@ -2,7 +2,9 @@
 
 LLM Guard by [Laiyer.ai](https://laiyer.ai) is a comprehensive tool designed to fortify the security of Large Language Models (LLMs).
 
-[**Playground**](https://huggingface.co/spaces/laiyer/llm-guard-playground) | [**Changelog**](./changelog.md) | [**Blog**](https://substack.com/@laiyer) | [**Slack**](https://join.slack.com/t/laiyerai/shared_invite/zt-28jv3ci39-sVxXrLs3rQdaN3mIl9IT~w)
+[**Playground**](https://huggingface.co/spaces/laiyer/llm-guard-playground) | [**Changelog**](./changelog.md) | [**Blog**](https://substack.com/@laiyer)
+
+<a href="https://join.slack.com/t/laiyerai/shared_invite/zt-28jv3ci39-sVxXrLs3rQdaN3mIl9IT~w"><img src="./assets/join-our-slack-community.png" width="200"></a>
 
 ## What is LLM Guard?
 
