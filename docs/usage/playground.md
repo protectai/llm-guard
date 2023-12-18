@@ -16,13 +16,11 @@ A simple web UI to run LLM Guard demo based on the [streamlit](https://streamlit
 1. Clone the repo `https://huggingface.co/spaces/laiyer/llm-guard-playground`
 
 2. Install dependencies (preferably in a virtual environment)
-
 ```sh
 pip install -r requirements.txt
 ```
 
 3. Start the app:
-
 ```sh
 streamlit run app.py
 ```

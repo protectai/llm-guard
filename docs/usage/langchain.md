@@ -7,13 +7,11 @@ But, while LangChain facilitates application construction, it doesn't directly h
 ## Installation
 
 1. Install dependencies:
-
 ```bash
 pip install llm-guard langchain openai
 ```
 
 2. Configure API key:
-
 ```bash
 export OPENAI_API_KEY="<your key>"
 ```

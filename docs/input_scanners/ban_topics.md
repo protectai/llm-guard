@@ -1,10 +1,11 @@
 # Ban Topics Scanner
 
-It is a proactive tool aimed at restricting specific topics, such as religion, from being introduced in the prompts.
+This scanner is designed to restrict specific topics, such as religion, violence, from being introduced in the prompt using Zero-Shot classifier.
+
 This ensures that interactions remain within acceptable boundaries and avoids potentially sensitive or controversial
 discussions.
 
-## Attack
+## Attack scenario
 
 Certain topics, when used as prompts for Language Learning Models, can lead to outputs that might be deemed sensitive,
 controversial, or inappropriate. By banning these topics, service providers can maintain the quality of interactions and

@@ -3,16 +3,13 @@
 It ensures that prompts do not exceed a predetermined token count, helping prevent resource-intensive operations and
 potential denial of service attacks on large language models (LLMs).
 
-## Attack
+## Attack scenario
 
 The complexity and size of LLMs make them susceptible to heavy resource usage, especially when processing lengthy
 prompts. Malicious users can exploit this by feeding extraordinarily long inputs, aiming to disrupt service or incur
 excessive computational costs.
 
-!!! info
-
-    This vulnerability is highlighted in the
-    OWASP [LLM04: Model Denial of Service](https://owasp.org/www-project-top-10-for-large-language-model-applications/).
+This vulnerability is highlighted in the OWASP: [LLM04: Model Denial of Service](https://owasp.org/www-project-top-10-for-large-language-model-applications/).
 
 ## How it works
 

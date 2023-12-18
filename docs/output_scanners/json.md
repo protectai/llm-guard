@@ -3,7 +3,7 @@
 This scanner identifies and validates the presence of JSON structures within given outputs, and returns a repaired JSON
 if possible.
 
-## Challenge
+## Use case
 
 There might be cases where it's necessary to validate the presence of properly formatted JSONs in outputs.
 

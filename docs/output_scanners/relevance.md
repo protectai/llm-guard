@@ -1,6 +1,7 @@
 # Relevance Scanner
 
-The `Relevance` Scanner ensures that a language model's output remains relevant and aligned with the given input prompt.
+This scanner ensures that output remains relevant and aligned with the given input prompt.
+
 By measuring the similarity between the input prompt and the output, the scanner provides a confidence score, indicating
 the contextual relevance of the response.
 

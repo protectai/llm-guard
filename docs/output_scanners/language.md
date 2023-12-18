@@ -2,7 +2,7 @@
 
 This scanner identifies and assesses the authenticity of the language used in outputs.
 
-## Attack
+## Attack scenario
 
 With the rise of sophisticated LLMs, there has been an increase in attempts to manipulate or "confuse" these models. For
 example, model might produce an output in unexpected language.

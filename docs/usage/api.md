@@ -9,25 +9,21 @@ This example demonstrates how to use LLM Guard as an API. It uses [FastAPI](http
 1. Copy the code from [llm_guard_api](https://github.com/laiyer-ai/llm-guard/tree/main/llm_guard_api)
 
 2. Install dependencies (preferably in a virtual environment)
-
 ```sh
 pip install -r requirements.txt
 ```
 
 Or you can use Makefile
-
 ```sh
 make install
 ```
 
 3. Run the API locally:
-
 ```sh
 make run
 ```
 
 Or you can run it using Docker:
-
 ```sh
 make build-docker-multi
 make run-docker

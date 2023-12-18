@@ -21,7 +21,3 @@ LLM Guard can be extended to support new scanners, and to support additional mod
 3. Add the new scanner to the `llm_guard/output_scanners/__init__.py` `__all__` enum.
 4. Write documentation in the `docs/output_scanners` folder and add a link to the `mkdocs.yml` file.
 5. Also, add a link to the documentation in `README.md`, and update the `docs/changelog.md` file.
-
-!!! info
-
-    You can use existing scanners as a reference.

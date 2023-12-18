@@ -1,6 +1,6 @@
 # Regex Scanner
 
-This scanner designed to scrutinize the prompt based on predefined regular expression
+This scanner designed to sanitize the prompt based on predefined regular expression
 patterns. With the capability to define desirable ("good") or undesirable ("bad") patterns, users can fine-tune
 the validation of prompts.
 
@@ -30,19 +30,10 @@ sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 
 ## Benchmarks
 
-Environment:
-
-- Platform: Amazon Linux 2
-- Python Version: 3.11.6
-
 Run the following script:
 
 ```sh
 python benchmarks/run.py input Regex
 ```
 
-Results:
-
-!!! info:
-
-    This scanner uses built-in functions, which makes it fast.
+This scanner uses built-in functions, which makes it fast.

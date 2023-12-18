@@ -1,10 +1,10 @@
 # Code Scanner
 
-It is specifically engineered to inspect user prompts and discern if they contain code snippets. It can be particularly
-useful in platforms that wish to control or monitor the types of programming-related content being queried or in
-ensuring the appropriate handling of such prompts.
+This scanner is designed to detect and validate code in the prompt.
 
-## Attack
+It can be particularly useful in applications that need to accept only code snippets in specific languages.
+
+## Attack scenario
 
 There are scenarios where the insertion of code in user prompts might be deemed undesirable. Users might be trying to
 exploit vulnerabilities, test out scripts, or engage in other activities that are outside the platform's intended scope.
@@ -18,15 +18,13 @@ adeptly identify code snippets within prompts across various programming languag
 to either whitelist or blacklist specific languages, thus retaining full control over which types of code can appear in
 user queries.
 
-!!! note
 The scanner is currently limited to extracting and detecting code snippets from Markdown in the following languages:
-
-    - Go
-    - Java
-    - JavaScript
-    - PHP
-    - Python
-    - Ruby
+- Go
+- Java
+- JavaScript
+- PHP
+- Python
+- Ruby
 
 ## Usage
 

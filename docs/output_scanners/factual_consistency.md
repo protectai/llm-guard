@@ -4,7 +4,7 @@ This scanner is designed to assess if the given content contradicts or refutes a
 a tool for ensuring the consistency and correctness of language model outputs, especially in contexts where logical
 contradictions can be problematic.
 
-## Attack
+## Attack scenario
 
 When interacting with users or processing information, it's important for a language model to not provide outputs that
 directly contradict the given inputs or established facts. Such contradictions can lead to confusion or misinformation.

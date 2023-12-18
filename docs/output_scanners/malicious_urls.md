@@ -1,10 +1,8 @@
 # Malicious URLs Scanner
 
-This scanner leverages a pre-trained model from HuggingFace to detect harmful URLs, such as phishing websites. The model
-classifies URL addresses into two categories: 'malware' and 'benign'. The intent is to assess if a given URL is
-malicious.
+This scanner detects URLs in the output and analyzes them for harmfulness, such as detecting phishing websites.
 
-## Attack
+## Attack scenario
 
 Large language models (LLMs) like GPT-4 are immensely sophisticated and have been trained on vast quantities of data
 from the internet. This extensive training, while enabling them to generate coherent and contextually relevant

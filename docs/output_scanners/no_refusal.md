@@ -1,10 +1,12 @@
 # No Refusal Scanner
 
-It is specifically designed to detect refusals in the output of language models. By using classification it can
+It is specifically designed to detect refusals in the output of language models.
+
+By using zero-shot classification, it can
 ascertain whether the model has produced a refusal in response to a
 potentially harmful or policy-breaching prompt.
 
-## Attack
+## Attack scenario
 
 Refusals are responses produced by language models when confronted with prompts that are considered to be against the
 policies set by the model. Such refusals are important safety mechanisms, guarding against misuse of the model. Examples

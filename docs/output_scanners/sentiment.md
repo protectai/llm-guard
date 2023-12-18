@@ -3,7 +3,7 @@
 The Sentiment Scanner is designed to scan and assess the sentiment of generated outputs. It leverages
 the `SentimentIntensityAnalyzer` from the NLTK (Natural Language Toolkit) library to accomplish this.
 
-## Attack
+## Attack scenario
 
 By identifying texts with sentiment scores that deviate significantly from neutral, platforms can monitor and moderate
 output sentiment, ensuring constructive and positive interactions.

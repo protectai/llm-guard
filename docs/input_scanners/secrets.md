@@ -3,7 +3,7 @@
 This scanner diligently examines user inputs, ensuring that they don't carry any secrets before they are processed by
 the language model.
 
-## Attack
+## Attack scenario
 
 Large Language Models (LLMs), when provided with user inputs containing secrets or sensitive information, might
 inadvertently generate responses that expose these secrets. This can be a significant security concern as this sensitive
@@ -12,7 +12,7 @@ data, such as API keys or passwords, could be misused if exposed.
 To counteract this risk, we employ the Secrets scanner. It ensures that user prompts are meticulously scanned and any
 detected secrets are redacted before they are processed by the model.
 
-## Usage
+## How it works
 
 While communicating with LLMs, the scanner acts as a protective layer, ensuring that your sensitive data remains
 confidential.
@@ -27,7 +27,7 @@ engineered by Yelp, to meticulously detect secrets in strings of text.
 - High Entropy Strings (both Base64 and Hex)
   ... and [many more](https://github.com/Yelp/detect-secrets/blob/master/README.md#viewing-all-enabled-plugins)
 
-### Getting started
+### Usage
 
 ```python
 from llm_guard.input_scanners import Secrets

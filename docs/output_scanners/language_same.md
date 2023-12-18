@@ -2,7 +2,7 @@
 
 This scanner evaluates and checks if the prompt and output are in the same language.
 
-## Attack
+## Attack scenario
 
 There can be cases where the model produces an output in a different language than the input or prompt. This can be
 unintended, especially in applications that require consistent language output.

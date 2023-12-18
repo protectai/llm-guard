@@ -4,7 +4,7 @@ It is specifically tailored to guard against crafty input manipulations targetin
 language models (LLM). By identifying and mitigating such attempts, it ensures the LLM operates securely without
 succumbing to injection attacks.
 
-## Attack
+## Attack scenario
 
 Injection attacks, especially in the context of LLMs, can lead the model to perform unintended actions. There are two
 primary ways an attacker might exploit:
@@ -20,7 +20,7 @@ primary ways an attacker might exploit:
     [LLM01: Prompt Injection](https://owasp.org/www-project-top-10-for-large-language-model-applications/) - It's crucial to
     monitor and validate prompts rigorously to keep the LLM safe from such threats.
 
-## Examples
+**Examples:**
 
 - https://www.jailbreakchat.com/
 

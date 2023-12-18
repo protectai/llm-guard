@@ -3,22 +3,20 @@
 The Sensitive Scanner serves as your digital vanguard, ensuring that the language model's output is purged of Personally
 Identifiable Information (PII) and other sensitive data, safeguarding user interactions.
 
-## Attack
+## Attack scenario
 
-Language Learning Models (LLMs) occasionally pose the risk of unintentionally divulging sensitive information. The
-consequences can range from privacy violations to considerable security threats. The Sensitive Scanner strives to
-mitigate this by diligently scanning the model's responses.
+Language Learning Models (or LLMs) can accidentally share private info from the prompts they get. This can be
+bad because it might let others see or use this info in the wrong way.
 
-Referring to the `OWASP Top 10 for Large Language Model Applications`, this falls under:
+To stop this from happening, you can use the `Sensitive` scanner. It makes sure output doesn't have any private details.
 
-[LLM06: Sensitive Information Disclosure](https://owasp.org/www-project-top-10-for-large-language-model-applications/) -
-To combat this, it's vital to integrate data sanitization and adopt strict user policies.
+Referring to the `OWASP Top 10 for Large Language Model Applications`, this falls under: [LLM06: Sensitive Information Disclosure](https://owasp.org/www-project-top-10-for-large-language-model-applications/).
 
 ## How it works
 
-It uses same mechanisms and de from the [Anonymize](../input_scanners/anonymize.md) scanner.
+It uses mechanisms from the [Anonymize](../input_scanners/anonymize.md) scanner.
 
-## Get started
+## Usage
 
 Configure the scanner:
 

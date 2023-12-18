@@ -1,14 +1,14 @@
 # Deanonymize Scanner
 
-The Deanonymize scanner helps put back real values in the model's output by replacing placeholders.
+This scanner helps put back real values in the model's output by replacing placeholders.
 
-When we use tools like the Anonymize scanner, sometimes we replace private or sensitive info with placeholders. For
+When we use tools like the [Anonymize scanner](../input_scanners/anonymize.md), we replace sensitive info with placeholders. For
 example, a name like "John Doe" might become `[REDACTED_PERSON_1]`. The Deanonymize scanner's job is to change these
 placeholders back to the original details when needed.
 
 ## Usage
 
-The Deanonymize scanner uses `Vault` object. The Vault remembers all the changes made by
+This scanner uses `Vault` object. It remembers all the changes made by
 the [Anonymize scanner](../input_scanners/anonymize.md). When Deanonymize scanner sees a placeholder in the model's
 output, it checks the Vault to find the original info and uses it to replace the placeholder.
 
@@ -33,6 +33,4 @@ After running the above code, `sanitized_model_output` will have the real detail
 
 ## Benchmarks
 
-!!! note
-
-    It uses data structures and replace function, which makes it fast.
+It uses data structures and replace function, which makes it fast.

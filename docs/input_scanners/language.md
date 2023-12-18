@@ -2,7 +2,7 @@
 
 This scanner identifies and assesses the authenticity of the language used in prompts.
 
-## Attack
+## Attack scenario
 
 With the rise of sophisticated LLMs, there has been an increase in attempts to manipulate or "confuse" these models.
 Some common tactics employed by users to attack LLMs include:

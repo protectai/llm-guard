@@ -2,7 +2,7 @@
 
 LLM Guard by [Laiyer.ai](https://laiyer.ai) is a comprehensive tool designed to fortify the security of Large Language Models (LLMs).
 
-[**Documentation**](https://laiyer-ai.github.io/llm-guard/) | [**Playground**](https://huggingface.co/spaces/laiyer/llm-guard-playground) | [**Changelog**](https://llm-guard.com/changelog/) | [**Blog**](https://substack.com/@laiyer) | [**Slack**](https://join.slack.com/t/laiyerai/shared_invite/zt-28jv3ci39-sVxXrLs3rQdaN3mIl9IT~w)
+[**Documentation**](https://laiyer-ai.github.io/llm-guard/) | [**Playground**](https://huggingface.co/spaces/laiyer/llm-guard-playground) | [**Changelog**](https://llm-guard.com/changelog/) | [**Blog**](https://substack.com/@laiyer)
 
 [![GitHub
 stars](https://img.shields.io/github/stars/laiyer-ai/llm-guard.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/laiyer-ai/llm-guard/stargazers/)
@@ -12,6 +12,8 @@ stars](https://img.shields.io/github/stars/laiyer-ai/llm-guard.svg?style=social&
 [![Downloads](https://static.pepy.tech/badge/llm-guard)](https://pepy.tech/project/llm-guard)
 [![Downloads](https://static.pepy.tech/badge/llm-guard/month)](https://pepy.tech/project/llm-guard)
 [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/laiyer_ai.svg?style=social&label=Follow%20%40Laiyer_AI)](https://twitter.com/laiyer_ai)
+
+<a href="https://join.slack.com/t/laiyerai/shared_invite/zt-28jv3ci39-sVxXrLs3rQdaN3mIl9IT~w"><img src="https://github.com/laiyer-ai/llm-guard/blob/main/docs/assets/join-our-slack-community.png?raw=true" width="200"></a>
 
 ## What is LLM Guard?
 
@@ -81,7 +83,7 @@ pip install llm-guard
 
 ## Roadmap
 
-You can find our roadmap [here](https://llm-guard.com/#roadmap). Please don't hesitate to contribute or create issues, it helps us improve LLM Guard!
+You can find our roadmap [here](https://llm-guard.com/roadmap). Please don't hesitate to contribute or create issues, it helps us improve LLM Guard!
 
 ## Community, Contributing, Docs & Support
 

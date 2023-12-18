@@ -1,9 +1,9 @@
 # Toxicity Scanner
 
-It provides a mechanism to analyze and gauge the toxicity of prompt, assisting in maintaining the health and safety of
+It provides a mechanism to analyze the toxicity of prompt, assisting in maintaining the health and safety of
 online interactions by preventing the dissemination of potentially harmful content.
 
-## Attack
+## Attack scenario
 
 Online platforms can sometimes be used as outlets for toxic, harmful, or offensive content. By identifying and
 mitigating such content at the source (i.e., the user's prompt), platforms can proactively prevent the escalation of

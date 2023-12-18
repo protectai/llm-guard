@@ -3,7 +3,7 @@
 It scans and evaluates the overall sentiment of prompts using the `SentimentIntensityAnalyzer` from the NLTK (Natural
 Language Toolkit) library.
 
-## Attack
+## Attack scenario
 
 The primary objective of the scanner is to gauge the sentiment of a given prompt. Prompts with sentiment scores below a
 specified threshold are identified as having a negative sentiment. This can be especially useful in platforms where

@@ -11,15 +11,11 @@ including GDPR and HIPAA, underscore the significance of PII by laying out stric
 Furthermore, any unintentional dispatch of PII to LLMs can proliferate this data across various storage points, thus
 raising the stakes.
 
-## Attack
+## Attack scenario
 
-Sometimes, Language Learning Models (or LLMs) can accidentally share private info from the prompts they get. This can be
-bad because it might let others see or use this info in the wrong way.
+Some model providers may train their models on your requests, which can be a privacy concern. Use the scanner to ensure PII is not leaked to the model provider.
 
-To stop this from happening, we use the `Anonymize` scanner. It makes sure user prompts don’t have any private details
-before the model sees them.
-
-## PII Entities
+## PII entities
 
 - **Credit Cards**: Formats mentioned in [Wikipedia](https://en.wikipedia.org/wiki/Payment_card_number).
   - `4111111111111111`
@@ -73,7 +69,7 @@ before the model sees them.
 
     Current entity detection functionality is English-specific.
 
-## Get Started
+## Get started
 
 Initialize the `Vault`: The Vault archives data that's been redacted.
 

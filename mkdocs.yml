@@ -109,6 +109,7 @@ nav:
   - Quickstart: quickstart.md
   - Best practices: best_practices.md
   - Changelog: changelog.md
+  - Roadmap: roadmap.md
   - Usage:
     - OpenAI: usage/openai.md
     - Langchain: usage/langchain.md
