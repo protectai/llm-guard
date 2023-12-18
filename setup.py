@@ -27,9 +27,10 @@ TESTS_REQUIRE = parse_requirements("requirements-dev.txt")
 
 EXTRAS_REQUIRE = {
     "onnxruntime": [
-        "onnx",
-        "onnxruntime>=1.11.0",
         "optimum[onnxruntime]",
+    ],
+    "onnxruntime-gpu": [
+        "optimum[onnxruntime-gpu]",
     ],
     "tests": TESTS_REQUIRE,
 }

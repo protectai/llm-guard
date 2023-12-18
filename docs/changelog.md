@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Deanonymize` scanner supports matching strategies
 
 ### Removed
--
+- Usage of `dbmdz/bert-large-cased-finetuned-conll03-english` in the `Anonymize` scanner
 
 ## [0.3.3] - 2023-11-25
 
