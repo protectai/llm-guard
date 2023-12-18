@@ -1,13 +1,13 @@
 detect-secrets==1.4.0
-faker==19.13.0
-json-repair==0.4.3
+faker==21.0.0
+json-repair==0.4.5
 nltk==3.8.1
 presidio-analyzer==2.2.351
 presidio-anonymizer==2.2.351
 protobuf==3.20.3
 regex==2023.10.3
 sentencepiece==0.1.99
-tiktoken==0.5.1
+tiktoken==0.5.2
 torch==2.0.1
-transformers==4.35.0
+transformers==4.36.1
 xformers==0.0.22
