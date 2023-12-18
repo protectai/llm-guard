@@ -1,6 +1,6 @@
 from typing import Dict, List, Optional
 
-from llm_guard.transformers_helpers import pipeline_text_classification
+from llm_guard.transformers_helpers import pipeline
 from llm_guard.util import calculate_risk_score, logger
 
 from .base import Scanner
@@ -53,7 +53,8 @@ class PromptInjection(Scanner):
         pipelines = {}
         for model in models:
             try:
-                pipelines[model["path"]] = pipeline_text_classification(
+                pipelines[model["path"]] = pipeline(
+                    task="text-classification",
                     model=model["path"],
                     use_onnx=use_onnx,
                     onnx_model=model["onnx_path"],

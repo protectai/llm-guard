@@ -1,5 +1,5 @@
 from llm_guard.input_scanners.ban_topics import MODEL_LARGE
-from llm_guard.transformers_helpers import pipeline_zero_shot_classification
+from llm_guard.transformers_helpers import pipeline
 from llm_guard.util import logger
 
 from .base import Scanner
@@ -28,7 +28,8 @@ class NoRefusal(Scanner):
 
         self._threshold = threshold
 
-        self._classifier = pipeline_zero_shot_classification(
+        self._classifier = pipeline(
+            task="zero-shot-classification",
             model=_model["path"],
             onnx_model=_model["onnx_path"],
             use_onnx=use_onnx,

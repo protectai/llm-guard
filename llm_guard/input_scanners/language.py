@@ -1,6 +1,6 @@
 from typing import List
 
-from llm_guard.transformers_helpers import pipeline_text_classification
+from llm_guard.transformers_helpers import pipeline
 from llm_guard.util import calculate_risk_score, logger
 
 from .base import Scanner
@@ -34,7 +34,8 @@ class Language(Scanner):
 
         self._threshold = threshold
         self._valid_languages = valid_languages
-        self._pipeline = pipeline_text_classification(
+        self._pipeline = pipeline(
+            task="text-classification",
             model=model_path[0],
             onnx_model=model_path[1],
             top_k=None,

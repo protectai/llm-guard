@@ -1,6 +1,6 @@
 from typing import Dict, List, Optional
 
-from llm_guard.transformers_helpers import pipeline_zero_shot_classification
+from llm_guard.transformers_helpers import pipeline
 from llm_guard.util import logger
 
 from .base import Scanner
@@ -56,7 +56,8 @@ class BanTopics(Scanner):
         self._topics = topics
         self._threshold = threshold
 
-        self._classifier = pipeline_zero_shot_classification(
+        self._classifier = pipeline(
+            task="zero-shot-classification",
             model=model["path"],
             onnx_model=model["onnx_path"],
             use_onnx=use_onnx,

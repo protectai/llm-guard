@@ -1,4 +1,4 @@
-from llm_guard.transformers_helpers import pipeline_text_classification
+from llm_guard.transformers_helpers import pipeline
 from llm_guard.util import logger
 
 from .base import Scanner
@@ -25,7 +25,8 @@ class Bias(Scanner):
         """
         self._threshold = threshold
 
-        self._classifier = pipeline_text_classification(
+        self._classifier = pipeline(
+            task="text-classification",
             model=_model_path[0],
             onnx_model=_model_path[1],
             truncation=True,
