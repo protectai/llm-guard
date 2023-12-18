@@ -11,4 +11,4 @@ sentencepiece==0.1.99
 tiktoken==0.5.2
 torch==2.0.1
 transformers==4.36.1
-xformers==0.0.22
+xformers==0.0.23.post1
