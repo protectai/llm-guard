@@ -5,6 +5,7 @@ from typing import Dict, List, Optional
 import yaml
 
 from llm_guard import input_scanners, output_scanners
+from llm_guard.output_scanners.deanonymize import MatchingStrategy
 from llm_guard.vault import Vault
 
 logger = logging.getLogger(__name__)
@@ -100,6 +101,10 @@ def get_output_scanner(
 
     if scanner_name == "Deanonymize":
         scanner_config["vault"] = vault
+        if "matching_strategy" in scanner_config:
+            scanner_config["matching_strategy"] = MatchingStrategy[
+                scanner_config["matching_strategy"]
+            ]
 
     if scanner_name in [
         "BanTopics",

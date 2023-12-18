@@ -1,5 +1,6 @@
 detect-secrets==1.4.0
 faker==21.0.0
+fuzzysearch==0.7.3
 json-repair==0.4.5
 nltk==3.8.1
 presidio-analyzer==2.2.351
