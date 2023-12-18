@@ -60,10 +60,17 @@ class Relevance(Scanner):
 
         if use_onnx:
             model_path = model[1]
-            optimum_onnxruntime = lazy_load_dep("optimum.onnxruntime", "optimum[onnxruntime]")
+            optimum_onnxruntime = lazy_load_dep(
+                "optimum.onnxruntime",
+                "optimum[onnxruntime-gpu]" if device().type == "cuda" else "optimum[onnxruntime]",
+            )
             self._model = optimum_onnxruntime.ORTModelForFeatureExtraction.from_pretrained(
                 model_path,
                 export=False,
+                provider="CUDAExecutionProvider"
+                if device().type == "cuda"
+                else "CPUExecutionProvider",
+                use_io_binding=True if device().type == "cuda" else False,
             )
             logger.debug(f"Initialized ONNX model {model_path} on device {device()}")
         else:
