@@ -112,6 +112,7 @@ nav:
     - Langchain: usage/langchain.md
     - Playground: usage/playground.md
     - API: usage/api.md
+    - Retrieval-augmented Generation: usage/rag.md
   - Input Scanners:
       - Anonymize: input_scanners/anonymize.md
       - Ban Substrings: input_scanners/ban_substrings.md

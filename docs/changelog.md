@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased] - 0.3.4
 
 ### Added
--
+- Example of [securing RAG with Langchain](https://github.com/laiyer-ai/llm-guard/blob/main/examples/langchain_rag.ipynb) (LlamaIndex is pending)
 
 ### Fixed
 -
