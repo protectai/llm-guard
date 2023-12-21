@@ -73,6 +73,7 @@ plugins:
       supportedSubmitMethods: []
       syntaxHighlightTheme: monokai
   - mkdocs-jupyter
+  - git-revision-date-localized
   - mkdocstrings:
       default_handler: python
       handlers:
@@ -105,6 +106,8 @@ extra:
       link: https://github.com/laiyer-ai
     - icon: fontawesome/brands/linkedin
       link: https://www.linkedin.com/company/98454520
+    - icon: fontawesome/brands/slack
+      link: https://join.slack.com/t/laiyerai/shared_invite/zt-28jv3ci39-sVxXrLs3rQdaN3mIl9IT~w
     - icon: fontawesome/solid/globe
       link: https://laiyer.ai
   analytics:
