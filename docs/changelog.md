@@ -5,13 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] - 0.3.4
+## [Unreleased] - 0.3.5
 
 ### Added
-- Example of [securing RAG with Langchain](./usage/notebooks/langchain_rag.ipynb) (LlamaIndex is pending)
+-
 
 ### Fixed
 -
+
+### Changed
+-
+
+### Removed
+-
+
+## [0.3.4] - 2023-12-21
+
+### Added
+- Example of [securing RAG with Langchain](./usage/notebooks/langchain_rag.ipynb)
+- Example of [securing RAG with LlamaIndex](./usage/notebooks/llama_index_rag.ipynb)
 
 ### Changed
 - Upgraded all libraries to the latest versions

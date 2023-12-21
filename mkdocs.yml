@@ -122,13 +122,12 @@ nav:
   - Usage:
     - Best Practices: usage/best_practices.md
     - Playground: usage/playground.md
-    - API: usage/api.md
-    - Retrieval-augmented Generation:
-      - Securing RAG: usage/rag.md
-      - Secure RAG with Langchain: usage/notebooks/langchain_rag.ipynb
-    - Integrations:
-      - OpenAI: usage/openai.md
-      - Langchain: usage/notebooks/langchain.ipynb
+    - Deployment as API: usage/api.md
+    - OpenAI SDK: usage/openai.md
+    - Langchain: usage/notebooks/langchain.ipynb
+    - Retrieval-augmented Generation: usage/rag.md
+    - Secure RAG with Langchain: usage/notebooks/langchain_rag.ipynb
+    - Secure RAG with LlamaIndex: usage/notebooks/llama_index_rag.ipynb
   - Input Scanners:
       - Anonymize: input_scanners/anonymize.md
       - Ban Substrings: input_scanners/ban_substrings.md
