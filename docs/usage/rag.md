@@ -1,4 +1,4 @@
-# Secure Retrieval-augmented Generation (RAG)
+# Retrieval-augmented Generation (RAG)
 
 ## What is RAG?
 
@@ -10,13 +10,3 @@ If you want to build AI applications that can reason about private data or data 
 ## Why RAG should be secure?
 
 During retrieval stage, we need to add context to the prompt with relevant documents. However, the documents may contain sensitive information, hidden prompt injection or other malicious content. Therefore, we need to secure the retrieval stage to prevent the model from being poisoned.
-
-## How to secure RAG?
-
-### Langchain
-
-Please refer to [examples/langchain_rag.ipynb](https://github.com/laiyer-ai/llm-guard/blob/main/examples/langchain_rag.ipynb) for an example of how to secure RAG with LLM Guard.
-
-### LlamaIndex
-
-Working in progress.

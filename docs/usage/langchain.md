@@ -32,4 +32,4 @@ Additionally, there is a Jupyter Notebook available with more details: [examples
 
 ### RAG
 
-Please refer to [examples/langchain_rag.ipynb](https://github.com/laiyer-ai/llm-guard/blob/main/examples/langchain_rag.ipynb) for an example of how to secure RAG with LLM Guard.
+Please refer to [langchain_rag.ipynb](./notebooks/langchain_rag.ipynb) for an example of how to secure RAG with LLM Guard.

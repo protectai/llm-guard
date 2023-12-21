@@ -38,6 +38,7 @@ theme:
     - navigation.path
     - content.code.annotate
     - toc.follow
+    - toc.integrate
     - navigation.top
   palette:
     - scheme: default
@@ -71,6 +72,7 @@ plugins:
   - swagger-ui-tag:
       supportedSubmitMethods: []
       syntaxHighlightTheme: monokai
+  - mkdocs-jupyter
   - mkdocstrings:
       default_handler: python
       handlers:
@@ -110,15 +112,17 @@ extra:
     property: G-B76J8KGG5Z
 
 nav:
-  - Home: index.md
-  - Get started:
+  - Get Started:
+    - Index: index.md
     - Installation: get_started/installation.md
     - Quickstart: get_started/quickstart.md
   - Usage:
-    - Best practices: usage/best_practices.md
+    - Best Practices: usage/best_practices.md
     - Playground: usage/playground.md
     - API: usage/api.md
-    - Retrieval-augmented Generation: usage/rag.md
+    - Retrieval-augmented Generation:
+      - Securing RAG: usage/rag.md
+      - Secure RAG with Langchain: usage/notebooks/langchain_rag.ipynb
     - Integrations:
       - OpenAI: usage/openai.md
       - Langchain: usage/langchain.md
