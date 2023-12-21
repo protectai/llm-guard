@@ -32,7 +32,7 @@ publish:
 
 docs-serve:
 	@echo "Serving documentation..."
-	@mkdocs serve -a localhost:8080
+	@mkdocs serve -a localhost:8085
 
 clean:
 	@echo "Cleaning up..."

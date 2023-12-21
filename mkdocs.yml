@@ -11,6 +11,7 @@ copyright: |
 
 theme:
   name: material
+  custom_dir: docs/overrides
   favicon: assets/favicon.ico
   logo: assets/logo.png
   icon:
@@ -29,10 +30,15 @@ theme:
       example: octicons/beaker-16
       quote: octicons/quote-16
   features:
+    - announce.dismiss
     - navigation.instant
     - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.path
     - content.code.annotate
     - toc.follow
+    - navigation.top
   palette:
     - scheme: default
       primary: black
@@ -105,14 +111,17 @@ extra:
 
 nav:
   - Home: index.md
-  - Installation: installation.md
-  - Quickstart: quickstart.md
+  - Get started:
+    - Installation: get_started/installation.md
+    - Quickstart: get_started/quickstart.md
   - Usage:
-    - OpenAI: usage/openai.md
-    - Langchain: usage/langchain.md
+    - Best practices: usage/best_practices.md
     - Playground: usage/playground.md
     - API: usage/api.md
     - Retrieval-augmented Generation: usage/rag.md
+    - Integrations:
+      - OpenAI: usage/openai.md
+      - Langchain: usage/langchain.md
   - Input Scanners:
       - Anonymize: input_scanners/anonymize.md
       - Ban Substrings: input_scanners/ban_substrings.md
@@ -142,7 +151,6 @@ nav:
       - Sensitive: output_scanners/sensitive.md
       - Sentiment: output_scanners/sentiment.md
       - Toxicity: output_scanners/toxicity.md
-  - Best practices: best_practices.md
   - Changelog: changelog.md
   - Roadmap: roadmap.md
   - Customization:
