@@ -125,7 +125,7 @@ nav:
       - Secure RAG with Langchain: usage/notebooks/langchain_rag.ipynb
     - Integrations:
       - OpenAI: usage/openai.md
-      - Langchain: usage/langchain.md
+      - Langchain: usage/notebooks/langchain.ipynb
   - Input Scanners:
       - Anonymize: input_scanners/anonymize.md
       - Ban Substrings: input_scanners/ban_substrings.md
