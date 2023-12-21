@@ -21,7 +21,9 @@ WORKDIR /app
 
 # Copy requirements and install Python dependencies
 COPY requirements.txt .
-RUN pip3 install --no-cache-dir torch --extra-index-url https://download.pytorch.org/whl/cu118 && \
+COPY requirements-cuda.txt .
+
+RUN pip3 install --no-cache-dir torch==2.0.1 --extra-index-url https://download.pytorch.org/whl/cu118 && \
     pip3 install --no-cache-dir -r requirements.txt -r requirements-cuda.txt && \
     python -m spacy download en_core_web_sm
 

@@ -13,8 +13,10 @@ WORKDIR /app
 
 # Copy requirements and install Python dependencies
 COPY requirements.txt .
+COPY requirements-cpu.txt .
+
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir torch && \
+    pip install --no-cache-dir torch==2.0.1 && \
     pip install --no-cache-dir -r requirements.txt -r requirements-cpu.txt && \
     python -m spacy download en_core_web_sm
 

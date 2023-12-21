@@ -18,6 +18,14 @@ Supported Python versions:
 pip install llm-guard
 ```
 
+If you have issue installing the package due to missing `torch`, you can try the following commands:
+
+```bash
+pip install wheel
+pip install torch==2.0.1
+pip install llm-guard --no-build-isolation
+```
+
 ## Install from source
 
 To install LLM Guard from source, first clone the repo:
