@@ -1,1 +1,1 @@
-llm-guard[onnxruntime]==0.3.3
+llm-guard[onnxruntime]==0.3.4

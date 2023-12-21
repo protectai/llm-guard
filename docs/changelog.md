@@ -269,6 +269,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - [Toxicity](./output_scanners/toxicity.md)
 
 [Unreleased]: https://github.com/laiyer-ai/llm-guard/commits/main
+[0.3.4]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.3.4
 [0.3.3]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.3.3
 [0.3.2]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.3.2
 [0.3.1]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.3.1
