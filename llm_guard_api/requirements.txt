@@ -3,4 +3,4 @@ fastapi==0.105.0
 llm-guard==0.3.4
 pydantic==1.10.13
 pyyaml==6.0.1
-uvicorn[standard]==0.24.0
+uvicorn[standard]==0.25.0
