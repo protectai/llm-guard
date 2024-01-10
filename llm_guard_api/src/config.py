@@ -102,9 +102,9 @@ def get_output_scanner(
     if scanner_name == "Deanonymize":
         scanner_config["vault"] = vault
         if "matching_strategy" in scanner_config:
-            scanner_config["matching_strategy"] = MatchingStrategy[
+            scanner_config["matching_strategy"] = MatchingStrategy(
                 scanner_config["matching_strategy"]
-            ]
+            )
 
     if scanner_name in [
         "BanTopics",

@@ -51,7 +51,7 @@ def test_scan_full(raw_prompt, output, expected_output, expected_valid, expected
             ],
             "Hello, my name is [REDACTED_PERSON_1] and my email address is [REDACTED_EMAIL_ADDRESS_1].",
             "Hello, my name is John Doe and my email address is test@laiyer.ai.",
-            MatchingStrategy.EXACT,
+            MatchingStrategy.EXACT.value,
         ),
         (
             [
@@ -59,7 +59,7 @@ def test_scan_full(raw_prompt, output, expected_output, expected_valid, expected
             ],
             "Hello, my name is john doe.",
             "Hello, my name is Kevin Smith.",
-            MatchingStrategy.CASE_INSENSITIVE,
+            MatchingStrategy.CASE_INSENSITIVE.value,
         ),
         (
             [
@@ -67,7 +67,7 @@ def test_scan_full(raw_prompt, output, expected_output, expected_valid, expected
             ],
             "Hello, my name is John F. Kennedy.",
             "Hello, my name is Kevin Smith.",
-            MatchingStrategy.FUZZY,
+            MatchingStrategy.FUZZY.value,
         ),
         (
             [
@@ -76,15 +76,13 @@ def test_scan_full(raw_prompt, output, expected_output, expected_valid, expected
             ],
             "Hello, my name is John F. Kennedy and my friend is John Doe.",
             "Hello, my name is Kevin Smith and my friend is Doe John.",
-            MatchingStrategy.COMBINED_EXACT_FUZZY,
+            MatchingStrategy.COMBINED_EXACT_FUZZY.value,
         ),
     ],
 )
-def test_scan(
-    vault_items: List[Tuple], output: str, expected_output: str, matching_strategy: MatchingStrategy
-):
+def test_scan(vault_items: List[Tuple], output: str, expected_output: str, matching_strategy: str):
     vault = Vault(vault_items)
-    scanner = Deanonymize(vault, matching_strategy=matching_strategy)
+    scanner = Deanonymize(vault, matching_strategy=MatchingStrategy(matching_strategy))
     sanitized_output, valid, score = scanner.scan("", output)
     assert sanitized_output == expected_output
     assert valid is True
