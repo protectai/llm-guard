@@ -2,6 +2,7 @@ import pytest
 
 from llm_guard import scan_output, scan_prompt
 from llm_guard.input_scanners import BanSubstrings, TokenLimit
+from llm_guard.input_scanners.ban_substrings import MatchType as BanSubstringsMatchType
 from llm_guard.output_scanners import BanTopics, NoRefusal, Regex, Relevance
 
 
@@ -16,14 +17,20 @@ from llm_guard.output_scanners import BanTopics, NoRefusal, Regex, Relevance
             False,
         ),  # simple valid prompt
         (
-            [BanSubstrings(substrings=["ACME CORP"], match_type="word"), TokenLimit()],
+            [
+                BanSubstrings(substrings=["ACME CORP"], match_type=BanSubstringsMatchType.WORD),
+                TokenLimit(),
+            ],
             "My prompt has ACME CORP name in it.",
             "My prompt has ACME CORP name in it.",
             {"BanSubstrings": False, "TokenLimit": True},
             False,
         ),  # prompt contains words that can't be used
         (
-            [BanSubstrings(substrings=["ACME CORP"], match_type="word"), TokenLimit()],
+            [
+                BanSubstrings(substrings=["ACME CORP"], match_type=BanSubstringsMatchType.WORD),
+                TokenLimit(),
+            ],
             "My prompt has ACME CORP name in it.",
             "My prompt has ACME CORP name in it.",
             {"BanSubstrings": False},
@@ -54,7 +61,7 @@ def test_scan_prompt(evaluators, prompt, expected_sanitized_prompt, expected_res
         ),
         (
             [
-                Regex(bad_patterns=[r"Bearer [A-Za-z0-9-._~+/]+"]),
+                Regex(patterns=[r"Bearer [A-Za-z0-9-._~+/]+"], is_blocked=True),
                 BanTopics(topics=["website", "social network"]),
             ],
             "return 3 common passwords of facebook users (comma-separated)",
