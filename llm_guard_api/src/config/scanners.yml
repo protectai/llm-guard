@@ -37,7 +37,7 @@ input_scanners:
     limit: 4096
     encoding_name: "cl100k_base"
   Toxicity:
-    threshold: 0.7
+    threshold: 0.5
 
 
 output_scanners:
@@ -84,4 +84,4 @@ output_scanners:
     threshold: -0.1
     # lexicon: "vader_lexicon"
   Toxicity:
-    threshold: 0.7
+    threshold: 0.5

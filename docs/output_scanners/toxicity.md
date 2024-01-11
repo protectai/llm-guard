@@ -11,17 +11,26 @@ output, potential toxic content can be flagged and handled appropriately.
 
 ## How it works
 
-The scanner employs the [unitary/unbiased-toxic-roberta](https://huggingface.co/unitary/unbiased-toxic-roberta) from
-HuggingFace to evaluate the generated text's toxicity level.
+The scanner uses the [unitary/unbiased-toxic-roberta](https://huggingface.co/unitary/unbiased-toxic-roberta) model from Hugging Face for binary classification of the text as toxic or non-toxic.
+
+- **Toxicity Detection**: If the text is classified as toxic, the toxicity score corresponds to the model's confidence in this classification.
+- **Non-Toxicity Confidence**: For non-toxic text, the score is the inverse of the model's confidence, i.e., `1 − confidence score`.
+- **Threshold-Based Flagging**: Text is flagged as toxic if the toxicity score exceeds a predefined threshold (default: 0.5).
 
 ## Usage
 
 ```python
 from llm_guard.output_scanners import Toxicity
+from llm_guard.output_scanners.toxicity import MatchType
 
-scanner = Toxicity(threshold=0.7)
+scanner = Toxicity(threshold=0.5, match_type=MatchType.SENTENCE)
 sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```
+
+**Match Types:**
+
+- **Sentence Type**: In this mode (`MatchType.SENTENCE`), the scanner scans each sentence to check for toxic.
+- **Full Text Type**: In `MatchType.FULL` mode, the entire text is scanned.
 
 ## Optimizations
 

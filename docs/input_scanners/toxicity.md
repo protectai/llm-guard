@@ -1,7 +1,7 @@
 # Toxicity Scanner
 
-It provides a mechanism to analyze the toxicity of prompt, assisting in maintaining the health and safety of
-online interactions by preventing the dissemination of potentially harmful content.
+The Toxicity Scanner provides a mechanism to analyze and mitigate the toxicity of text content, playing a crucial role in maintaining the health and safety of online interactions.
+This tool is instrumental in preventing the dissemination of harmful or offensive content.
 
 ## Attack scenario
 
@@ -11,24 +11,26 @@ such situations and foster a more positive and constructive environment.
 
 ## How it works
 
-Utilizing the power of the [unitary/unbiased-toxic-roberta](https://huggingface.co/unitary/unbiased-toxic-roberta) from
-Hugging Face, the scanner performs a binary classification on the provided text, assessing whether it's toxic or not.
+The scanner uses the [unitary/unbiased-toxic-roberta](https://huggingface.co/unitary/unbiased-toxic-roberta) model from Hugging Face for binary classification of the text as toxic or non-toxic.
 
-If deemed toxic, the toxicity score reflects the model's confidence in this classification.
-
-If identified as non-toxic, the score is the inverse of the model's confidence, i.e., 1 - confidence_score.
-
-If the resulting toxicity score surpasses a predefined threshold, the text is flagged as toxic. Otherwise, it's
-classified as non-toxic.
+- **Toxicity Detection**: If the text is classified as toxic, the toxicity score corresponds to the model's confidence in this classification.
+- **Non-Toxicity Confidence**: For non-toxic text, the score is the inverse of the model's confidence, i.e., `1 − confidence score`.
+- **Threshold-Based Flagging**: Text is flagged as toxic if the toxicity score exceeds a predefined threshold (default: 0.5).
 
 ## Usage
 
 ```python
 from llm_guard.input_scanners import Toxicity
+from llm_guard.input_scanners.toxicity import MatchType
 
-scanner = Toxicity(threshold=0.5)
+scanner = Toxicity(threshold=0.5, match_type=MatchType.SENTENCE)
 sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
+
+**Match Types:**
+
+- **Sentence Type**: In this mode (`MatchType.SENTENCE`), the scanner scans each sentence to check for toxic.
+- **Full Text Type**: In `MatchType.FULL` mode, the entire text is scanned.
 
 ## Optimizations
 

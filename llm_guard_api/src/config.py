@@ -7,6 +7,7 @@ import yaml
 from llm_guard import input_scanners, output_scanners
 from llm_guard.input_scanners.ban_substrings import MatchType as BanSubstringsMatchType
 from llm_guard.input_scanners.regex import MatchType as RegexMatchType
+from llm_guard.input_scanners.toxicity import MatchType as ToxicityMatchType
 from llm_guard.output_scanners.deanonymize import MatchingStrategy as DeanonymizeMatchingStrategy
 from llm_guard.vault import Vault
 
@@ -88,6 +89,9 @@ def get_input_scanner(
     if scanner_name == "Regex" and "match_type" in scanner_config:
         scanner_config["match_type"] = RegexMatchType(scanner_config["match_type"])
 
+    if scanner_name == "Toxicity" and "match_type" in scanner_config:
+        scanner_config["match_type"] = ToxicityMatchType(scanner_config["match_type"])
+
     if scanner_name in [
         "Anonymize",
         "BanTopics",
@@ -119,6 +123,9 @@ def get_output_scanner(
 
     if scanner_name == "Regex" and "match_type" in scanner_config:
         scanner_config["match_type"] = RegexMatchType(scanner_config["match_type"])
+
+    if scanner_name == "Toxicity" and "match_type" in scanner_config:
+        scanner_config["match_type"] = ToxicityMatchType(scanner_config["match_type"])
 
     if scanner_name in [
         "BanTopics",

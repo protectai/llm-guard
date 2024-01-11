@@ -99,19 +99,25 @@ def calculate_risk_score(score: float, threshold: float) -> float:
     return min(max(risk_score, 0), 1)
 
 
-def split_text(text: str, chunk_size: int) -> List[str]:
+def chunk_text(text: str, chunk_size: int) -> List[str]:
     text = text.strip()
     return [text[i : i + chunk_size] for i in range(0, len(text), chunk_size)]
 
 
-def split_text_by_sentences(text: str, max_chunk_size: int) -> List[str]:
+def chunk_text_by_sentences(text: str, max_chunk_size: int) -> List[str]:
     nltk = lazy_load_dep("nltk")
-    nltk.download("punkt")  # Download the Punkt tokenizer models
+
+    try:
+        nltk.data.find("tokenizers/punkt")
+    except LookupError:
+        nltk.download("punkt")
 
     sentences = nltk.sent_tokenize(text.strip())
+
     chunks = []
     chunk = []
     chunk_size = 0
+
     for sentence in sentences:
         sentence_length = len(sentence)
         if chunk_size + sentence_length <= max_chunk_size:
@@ -122,6 +128,19 @@ def split_text_by_sentences(text: str, max_chunk_size: int) -> List[str]:
                 chunks.append(" ".join(chunk))
             chunk = [sentence]
             chunk_size = sentence_length
+
     if chunk:  # Don't forget the last chunk, and check if it's non-empty
         chunks.append(" ".join(chunk))
+
     return [chunk for chunk in chunks if chunk.strip()]
+
+
+def split_text_by_sentences(text: str) -> List[str]:
+    nltk = lazy_load_dep("nltk")
+
+    try:
+        nltk.data.find("tokenizers/punkt")
+    except LookupError:
+        nltk.download("punkt")
+
+    return nltk.sent_tokenize(text.strip())
