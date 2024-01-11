@@ -1,5 +1,6 @@
 import pytest
 
+from llm_guard.input_scanners.regex import MatchType
 from llm_guard.output_scanners.regex import Regex
 
 
@@ -17,7 +18,12 @@ from llm_guard.output_scanners.regex import Regex
     ],
 )
 def test_scan(prompt, output, expected_output, expected_valid, expected_score):
-    scanner = Regex(bad_patterns=[r"Bearer [A-Za-z0-9-._~+/]+"])
+    scanner = Regex(
+        patterns=[r"Bearer [A-Za-z0-9-._~+/]+"],
+        match_type=MatchType.SEARCH,
+        is_blocked=True,
+        redact=True,
+    )
     sanitized_output, valid, score = scanner.scan(prompt, output)
     assert sanitized_output == expected_output
     assert valid == expected_valid

@@ -36,7 +36,7 @@ def build_input_scanner(scanner_name: str, use_onnx: bool) -> InputScanner:
         return input_scanners.PromptInjection(use_onnx=use_onnx)
 
     if scanner_name == "Regex":
-        return input_scanners.Regex(bad_patterns=[r"Bearer [A-Za-z0-9-._~+/]+"])
+        return input_scanners.Regex(patterns=[r"Bearer [A-Za-z0-9-._~+/]+"])
 
     if scanner_name == "Secrets":
         return input_scanners.Secrets()
@@ -90,7 +90,7 @@ def build_output_scanner(scanner_name: str, use_onnx: bool) -> OutputScanner:
         return output_scanners.FactualConsistency(use_onnx=use_onnx)
 
     if scanner_name == "Regex":
-        return output_scanners.Regex(bad_patterns=[r"Bearer [A-Za-z0-9-._~+/]+"])
+        return output_scanners.Regex(patterns=[r"Bearer [A-Za-z0-9-._~+/]+"])
 
     if scanner_name == "Relevance":
         return output_scanners.Relevance(use_onnx=use_onnx)

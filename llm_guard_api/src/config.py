@@ -5,7 +5,8 @@ from typing import Dict, List, Optional
 import yaml
 
 from llm_guard import input_scanners, output_scanners
-from llm_guard.output_scanners.deanonymize import MatchingStrategy
+from llm_guard.input_scanners.regex import MatchType as RegexMatchType
+from llm_guard.output_scanners.deanonymize import MatchingStrategy as DeanonymizeMatchingStrategy
 from llm_guard.vault import Vault
 
 logger = logging.getLogger(__name__)
@@ -80,6 +81,10 @@ def get_input_scanner(
     if scanner_name == "Anonymize":
         scanner_config["vault"] = vault
 
+    if scanner_name == "Regex":
+        if "match_type" in scanner_config:
+            scanner_config["match_type"] = RegexMatchType(scanner_config["match_type"])
+
     if scanner_name in [
         "Anonymize",
         "BanTopics",
@@ -102,9 +107,13 @@ def get_output_scanner(
     if scanner_name == "Deanonymize":
         scanner_config["vault"] = vault
         if "matching_strategy" in scanner_config:
-            scanner_config["matching_strategy"] = MatchingStrategy(
+            scanner_config["matching_strategy"] = DeanonymizeMatchingStrategy(
                 scanner_config["matching_strategy"]
             )
+
+    if scanner_name == "Regex":
+        if "match_type" in scanner_config:
+            scanner_config["match_type"] = RegexMatchType(scanner_config["match_type"])
 
     if scanner_name in [
         "BanTopics",

@@ -1,5 +1,6 @@
-from typing import List, Optional
+from typing import List
 
+from llm_guard.input_scanners.regex import MatchType
 from llm_guard.input_scanners.regex import Regex as InputRegex
 
 from .base import Scanner
@@ -9,30 +10,31 @@ class Regex(Scanner):
     """
     A class used to detect patterns in the output of a language model using regular expressions.
 
-    This class uses two lists of regular expressions: good_patterns and bad_patterns. If good_patterns are
-    provided, the output is considered valid if any good_pattern matches the output. Conversely, if
-    bad_patterns are provided, the output is considered invalid if any bad_pattern matches the output.
+    This class relies on the list of regular expressions provided by the user. If any of the patterns
+    matches the output, the output is considered invalid. It is also possible to redact the output.
     """
 
     def __init__(
         self,
-        good_patterns: Optional[List[str]] = None,
-        bad_patterns: Optional[List[str]] = None,
+        patterns: List[str],
+        is_blocked: bool = True,
+        match_type: MatchType = MatchType.SEARCH,
         redact=True,
     ):
         """
         Initializes an instance of the Regex class.
 
         Parameters:
-            good_patterns (Optional[List[str]]): List of regular expression patterns that the output should match.
-            bad_patterns (Optional[List[str]]): List of regular expression patterns that the output should not match.
+            patterns (List[str]): A list of regular expressions to use for pattern matching.
+            is_blocked (bool): Whether the patterns are blocked or allowed.
+            match_type (str): The type of match to use. Can be either "search" or "fullmatch".
             redact (bool): Whether to redact the output or not.
 
         Raises:
             ValueError: If no patterns provided or both good and bad patterns provided.
         """
 
-        self._scanner = InputRegex(good_patterns, bad_patterns, redact)
+        self._scanner = InputRegex(patterns, is_blocked, match_type, redact)
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         return self._scanner.scan(output)
