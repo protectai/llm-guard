@@ -6,7 +6,7 @@ authors = [
 ]
 keywords = ["llm", "language model", "security", "adversarial attacks", "prompt injection", "prompt leakage", "PII detection", "self-hardening", "firewall"]
 license = { file = "LICENSE" }
-readme = "README.md"
+readme = {file = ["README.md"], content-type = "text/markdown"}
 dynamic = ["version"]
 classifiers = [
   "Development Status :: 4 - Beta",

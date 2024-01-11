@@ -24,11 +24,13 @@ test:
 
 build:
 	@echo "Building for PyPI..."
-	@python setup.py sdist bdist_wheel
+	@python -m pip install --upgrade build
+	@python -m build
 
 publish:
 	@echo "Publishing to PyPI..."
-	@twine upload dist/* --repository llm-guard
+	@python -m pip install --upgrade twine
+	@python -m twine upload --repository llm-guard dist/*
 
 docs-serve:
 	@echo "Serving documentation..."
