@@ -7,6 +7,7 @@ from typing import Dict, List
 import numpy
 
 from llm_guard import input_scanners, output_scanners
+from llm_guard.input_scanners.ban_substrings import MatchType as BanSubstringsMatchType
 from llm_guard.input_scanners.base import Scanner as InputScanner
 from llm_guard.output_scanners.base import Scanner as OutputScanner
 from llm_guard.vault import Vault
@@ -20,14 +21,15 @@ def build_input_scanner(scanner_name: str, use_onnx: bool) -> InputScanner:
 
     if scanner_name == "BanSubstrings":
         return input_scanners.BanSubstrings(
-            substrings=["backdoor", "malware", "virus"], match_type="word"
+            substrings=["backdoor", "malware", "virus"],
+            match_type=BanSubstringsMatchType.WORD,
         )
 
     if scanner_name == "BanTopics":
         return input_scanners.BanTopics(topics=["violence", "attack", "war"], use_onnx=use_onnx)
 
     if scanner_name == "Code":
-        return input_scanners.Code(denied=["java"], use_onnx=use_onnx)
+        return input_scanners.Code(languages=["java"], is_blocked=True, use_onnx=use_onnx)
 
     if scanner_name == "Language":
         return input_scanners.Language(valid_languages=["en", "es"], use_onnx=use_onnx)
@@ -56,7 +58,8 @@ def build_input_scanner(scanner_name: str, use_onnx: bool) -> InputScanner:
 def build_output_scanner(scanner_name: str, use_onnx: bool) -> OutputScanner:
     if scanner_name == "BanSubstrings":
         return output_scanners.BanSubstrings(
-            substrings=["backdoor", "malware", "virus"], match_type="word"
+            substrings=["backdoor", "malware", "virus"],
+            match_type=BanSubstringsMatchType.WORD,
         )
 
     if scanner_name == "BanTopics":
@@ -66,7 +69,7 @@ def build_output_scanner(scanner_name: str, use_onnx: bool) -> OutputScanner:
         return output_scanners.Bias(use_onnx=use_onnx)
 
     if scanner_name == "Code":
-        return output_scanners.Code(denied=["java"], use_onnx=use_onnx)
+        return output_scanners.Code(languages=["java"], is_blocked=True, use_onnx=use_onnx)
 
     if scanner_name == "Deanonymize":
         return output_scanners.Deanonymize(vault)

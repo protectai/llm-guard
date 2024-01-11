@@ -103,7 +103,7 @@ This approach takes advantage of the set's properties to efficiently check for m
     ],
 )
 def test_scan(prompt, output, expected_output, expected_valid, expected_score):
-    scanner = Code(allowed=["go"])
+    scanner = Code(languages=["go"], is_blocked=False)
     sanitized_output, valid, score = scanner.scan(prompt, output)
     assert sanitized_output == expected_output
     assert valid == expected_valid

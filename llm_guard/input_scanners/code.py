@@ -1,8 +1,8 @@
 import re
-from typing import List, Optional
+from typing import List
 
 from llm_guard.transformers_helpers import pipeline
-from llm_guard.util import logger
+from llm_guard.util import calculate_risk_score, logger
 
 from .base import Scanner
 
@@ -19,13 +19,13 @@ class Code(Scanner):
     A class for scanning if the prompt includes code in specific programming languages.
 
     This class uses the transformers library to detect code snippets in the output of the language model.
-    It can be configured to allow or deny specific programming languages.
+    It can be configured to allow or block specific programming languages.
     """
 
     def __init__(
         self,
-        allowed: Optional[List[str]] = None,
-        denied: Optional[List[str]] = None,
+        languages: List[str],
+        is_blocked: bool = True,
         threshold: float = 0.5,
         use_onnx: bool = False,
     ):
@@ -33,35 +33,21 @@ class Code(Scanner):
         Initializes Code with the allowed and denied languages.
 
         Parameters:
-            allowed (Optional[List[str]]): A list of allowed languages. Default is an empty list.
-            denied (Optional[List[str]]): A list of denied languages. Default is an empty list.
+            languages (List[str]): The list of programming languages to allow or deny.
+            is_blocked (bool): Whether the languages are blocked or allowed. Default is True.
             threshold (float): The threshold for the risk score. Default is 0.5.
             use_onnx (bool): Whether to use ONNX for inference. Default is False.
 
         Raises:
             ValueError: If both 'allowed' and 'denied' lists are provided or if both are empty.
         """
-        if not allowed:
-            allowed = []
-
-        if not denied:
-            denied = []
-
-        assert (
-            len(allowed) == 0 or len(denied) == 0
-        ), "Provide either allowed or denied programming languages"
-        assert (
-            len(allowed) > 0 or len(denied) > 0
-        ), "No allowed or denied programming languages provided"
-        assert len(allowed) == 0 or set(allowed).issubset(
+        assert len(languages) > 0, "No programming languages provided"
+        assert set(languages).issubset(
             set(SUPPORTED_LANGUAGES)
-        ), f"Allowed languages must be a subset of {SUPPORTED_LANGUAGES}"
-        assert len(denied) == 0 or set(denied).issubset(
-            set(SUPPORTED_LANGUAGES)
-        ), f"Denied languages must be a subset of {SUPPORTED_LANGUAGES}"
+        ), f"Languages must be a subset of {SUPPORTED_LANGUAGES}"
 
-        self._allowed = allowed
-        self._denied = denied
+        self._languages = languages
+        self._is_blocked = is_blocked
         self._threshold = threshold
 
         self._pipeline = pipeline(
@@ -105,29 +91,26 @@ class Code(Scanner):
         # Only check when the code is detected
         for code_block in code_blocks:
             languages = self._pipeline(code_block)
-            logger.debug(f"Detected languages {languages} in the block {code_block}")
+            logger.debug(f"Detected languages {languages} in the code: {code_block}")
 
             for language in languages:
                 language_name = language["label"]
                 score = round(language["score"], 2)
 
-                if score < self._threshold:
+                if score < self._threshold or language_name not in self._languages:
                     continue
 
-                if len(self._allowed) > 0 and language_name in self._allowed:
-                    logger.debug(
-                        f"Language {language_name} found in the allowed list with score {score}"
-                    )
+                if self._is_blocked:
+                    logger.warning(f"Language {language_name} is not allowed (score {score})")
+                    return prompt, False, calculate_risk_score(score, self._threshold)
+
+                if not self._is_blocked:
+                    logger.debug(f"Language {language_name} is allowed (score {score})")
                     return prompt, True, 0.0
 
-                if len(self._denied) > 0 and language_name in self._denied:
-                    logger.warning(f"Language {language_name} is not allowed (score {score})")
-                    return prompt, False, score
+        if self._is_blocked:
+            logger.debug(f"No blocked languages detected")
+            return prompt, True, 0.0
 
-        if len(self._allowed) > 0:
-            logger.warning(f"No allowed languages detected")
-            return prompt, False, 1.0
-
-        logger.debug(f"No denied languages detected")
-
-        return prompt, True, 0.0
+        logger.warning(f"No allowed languages detected")
+        return prompt, False, 1.0

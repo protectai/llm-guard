@@ -10,28 +10,23 @@ Controlling and inspecting the code in the model's output can be paramount in en
 
 ## How it works
 
-Leveraging the capabilities of
-the [huggingface/CodeBERTa-language-id](https://huggingface.co/huggingface/CodeBERTa-language-id) model, the scanner
-proficiently identifies code snippets from various programming languages within the model's responses. The scanner can
-be configured to either whitelist or blacklist specific languages, granting developers granular control over the type of
-code that gets shown in the output.
+Utilizing [huggingface/CodeBERTa-language-id](https://huggingface.co/huggingface/CodeBERTa-language-id) model, the scanner can identify code snippets within prompts across various programming languages.
+Developers can configure the scanner to either allow or ban specific languages, thus retaining full control over which types of code can appear in user queries.
 
-!!! note
 The scanner is currently limited to extracting and detecting code snippets from Markdown in the following languages:
-
-    - Go
-    - Java
-    - JavaScript
-    - PHP
-    - Python
-    - Ruby
+- Go
+- Java
+- JavaScript
+- PHP
+- Python
+- Ruby
 
 ## Usage
 
 ```python
 from llm_guard.output_scanners import Code
 
-scanner = Code(allowed=["python"])
+scanner = Code(languages=["python"], is_blocked=True)
 sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```
 

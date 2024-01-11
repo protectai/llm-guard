@@ -12,11 +12,8 @@ Monitoring and controlling the nature of the code can be crucial to maintain the
 
 ## How it works
 
-Utilizing the prowess of
-the [huggingface/CodeBERTa-language-id](https://huggingface.co/huggingface/CodeBERTa-language-id) model, the scanner can
-adeptly identify code snippets within prompts across various programming languages. Developers can configure the scanner
-to either whitelist or blacklist specific languages, thus retaining full control over which types of code can appear in
-user queries.
+Utilizing [huggingface/CodeBERTa-language-id](https://huggingface.co/huggingface/CodeBERTa-language-id) model, the scanner can identify code snippets within prompts across various programming languages.
+Developers can configure the scanner to either allow or ban specific languages, thus retaining full control over which types of code can appear in user queries.
 
 The scanner is currently limited to extracting and detecting code snippets from Markdown in the following languages:
 - Go
@@ -31,7 +28,7 @@ The scanner is currently limited to extracting and detecting code snippets from 
 ```python
 from llm_guard.input_scanners import Code
 
-scanner = Code(denied=["python"])
+scanner = Code(languages=["python"], is_blocked=True)
 sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
 

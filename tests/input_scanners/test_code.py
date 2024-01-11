@@ -36,7 +36,7 @@ console.log(sayHello());
     ],
 )
 def test_scan(prompt, expected_prompt, expected_valid, expected_score):
-    scanner = Code(denied=["javascript"])
+    scanner = Code(languages=["javascript"], is_blocked=True)
     sanitized_prompt, valid, score = scanner.scan(prompt)
     assert sanitized_prompt == expected_prompt
     assert valid == expected_valid

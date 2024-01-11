@@ -17,8 +17,8 @@ input_scanners:
     topics: ["violence"]
     threshold: 0.6
   Code:
-    # allowed: []
-    denied: ["go"]
+    languages: ["go"]
+    is_blocked: true
   Language:
     valid_languages: [ "en" ]
   PromptInjection:
@@ -53,8 +53,8 @@ output_scanners:
   Bias:
     threshold: 0.75
   Code:
-    #allowed: ["python"]
-    denied: ["python"]
+    languages: ["python"]
+    is_blocked: true
   Deanonymize:
     matching_strategy: "exact"
   FactualConsistency:
