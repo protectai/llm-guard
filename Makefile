@@ -11,8 +11,8 @@ help:
 
 install-dev:
 	@echo "Installing development dependencies..."
-	@pip install -U -r requirements.txt -r requirements-dev.txt
-	@pre-commit install
+	@python -m pip install ".[dev]"
+	@python -m pre-commit install
 
 lint:
 	@echo "Running linters..."

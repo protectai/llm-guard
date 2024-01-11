@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -
 
 ### Changed
+- Using `pyproject.toml` instead of `setup.py` based on the [request](https://github.com/laiyer-ai/llm-guard/issues/68).
 -
 
 ### Removed

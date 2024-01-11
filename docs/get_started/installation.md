@@ -39,10 +39,15 @@ git clone https://github.com/laiyer-ai/llm-guard.git
 git clone git@github.com:laiyer-ai/llm-guard.git
 ```
 
+We recommend to use a virtual environment like `venv` or `conda` to install the package.
+
+```bash
+python -m venv venv
+source venv/bin/activate
+```
+
 Then, install the package using `pip`:
 
 ```bash
-# install the repo
-pip install -U -r requirements.txt -r requirements-dev.txt
-python setup.py install
+python -m pip install ".[dev]"
 ```

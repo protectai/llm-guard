@@ -20,9 +20,12 @@ If you would like to report a bug, request a new feature or enhancement, follow 
 git clone -b dev https://github.com/laiyer-ai/llm-guard.git
 cd llm-guard
 
+# create a virtual environment
+python -m venv venv
+source venv/bin/activate
+
 # install the repo
-pip install -U -r requirements.txt -r requirements-dev.txt
-python setup.py install
+python -m pip install ".[dev]"
 
 # download SpaCy model
 python -m spacy download en_core_web_trf

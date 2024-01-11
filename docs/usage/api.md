@@ -10,7 +10,7 @@ This example demonstrates how to use LLM Guard as an API. It uses [FastAPI](http
 
 2. Install dependencies (preferably in a virtual environment)
 ```sh
-pip install -r requirements.txt
+python -m pip install "."
 ```
 
 Or you can use Makefile
@@ -68,6 +68,12 @@ docker pull laiyer/llm-guard-api
 ```sh
 docker run -d -p 8001:8000 -e DEBUG='false' laiyer/llm-guard-api:latest
 ```
+
+## Troubleshooting
+
+### Out-of-memory error
+
+If you get an out-of-memory error, you can change `config.yml` file to use less scanners.
 
 ## Schema
 
