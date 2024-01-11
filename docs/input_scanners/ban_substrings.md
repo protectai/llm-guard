@@ -26,6 +26,7 @@ Additionally, the scanner can be configured to replace the banned substrings wit
 
 ```python
 from llm_guard.input_scanners import BanSubstrings
+from llm_guard.input_scanners.ban_substrings import MatchType
 
 competitors_names = [
     "Acorns",
@@ -48,7 +49,7 @@ competitors_names = [
 
 scanner = BanSubstrings(
   substrings=competitors_names,
-  match_type="word",
+  match_type=MatchType.STR,
   case_sensitive=False,
   redact=False,
   contains_all=False,

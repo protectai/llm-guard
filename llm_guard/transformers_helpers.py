@@ -106,8 +106,7 @@ def pipeline(
     task: str, model: str, onnx_model: Optional[str] = None, use_onnx: bool = False, **kwargs
 ):
     allowed_tasks = ["text-classification", "zero-shot-classification", "ner"]
-    if task not in allowed_tasks:
-        raise ValueError(f"Invalid task. Must be one of {allowed_tasks}")
+    assert task in allowed_tasks, f"Invalid task. Must be one of {allowed_tasks}"
 
     if task == "ner":
         return _pipeline_ner(model, onnx_model, use_onnx, **kwargs)

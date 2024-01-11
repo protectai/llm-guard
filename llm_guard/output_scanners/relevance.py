@@ -47,8 +47,8 @@ class Relevance(Scanner):
 
         self._threshold = threshold
 
-        if model not in all_models:
-            raise ValueError("This model is not supported")
+        assert model in all_models, f"Model must be in the list of allowed: {all_models}"
+
         model_path = model[0]
 
         self.pooling_method = "cls"

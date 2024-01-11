@@ -64,8 +64,9 @@ def _get_nlp_engine() -> NlpEngine:
 
 
 def get_transformers_recognizer(recognizer_conf: Dict, use_onnx: bool = False) -> EntityRecognizer:
-    if recognizer_conf not in ALL_RECOGNIZER_CONF:
-        raise ValueError("Recognizer configuration is not found")
+    assert (
+        recognizer_conf in ALL_RECOGNIZER_CONF
+    ), f"Recognizer must be in the list of allowed: {ALL_RECOGNIZER_CONF}"
 
     model_path = recognizer_conf.get("DEFAULT_MODEL_PATH")
     supported_entities = recognizer_conf.get("PRESIDIO_SUPPORTED_ENTITIES")

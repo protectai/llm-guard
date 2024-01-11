@@ -47,17 +47,18 @@ class Code(Scanner):
         if not denied:
             denied = []
 
-        if len(allowed) > 0 and len(denied) > 0:
-            raise ValueError("Provide either allowed or denied programming languages")
-
-        if len(allowed) == 0 and len(denied) == 0:
-            raise ValueError("No allowed or denied programming languages provided")
-
-        if len(allowed) > 0 and not set(allowed).issubset(set(SUPPORTED_LANGUAGES)):
-            raise ValueError(f"Allowed languages must be a subset of {SUPPORTED_LANGUAGES}")
-
-        if len(denied) > 0 and not set(denied).issubset(set(SUPPORTED_LANGUAGES)):
-            raise ValueError(f"Denied languages must be a subset of {SUPPORTED_LANGUAGES}")
+        assert (
+            len(allowed) == 0 or len(denied) == 0
+        ), "Provide either allowed or denied programming languages"
+        assert (
+            len(allowed) > 0 or len(denied) > 0
+        ), "No allowed or denied programming languages provided"
+        assert len(allowed) == 0 or set(allowed).issubset(
+            set(SUPPORTED_LANGUAGES)
+        ), f"Allowed languages must be a subset of {SUPPORTED_LANGUAGES}"
+        assert len(denied) == 0 or set(denied).issubset(
+            set(SUPPORTED_LANGUAGES)
+        ), f"Denied languages must be a subset of {SUPPORTED_LANGUAGES}"
 
         self._allowed = allowed
         self._denied = denied

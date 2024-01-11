@@ -45,8 +45,7 @@ class PromptInjection(Scanner):
             models = ALL_MODELS
 
         for model in models:
-            if model not in ALL_MODELS:
-                raise ValueError(f"Models must be in the list of allowed: {ALL_MODELS}")
+            assert model in ALL_MODELS, f"Model must be in the list of allowed: {ALL_MODELS}"
 
         logger.debug(f"Prompt injection models: {models}")
 

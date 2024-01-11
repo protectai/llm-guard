@@ -44,14 +44,11 @@ class BanTopics(Scanner):
         Raises:
             ValueError: If no topics are provided.
         """
-        if len(topics) == 0:
-            raise ValueError("No topics provided")
-
         if model is None:
             model = MODEL_BASE
 
-        if model not in ALL_MODELS:
-            raise ValueError(f"Model must be in the list of allowed: {ALL_MODELS}")
+        assert len(topics) > 0, "No topics provided"
+        assert model in ALL_MODELS, f"Model must be in the list of allowed: {ALL_MODELS}"
 
         self._topics = topics
         self._threshold = threshold

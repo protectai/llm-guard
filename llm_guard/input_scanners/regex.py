@@ -43,7 +43,7 @@ class Regex(Scanner):
             ValueError: If no patterns provided or both good and bad patterns provided.
         """
 
-        assert len(patterns) > 0, "no patterns provided"
+        assert len(patterns) > 0, "No patterns provided"
 
         self._patterns = []
         for pattern in patterns:

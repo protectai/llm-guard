@@ -1,5 +1,6 @@
 import os
 import re
+from enum import Enum
 from typing import List
 
 from llm_guard.util import logger
@@ -13,9 +14,17 @@ stop_file_path = os.path.join(
     "prompt_stop_substrings.json",
 )
 
-MATCH_TYPE_STR = "str"
-MATCH_TYPE_WORD = "word"
-allowed_match_type = [MATCH_TYPE_STR, MATCH_TYPE_WORD]
+
+class MatchType(Enum):
+    STR = "str"
+    WORD = "word"
+
+    def match(self, text: str, substring: str) -> bool:
+        if self == MatchType.STR:
+            return substring in text
+
+        if self == MatchType.WORD:
+            return re.search(r"\b" + substring + r"\b", text) is not None
 
 
 class BanSubstrings(Scanner):
@@ -27,7 +36,7 @@ class BanSubstrings(Scanner):
 
     def __init__(
         self,
-        match_type: str = MATCH_TYPE_STR,
+        match_type: MatchType = MatchType.STR,
         case_sensitive: bool = False,
         substrings: List[str] = None,
         redact: bool = False,
@@ -37,9 +46,7 @@ class BanSubstrings(Scanner):
         Initialize BanSubstrings object.
 
         Args:
-            match_type (str, optional): The type of match to be performed. Either 'str' or 'word'.
-                                        'str' means the match is performed at the string level and 'word' means the match is done at the word level.
-                                        Default is 'str'.
+            match_type (MatchType): Type of match to perform. Can be either 'str' or 'word'. Default is 'str'.
             case_sensitive (bool, optional): Flag to indicate if the match should be case-sensitive. Default is False.
             substrings (List[str], optional): List of substrings to ban.
             redact (bool, optional): Flag to indicate if the banned substrings should be redacted. Default is False.
@@ -49,13 +56,9 @@ class BanSubstrings(Scanner):
             ValueError: If no substrings are provided or match_type is not 'str' or 'word'.
         """
 
-        if not substrings:
-            raise ValueError("No substrings provided")
+        assert substrings is not None, "No substrings provided"
 
-        if match_type not in allowed_match_type:
-            raise ValueError(f"This match_type is not recognized. Allowed: {allowed_match_type}")
-
-        self._match_type = match_type  # str or word
+        self._match_type = match_type
         self._case_sensitive = case_sensitive
         self._substrings = substrings
         self._redact = redact
@@ -69,36 +72,31 @@ class BanSubstrings(Scanner):
         return redacted_text
 
     def scan(self, prompt: str) -> (str, bool, float):
+        sanitized_prompt = prompt
         matched_substrings = []
         missing_substrings = []
+
         for s in self._substrings:
-            if self._case_sensitive:
+            if self._case_sensitive is False:
                 s, prompt = s.lower(), prompt.lower()
 
-            if self._match_type == MATCH_TYPE_STR:
-                if s in prompt:
-                    matched_substrings.append(s)
-                else:
-                    missing_substrings.append(s)
-
-            if self._match_type == MATCH_TYPE_WORD:
-                if re.search(r"\b" + s + r"\b", prompt):
-                    matched_substrings.append(s)
-                else:
-                    missing_substrings.append(s)
+            if self._match_type.match(prompt, s):
+                matched_substrings.append(s)
+            else:
+                missing_substrings.append(s)
 
         if self._contains_all:
             if len(missing_substrings) > 0:
                 logger.debug(f"Some substrings were not found: " + ", ".join(missing_substrings))
-                return prompt, True, 0.0
+                return sanitized_prompt, True, 0.0
 
             if self._redact:
-                prompt = self._redact_text(prompt, matched_substrings)
+                sanitized_prompt = self._redact_text(sanitized_prompt, matched_substrings)
                 logger.debug("Redacted banned substrings")
 
             logger.warning(f"All substrings were found")
 
-            return prompt, False, 1.0
+            return sanitized_prompt, False, 1.0
 
         if matched_substrings:
             logger.warning(
@@ -106,11 +104,11 @@ class BanSubstrings(Scanner):
             )
 
             if self._redact:
-                prompt = self._redact_text(prompt, matched_substrings)
+                sanitized_prompt = self._redact_text(sanitized_prompt, matched_substrings)
                 logger.debug("Redacted banned substrings")
 
-            return prompt, False, 1.0
+            return sanitized_prompt, False, 1.0
 
         logger.debug("No banned substrings found")
 
-        return prompt, True, 0.0
+        return sanitized_prompt, True, 0.0

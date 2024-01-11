@@ -44,8 +44,15 @@ List all competitor names and pass them to the scanner. It will replace all comp
 
 ```python
 from llm_guard.output_scanners import BanSubstrings
+from llm_guard.input_scanners.ban_substrings import MatchType
 
-scanner = BanSubstrings(substrings=["forbidden", "unwanted"], match_type="word", case_sensitive=False, redact=False, contains_all=False)
+scanner = BanSubstrings(
+  substrings=["forbidden", "unwanted"],
+  match_type=MatchType.WORD,
+  case_sensitive=False,
+  redact=False,
+  contains_all=False,
+)
 sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```
 

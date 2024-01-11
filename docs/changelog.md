@@ -11,11 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -
 
 ### Fixed
--
+- `BanSubstrings`: bug when `case_sensitive` was enabled.
 
 ### Changed
 - Using `pyproject.toml` instead of `setup.py` based on the [request](https://github.com/laiyer-ai/llm-guard/issues/68).
 - **[Breaking]** `Regex` scanners have a new signature. It accepts `patterns`, `is_blocked` and `match_type`.
+- **[Breaking]** `BanSubstrings`: `match_type` parameter became `Enum` instead of `str`.
 
 ### Removed
 -
