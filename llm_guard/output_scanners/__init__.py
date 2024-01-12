@@ -1,4 +1,5 @@
 """LLM output scanners init"""
+from .ban_competitors import BanCompetitors
 from .ban_substrings import BanSubstrings
 from .ban_topics import BanTopics
 from .bias import Bias
@@ -19,6 +20,7 @@ from .url_reachabitlity import URLReachability
 from .util import get_scanner_by_name
 
 __all__ = [
+    "BanCompetitors",
     "BanSubstrings",
     "BanTopics",
     "Bias",

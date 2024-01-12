@@ -19,6 +19,12 @@ def build_input_scanner(scanner_name: str, use_onnx: bool) -> InputScanner:
     if scanner_name == "Anonymize":
         return input_scanners.Anonymize(vault=vault, use_onnx=use_onnx)
 
+    if scanner_name == "BanCompetitors":
+        return input_scanners.BanCompetitors(
+            competitors=["Google", "Bing", "Yahoo"],
+            threshold=0.5,
+        )
+
     if scanner_name == "BanSubstrings":
         return input_scanners.BanSubstrings(
             substrings=["backdoor", "malware", "virus"],
@@ -56,6 +62,12 @@ def build_input_scanner(scanner_name: str, use_onnx: bool) -> InputScanner:
 
 
 def build_output_scanner(scanner_name: str, use_onnx: bool) -> OutputScanner:
+    if scanner_name == "BanCompetitors":
+        return output_scanners.BanCompetitors(
+            competitors=["Google", "Bing", "Yahoo"],
+            threshold=0.5,
+        )
+
     if scanner_name == "BanSubstrings":
         return output_scanners.BanSubstrings(
             substrings=["backdoor", "malware", "virus"],

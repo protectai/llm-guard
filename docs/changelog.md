@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - [URLReachability](https://llm-guard.com/output_scanners/url_reachability/) scanner to check if the URL is reachable.
+- [BanCompetitors](https://llm-guard.com/input_scanners/ban_competitors/) scanner to check if the prompt or output contains competitors' names.
 
 ### Fixed
 - `BanSubstrings`: bug when `case_sensitive` was enabled.

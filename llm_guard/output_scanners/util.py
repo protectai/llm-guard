@@ -1,5 +1,6 @@
 from typing import Dict, Optional
 
+from .ban_competitors import BanCompetitors
 from .ban_substrings import BanSubstrings
 from .ban_topics import BanTopics
 from .base import Scanner
@@ -33,6 +34,9 @@ def get_scanner_by_name(scanner_name: str, scanner_config: Optional[Dict] = None
     """
     if scanner_config is None:
         scanner_config = {}
+
+    if scanner_name == "BanCompetitors":
+        return BanCompetitors(**scanner_config)
 
     if scanner_name == "BanSubstrings":
         return BanSubstrings(**scanner_config)

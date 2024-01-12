@@ -1,6 +1,8 @@
 import re
 from enum import Enum
-from typing import List, Match, Pattern
+from typing import List, Pattern
+
+from presidio_anonymizer.core.text_replace_builder import TextReplaceBuilder
 
 from llm_guard.util import logger
 
@@ -53,13 +55,8 @@ class Regex(Scanner):
         self._is_blocked = is_blocked
         self._redact = redact
 
-    @staticmethod
-    def _redact_match(text: str, match: Match):
-        return text[: match.start()] + "[REDACTED]" + text[match.end() :]
-
     def scan(self, prompt: str) -> (str, bool, float):
-        sanitized_prompt = prompt
-
+        text_replace_builder = TextReplaceBuilder(original_text=prompt)
         for pattern in self._patterns:
             match = self._match_type.match(pattern, prompt)
             if match is None:
@@ -69,16 +66,20 @@ class Regex(Scanner):
                 logger.warning(f"Pattern {pattern} was detected in the text")
 
                 if self._redact:
-                    sanitized_prompt = self._redact_match(sanitized_prompt, match)
+                    text_replace_builder.replace_text_get_insertion_index(
+                        "[REDACTED]",
+                        match.start(),
+                        match.end(),
+                    )
 
-                return sanitized_prompt, False, 1.0
+                return text_replace_builder.output_text, False, 1.0
 
             logger.debug(f"Pattern {pattern} matched the text")
-            return prompt, True, 0.0
+            return text_replace_builder.output_text, True, 0.0
 
         if self._is_blocked:
             logger.debug(f"None of the patterns were found in the text")
-            return prompt, True, 0.0
+            return text_replace_builder.output_text, True, 0.0
 
         logger.warning(f"None of the patterns matched the text")
-        return prompt, False, 1.0
+        return text_replace_builder.output_text, False, 1.0

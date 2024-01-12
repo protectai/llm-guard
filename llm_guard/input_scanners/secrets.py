@@ -477,7 +477,7 @@ class Secrets(Scanner):
                 )
 
                 text_replace_builder.replace_text_get_insertion_index(
-                    Secrets.redact_value(secret_value, self._redact_mode),
+                    self.redact_value(secret_value, self._redact_mode),
                     character_start_index,
                     character_end_index,
                 )

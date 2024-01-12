@@ -7,6 +7,9 @@ input_scanners:
     # entity_types: []
     # preamble: ""
     use_faker: false
+  BanCompetitors:
+    competitors: ["facebook"]
+    threshold: 0.5
   BanSubstrings:
     substrings: ["test"]
     match_type: "word"
@@ -41,6 +44,9 @@ input_scanners:
 
 
 output_scanners:
+  BanCompetitors:
+    threshold: 0.5
+    competitors: ["facebook"]
   BanSubstrings:
     match_type: "word"
     case_sensitive: false
