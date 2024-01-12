@@ -51,6 +51,7 @@ pip install llm-guard
 ### Prompt scanners
 
 - [Anonymize](https://llm-guard.com/input_scanners/anonymize/)
+- [BanCompetitors](https://llm-guard.com/input_scanners/ban_competitors/)
 - [BanSubstrings](https://llm-guard.com/input_scanners/ban_substrings/)
 - [BanTopics](https://llm-guard.com/input_scanners/ban_topics/)
 - [Code](https://llm-guard.com/input_scanners/code/)
@@ -64,6 +65,7 @@ pip install llm-guard
 
 ### Output scanners
 
+- [BanCompetitors](https://llm-guard.com/output_scanners/ban_competitors/)
 - [BanSubstrings](https://llm-guard.com/output_scanners/ban_substrings/)
 - [BanTopics](https://llm-guard.com/output_scanners/ban_topics/)
 - [Bias](https://llm-guard.com/output_scanners/bias/)

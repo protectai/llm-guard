@@ -13,13 +13,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - `BanSubstrings`: bug when `case_sensitive` was enabled.
+- `Bias` calculation of risk score based on the threshold.
 
 ### Changed
 - Using `pyproject.toml` instead of `setup.py` based on the [request](https://github.com/laiyer-ai/llm-guard/issues/68).
 - **[Breaking]** `Regex` scanners have a new signature. It accepts `patterns`, `is_blocked` and `match_type`.
 - **[Breaking]** `BanSubstrings`: `match_type` parameter became `Enum` instead of `str`.
 - **[Breaking]** `Code` scanners have a new signature. It accepts `languages` and `is_blocked` instead of 2 separate lists.
-- `Toxicity` scanner supports sentence match for better accuracy (will become slower).
+- `Toxicity`, `PromptInjection`, `Bias` and `Language` scanners support sentence match for better accuracy (will become slower).
 - `BanTopics`, `FactualConsistency` and `NoRefusal`: Updated zero-shot classification model to [hMoritzLaurer/deberta-v3-base-zeroshot-v1.1-all-33](https://huggingface.co/MoritzLaurer/deberta-v3-base-zeroshot-v1.1-all-33) with different size options.
 
 ### Removed

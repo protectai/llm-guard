@@ -37,7 +37,7 @@ scanner = LanguageSame()
 sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```
 
-## Optimization
+## Optimization Strategies
 
 ### ONNX
 

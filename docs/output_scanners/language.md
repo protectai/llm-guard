@@ -21,16 +21,21 @@ It supports the 22 languages:
 arabic (ar), bulgarian (bg), german (de), modern greek (el), english (en), spanish (es), french (fr), hindi (hi), italian (it), japanese (ja), dutch (nl), polish (pl), portuguese (pt), russian (ru), swahili (sw), thai (th), turkish (tr), urdu (ur), vietnamese (vi), and chinese (zh)
 ```
 
+!!! note
+
+    If there are no languages detected above the threshold, the scanner will return `is_valid=True` and `risk_score=0`.
+
 ## Usage
 
 ```python
 from llm_guard.output_scanners import Language
+from llm_guard.input_scanners.language import MatchType
 
-scanner = Language(valid_languages=["en", ...])  # Add other valid language codes (ISO 639-1) as needed
+scanner = Language(valid_languages=["en", ...], match_type=MatchType.FULL)  # Add other valid language codes (ISO 639-1) as needed
 sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```
 
-## Optimization
+## Optimization Strategies
 
 ### ONNX
 

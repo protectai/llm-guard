@@ -1,3 +1,5 @@
+from typing import Union
+
 from llm_guard.input_scanners.toxicity import MatchType
 from llm_guard.input_scanners.toxicity import Toxicity as InputToxicity
 
@@ -12,7 +14,10 @@ class Toxicity(Scanner):
     """
 
     def __init__(
-        self, threshold: float = 0.7, match_type: MatchType = MatchType.FULL, use_onnx: bool = False
+        self,
+        threshold: float = 0.7,
+        match_type: Union[MatchType, str] = MatchType.FULL,
+        use_onnx: bool = False,
     ):
         """
         Initializes an instance of the Toxicity class.

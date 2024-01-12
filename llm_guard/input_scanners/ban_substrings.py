@@ -1,7 +1,7 @@
 import os
 import re
 from enum import Enum
-from typing import List
+from typing import List, Union
 
 from llm_guard.util import logger
 
@@ -36,7 +36,7 @@ class BanSubstrings(Scanner):
 
     def __init__(
         self,
-        match_type: MatchType = MatchType.STR,
+        match_type: Union[MatchType, str] = MatchType.STR,
         case_sensitive: bool = False,
         substrings: List[str] = None,
         redact: bool = False,
@@ -55,6 +55,9 @@ class BanSubstrings(Scanner):
         Raises:
             ValueError: If no substrings are provided or match_type is not 'str' or 'word'.
         """
+
+        if isinstance(match_type, str):
+            match_type = MatchType(match_type)
 
         assert substrings is not None, "No substrings provided"
 

@@ -9,8 +9,8 @@ from llm_guard.output_scanners.language import Language
         ("Just a prompt", "Just an output", "Just an output", True, 0.0),  # Correct output
         (
             "What's your name? Write the answer in Spanish",
-            "Me llamo Sofía",
-            "Me llamo Sofía",
+            "Me llamo Sofia. ¿Cómo te llamas?",
+            "Me llamo Sofia. ¿Cómo te llamas?",
             False,
             1.0,
         ),  # Spanish

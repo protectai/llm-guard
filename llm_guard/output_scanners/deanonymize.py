@@ -1,6 +1,6 @@
 import re
 from enum import Enum
-from typing import List, Tuple
+from typing import List, Tuple, Union
 
 from llm_guard.util import lazy_load_dep, logger
 from llm_guard.vault import Vault
@@ -115,7 +115,9 @@ class Deanonymize(Scanner):
     in the model's output with their corresponding values from the vault.
     """
 
-    def __init__(self, vault: Vault, matching_strategy: MatchingStrategy = MatchingStrategy.EXACT):
+    def __init__(
+        self, vault: Vault, matching_strategy: Union[MatchingStrategy, str] = MatchingStrategy.EXACT
+    ):
         """
         Initializes an instance of the Deanonymize class.
 
@@ -123,6 +125,9 @@ class Deanonymize(Scanner):
             vault (Vault): An instance of the Vault class which stores the real values.
             matching_strategy (MatchingStrategy): The strategy used to find placeholders in the model output. Defaults to the exact matching.
         """
+        if isinstance(matching_strategy, str):
+            matching_strategy = MatchingStrategy(matching_strategy)
+
         self._vault = vault
         self._matching_strategy = matching_strategy
 

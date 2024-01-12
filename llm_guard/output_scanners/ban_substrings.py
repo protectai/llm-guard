@@ -1,6 +1,6 @@
 import logging
 import os
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from llm_guard.input_scanners.ban_substrings import BanSubstrings as InputBanSubstrings
 from llm_guard.input_scanners.ban_substrings import MatchType
@@ -27,7 +27,7 @@ class BanSubstrings(Scanner):
 
     def __init__(
         self,
-        match_type: MatchType = MatchType.STR,
+        match_type: Union[MatchType, str] = MatchType.STR,
         case_sensitive: bool = False,
         substrings: Optional[List[str]] = None,
         redact: bool = False,

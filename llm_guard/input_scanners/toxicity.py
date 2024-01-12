@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import List, Union
 
 from llm_guard.transformers_helpers import pipeline
 from llm_guard.util import calculate_risk_score, logger, split_text_by_sentences
@@ -24,6 +25,12 @@ class MatchType(Enum):
     SENTENCE = "sentence"
     FULL = "full"
 
+    def get_inputs(self, prompt: str) -> List[str]:
+        if self == MatchType.SENTENCE:
+            return split_text_by_sentences(prompt)
+
+        return [prompt]
+
 
 class Toxicity(Scanner):
     """
@@ -34,7 +41,10 @@ class Toxicity(Scanner):
     """
 
     def __init__(
-        self, threshold: float = 0.5, match_type: MatchType = MatchType.FULL, use_onnx: bool = False
+        self,
+        threshold: float = 0.5,
+        match_type: Union[MatchType, str] = MatchType.FULL,
+        use_onnx: bool = False,
     ):
         """
         Initializes Toxicity with a threshold for toxicity.
@@ -47,6 +57,8 @@ class Toxicity(Scanner):
         Raises:
            None.
         """
+        if isinstance(match_type, str):
+            match_type = MatchType(match_type)
 
         self._threshold = threshold
         self._match_type = match_type
@@ -66,9 +78,7 @@ class Toxicity(Scanner):
         if prompt.strip() == "":
             return prompt, True, 0.0
 
-        inputs = [prompt]
-        if self._match_type == MatchType.SENTENCE:
-            inputs = split_text_by_sentences(prompt)
+        inputs = self._match_type.get_inputs(prompt)
 
         highest_toxicity_score = 0.0
         toxicity_above_threshold = []

@@ -1,6 +1,7 @@
-from typing import List
+from typing import List, Union
 
 from llm_guard.input_scanners.language import Language as InputLanguage
+from llm_guard.input_scanners.language import MatchType
 
 from .base import Scanner
 
@@ -15,6 +16,7 @@ class Language(Scanner):
         self,
         valid_languages: List[str],
         threshold: float = 0.7,
+        match_type: Union[MatchType, str] = MatchType.FULL,
         use_onnx: bool = False,
     ):
         """
@@ -23,12 +25,14 @@ class Language(Scanner):
         Parameters:
             valid_languages (List[str]): A list of valid language codes.
             threshold (float): Minimum confidence score.
+            match_type (MatchType): Whether to match the full text or individual sentences. Default is MatchType.FULL.
             use_onnx (bool): Whether to use ONNX for inference. Default is False.
         """
 
         self._scanner = InputLanguage(
             valid_languages=valid_languages,
             threshold=threshold,
+            match_type=match_type,
             use_onnx=use_onnx,
         )
 

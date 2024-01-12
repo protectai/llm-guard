@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 from llm_guard.input_scanners.regex import MatchType
 from llm_guard.input_scanners.regex import Regex as InputRegex
@@ -18,7 +18,7 @@ class Regex(Scanner):
         self,
         patterns: List[str],
         is_blocked: bool = True,
-        match_type: MatchType = MatchType.SEARCH,
+        match_type: Union[MatchType, str] = MatchType.SEARCH,
         redact=True,
     ):
         """

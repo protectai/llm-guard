@@ -1,6 +1,6 @@
 import re
 from enum import Enum
-from typing import List, Pattern
+from typing import List, Pattern, Union
 
 from presidio_anonymizer.core.text_replace_builder import TextReplaceBuilder
 
@@ -29,7 +29,7 @@ class Regex(Scanner):
         self,
         patterns: List[str],
         is_blocked: bool = True,
-        match_type: MatchType = MatchType.SEARCH,
+        match_type: Union[MatchType, str] = MatchType.SEARCH,
         redact: bool = True,
     ):
         """
@@ -44,6 +44,8 @@ class Regex(Scanner):
         Raises:
             ValueError: If no patterns provided or both good and bad patterns provided.
         """
+        if isinstance(match_type, str):
+            match_type = MatchType(match_type)
 
         assert len(patterns) > 0, "No patterns provided"
 
