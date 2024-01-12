@@ -17,6 +17,7 @@ from .relevance import Relevance
 from .sensitive import Sensitive
 from .sentiment import Sentiment
 from .toxicity import Toxicity
+from .url_reachabitlity import URLReachability
 
 
 def get_scanner_by_name(scanner_name: str, scanner_config: Optional[Dict] = None) -> Scanner:
@@ -80,5 +81,8 @@ def get_scanner_by_name(scanner_name: str, scanner_config: Optional[Dict] = None
 
     if scanner_name == "Toxicity":
         return Toxicity(**scanner_config)
+
+    if scanner_name == "URLReachability":
+        return URLReachability(**scanner_config)
 
     raise ValueError("Unknown scanner name")

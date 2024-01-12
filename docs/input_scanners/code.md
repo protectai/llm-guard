@@ -32,7 +32,7 @@ scanner = Code(languages=["python"], is_blocked=True)
 sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
 
-## Optimizations
+## Optimization Strategies
 
 ### ONNX
 

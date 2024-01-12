@@ -107,6 +107,9 @@ def build_output_scanner(scanner_name: str, use_onnx: bool) -> OutputScanner:
     if scanner_name == "Toxicity":
         return output_scanners.Toxicity(use_onnx=use_onnx)
 
+    if scanner_name == "URLReachability":
+        return output_scanners.URLReachability()
+
     raise ValueError("Scanner not found")
 
 

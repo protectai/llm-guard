@@ -27,7 +27,7 @@ scanner = MaliciousURLs(threshold=0.7)
 sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```
 
-## Optimizations
+## Optimization Strategies
 
 ### ONNX
 

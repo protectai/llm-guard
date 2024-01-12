@@ -1,6 +1,7 @@
 import importlib
 import json
 import logging
+import re
 from functools import lru_cache
 from typing import Dict, List, Optional
 
@@ -144,3 +145,15 @@ def split_text_by_sentences(text: str) -> List[str]:
         nltk.download("punkt")
 
     return nltk.sent_tokenize(text.strip())
+
+
+url_pattern = re.compile(
+    r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
+)
+
+
+def extract_urls(text: str) -> List[str]:
+    """
+    Extracts URLs from the given text.
+    """
+    return url_pattern.findall(text)

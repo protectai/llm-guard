@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased] - 0.3.5
 
 ### Added
--
+- [URLReachability](https://llm-guard.com/output_scanners/url_reachability/) scanner to check if the URL is reachable.
 
 ### Fixed
 - `BanSubstrings`: bug when `case_sensitive` was enabled.

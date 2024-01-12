@@ -1,8 +1,5 @@
-import re
-from typing import List
-
 from llm_guard.transformers_helpers import pipeline
-from llm_guard.util import calculate_risk_score, logger
+from llm_guard.util import calculate_risk_score, extract_urls, logger
 
 from .base import Scanner
 
@@ -16,11 +13,6 @@ _malicious_labels = [
     "phishing",
     "malware",
 ]
-
-# URL pattern
-url_pattern = re.compile(
-    r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
-)
 
 
 class MaliciousURLs(Scanner):
@@ -52,15 +44,11 @@ class MaliciousURLs(Scanner):
             max_length=512,
         )
 
-    @staticmethod
-    def extract_urls(text: str) -> List[str]:
-        return url_pattern.findall(text)
-
     def scan(self, prompt: str, output: str) -> (str, bool, float):
-        if prompt.strip() == "":
+        if output.strip() == "":
             return output, True, 0.0
 
-        urls = self.extract_urls(output)
+        urls = extract_urls(output)
         if len(urls) == 0:
             return output, True, 0.0
 

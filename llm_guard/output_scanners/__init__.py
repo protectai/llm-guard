@@ -15,6 +15,7 @@ from .relevance import Relevance
 from .sensitive import Sensitive
 from .sentiment import Sentiment
 from .toxicity import Toxicity
+from .url_reachabitlity import URLReachability
 from .util import get_scanner_by_name
 
 __all__ = [
@@ -34,5 +35,6 @@ __all__ = [
     "Sensitive",
     "Sentiment",
     "Toxicity",
+    "URLReachability",
     "get_scanner_by_name",
 ]

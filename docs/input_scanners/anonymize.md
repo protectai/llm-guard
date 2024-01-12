@@ -101,7 +101,7 @@ sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 Retrieving Original Data: To revert to the initial data, utilize the [Deanonymize](../output_scanners/deanonymize.md)
 scanner.
 
-## Optimizations
+## Optimization Strategies
 
 ### ONNX
 

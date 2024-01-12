@@ -32,7 +32,7 @@ sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 - **Sentence Type**: In this mode (`MatchType.SENTENCE`), the scanner scans each sentence to check for toxic.
 - **Full Text Type**: In `MatchType.FULL` mode, the entire text is scanned.
 
-## Optimizations
+## Optimization Strategies
 
 ### ONNX
 

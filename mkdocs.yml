@@ -157,6 +157,7 @@ nav:
       - Sensitive: output_scanners/sensitive.md
       - Sentiment: output_scanners/sentiment.md
       - Toxicity: output_scanners/toxicity.md
+      - URL Reachability: output_scanners/url_reachability.md
   - Changelog: changelog.md
   - Roadmap: roadmap.md
   - Customization:

@@ -32,7 +32,7 @@ scanner = BanTopics(topics=["violence"], threshold=0.5)
 sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
 
-## Optimizations
+## Optimization Strategies
 
 ### ONNX
 

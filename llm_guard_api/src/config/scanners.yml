@@ -85,3 +85,4 @@ output_scanners:
     # lexicon: "vader_lexicon"
   Toxicity:
     threshold: 0.5
+  URLReachability: {}

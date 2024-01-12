@@ -25,7 +25,7 @@ scanner = NoRefusal(threshold=0.5)
 sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```
 
-## Optimizations
+## Optimization Strategies
 
 ### ONNX
 

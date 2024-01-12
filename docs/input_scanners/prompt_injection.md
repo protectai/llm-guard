@@ -42,7 +42,7 @@ scanner = PromptInjection(threshold=0.5, models=[MODEL_LAIYER])
 sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
 
-## Optimizations
+## Optimization Strategies
 
 ### ONNX
 

@@ -31,7 +31,7 @@ To enhance flexibility, users can introduce their patterns through the `regex_pa
 
 The `redact` feature, when enabled, ensures sensitive entities are seamlessly replaced.
 
-## Optimizations
+## Optimization Strategies
 
 ### ONNX
 
