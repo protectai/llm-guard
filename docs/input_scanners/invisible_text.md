@@ -10,10 +10,6 @@ This modern form of prompt injection is less detectable than traditional methods
 
 For instance, it can be in the payload copied from a website and impact analysis done in the LLM chat.
 
-References:
-
-- [Tweet](https://twitter.com/rez0__/status/1745545813512663203)
-
 ## How it works
 
 The scanner targets invisible Unicode characters, particularly in the Private Use Areas (PUA) of Unicode, which include:
@@ -26,7 +22,7 @@ These characters, while valid in Unicode, are not rendered by most fonts but can
 
 It detects and removes characters in categories 'Cf' (Format characters), 'Cc' (Control characters), 'Co' (Private use characters), and 'Cn' (Unassigned characters), which are typically non-printable.
 
-Here is the Python code to convert a string to a string of Private Use Area characters:
+Here is the Python code to convert a string to a string of Private Use Area characters (from this [Tweet](https://twitter.com/rez0__/status/1745545813512663203)):
 
 ```python
 import pyperclip
