@@ -55,6 +55,7 @@ pip install llm-guard
 - [BanSubstrings](https://llm-guard.com/input_scanners/ban_substrings/)
 - [BanTopics](https://llm-guard.com/input_scanners/ban_topics/)
 - [Code](https://llm-guard.com/input_scanners/code/)
+- [InvisibleText](https://llm-guard.com/input_scanners/invisible_text/)
 - [Language](https://llm-guard.com/input_scanners/language/)
 - [PromptInjection](https://llm-guard.com/input_scanners/prompt_injection/)
 - [Regex](https://llm-guard.com/input_scanners/regex/)

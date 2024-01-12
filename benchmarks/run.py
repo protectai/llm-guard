@@ -37,6 +37,9 @@ def build_input_scanner(scanner_name: str, use_onnx: bool) -> InputScanner:
     if scanner_name == "Code":
         return input_scanners.Code(languages=["java"], is_blocked=True, use_onnx=use_onnx)
 
+    if scanner_name == "InvisibleText":
+        return input_scanners.InvisibleText()
+
     if scanner_name == "Language":
         return input_scanners.Language(valid_languages=["en", "es"], use_onnx=use_onnx)
 
