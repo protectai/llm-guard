@@ -65,6 +65,7 @@ class MaliciousURLs(Scanner):
             return output, True, 0.0
 
         logger.debug(f"Found {len(urls)} URLs in the output")
+
         results = self._classifier(urls)
         for url, result in zip(urls, results):
             malicious_scores = [

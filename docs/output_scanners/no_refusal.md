@@ -14,10 +14,7 @@ of refusals can include statements like "Sorry, I can't assist with that" or "I'
 
 ## How it works
 
-It leverages the power
-of HuggingFace
-model [MoritzLaurer/deberta-v3-large-zeroshot-v1](https://huggingface.co/MoritzLaurer/deberta-v3-large-zeroshot-v1)
-to classify the model's output.
+It leverages the power of zero-shot classification model [MoritzLaurer/deberta-v3-large-zeroshot-v1.1-all-33](https://huggingface.co/MoritzLaurer/deberta-v3-large-zeroshot-v1.1-all-33) to classify the model's output.
 
 ## Usage
 
@@ -32,13 +29,13 @@ sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 
 ### ONNX
 
-The scanner can run on ONNX Runtime, which provides a significant performance boost on CPU instances. It will fetch
-Laiyer's ONNX converted models from [Hugging Face Hub](https://huggingface.co/laiyer).
+The scanner can run on ONNX Runtime, which provides a significant performance boost on CPU instances.
 
 To enable it, install the `onnxruntime` package:
 
 ```sh
-pip install llm-guard[onnxruntime]
+pip install llm-guard[onnxruntime] # for CPU instances
+pip install llm-guard[onnxruntime-gpu] # for GPU instances
 ```
 
 And set `use_onnx=True`.

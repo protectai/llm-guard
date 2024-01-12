@@ -10,13 +10,14 @@ are misaligned with the platform's guidelines or values.
 
 ## How it works
 
-It relies on the capabilities of the following models:
+It relies on the capabilities of the following models to perform zero-shot classification:
 
-- [MoritzLaurer/deberta-v3-base-zeroshot-v1](https://huggingface.co/MoritzLaurer/deberta-v3-base-zeroshot-v1)
-- [MoritzLaurer/deberta-v3-large-zeroshot-v1](https://huggingface.co/MoritzLaurer/deberta-v3-large-zeroshot-v1)
-
-These models aid in identifying the underlying theme or topic of an output, allowing the scanner to cross-check it against
-a list of banned topics.
+| Model                                                                                                                                   | Description                                                                                                                                                                                                                                |
+|-----------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [MoritzLaurer/deberta-v3-large-zeroshot-v1.1-all-33](https://huggingface.co/MoritzLaurer/deberta-v3-large-zeroshot-v1.1-all-33)         | It was trained on a mixture of 33 datasets and 389 classes reformatted in the universal NLI format. The model is English only. You can also use it for multilingual zeroshot classification by first machine translating texts to English. |
+| [MoritzLaurer/deberta-v3-base-zeroshot-v1.1-all-33](https://huggingface.co/MoritzLaurer/deberta-v3-base-zeroshot-v1.1-all-33)           | This is essentially the same as its larger sister only that it's smaller. Use it if you need more speed. The model is English-only.                                                                                                        |
+| [MoritzLaurer/deberta-v3-xsmall-zeroshot-v1.1-all-33](https://huggingface.co/MoritzLaurer/deberta-v3-xsmall-zeroshot-v1.1-all-33)       | Same as above, just smaller/faster.                                                                                                                                                                                                        |
+| [MoritzLaurer/xtremedistil-l6-h256-zeroshot-v1.1-all-33](https://huggingface.co/MoritzLaurer/xtremedistil-l6-h256-zeroshot-v1.1-all-33) | Same as above, just even faster. The model only has 22 million backbone parameters. The model is 25 MB small (or 13 MB with ONNX quantization).                                                                                            |
 
 ## Usage
 
@@ -31,12 +32,13 @@ sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 
 ### ONNX
 
-The scanner can run on ONNX Runtime, which provides a significant performance boost on CPU instances. It will fetch Laiyer's ONNX converted models from [Hugging Face Hub](https://huggingface.co/laiyer).
+The scanner can run on ONNX Runtime, which provides a significant performance boost on CPU instances.
 
 To enable it, install the `onnxruntime` package:
 
 ```sh
-pip install llm-guard[onnxruntime]
+pip install llm-guard[onnxruntime] # for CPU instances
+pip install llm-guard[onnxruntime-gpu] # for GPU instances
 ```
 
 And set `use_onnx=True`.
@@ -59,19 +61,6 @@ python benchmarks/run.py output BanTopics
 ```
 
 Results:
-
-{
-    "scanner": "BanTopics",
-    "scanner Type": "output",
-    "input_length": 89,
-    "test_times": 5,
-    "latency_variance": "0.11",
-    "latency_90_percentile": "32.46",
-    "latency_95_percentile": "37.74",
-    "latency_99_percentile": "41.96",
-    "average_latency_ms": "21.69",
-    "QPS": "4103.63"
-}
 
 | Instance                         | Input Length | Test Times | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS    |
 |----------------------------------|--------------|------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|--------|

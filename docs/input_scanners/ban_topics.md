@@ -1,6 +1,7 @@
 # Ban Topics Scanner
 
-This scanner is designed to restrict specific topics, such as religion, violence, from being introduced in the prompt using Zero-Shot classifier.
+This scanner is designed to restrict specific topics, such as religion, violence, from being introduced in the prompt
+using Zero-Shot classifier.
 
 This ensures that interactions remain within acceptable boundaries and avoids potentially sensitive or controversial
 discussions.
@@ -13,13 +14,14 @@ reduce the risk of generating responses that could lead to misunderstandings or 
 
 ## How it works
 
-It relies on the capabilities of the following models:
+It relies on the capabilities of the following models to perform zero-shot classification:
 
-- [MoritzLaurer/deberta-v3-base-zeroshot-v1](https://huggingface.co/MoritzLaurer/deberta-v3-base-zeroshot-v1)
-- [MoritzLaurer/deberta-v3-large-zeroshot-v1](https://huggingface.co/MoritzLaurer/deberta-v3-large-zeroshot-v1)
-
-These models aid in identifying the underlying theme or topic of a prompt, allowing the scanner to cross-check it against
-a list of banned topics.
+| Model                                                                                                                                   | Description                                                                                                                                                                                                                                |
+|-----------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [MoritzLaurer/deberta-v3-large-zeroshot-v1.1-all-33](https://huggingface.co/MoritzLaurer/deberta-v3-large-zeroshot-v1.1-all-33)         | It was trained on a mixture of 33 datasets and 389 classes reformatted in the universal NLI format. The model is English only. You can also use it for multilingual zeroshot classification by first machine translating texts to English. |
+| [MoritzLaurer/deberta-v3-base-zeroshot-v1.1-all-33](https://huggingface.co/MoritzLaurer/deberta-v3-base-zeroshot-v1.1-all-33)           | This is essentially the same as its larger sister only that it's smaller. Use it if you need more speed. The model is English-only.                                                                                                        |
+| [MoritzLaurer/deberta-v3-xsmall-zeroshot-v1.1-all-33](https://huggingface.co/MoritzLaurer/deberta-v3-xsmall-zeroshot-v1.1-all-33)       | Same as above, just smaller/faster.                                                                                                                                                                                                        |
+| [MoritzLaurer/xtremedistil-l6-h256-zeroshot-v1.1-all-33](https://huggingface.co/MoritzLaurer/xtremedistil-l6-h256-zeroshot-v1.1-all-33) | Same as above, just even faster. The model only has 22 million backbone parameters. The model is 25 MB small (or 13 MB with ONNX quantization).                                                                                            |
 
 ## Usage
 
@@ -34,12 +36,13 @@ sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 
 ### ONNX
 
-The scanner can run on ONNX Runtime, which provides a significant performance boost on CPU instances. It will fetch Laiyer's ONNX converted models from [Hugging Face Hub](https://huggingface.co/laiyer).
+The scanner can run on ONNX Runtime, which provides a significant performance boost on CPU instances.
 
 To enable it, install the `onnxruntime` package:
 
 ```sh
-pip install llm-guard[onnxruntime]
+pip install llm-guard[onnxruntime] # for CPU instances
+pip install llm-guard[onnxruntime-gpu] # for GPU instances
 ```
 
 And set `use_onnx=True`.

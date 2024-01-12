@@ -37,7 +37,8 @@ model [laiyer/codebert-base-Malicious_URLs-onnx](https://huggingface.co/laiyer/c
 To enable it, install the `onnxruntime` package:
 
 ```sh
-pip install llm-guard[onnxruntime]
+pip install llm-guard[onnxruntime] # for CPU instances
+pip install llm-guard[onnxruntime-gpu] # for GPU instances
 ```
 
 And set `use_onnx=True`.

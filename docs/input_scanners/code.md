@@ -41,7 +41,8 @@ The scanner can be optimized by using the ONNX converted model [laiyer/CodeBERTa
 Make sure to install the `onnxruntime` package:
 
 ```sh
-pip install llm-guard[onnxruntime]
+pip install llm-guard[onnxruntime] # for CPU instances
+pip install llm-guard[onnxruntime-gpu] # for GPU instances
 ```
 
 And set `use_onnx=True`.

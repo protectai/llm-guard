@@ -41,7 +41,8 @@ The scanner can run on ONNX Runtime, which provides a significant performance bo
 To enable it, install the `onnxruntime` package:
 
 ```sh
-pip install llm-guard[onnxruntime]
+pip install llm-guard[onnxruntime] # for CPU instances
+pip install llm-guard[onnxruntime-gpu] # for GPU instances
 ```
 
 And set the `use_onnx` parameter to `True`:

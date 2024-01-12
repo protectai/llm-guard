@@ -5,17 +5,35 @@ from llm_guard.util import logger
 
 from .base import Scanner
 
-MODEL_BASE = {
-    "path": "MoritzLaurer/deberta-v3-base-zeroshot-v1",
-    "onnx_path": "laiyer/deberta-v3-base-zeroshot-v1-onnx",
-    "max_length": 512,
-}
+# This model was trained on a mixture of 33 datasets and 389 classes reformatted in the universal NLI format.
+# The model is English only. You can also use it for multilingual zeroshot classification by first machine translating texts to English.
 MODEL_LARGE = {
-    "path": "MoritzLaurer/deberta-v3-large-zeroshot-v1",
-    "onnx_path": "laiyer/deberta-v3-large-zeroshot-v1-onnx",
+    "path": "MoritzLaurer/deberta-v3-large-zeroshot-v1.1-all-33",
+    "onnx_path": "MoritzLaurer/deberta-v3-large-zeroshot-v1.1-all-33",
     "max_length": 512,
 }
-ALL_MODELS = [MODEL_BASE, MODEL_LARGE]
+# This is essentially the same as its larger sister MoritzLaurer/deberta-v3-large-zeroshot-v1.1-all-33 only that it's smaller.
+# Use it if you need more speed. The model is English-only.
+MODEL_BASE = {
+    "path": "MoritzLaurer/deberta-v3-base-zeroshot-v1.1-all-33",
+    "onnx_path": "MoritzLaurer/deberta-v3-base-zeroshot-v1.1-all-33",
+    "max_length": 512,
+}
+# Same as above, just smaller/faster.
+MODEL_XSMALL = {
+    "path": "MoritzLaurer/deberta-v3-xsmall-zeroshot-v1.1-all-33",
+    "onnx_path": "MoritzLaurer/deberta-v3-xsmall-zeroshot-v1.1-all-33",
+    "max_length": 512,
+}
+# Same as above, just even faster. The model only has 22 million backbone parameters.
+# The model is 25 MB small (or 13 MB with ONNX quantization).
+MODEL_XTREMEDISTIL = {
+    "path": "MoritzLaurer/xtremedistil-l6-h256-zeroshot-v1.1-all-33",
+    "onnx_path": "MoritzLaurer/xtremedistil-l6-h256-zeroshot-v1.1-all-33",
+    "max_length": 512,
+}
+
+ALL_MODELS = [MODEL_LARGE, MODEL_BASE, MODEL_XSMALL, MODEL_XTREMEDISTIL]
 
 
 class BanTopics(Scanner):
