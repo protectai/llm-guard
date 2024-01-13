@@ -20,7 +20,7 @@ def get_scanner_by_name(scanner_name: str, scanner_config: Optional[Dict] = None
     """
     Returns a scanner by name.
 
-    Args:
+    Parameters:
         scanner_name (str): The name of the scanner.
         scanner_config (Optional[Dict], optional): The configuration for the scanner. Defaults to None.
 

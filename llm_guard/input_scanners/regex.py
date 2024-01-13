@@ -28,6 +28,7 @@ class Regex(Scanner):
     def __init__(
         self,
         patterns: List[str],
+        *,
         is_blocked: bool = True,
         match_type: Union[MatchType, str] = MatchType.SEARCH,
         redact: bool = True,
@@ -46,8 +47,6 @@ class Regex(Scanner):
         """
         if isinstance(match_type, str):
             match_type = MatchType(match_type)
-
-        assert len(patterns) > 0, "No patterns provided"
 
         self._patterns = []
         for pattern in patterns:

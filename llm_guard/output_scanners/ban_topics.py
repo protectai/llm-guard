@@ -15,6 +15,7 @@ class BanTopics(Scanner):
     def __init__(
         self,
         topics=List[str],
+        *,
         threshold: float = 0.75,
         model: Optional[Dict] = None,
         use_onnx: bool = False,
@@ -32,9 +33,7 @@ class BanTopics(Scanner):
         Raises:
             ValueError: If no topics are provided.
         """
-        self._scanner = InputBanTopics(
-            topics=topics, threshold=threshold, model=model, use_onnx=use_onnx
-        )
+        self._scanner = InputBanTopics(topics, threshold=threshold, model=model, use_onnx=use_onnx)
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         return self._scanner.scan(output)

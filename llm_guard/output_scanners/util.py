@@ -26,7 +26,7 @@ def get_scanner_by_name(scanner_name: str, scanner_config: Optional[Dict] = None
     """
     Get scanner by name.
 
-    Args:
+    Parameters:
         scanner_name (str): Name of scanner.
         scanner_config (Optional[Dict], optional): Scanner configuration. Defaults to None.
 

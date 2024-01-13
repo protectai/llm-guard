@@ -10,6 +10,8 @@ from presidio_analyzer import (
 )
 from presidio_analyzer.nlp_engine import NlpEngine, NlpEngineProvider
 
+from llm_guard.exception import LLMGuardValidationError
+
 from .ner_mapping import ALL_RECOGNIZER_CONF
 from .transformers_recognizer import TransformersRecognizer
 
@@ -20,7 +22,7 @@ def _add_recognizers(
     """
     Create a RecognizerRegistry and populate it with regex patterns and custom names.
 
-    Args:
+    Parameters:
         regex_groups: List of regex patterns.
         custom_names: List of custom names to recognize.
 
@@ -64,9 +66,10 @@ def _get_nlp_engine() -> NlpEngine:
 
 
 def get_transformers_recognizer(recognizer_conf: Dict, use_onnx: bool = False) -> EntityRecognizer:
-    assert (
-        recognizer_conf in ALL_RECOGNIZER_CONF
-    ), f"Recognizer must be in the list of allowed: {ALL_RECOGNIZER_CONF}"
+    if recognizer_conf not in ALL_RECOGNIZER_CONF:
+        raise LLMGuardValidationError(
+            f"Recognizer must be in the list of allowed: {ALL_RECOGNIZER_CONF}"
+        )
 
     model_path = recognizer_conf.get("DEFAULT_MODEL_PATH")
     supported_entities = recognizer_conf.get("PRESIDIO_SUPPORTED_ENTITIES")

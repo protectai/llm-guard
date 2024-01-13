@@ -2,6 +2,7 @@ import importlib
 from functools import lru_cache
 from typing import Optional
 
+from .exception import LLMGuardValidationError
 from .util import device, lazy_load_dep, logger
 
 
@@ -106,7 +107,8 @@ def pipeline(
     task: str, model: str, onnx_model: Optional[str] = None, use_onnx: bool = False, **kwargs
 ):
     allowed_tasks = ["text-classification", "zero-shot-classification", "ner"]
-    assert task in allowed_tasks, f"Invalid task. Must be one of {allowed_tasks}"
+    if task not in allowed_tasks:
+        raise LLMGuardValidationError(f"Invalid task. Must be one of {allowed_tasks}")
 
     if task == "ner":
         return _pipeline_ner(model, onnx_model, use_onnx, **kwargs)

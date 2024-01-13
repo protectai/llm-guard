@@ -16,10 +16,10 @@ class JSON(Scanner):
     then to validate them to ensure their correctness and finally to repair them if necessary.
     """
 
-    def __init__(self, required_elements: int = 0, repair: bool = True):
+    def __init__(self, *, required_elements: int = 0, repair: bool = True):
         """Initialize the JSON scanner.
 
-        Args:
+        Parameters:
             required_elements (int, optional): The minimum number of JSON elements
             that should be present. Defaults to 0.
             repair (bool, optional): Whether to repair the broken JSON. Defaults to False.
@@ -31,7 +31,7 @@ class JSON(Scanner):
     def is_valid_json(json_str: str) -> bool:
         """Check if the input string is a valid JSON.
 
-        Args:
+        Parameters:
             json_str (str): The input string to check.
 
         Returns:
@@ -47,7 +47,7 @@ class JSON(Scanner):
     def repair_json(json_str: str) -> str:
         """Repair a broken JSON string.
 
-        Args:
+        Parameters:
             json_str (str): The input string to repair.
 
         Returns:

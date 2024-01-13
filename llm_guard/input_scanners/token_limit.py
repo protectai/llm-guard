@@ -13,6 +13,7 @@ class TokenLimit(Scanner):
 
     def __init__(
         self,
+        *,
         limit: int = 4096,
         encoding_name: str = "cl100k_base",
         model_name: Optional[str] = None,
@@ -24,9 +25,6 @@ class TokenLimit(Scanner):
             limit (int): Maximum number of tokens allowed in a prompt. Default is 4096.
             encoding_name (str): Encoding model for the tiktoken library. Default is 'cl100k_base'.
             model_name (str): Specific model for the tiktoken encoding. Default is None.
-
-        Raises:
-            None.
         """
 
         self._limit = limit

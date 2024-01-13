@@ -27,6 +27,7 @@ class Sensitive(Scanner):
 
     def __init__(
         self,
+        *,
         entity_types: Optional[List[str]] = None,
         regex_pattern_groups_path: str = sensitive_patterns_path,
         redact: bool = False,

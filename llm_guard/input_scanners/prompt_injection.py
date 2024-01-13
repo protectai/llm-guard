@@ -1,6 +1,7 @@
 from enum import Enum
 from typing import Dict, List, Optional, Union
 
+from llm_guard.exception import LLMGuardValidationError
 from llm_guard.transformers_helpers import pipeline
 from llm_guard.util import calculate_risk_score, logger, split_text_by_sentences
 
@@ -38,6 +39,7 @@ class PromptInjection(Scanner):
 
     def __init__(
         self,
+        *,
         model: Optional[Dict] = None,
         threshold: float = 0.9,
         match_type: Union[MatchType, str] = MatchType.FULL,
@@ -58,7 +60,8 @@ class PromptInjection(Scanner):
         if model is None:
             model = MODEL_LAIYER
 
-        assert model in ALL_MODELS, f"Model must be in the list of allowed: {ALL_MODELS}"
+        if model not in ALL_MODELS:
+            raise LLMGuardValidationError(f"Model must be in the list of allowed: {ALL_MODELS}")
 
         if isinstance(match_type, str):
             match_type = MatchType(match_type)

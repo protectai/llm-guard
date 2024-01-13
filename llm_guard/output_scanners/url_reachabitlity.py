@@ -12,9 +12,9 @@ class URLReachability(Scanner):
     This scanner checks URLs for their reachability.
     """
 
-    def __init__(self, success_status_codes: List[int] = None, timeout: int = 5):
+    def __init__(self, *, success_status_codes: List[int] = None, timeout: int = 5):
         """
-        Args:
+        Parameters:
             success_status_codes: A list of status codes that are considered as successful.
             timeout: The timeout in seconds for the HTTP requests.
         """

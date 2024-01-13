@@ -15,6 +15,7 @@ class BanCompetitors(Scanner):
     def __init__(
         self,
         competitors=List[str],
+        *,
         threshold: float = 0.5,
         redact: bool = True,
         model: Optional[Dict] = None,
@@ -32,7 +33,7 @@ class BanCompetitors(Scanner):
             ValueError: If no competitors are provided.
         """
         self._scanner = InputBanCompetitors(
-            competitors=competitors,
+            competitors,
             threshold=threshold,
             redact=redact,
             model=model,

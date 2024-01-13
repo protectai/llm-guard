@@ -17,6 +17,7 @@ class Regex(Scanner):
     def __init__(
         self,
         patterns: List[str],
+        *,
         is_blocked: bool = True,
         match_type: Union[MatchType, str] = MatchType.SEARCH,
         redact=True,
@@ -34,7 +35,9 @@ class Regex(Scanner):
             ValueError: If no patterns provided or both good and bad patterns provided.
         """
 
-        self._scanner = InputRegex(patterns, is_blocked, match_type, redact)
+        self._scanner = InputRegex(
+            patterns, is_blocked=is_blocked, match_type=match_type, redact=redact
+        )
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         return self._scanner.scan(output)

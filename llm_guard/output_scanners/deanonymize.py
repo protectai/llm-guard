@@ -116,7 +116,10 @@ class Deanonymize(Scanner):
     """
 
     def __init__(
-        self, vault: Vault, matching_strategy: Union[MatchingStrategy, str] = MatchingStrategy.EXACT
+        self,
+        vault: Vault,
+        *,
+        matching_strategy: Union[MatchingStrategy, str] = MatchingStrategy.EXACT,
     ):
         """
         Initializes an instance of the Deanonymize class.

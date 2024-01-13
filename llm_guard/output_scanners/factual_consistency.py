@@ -16,7 +16,7 @@ class FactualConsistency(Scanner):
     This class checks for entailment between a given prompt and output using a pretrained NLI model.
     """
 
-    def __init__(self, minimum_score=0.5, use_onnx=False):
+    def __init__(self, *, minimum_score=0.5, use_onnx=False):
         """
         Initializes an instance of the Refutation class.
 

@@ -16,6 +16,7 @@ class Code(Scanner):
     def __init__(
         self,
         languages: List[str],
+        *,
         is_blocked: bool = True,
         threshold: float = 0.5,
         use_onnx: bool = False,
@@ -33,7 +34,9 @@ class Code(Scanner):
             ValueError: If both 'allowed' and 'denied' lists are provided or if both are empty.
         """
 
-        self._scanner = InputCode(languages, is_blocked, threshold, use_onnx)
+        self._scanner = InputCode(
+            languages, is_blocked=is_blocked, threshold=threshold, use_onnx=use_onnx
+        )
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         return self._scanner.scan(output)

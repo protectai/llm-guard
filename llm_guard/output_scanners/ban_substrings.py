@@ -1,6 +1,6 @@
 import logging
 import os
-from typing import List, Optional, Union
+from typing import List, Union
 
 from llm_guard.input_scanners.ban_substrings import BanSubstrings as InputBanSubstrings
 from llm_guard.input_scanners.ban_substrings import MatchType
@@ -27,9 +27,10 @@ class BanSubstrings(Scanner):
 
     def __init__(
         self,
+        substrings: List[str],
+        *,
         match_type: Union[MatchType, str] = MatchType.STR,
         case_sensitive: bool = False,
-        substrings: Optional[List[str]] = None,
         redact: bool = False,
         contains_all: bool = False,  # contains any
     ):
@@ -37,9 +38,9 @@ class BanSubstrings(Scanner):
         Initializes BanSubstrings with a match type, case sensitivity option, and a list of substrings.
 
         Parameters:
+            substrings (List[str]): The list of substrings to be banned from the text.
             match_type (MatchType): The type of substring matching. Can be either 'str' or 'word'. Default is 'str'.
             case_sensitive (bool): Determines whether the substring matching is case sensitive. Default is False.
-            substrings (Optional[List[str]]): The list of substrings to be banned from the text. Default is None.
             redact (bool): Determines whether the banned substrings should be redacted from the text. Default is False.
             contains_all (bool): Flag to indicate if need to match all substrings instead of any of them. Default is contains any.
 
@@ -48,9 +49,9 @@ class BanSubstrings(Scanner):
         """
 
         self._scanner = InputBanSubstrings(
+            substrings,
             match_type=match_type,
             case_sensitive=case_sensitive,
-            substrings=substrings,
             redact=redact,
             contains_all=contains_all,
         )

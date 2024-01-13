@@ -30,6 +30,7 @@ class Bias(Scanner):
 
     def __init__(
         self,
+        *,
         threshold: float = 0.7,
         match_type: Union[MatchType, str] = MatchType.FULL,
         use_onnx: bool = False,

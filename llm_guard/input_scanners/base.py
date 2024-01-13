@@ -12,7 +12,7 @@ class Scanner(Protocol):
         """
         Process and sanitize the input prompt according to the specific scanner's implementation.
 
-        Args:
+        Parameters:
             prompt (str): The input prompt that needs to be processed.
 
         Returns:

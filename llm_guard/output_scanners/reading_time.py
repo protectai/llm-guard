@@ -10,9 +10,9 @@ class ReadingTime(Scanner):
     If the output exceeds the maximum time, the output will be truncated to fit within the time limit.
     """
 
-    def __init__(self, max_time: float, truncate: bool = False):
+    def __init__(self, max_time: float, *, truncate: bool = False):
         """
-        Args:
+        Parameters:
             max_time: Maximum time in minutes that the user should spend reading the output.
             truncate: If True, the output will be truncated to the maximum time.
         """

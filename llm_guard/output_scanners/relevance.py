@@ -1,5 +1,6 @@
 from typing import Tuple
 
+from llm_guard.exception import LLMGuardValidationError
 from llm_guard.transformers_helpers import get_tokenizer, is_onnx_supported
 from llm_guard.util import device, lazy_load_dep, logger
 
@@ -34,7 +35,7 @@ class Relevance(Scanner):
     """
 
     def __init__(
-        self, threshold: float = 0.5, model: Tuple = MODEL_EN_BGE_BASE, use_onnx: bool = False
+        self, *, threshold: float = 0.5, model: Tuple = MODEL_EN_BGE_BASE, use_onnx: bool = False
     ):
         """
         Initializes an instance of the Relevance class.
@@ -47,7 +48,8 @@ class Relevance(Scanner):
 
         self._threshold = threshold
 
-        assert model in all_models, f"Model must be in the list of allowed: {all_models}"
+        if model not in all_models:
+            raise LLMGuardValidationError(f"Model must be in the list of allowed: {all_models}")
 
         model_path = model[0]
 

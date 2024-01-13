@@ -51,6 +51,7 @@ class Anonymize(Scanner):
     def __init__(
         self,
         vault: Vault,
+        *,
         hidden_names: Optional[List[str]] = None,
         allowed_names: Optional[List[str]] = None,
         entity_types: Optional[List[str]] = None,
@@ -64,7 +65,7 @@ class Anonymize(Scanner):
         """
         Initialize an instance of Anonymize class.
 
-        Args:
+        Parameters:
             vault (Vault): A vault instance to store the anonymized data.
             hidden_names (Optional[List[str]]): List of names to be anonymized e.g. [REDACTED_CUSTOM_1].
             allowed_names (Optional[List[str]]): List of names allowed in the text without anonymizing.
@@ -106,7 +107,7 @@ class Anonymize(Scanner):
         """
         Load regex patterns from a specified JSON file.
 
-        Args:
+        Parameters:
             json_path (str): Path to the JSON file containing regex patterns.
 
         Returns:
@@ -224,7 +225,7 @@ class Anonymize(Scanner):
         """
         Replace detected entities in the prompt with anonymized placeholders.
 
-        Args:
+        Parameters:
             prompt (str): Original text prompt.
             pii_entities (List[PIIEntity]): List of entities detected in the prompt.
             use_faker (bool): Whether to use faker to generate fake data.

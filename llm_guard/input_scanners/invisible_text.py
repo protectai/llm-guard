@@ -6,7 +6,16 @@ from .base import Scanner
 
 
 class InvisibleText(Scanner):
+    """
+    A class for scanning if the prompt includes invisible characters.
+
+    This class uses the unicodedata library to detect invisible characters in the output of the language model.
+    """
+
     def __init__(self):
+        """
+        Initializes InvisibleText.
+        """
         self._banned_categories = ["Cf", "Cc", "Co", "Cn"]
 
     @staticmethod

@@ -15,6 +15,7 @@ class Language(Scanner):
     def __init__(
         self,
         valid_languages: List[str],
+        *,
         threshold: float = 0.7,
         match_type: Union[MatchType, str] = MatchType.FULL,
         use_onnx: bool = False,
@@ -30,7 +31,7 @@ class Language(Scanner):
         """
 
         self._scanner = InputLanguage(
-            valid_languages=valid_languages,
+            valid_languages,
             threshold=threshold,
             match_type=match_type,
             use_onnx=use_onnx,

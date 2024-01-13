@@ -36,30 +36,28 @@ class BanSubstrings(Scanner):
 
     def __init__(
         self,
+        substrings: List[str],
+        *,
         match_type: Union[MatchType, str] = MatchType.STR,
         case_sensitive: bool = False,
-        substrings: List[str] = None,
         redact: bool = False,
         contains_all: bool = False,  # contains any
     ):
         """
         Initialize BanSubstrings object.
 
-        Args:
+        Parameters:
+            substrings (List[str]): List of substrings to ban.
             match_type (MatchType): Type of match to perform. Can be either 'str' or 'word'. Default is 'str'.
             case_sensitive (bool, optional): Flag to indicate if the match should be case-sensitive. Default is False.
-            substrings (List[str], optional): List of substrings to ban.
             redact (bool, optional): Flag to indicate if the banned substrings should be redacted. Default is False.
             contains_all (bool): Flag to indicate if need to match all substrings instead of any of them. Default is contains any.
 
         Raises:
             ValueError: If no substrings are provided or match_type is not 'str' or 'word'.
         """
-
         if isinstance(match_type, str):
             match_type = MatchType(match_type)
-
-        assert substrings is not None, "No substrings provided"
 
         self._match_type = match_type
         self._case_sensitive = case_sensitive

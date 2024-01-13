@@ -2,6 +2,7 @@ from typing import Dict, List, Optional
 
 from presidio_anonymizer.core.text_replace_builder import TextReplaceBuilder
 
+from llm_guard.exception import LLMGuardValidationError
 from llm_guard.util import device, lazy_load_dep, logger
 
 from .base import Scanner
@@ -26,7 +27,8 @@ class BanCompetitors(Scanner):
 
     def __init__(
         self,
-        competitors=List[str],
+        competitors: List[str],
+        *,
         threshold: float = 0.5,
         redact: bool = True,
         model: Optional[Dict] = None,
@@ -34,7 +36,7 @@ class BanCompetitors(Scanner):
         """
         Initialize BanCompetitors object.
 
-        Args:
+        Parameters:
             competitors (List[str]): List of competitors to ban.
             threshold (float, optional): Threshold to determine if a competitor is present in the prompt. Default is 0.5.
             redact (bool, optional): Whether to redact the competitor name. Default is True.
@@ -46,8 +48,8 @@ class BanCompetitors(Scanner):
         if model is None:
             model = MODEL_BASE
 
-        assert len(competitors) > 0, "No competitors provided"
-        assert model in ALL_MODELS, f"Model must be in the list of allowed: {ALL_MODELS}"
+        if model not in ALL_MODELS:
+            raise LLMGuardValidationError(f"Model must be in the list of allowed: {ALL_MODELS}")
 
         self._competitors = competitors
         self._threshold = threshold

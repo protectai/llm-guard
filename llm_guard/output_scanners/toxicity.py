@@ -15,6 +15,7 @@ class Toxicity(Scanner):
 
     def __init__(
         self,
+        *,
         threshold: float = 0.7,
         match_type: Union[MatchType, str] = MatchType.FULL,
         use_onnx: bool = False,
@@ -28,7 +29,7 @@ class Toxicity(Scanner):
             use_onnx (bool): Whether to use ONNX for inference. Defaults to False.
         """
 
-        self._scanner = InputToxicity(threshold, match_type, use_onnx)
+        self._scanner = InputToxicity(threshold=threshold, match_type=match_type, use_onnx=use_onnx)
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         return self._scanner.scan(output)

@@ -1,5 +1,6 @@
 from typing import Dict, List, Optional
 
+from llm_guard.exception import LLMGuardValidationError
 from llm_guard.transformers_helpers import pipeline
 from llm_guard.util import logger
 
@@ -46,6 +47,7 @@ class BanTopics(Scanner):
     def __init__(
         self,
         topics=List[str],
+        *,
         threshold: float = 0.6,
         model: Optional[Dict] = None,
         use_onnx: bool = False,
@@ -53,7 +55,7 @@ class BanTopics(Scanner):
         """
         Initialize BanTopics object.
 
-        Args:
+        Parameters:
             topics (List[str]): List of topics to ban.
             threshold (float, optional): Threshold to determine if a topic is present in the prompt. Default is 0.75.
             model (Dict, optional): Model to use for zero-shot classification. Default is deberta-v3-base-zeroshot-v1.
@@ -65,8 +67,8 @@ class BanTopics(Scanner):
         if model is None:
             model = MODEL_BASE
 
-        assert len(topics) > 0, "No topics provided"
-        assert model in ALL_MODELS, f"Model must be in the list of allowed: {ALL_MODELS}"
+        if model not in ALL_MODELS:
+            raise LLMGuardValidationError(f"Model must be in the list of allowed: {ALL_MODELS}")
 
         self._topics = topics
         self._threshold = threshold

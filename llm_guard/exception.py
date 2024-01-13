@@ -1,0 +1,2 @@
+class LLMGuardValidationError(ValueError):
+    pass

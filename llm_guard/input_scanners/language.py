@@ -34,6 +34,7 @@ class Language(Scanner):
     def __init__(
         self,
         valid_languages: List[str],
+        *,
         threshold: float = 0.6,
         match_type: Union[MatchType, str] = MatchType.FULL,
         use_onnx: bool = False,

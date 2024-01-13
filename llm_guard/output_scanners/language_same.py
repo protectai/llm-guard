@@ -12,6 +12,7 @@ class LanguageSame(Scanner):
 
     def __init__(
         self,
+        *,
         threshold: float = 0.1,
         use_onnx: bool = False,
     ):

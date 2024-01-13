@@ -17,7 +17,7 @@ class NoRefusal(Scanner):
     Refusals are common when the prompt breaches policies defined by the model.
     """
 
-    def __init__(self, threshold: float = 0.5, use_onnx: bool = False):
+    def __init__(self, *, threshold: float = 0.5, use_onnx: bool = False):
         """
         Initializes an instance of the NoRefusal class.
 
@@ -27,7 +27,6 @@ class NoRefusal(Scanner):
         """
 
         self._threshold = threshold
-
         self._classifier = pipeline(
             task="zero-shot-classification",
             model=_model["path"],

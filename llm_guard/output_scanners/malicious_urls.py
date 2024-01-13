@@ -24,7 +24,7 @@ class MaliciousURLs(Scanner):
     URLs as either malicious or benign to safeguard users from potential threats.
     """
 
-    def __init__(self, threshold=0.5, use_onnx: bool = False):
+    def __init__(self, *, threshold=0.5, use_onnx: bool = False):
         """
         Initializes an instance of the MaliciousURLs class.
 

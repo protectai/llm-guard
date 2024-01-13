@@ -427,13 +427,14 @@ class Secrets(Scanner):
 
     def __init__(
         self,
+        *,
         redact_mode: str = REDACT_ALL,
     ):
         """
         Initialize an instance of the Secrets scanner.
 
         Parameters:
-        - redact_mode (str): Mode for redaction. Defaults to `REDACT_ALL`. Choices are `REDACT_PARTIAL`, `REDACT_ALL`, and `REDACT_HASH`.
+            redact_mode (str): Mode for redaction. Defaults to `REDACT_ALL`. Choices are `REDACT_PARTIAL`, `REDACT_ALL`, and `REDACT_HASH`.
         """
         self._detect_secrets_config = _default_detect_secrets_config
         self._redact_mode = redact_mode

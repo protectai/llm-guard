@@ -1,6 +1,7 @@
 import re
 from typing import List
 
+from llm_guard.exception import LLMGuardValidationError
 from llm_guard.transformers_helpers import pipeline
 from llm_guard.util import calculate_risk_score, logger
 
@@ -25,6 +26,7 @@ class Code(Scanner):
     def __init__(
         self,
         languages: List[str],
+        *,
         is_blocked: bool = True,
         threshold: float = 0.5,
         use_onnx: bool = False,
@@ -41,10 +43,8 @@ class Code(Scanner):
         Raises:
             ValueError: If both 'allowed' and 'denied' lists are provided or if both are empty.
         """
-        assert len(languages) > 0, "No programming languages provided"
-        assert set(languages).issubset(
-            set(SUPPORTED_LANGUAGES)
-        ), f"Languages must be a subset of {SUPPORTED_LANGUAGES}"
+        if not set(languages).issubset(set(SUPPORTED_LANGUAGES)):
+            raise LLMGuardValidationError(f"Languages must be a subset of {SUPPORTED_LANGUAGES}")
 
         self._languages = languages
         self._is_blocked = is_blocked

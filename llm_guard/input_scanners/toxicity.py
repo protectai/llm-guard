@@ -42,6 +42,7 @@ class Toxicity(Scanner):
 
     def __init__(
         self,
+        *,
         threshold: float = 0.5,
         match_type: Union[MatchType, str] = MatchType.FULL,
         use_onnx: bool = False,
@@ -53,9 +54,6 @@ class Toxicity(Scanner):
            threshold (float): Threshold for toxicity. Default is 0.5.
            match_type (MatchType): Whether to match the full text or individual sentences. Default is MatchType.FULL.
            use_onnx (bool): Whether to use ONNX for inference. Default is False.
-
-        Raises:
-           None.
         """
         if isinstance(match_type, str):
             match_type = MatchType(match_type)
