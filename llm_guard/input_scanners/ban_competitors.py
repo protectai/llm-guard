@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional
+from typing import Dict, Optional, Sequence
 
 from presidio_anonymizer.core.text_replace_builder import TextReplaceBuilder
 
@@ -27,7 +27,7 @@ class BanCompetitors(Scanner):
 
     def __init__(
         self,
-        competitors: List[str],
+        competitors: Sequence[str],
         *,
         threshold: float = 0.5,
         redact: bool = True,
@@ -37,7 +37,7 @@ class BanCompetitors(Scanner):
         Initialize BanCompetitors object.
 
         Parameters:
-            competitors (List[str]): List of competitors to ban.
+            competitors (Sequence[str]): List of competitors to detect.
             threshold (float, optional): Threshold to determine if a competitor is present in the prompt. Default is 0.5.
             redact (bool, optional): Whether to redact the competitor name. Default is True.
             model (Dict, optional): Model to use for named-entity recognition. Default is BASE model.

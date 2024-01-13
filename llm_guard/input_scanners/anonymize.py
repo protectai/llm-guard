@@ -1,7 +1,7 @@
 import json
 import os
 import re
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Sequence
 
 from presidio_anonymizer.core.text_replace_builder import TextReplaceBuilder
 from presidio_anonymizer.entities import PIIEntity, RecognizerResult
@@ -52,9 +52,9 @@ class Anonymize(Scanner):
         self,
         vault: Vault,
         *,
-        hidden_names: Optional[List[str]] = None,
-        allowed_names: Optional[List[str]] = None,
-        entity_types: Optional[List[str]] = None,
+        hidden_names: Optional[Sequence[str]] = None,
+        allowed_names: Optional[Sequence[str]] = None,
+        entity_types: Optional[Sequence[str]] = None,
         preamble: str = "",
         regex_pattern_groups_path: str = sensitive_patterns_path,
         use_faker: bool = False,
@@ -67,9 +67,9 @@ class Anonymize(Scanner):
 
         Parameters:
             vault (Vault): A vault instance to store the anonymized data.
-            hidden_names (Optional[List[str]]): List of names to be anonymized e.g. [REDACTED_CUSTOM_1].
-            allowed_names (Optional[List[str]]): List of names allowed in the text without anonymizing.
-            entity_types (Optional[List[str]]): List of entity types to be detected. If not provided, defaults to all.
+            hidden_names (Optional[Sequence[str]]): List of names to be anonymized e.g. [REDACTED_CUSTOM_1].
+            allowed_names (Optional[Sequence[str]]): List of names allowed in the text without anonymizing.
+            entity_types (Optional[Sequence[str]]): List of entity types to be detected. If not provided, defaults to all.
             preamble (str): Text to prepend to sanitized prompt. If not provided, defaults to an empty string.
             regex_pattern_groups_path (str): Path to a JSON file with regex pattern groups. If not provided, defaults to sensisitive_patterns.json.
             use_faker (bool): Whether to use faker instead of placeholders in applicable cases. If not provided, defaults to False, replaces with placeholders [REDACTED_PERSON_1].

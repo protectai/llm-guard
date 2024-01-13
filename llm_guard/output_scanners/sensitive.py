@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional
+from typing import Dict, Optional, Sequence
 
 from presidio_anonymizer import AnonymizerEngine
 
@@ -28,7 +28,7 @@ class Sensitive(Scanner):
     def __init__(
         self,
         *,
-        entity_types: Optional[List[str]] = None,
+        entity_types: Optional[Sequence[str]] = None,
         regex_pattern_groups_path: str = sensitive_patterns_path,
         redact: bool = False,
         recognizer_conf: Optional[Dict] = BERT_BASE_NER_CONF,
@@ -39,7 +39,7 @@ class Sensitive(Scanner):
         Initializes an instance of the Sensitive class.
 
         Parameters:
-           entity_types (Optional[List[str]]): The entity types to look for in the output. Defaults to all
+           entity_types (Optional[Sequence[str]]): The entity types to look for in the output. Defaults to all
                                                entity types.
            regex_pattern_groups_path (str): Path to the regex patterns file. Default is sensitive_patterns.json.
            redact (bool): Redact found sensitive entities. Default to False.

@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import Sequence, Union
 
 from llm_guard.input_scanners.regex import MatchType
 from llm_guard.input_scanners.regex import Regex as InputRegex
@@ -16,7 +16,7 @@ class Regex(Scanner):
 
     def __init__(
         self,
-        patterns: List[str],
+        patterns: Sequence[str],
         *,
         is_blocked: bool = True,
         match_type: Union[MatchType, str] = MatchType.SEARCH,
@@ -26,7 +26,7 @@ class Regex(Scanner):
         Initializes an instance of the Regex class.
 
         Parameters:
-            patterns (List[str]): A list of regular expressions to use for pattern matching.
+            patterns (Sequence[str]): A list of regular expressions to use for pattern matching.
             is_blocked (bool): Whether the patterns are blocked or allowed.
             match_type (str): The type of match to use. Can be either "search" or "fullmatch".
             redact (bool): Whether to redact the output or not.

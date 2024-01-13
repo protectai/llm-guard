@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional
+from typing import Dict, Optional, Sequence
 
 from llm_guard.exception import LLMGuardValidationError
 from llm_guard.transformers_helpers import pipeline
@@ -46,7 +46,7 @@ class BanTopics(Scanner):
 
     def __init__(
         self,
-        topics=List[str],
+        topics: Sequence[str],
         *,
         threshold: float = 0.6,
         model: Optional[Dict] = None,
@@ -56,7 +56,7 @@ class BanTopics(Scanner):
         Initialize BanTopics object.
 
         Parameters:
-            topics (List[str]): List of topics to ban.
+            topics (Sequence[str]): List of topics to ban.
             threshold (float, optional): Threshold to determine if a topic is present in the prompt. Default is 0.75.
             model (Dict, optional): Model to use for zero-shot classification. Default is deberta-v3-base-zeroshot-v1.
             use_onnx (bool, optional): Whether to use ONNX for inference. Default is False.

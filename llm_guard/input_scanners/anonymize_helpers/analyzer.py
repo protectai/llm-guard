@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict, Sequence
 
 import spacy
 from presidio_analyzer import (
@@ -82,7 +82,7 @@ def get_transformers_recognizer(recognizer_conf: Dict, use_onnx: bool = False) -
 
 
 def get_analyzer(
-    recognizer: EntityRecognizer, regex_groups, custom_names: List[str]
+    recognizer: EntityRecognizer, regex_groups, custom_names: Sequence[str]
 ) -> AnalyzerEngine:
     nlp_engine = _get_nlp_engine()
 

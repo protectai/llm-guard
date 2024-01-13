@@ -1,5 +1,5 @@
 import re
-from typing import List
+from typing import List, Sequence
 
 from llm_guard.exception import LLMGuardValidationError
 from llm_guard.transformers_helpers import pipeline
@@ -25,7 +25,7 @@ class Code(Scanner):
 
     def __init__(
         self,
-        languages: List[str],
+        languages: Sequence[str],
         *,
         is_blocked: bool = True,
         threshold: float = 0.5,
@@ -35,7 +35,7 @@ class Code(Scanner):
         Initializes Code with the allowed and denied languages.
 
         Parameters:
-            languages (List[str]): The list of programming languages to allow or deny.
+            languages (Sequence[str]): The list of programming languages to allow or deny.
             is_blocked (bool): Whether the languages are blocked or allowed. Default is True.
             threshold (float): The threshold for the risk score. Default is 0.5.
             use_onnx (bool): Whether to use ONNX for inference. Default is False.

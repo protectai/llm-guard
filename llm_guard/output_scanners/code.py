@@ -1,4 +1,4 @@
-from typing import List
+from typing import Sequence
 
 from llm_guard.input_scanners.code import Code as InputCode
 
@@ -15,7 +15,7 @@ class Code(Scanner):
 
     def __init__(
         self,
-        languages: List[str],
+        languages: Sequence[str],
         *,
         is_blocked: bool = True,
         threshold: float = 0.5,
@@ -25,7 +25,7 @@ class Code(Scanner):
         Initializes an instance of the Code class.
 
         Parameters:
-            languages (List[str]): The list of programming languages to allow or deny.
+            languages (Sequence[str]): The list of programming languages to allow or deny.
             is_blocked (bool): Whether the languages are blocked or allowed. Default is True.
             threshold (float): The threshold for the model output to be considered valid. Default is 0.5.
             use_onnx (bool): Whether to use ONNX for inference. Default is False.

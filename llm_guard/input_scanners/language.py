@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import List, Union
+from typing import List, Sequence, Union
 
 from llm_guard.transformers_helpers import pipeline
 from llm_guard.util import calculate_risk_score, logger, split_text_by_sentences
@@ -33,7 +33,7 @@ class Language(Scanner):
 
     def __init__(
         self,
-        valid_languages: List[str],
+        valid_languages: Sequence[str],
         *,
         threshold: float = 0.6,
         match_type: Union[MatchType, str] = MatchType.FULL,
@@ -43,7 +43,7 @@ class Language(Scanner):
         Initializes the Language scanner with a list of valid languages.
 
         Parameters:
-            valid_languages (List[str]): A list of valid language codes in ISO 639-1.
+            valid_languages (Sequence[str]): A list of valid language codes in ISO 639-1.
             threshold (float): Minimum confidence score.
             match_type (MatchType): Whether to match the full text or individual sentences. Default is MatchType.FULL.
             use_onnx (bool): Whether to use ONNX for inference. Default is False.

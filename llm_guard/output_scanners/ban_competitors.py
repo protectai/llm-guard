@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional
+from typing import Dict, Optional, Sequence
 
 from llm_guard.input_scanners.ban_competitors import BanCompetitors as InputBanCompetitors
 
@@ -14,7 +14,7 @@ class BanCompetitors(Scanner):
 
     def __init__(
         self,
-        competitors=List[str],
+        competitors: Sequence[str],
         *,
         threshold: float = 0.5,
         redact: bool = True,
@@ -24,7 +24,7 @@ class BanCompetitors(Scanner):
         Initializes BanCompetitors object.
 
         Parameters:
-            competitors (List[str]): List of competitors to ban.
+            competitors (Sequence[str]): List of competitors to ban.
             threshold (float, optional): Threshold to determine if an organization is present in the output. Default is 0.5.
             redact (bool, optional): Whether to redact the organization name. Default is True.
             model (Dict, optional): Model to use for named-entity recognition. Default is BASE model.

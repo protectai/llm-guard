@@ -42,11 +42,13 @@ class TokenLimit(Scanner):
         start_idx = 0
         cur_idx = min(start_idx + self._limit, len(input_ids))
         chunk_ids = input_ids[start_idx:cur_idx]
+
         while start_idx < len(input_ids):
             splits.append(self._encoding.decode(chunk_ids))
             start_idx += self._limit
             cur_idx = min(start_idx + self._limit, len(input_ids))
             chunk_ids = input_ids[start_idx:cur_idx]
+
         return splits, len(input_ids)
 
     def scan(self, prompt: str) -> (str, bool, float):

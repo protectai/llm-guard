@@ -1,5 +1,5 @@
 import time
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 
 from .input_scanners.base import Scanner as InputScanner
 from .output_scanners.base import Scanner as OutputScanner
@@ -18,7 +18,7 @@ These functions return the processed string after all scanners have been applied
 
 
 def scan_prompt(
-    scanners: list[InputScanner], prompt: str, fail_fast: Optional[bool] = False
+    scanners: List[InputScanner], prompt: str, fail_fast: Optional[bool] = False
 ) -> (str, Dict[str, bool], Dict[str, float]):
     """
     Scans a given prompt using the provided scanners.
@@ -65,7 +65,7 @@ def scan_prompt(
 
 
 def scan_output(
-    scanners: list[OutputScanner], prompt: str, output: str, fail_fast: Optional[bool] = False
+    scanners: List[OutputScanner], prompt: str, output: str, fail_fast: Optional[bool] = False
 ) -> (str, Dict[str, bool], Dict[str, float]):
     """
     Scans a given output of a large language model using the provided scanners.

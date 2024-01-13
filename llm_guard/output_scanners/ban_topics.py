@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional
+from typing import Dict, Optional, Sequence
 
 from llm_guard.input_scanners.ban_topics import BanTopics as InputBanTopics
 
@@ -14,7 +14,7 @@ class BanTopics(Scanner):
 
     def __init__(
         self,
-        topics=List[str],
+        topics: Sequence[str],
         *,
         threshold: float = 0.75,
         model: Optional[Dict] = None,
@@ -24,7 +24,7 @@ class BanTopics(Scanner):
         Initializes BanTopics with a list of topics and a probability threshold.
 
         Parameters:
-            topics (List[str]): The list of topics to be banned from the text.
+            topics (Sequence[str]): The list of topics to be banned from the text.
             threshold (float): The minimum probability required for a topic to be considered present in the text.
                                Default is 0.75.
             model (Dict, optional): The name of the zero-shot-classification model to be used. Default is MODEL_BASE.

@@ -1,7 +1,7 @@
 import os
 import re
 from enum import Enum
-from typing import List, Union
+from typing import Sequence, Union
 
 from llm_guard.util import logger
 
@@ -36,7 +36,7 @@ class BanSubstrings(Scanner):
 
     def __init__(
         self,
-        substrings: List[str],
+        substrings: Sequence[str],
         *,
         match_type: Union[MatchType, str] = MatchType.STR,
         case_sensitive: bool = False,
@@ -47,7 +47,7 @@ class BanSubstrings(Scanner):
         Initialize BanSubstrings object.
 
         Parameters:
-            substrings (List[str]): List of substrings to ban.
+            substrings (Sequence[str]): List of substrings to ban.
             match_type (MatchType): Type of match to perform. Can be either 'str' or 'word'. Default is 'str'.
             case_sensitive (bool, optional): Flag to indicate if the match should be case-sensitive. Default is False.
             redact (bool, optional): Flag to indicate if the banned substrings should be redacted. Default is False.
@@ -66,7 +66,7 @@ class BanSubstrings(Scanner):
         self._contains_all = contains_all
 
     @staticmethod
-    def _redact_text(text: str, substrings: List[str]) -> str:
+    def _redact_text(text: str, substrings: Sequence[str]) -> str:
         redacted_text = text
         for s in substrings:
             redacted_text = redacted_text.replace(s, "[REDACTED]")

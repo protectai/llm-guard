@@ -1,6 +1,6 @@
 import re
 from enum import Enum
-from typing import List, Pattern, Union
+from typing import Pattern, Sequence, Union
 
 from presidio_anonymizer.core.text_replace_builder import TextReplaceBuilder
 
@@ -27,7 +27,7 @@ class Regex(Scanner):
 
     def __init__(
         self,
-        patterns: List[str],
+        patterns: Sequence[str],
         *,
         is_blocked: bool = True,
         match_type: Union[MatchType, str] = MatchType.SEARCH,
@@ -37,7 +37,7 @@ class Regex(Scanner):
         Initializes an instance of the Regex class.
 
         Parameters:
-            patterns (List[str]): A list of regular expressions to use for pattern matching.
+            patterns (Sequence[str]): A list of regular expressions to use for pattern matching.
             is_blocked (bool): Whether the patterns are blocked or allowed.
             match_type (str): The type of match to use. Can be either "search" or "fullmatch".
             redact (bool): Whether to redact the output or not.
