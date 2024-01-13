@@ -77,6 +77,7 @@ pip install llm-guard
 - [LanguageSame](https://llm-guard.com/output_scanners/language_same/)
 - [MaliciousURLs](https://llm-guard.com/output_scanners/malicious_urls/)
 - [NoRefusal](https://llm-guard.com/output_scanners/no_refusal/)
+- [ReadingTime](https://llm-guard.com/output_scanners/reading_time/)
 - [FactualConsistency](https://llm-guard.com/output_scanners/factual_consistency/)
 - [Regex](https://llm-guard.com/output_scanners/regex/)
 - [Relevance](https://llm-guard.com/output_scanners/relevance/)

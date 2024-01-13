@@ -13,6 +13,7 @@ from .language import Language
 from .language_same import LanguageSame
 from .malicious_urls import MaliciousURLs
 from .no_refusal import NoRefusal
+from .reading_time import ReadingTime
 from .regex import Regex
 from .relevance import Relevance
 from .sensitive import Sensitive
@@ -70,6 +71,9 @@ def get_scanner_by_name(scanner_name: str, scanner_config: Optional[Dict] = None
 
     if scanner_name == "NoRefusal":
         return NoRefusal(**scanner_config)
+
+    if scanner_name == "ReadingTime":
+        return ReadingTime(**scanner_config)
 
     if scanner_name == "Regex":
         return Regex(**scanner_config)

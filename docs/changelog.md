@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [URLReachability](https://llm-guard.com/output_scanners/url_reachability/) scanner to check if the URL is reachable.
 - [BanCompetitors](https://llm-guard.com/input_scanners/ban_competitors/) scanner to check if the prompt or output contains competitors' names.
 - [InvisibleText](https://llm-guard.com/input_scanners/invisible_text/) scanner to check if the prompt contains invisible unicode characters (steganography attack).
+- [ReadingTime](https://llm-guard.com/output_scanners/reading_time/) scanner to check if the output can be read in less than a certain amount of time.
 
 ### Fixed
 - `BanSubstrings`: bug when `case_sensitive` was enabled.

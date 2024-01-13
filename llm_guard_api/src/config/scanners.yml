@@ -75,6 +75,9 @@ output_scanners:
     threshold: 0.75
   NoRefusal:
     threshold: 0.5
+  ReadingTime:
+    max_time: 5
+    truncate: false
   Regex:
     patterns: ["Bearer [A-Za-z0-9-._~+/]+"]
     is_blocked: true

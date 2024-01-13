@@ -104,6 +104,9 @@ def build_output_scanner(scanner_name: str, use_onnx: bool) -> OutputScanner:
     if scanner_name == "NoRefusal":
         return output_scanners.NoRefusal(use_onnx=use_onnx)
 
+    if scanner_name == "ReadingTime":
+        return output_scanners.ReadingTime(max_time=0.5, truncate=True)
+
     if scanner_name == "FactualConsistency":
         return output_scanners.FactualConsistency(use_onnx=use_onnx)
 
