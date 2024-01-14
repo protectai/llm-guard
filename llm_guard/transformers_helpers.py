@@ -41,6 +41,7 @@ def _ort_model_for_sequence_classification(model: str, export: bool = False, sub
             model,
             export=export,
             subfolder=subfolder,
+            file_name="model.onnx",
             provider="CUDAExecutionProvider",
             use_io_binding=True,
         )
@@ -54,6 +55,7 @@ def _ort_model_for_sequence_classification(model: str, export: bool = False, sub
         model,
         export=export,
         subfolder=subfolder,
+        file_name="model.onnx",
     )
     logger.debug(f"Initialized classification ONNX model {model} on device {device()}")
 

@@ -1,6 +1,6 @@
 asyncio==3.4.3
-fastapi==0.105.0
-llm-guard==0.3.4
+fastapi==0.109.0
+llm-guard==0.3.7
 pydantic==1.10.13
 pyyaml==6.0.1
 uvicorn[standard]==0.25.0

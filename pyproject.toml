@@ -73,7 +73,7 @@ issues = "https://github.com/laiyer-ai/llm-guard/issues"
 changelog = "https://llm-guard.com/changelog/"
 
 [tool.setuptools]
-packages = ["llm_guard"]
+packages = {find = {where=["."], include=["llm_guard", "llm_guard.*"]}}
 license-files = [
   "LICENSE"
 ]
@@ -97,5 +97,5 @@ log-level = "DEBUG"
 log_cli = "False"
 
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"

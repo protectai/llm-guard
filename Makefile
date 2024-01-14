@@ -38,4 +38,4 @@ docs-serve:
 
 clean:
 	@echo "Cleaning up..."
-	@rm -rf build dist .pytest_cache .egg-info
+	@rm -rf build dist .pytest_cache .egg-info llm_guard.egg-info
