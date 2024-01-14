@@ -1,6 +1,6 @@
 import importlib
 from functools import lru_cache
-from typing import Optional
+from typing import Literal, Optional, get_args
 
 from .exception import LLMGuardValidationError
 from .util import device, lazy_load_dep, logger
@@ -103,12 +103,14 @@ def get_tokenizer_and_model_for_classification(
     return tf_tokenizer, tf_model
 
 
+ClassificationTask = Literal["text-classification", "zero-shot-classification", "ner"]
+
+
 def pipeline(
     task: str, model: str, onnx_model: Optional[str] = None, use_onnx: bool = False, **kwargs
 ):
-    allowed_tasks = ["text-classification", "zero-shot-classification", "ner"]
-    if task not in allowed_tasks:
-        raise LLMGuardValidationError(f"Invalid task. Must be one of {allowed_tasks}")
+    if task not in get_args(ClassificationTask):
+        raise LLMGuardValidationError(f"Invalid task. Must be one of {ClassificationTask}")
 
     if task == "ner":
         return _pipeline_ner(model, onnx_model, use_onnx, **kwargs)
