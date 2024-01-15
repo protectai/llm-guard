@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 -
 
-## [0.3.7] - 2023-01-14
+## [0.3.7] - 2023-01-15
 
 _0.3.5 and 0.3.6 were skipped due to build issues._
 
@@ -44,9 +44,6 @@ _0.3.5 and 0.3.6 were skipped due to build issues._
 - `BanTopics`, `FactualConsistency` and `NoRefusal`: Updated zero-shot classification model to [hMoritzLaurer/deberta-v3-base-zeroshot-v1.1-all-33](https://huggingface.co/MoritzLaurer/deberta-v3-base-zeroshot-v1.1-all-33) with different size options.
 - **[Breaking]**: Using keyword arguments for better readability of the code e.g. `scanner = BanSubstrings(["a", "b", "c"], "str", False, True, False)` would raise an error.
 - **[Breaking]**: API config supports configuring same scanner multiple times with different inputs.
-
-### Removed
--
 
 ## [0.3.4] - 2023-12-21
 
