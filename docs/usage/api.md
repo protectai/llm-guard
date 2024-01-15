@@ -10,7 +10,7 @@ This example demonstrates how to use LLM Guard as an API. It uses [FastAPI](http
 
 2. Install dependencies (preferably in a virtual environment)
 ```sh
-python -m pip install "."
+python -m pip install -r requirements.txt
 ```
 
 Or you can use Makefile

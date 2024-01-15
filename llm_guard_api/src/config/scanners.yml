@@ -1,97 +1,137 @@
-# Scanners are applied in the order they are listed here.
+app:
+  name: ${APP_NAME:LLM Guard API}
+  debug: ${DEBUG:false}
+  scan_fail_fast: ${SCAN_FAIL_FAST:false}
+  scan_prompt_timeout: ${SCAN_PROMPT_TIMEOUT:10}
+  scan_output_timeout: ${SCAN_OUTPUT_TIMEOUT:30}
+  cache_ttl: ${CACHE_TTL:3600}
+  cache_max_size: ${CACHE_MAX_SIZE:}
+  use_onnx: ${USE_ONNX:true}
 
+# Scanners are applied in the order they are listed here.
 input_scanners:
-  Anonymize:
-    # allowed_names: []
-    # hidden_names: []
-    # entity_types: []
-    # preamble: ""
-    use_faker: false
-  BanCompetitors:
-    competitors: ["facebook"]
-    threshold: 0.5
-  BanSubstrings:
-    substrings: ["test"]
-    match_type: "word"
-    case_sensitive: false
-    redact: false
-    contains_all: false
-  BanTopics:
-    topics: ["violence"]
-    threshold: 0.6
-  Code:
-    languages: ["go"]
-    is_blocked: true
-  Language:
-    valid_languages: [ "en" ]
-  PromptInjection:
-    threshold: 0.9
-  Regex:
-    patterns: ["Bearer [A-Za-z0-9-._~+/]+"]
-    is_blocked: true
-    match_type: search
-    redact: true
-  Secrets:
-    redact_mode: "all"
-  Sentiment:
-    # lexicon="vader_lexicon"
-    threshold: -0.1
-  TokenLimit:
-    limit: 4096
-    encoding_name: "cl100k_base"
-  Toxicity:
-    threshold: 0.5
+  - type: Anonymize
+    params:
+      # allowed_names: []
+      # hidden_names: []
+      # entity_types: []
+      # preamble: ""
+      use_faker: false
+  - type: BanCompetitors
+    params:
+      competitors: ["facebook"]
+      threshold: 0.5
+  - type: BanSubstrings
+    params:
+      substrings: ["test"]
+      match_type: "word"
+      case_sensitive: false
+      redact: false
+      contains_all: false
+  - type: BanTopics
+    params:
+      topics: ["violence"]
+      threshold: 0.6
+  - type: Code
+    params:
+      languages: ["python"]
+      is_blocked: true
+  - type: Language
+    params:
+      valid_languages: [ "en" ]
+  - type: PromptInjection
+    params:
+      threshold: 0.9
+  - type: Regex
+    params:
+      patterns: ["Bearer [A-Za-z0-9-._~+/]+"]
+      is_blocked: true
+      match_type: search
+      redact: true
+  - type: Secrets
+    params:
+      redact_mode: "all"
+  - type: Sentiment
+    params:
+      # lexicon: "vader_lexicon"
+      threshold: -0.1
+  - type: TokenLimit
+    params:
+      limit: 4096
+      encoding_name: "cl100k_base"
+  - type: Toxicity
+    params:
+      threshold: 0.5
 
 
 output_scanners:
-  BanCompetitors:
-    threshold: 0.5
-    competitors: ["facebook"]
-  BanSubstrings:
-    match_type: "word"
-    case_sensitive: false
-    substrings: ["test"]
-    redact: false
-    contains_all: false
-  BanTopics:
-    threshold: 0.6
-    topics: ["violence"]
-  Bias:
-    threshold: 0.75
-  Code:
-    languages: ["python"]
-    is_blocked: true
-  Deanonymize:
-    matching_strategy: "exact"
-  FactualConsistency:
-    minimum_score: 0.5
-  JSON:
-    required_elements: 0
-    repair: true
-  Language:
-    valid_languages: [ "en" ]
-  LanguageSame:
-  MaliciousURLs:
-    threshold: 0.75
-  NoRefusal:
-    threshold: 0.5
-  ReadingTime:
-    max_time: 5
-    truncate: false
-  Regex:
-    patterns: ["Bearer [A-Za-z0-9-._~+/]+"]
-    is_blocked: true
-    match_type: search
-    redact: true
-  Relevance:
-    threshold: 0.5
-  Sensitive:
-    # entity_types:
-    redact: false
-    threshold: 0.0
-  Sentiment:
-    threshold: -0.1
-    # lexicon: "vader_lexicon"
-  Toxicity:
-    threshold: 0.5
-  URLReachability: {}
+  - type: BanCompetitors
+    params:
+      competitors: ["facebook"]
+      threshold: 0.5
+  - type: BanSubstrings
+    params:
+      substrings: ["test"]
+      match_type: "word"
+      case_sensitive: false
+      redact: false
+      contains_all: false
+  - type: BanTopics
+    params:
+      topics: ["violence"]
+      threshold: 0.6
+  - type: Bias
+    params:
+      threshold: 0.75
+  - type: Code
+    params:
+      languages: ["python"]
+      is_blocked: true
+  - type: Deanonymize
+    params:
+      matching_strategy: "exact"
+  - type: FactualConsistency
+    params:
+      minimum_score: 0.5
+  - type: JSON
+    params:
+      required_elements: 0
+      repair: true
+  - type: Language
+    params:
+      valid_languages: [ "en" ]
+  - type: LanguageSame
+    params: {}
+  - type: MaliciousURLs
+    params:
+      threshold: 0.75
+  - type: NoRefusal
+    params:
+      threshold: 0.5
+  - type: ReadingTime
+    params:
+      max_time: 5
+      truncate: false
+  - type: Regex
+    params:
+      patterns: ["Bearer [A-Za-z0-9-._~+/]+"]
+      is_blocked: true
+      match_type: search
+      redact: true
+  - type: Relevance
+    params:
+      threshold: 0.5
+  - type: Sensitive
+    params:
+      # entity_types:
+      redact: false
+      threshold: 0.0
+  - type: Sentiment
+    params:
+      threshold: -0.1
+      # lexicon: "vader_lexicon"
+  - type: Toxicity
+    params:
+      threshold: 0.5
+  - type: URLReachability
+    params: {}

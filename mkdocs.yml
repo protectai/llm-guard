@@ -128,8 +128,8 @@ nav:
     - Retrieval-augmented Generation: usage/rag.md
     - Secure RAG with Langchain: usage/notebooks/langchain_rag.ipynb
     - Secure RAG with LlamaIndex: usage/notebooks/llama_index_rag.ipynb
-    - Attacks:
-      - Invisible Prompt: attacks/invisible_prompt.ipynb
+    - Secure Agents with Langchain: usage/notebooks/langchain_agents.ipynb
+    - Invisible Prompt Attack: attacks/invisible_prompt.ipynb
   - Input Scanners:
       - Anonymize: input_scanners/anonymize.md
       - Ban Competitors: input_scanners/ban_competitors.md

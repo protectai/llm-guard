@@ -5,7 +5,7 @@ import os
 import time
 
 from cache import InMemoryCache
-from config import get_env_config, load_scanners_from_config
+from config import get_config
 from fastapi import FastAPI, HTTPException, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
@@ -22,36 +22,35 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from llm_guard import scan_output, scan_prompt
 from llm_guard.vault import Vault
 
-config = get_env_config()
+version = "0.0.5"
 
 logger = logging.getLogger("llm-guard-api")
+
+vault = Vault()
+scanners_config_file = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)),
+    "config",
+    "scanners.yml",
+)
+
+config = get_config(vault, scanners_config_file)
 logger.setLevel(logging.INFO)
-is_debug = config["debug"]
+is_debug = config["app"]["debug"]
 if is_debug:
     logger.setLevel(logging.DEBUG)
-
-version = "0.0.4"
 
 
 def create_app():
     cache = InMemoryCache(
-        max_size=config["cache_ttl"],
-        expiration_time=config["cache_ttl"],
+        max_size=config["app"]["cache_ttl"],
+        expiration_time=config["app"]["cache_ttl"],
     )
 
-    vault = Vault()
-    scanners_config_file = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)),
-        "config",
-        "scanners.yml",
-    )
-    input_scanners, output_scanners = load_scanners_from_config(config, vault, scanners_config_file)
-
-    if config["scan_fail_fast"]:
-        logger.debug("Scan fail fast is enabled")
+    if config["app"]["scan_fail_fast"]:
+        logger.debug("Scan fail_fast mode is enabled")
 
     app = FastAPI(
-        title="LLM Guard API",
+        title=config["app"]["name"],
         description="API to run LLM Guard scanners.",
         debug=is_debug,
         version=version,
@@ -60,7 +59,7 @@ def create_app():
 
     register_middlewares(app)
 
-    register_routes(app, cache, input_scanners, output_scanners)
+    register_routes(app, cache, config["input_scanners"], config["output_scanners"])
 
     return app
 
@@ -107,9 +106,9 @@ def register_routes(
                         output_scanners,
                         request.prompt,
                         request.output,
-                        config["scan_fail_fast"],
+                        config["app"]["scan_fail_fast"],
                     ),
-                    timeout=config["scan_output_timeout"],
+                    timeout=config["app"]["scan_output_timeout"],
                 )
 
                 response = AnalyzeOutputResponse(
@@ -151,9 +150,9 @@ def register_routes(
                         scan_prompt,
                         input_scanners,
                         request.prompt,
-                        config["scan_fail_fast"],
+                        config["app"]["scan_fail_fast"],
                     ),
-                    timeout=config["scan_prompt_timeout"],
+                    timeout=config["app"]["scan_prompt_timeout"],
                 )
 
                 response = AnalyzePromptResponse(
@@ -197,13 +196,3 @@ def register_routes(
 
 
 app = create_app()
-
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run(
-        "app:app",
-        host="0.0.0.0",
-        port=8000,
-        server_header=False,
-    )
