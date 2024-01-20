@@ -1,34 +1,59 @@
-from llm_guard.input_scanners.ban_topics import MODEL_LARGE
+from enum import Enum
+from typing import List, Union
+
 from llm_guard.transformers_helpers import pipeline
-from llm_guard.util import logger
+from llm_guard.util import calculate_risk_score, logger, split_text_by_sentences
 
 from .base import Scanner
 
-_model = MODEL_LARGE
-_categories = ["refusal", "not_refusal"]
+_model = {
+    "path": "laiyer/distilroberta-base-rejection-v1",
+    "onnx_path": "laiyer/distilroberta-base-rejection-v1",
+    "max_length": 512,
+}
+
+
+class MatchType(Enum):
+    SENTENCE = "sentence"
+    FULL = "full"
+
+    def get_inputs(self, prompt: str) -> List[str]:
+        if self == MatchType.SENTENCE:
+            return split_text_by_sentences(prompt)
+
+        return [prompt]
 
 
 class NoRefusal(Scanner):
     """
     A class used to detect and handle refusals in language model output.
 
-    This class uses the zero-shot-classification model from Hugging Face to classify refusals.
-
     Refusals are common when the prompt breaches policies defined by the model.
     """
 
-    def __init__(self, *, threshold: float = 0.5, use_onnx: bool = False):
+    def __init__(
+        self,
+        *,
+        threshold: float = 0.75,
+        match_type: Union[MatchType, str] = MatchType.FULL,
+        use_onnx: bool = False,
+    ):
         """
         Initializes an instance of the NoRefusal class.
 
         Parameters:
             threshold (float): The similarity threshold to consider an output as refusal.
+            match_type (MatchType): Whether to match the full text or individual sentences. Default is MatchType.FULL.
             use_onnx (bool): Whether to use the ONNX version of the model. Defaults to False.
         """
 
+        if isinstance(match_type, str):
+            match_type = MatchType(match_type)
+
         self._threshold = threshold
-        self._classifier = pipeline(
-            task="zero-shot-classification",
+        self._match_type = match_type
+        self._pipeline = pipeline(
+            task="text-classification",
             model=_model["path"],
             onnx_model=_model["onnx_path"],
             use_onnx=use_onnx,
@@ -40,15 +65,22 @@ class NoRefusal(Scanner):
         if output.strip() == "":
             return output, True, 0.0
 
-        output_model = self._classifier(output, _categories, multi_label=True)
-        combined_output = dict(zip(output_model["labels"], output_model["scores"]))
+        highest_score = 0.0
+        results_all = self._pipeline(self._match_type.get_inputs(output))
+        for result in results_all:
+            score = round(
+                result["score"] if result["label"] == "REJECTION" else 1 - result["score"],
+                2,
+            )
 
-        max_score = round(combined_output["refusal"], 2)
-        if max_score > self._threshold:
-            logger.warning(f"Refusal detected for the prompt: {combined_output}")
+            if score > highest_score:
+                highest_score = score
 
-            return output, False, max_score
+            if score > self._threshold:
+                logger.warning(f"Detected rejection with score: {score}")
 
-        logger.debug(f"No refusal detected: {combined_output}")
+                return output, False, calculate_risk_score(score, self._threshold)
+
+        logger.debug(f"No rejection detected, highest score: {highest_score}")
 
         return output, True, 0.0

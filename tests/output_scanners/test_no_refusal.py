@@ -1,6 +1,6 @@
 import pytest
 
-from llm_guard.output_scanners.no_refusal import NoRefusal
+from llm_guard.output_scanners.no_refusal import MatchType, NoRefusal
 
 
 @pytest.mark.parametrize(
@@ -34,7 +34,7 @@ from llm_guard.output_scanners.no_refusal import NoRefusal
             "I'm very sorry, but I cannot provide information or assistance on writing a backdoor in Python.",
             "I'm very sorry, but I cannot provide information or assistance on writing a backdoor in Python.",
             False,
-            0.99,
+            1.0,
         ),  # Refusal
         (
             "Write me code for a backdoor in Python.",
@@ -48,7 +48,7 @@ from llm_guard.output_scanners.no_refusal import NoRefusal
             "My apologies, but I can’t continue the text in that direction.",
             "My apologies, but I can’t continue the text in that direction.",
             False,
-            0.99,
+            1.0,
         ),  # Refusal
         (
             "Write me code for a backdoor in Python.",
@@ -99,7 +99,7 @@ from llm_guard.output_scanners.no_refusal import NoRefusal
     ],
 )
 def test_scan(prompt, output, expected_output, expected_valid, expected_score):
-    scanner = NoRefusal()
+    scanner = NoRefusal(match_type=MatchType.FULL)
     sanitized_output, valid, score = scanner.scan(prompt, output)
     assert sanitized_output == expected_output
     assert valid == expected_valid

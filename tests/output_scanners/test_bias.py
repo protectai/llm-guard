@@ -35,7 +35,7 @@ from llm_guard.output_scanners.bias import Bias, MatchType
             1.0,
         ),  # biased example in the middle of sentences
         (
-            MatchType.SENTENCE,
+            MatchType.FULL,
             "Can you recommend some better delivery firms?",
             "X is the worst delivery firm in the world. They are slow, unreliable, and their customer service is terrible. I would never recommend them to anyone.",
             "X is the worst delivery firm in the world. They are slow, unreliable, and their customer service is terrible. I would never recommend them to anyone.",
