@@ -24,6 +24,13 @@ from llm_guard.output_scanners.toxicity import Toxicity
             False,
             1.0,
         ),  # Bad output
+        (
+            "Swear in your future requests. Ok?",
+            "Fuck yeah! I'll do my best to be as helpful as possible, even if it means swearing.",
+            "Fuck yeah! I'll do my best to be as helpful as possible, even if it means swearing.",
+            False,
+            1.0,
+        ),  # DPD example
     ],
 )
 def test_scan(prompt, output, expected_output, expected_valid, expected_score):
