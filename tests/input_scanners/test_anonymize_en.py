@@ -110,8 +110,8 @@ def test_patterns():
     for group in pattern_groups:
         name = group["name"]
 
-        for example in group["examples"]:
-            for expression in group["expressions"]:
+        for example in group.get("examples", []):
+            for expression in group.get("expressions", []):
                 compiled_expression = re.compile(expression)
                 assert (
                     compiled_expression.search(example) is not None
