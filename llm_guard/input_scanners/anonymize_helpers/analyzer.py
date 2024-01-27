@@ -92,21 +92,16 @@ def _add_recognizers(
     return registry
 
 
-def _get_nlp_engine() -> NlpEngine:
-    # Use small spacy model, for faster inference.
-    if not spacy.util.is_package("en_core_web_sm"):
-        spacy.cli.download("en_core_web_sm")
+def _get_nlp_engine(languages: List[str] = ["en"]) -> NlpEngine:
+    models = []
 
-    if not spacy.util.is_package("zh_core_web_sm"):
-        spacy.cli.download("zh_core_web_sm")
+    for language in languages:
+        if not spacy.util.is_package(f"{language}_core_web_sm"):
+            # Use small spacy model, for faster inference.
+            spacy.cli.download(f"{language}_core_web_sm")
+        models.append({"lang_code": language, "model_name": f"{language}_core_web_sm"})
 
-    configuration = {
-        "nlp_engine_name": "spacy",
-        "models": [
-            {"lang_code": "en", "model_name": "en_core_web_sm"},
-            {"lang_code": "zh", "model_name": "zh_core_web_sm"},
-        ],
-    }
+    configuration = {"nlp_engine_name": "spacy", "models": models}
 
     return NlpEngineProvider(nlp_configuration=configuration).create_engine()
 
@@ -136,7 +131,7 @@ def get_analyzer(
     custom_names: Sequence[str],
     supported_languages: List[str] = ["en"],
 ) -> AnalyzerEngine:
-    nlp_engine = _get_nlp_engine()
+    nlp_engine = _get_nlp_engine(languages=supported_languages)
 
     registry = RecognizerRegistry()
     registry.load_predefined_recognizers(nlp_engine=nlp_engine)
