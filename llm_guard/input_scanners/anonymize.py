@@ -6,6 +6,7 @@ from typing import Dict, List, Optional, Sequence
 from presidio_anonymizer.core.text_replace_builder import TextReplaceBuilder
 from presidio_anonymizer.entities import PIIEntity, RecognizerResult
 
+from llm_guard.exception import LLMGuardValidationError
 from llm_guard.util import logger
 from llm_guard.vault import Vault
 
@@ -23,6 +24,7 @@ sensitive_patterns_path = os.path.join(
     "resources",
     "sensisitive_patterns.json",
 )
+
 default_entity_types = [
     "CREDIT_CARD",
     "CRYPTO",
@@ -38,6 +40,8 @@ default_entity_types = [
     "EMAIL_ADDRESS_RE",
     "US_SSN_RE",
 ]
+
+ALL_SUPPORTED_LANGUAGES = ["en", "zh"]
 
 
 class Anonymize(Scanner):
@@ -61,6 +65,7 @@ class Anonymize(Scanner):
         recognizer_conf: Optional[Dict] = BERT_BASE_NER_CONF,
         threshold: float = 0,
         use_onnx: bool = False,
+        language: str = "en",
     ):
         """
         Initialize an instance of Anonymize class.
@@ -76,13 +81,20 @@ class Anonymize(Scanner):
             recognizer_conf (Optional[Dict]): Configuration to recognize PII data. Default is dslim/bert-base-NER.
             threshold (float): Acceptance threshold. Default is 0.
             use_onnx (bool): Whether to use ONNX runtime for inference. Default is False.
+            language (str): Language of the anonymize detect. Default is "en".
         """
+
+        if language not in ALL_SUPPORTED_LANGUAGES:
+            raise LLMGuardValidationError(
+                f"Language must be in the list of allowed: {ALL_SUPPORTED_LANGUAGES}"
+            )
 
         os.environ["TOKENIZERS_PARALLELISM"] = "false"  # Disables huggingface/tokenizers warning
 
         if not entity_types:
             logger.debug(f"No entity types provided, using default: {default_entity_types}")
             entity_types = default_entity_types.copy()
+
         entity_types.append("CUSTOM")
 
         if not hidden_names:
@@ -94,12 +106,19 @@ class Anonymize(Scanner):
         self._preamble = preamble
         self._use_faker = use_faker
         self._threshold = threshold
+        self._language = language
 
-        transformers_recognizer = get_transformers_recognizer(recognizer_conf, use_onnx)
+        transformers_recognizer = get_transformers_recognizer(
+            recognizer_conf=recognizer_conf,
+            use_onnx=use_onnx,
+            supported_language=language,
+        )
+
         self._analyzer = get_analyzer(
-            transformers_recognizer,
-            Anonymize.get_regex_patterns(regex_pattern_groups_path),
-            hidden_names,
+            recognizer=transformers_recognizer,
+            regex_groups=Anonymize.get_regex_patterns(regex_pattern_groups_path),
+            custom_names=hidden_names,
+            supported_languages=list(set(["en", language])),
         )
 
     @staticmethod
@@ -122,9 +141,11 @@ class Anonymize(Scanner):
                 regex_groups.append(
                     {
                         "name": group["name"].upper(),
-                        "expressions": group["expressions"],
-                        "context": group["context"],
-                        "score": group["score"],
+                        "expressions": group.get("expressions", []),
+                        "context": group.get("context", []),
+                        "score": group.get("score", 0.75),
+                        "languages": group.get("languages", ["en"]),
+                        "reuse": group.get("reuse", False),
                     }
                 )
                 logger.debug(f"Loaded regex pattern for {group['name']}")
@@ -282,7 +303,7 @@ class Anonymize(Scanner):
 
         analyzer_results = self._analyzer.analyze(
             text=Anonymize.remove_single_quotes(prompt),
-            language="en",
+            language=self._language,
             entities=self._entity_types,
             allow_list=self._allowed_names,
             score_threshold=self._threshold,
