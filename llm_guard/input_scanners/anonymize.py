@@ -6,6 +6,7 @@ from typing import Dict, List, Optional, Sequence
 from presidio_anonymizer.core.text_replace_builder import TextReplaceBuilder
 from presidio_anonymizer.entities import PIIEntity, RecognizerResult
 
+from llm_guard.exception import LLMGuardValidationError
 from llm_guard.util import logger
 from llm_guard.vault import Vault
 
@@ -23,6 +24,7 @@ sensitive_patterns_path = os.path.join(
     "resources",
     "sensisitive_patterns.json",
 )
+
 default_entity_types = [
     "CREDIT_CARD",
     "CRYPTO",
@@ -38,6 +40,8 @@ default_entity_types = [
     "EMAIL_ADDRESS_RE",
     "US_SSN_RE",
 ]
+
+ALL_SUPPORTED_LANGUAGES = ["en", "zh"]
 
 
 class Anonymize(Scanner):
@@ -79,6 +83,11 @@ class Anonymize(Scanner):
             use_onnx (bool): Whether to use ONNX runtime for inference. Default is False.
             language (str): Language of the anonymize detect. Default is "en".
         """
+
+        if language not in ALL_SUPPORTED_LANGUAGES:
+            raise LLMGuardValidationError(
+                f"Language must be in the list of allowed: {ALL_SUPPORTED_LANGUAGES}"
+            )
 
         os.environ["TOKENIZERS_PARALLELISM"] = "false"  # Disables huggingface/tokenizers warning
 

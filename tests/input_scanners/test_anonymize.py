@@ -2,7 +2,9 @@ import re
 
 import pytest
 
+from llm_guard.exception import LLMGuardValidationError
 from llm_guard.input_scanners.anonymize import (
+    ALL_SUPPORTED_LANGUAGES,
     Anonymize,
     default_entity_types,
     sensitive_patterns_path,
@@ -165,12 +167,19 @@ _zh_preamble = (
         ),  # Empty prompt
     ],
 )
-def test_zh_scan(settings, prompt, expected_prompt, expected_valid, expected_score):
+def test_scan_zh(settings, prompt, expected_prompt, expected_valid, expected_score):
     scanner = Anonymize(Vault(), language="zh", **settings)
     sanitized_prompt, valid, score = scanner.scan(prompt)
     assert sanitized_prompt == expected_prompt
     assert valid == expected_valid
     assert score == expected_score
+
+
+def test_scan_unknow():
+    try:
+        Anonymize(Vault(), language="unknow")
+    except LLMGuardValidationError as e:
+        assert str(e) == f"Language must be in the list of allowed: {ALL_SUPPORTED_LANGUAGES}"
 
 
 def test_patterns():
