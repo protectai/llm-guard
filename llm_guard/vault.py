@@ -27,3 +27,9 @@ class Vault:
 
     def get(self) -> List[Tuple]:
         return self._tuples
+
+    def placeholder_exists(self, placeholder: str) -> bool:
+        for entity_placeholder, _ in self._tuples:
+            if placeholder == entity_placeholder:
+                return True
+        return False
