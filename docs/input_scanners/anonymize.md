@@ -86,7 +86,7 @@ from llm_guard.input_scanners import Anonymize
 from llm_guard.input_scanners.anonymize_helpers import BERT_LARGE_NER_CONF
 
 scanner = Anonymize(vault, preamble="Insert before prompt", allowed_names=["John Doe"], hidden_names=["Test LLC"],
-                    recognizer_conf=BERT_LARGE_NER_CONF)
+                    recognizer_conf=BERT_LARGE_NER_CONF, language="en")
 sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
 
@@ -97,6 +97,7 @@ sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 - `use_faker`: Substitutes eligible entities with fabricated data.
 - `recognizer_conf`: Configures recognizer for the PII data detection.
 - `threshold`: Sets the acceptance threshold (Default: `0`).
+- `language`: Language of the anonymize detect. Default is "en".
 
 Retrieving Original Data: To revert to the initial data, utilize the [Deanonymize](../output_scanners/deanonymize.md)
 scanner.
