@@ -241,7 +241,7 @@ class Anonymize(Scanner):
 
     @staticmethod
     def _anonymize(
-        prompt: str, pii_entities: List[PIIEntity], use_faker: bool
+        prompt: str, pii_entities: List[PIIEntity], vault: Vault, use_faker: bool
     ) -> (str, List[tuple]):
         """
         Replace detected entities in the prompt with anonymized placeholders.
@@ -249,6 +249,7 @@ class Anonymize(Scanner):
         Parameters:
             prompt (str): Original text prompt.
             pii_entities (List[PIIEntity]): List of entities detected in the prompt.
+            vault (Vault): A vault instance with the anonymized data stored.
             use_faker (bool): Whether to use faker to generate fake data.
 
         Returns:
@@ -257,7 +258,7 @@ class Anonymize(Scanner):
         """
         text_replace_builder = TextReplaceBuilder(original_text=prompt)
 
-        entity_type_counter = {}
+        entity_type_counter, new_entity_counter = {}, {}
         for pii_entity in pii_entities:
             entity_type = pii_entity.entity_type
             entity_value = text_replace_builder.get_text_in_position(
@@ -268,9 +269,25 @@ class Anonymize(Scanner):
                 entity_type_counter[entity_type] = {}
 
             if entity_value not in entity_type_counter[entity_type]:
-                entity_type_counter[entity_type][entity_value] = (
-                    len(entity_type_counter[entity_type]) + 1
-                )
+                vault_entities = [
+                    (entity_placeholder, entity_vault_value)
+                    for entity_placeholder, entity_vault_value in vault.get()
+                    if entity_type in entity_placeholder
+                ]
+                entity_placeholder = [
+                    entity_placeholder
+                    for entity_placeholder, entity_vault_value in vault_entities
+                    if entity_vault_value == entity_value
+                ]
+                if len(entity_placeholder) > 0:
+                    entity_type_counter[entity_type][entity_value] = int(
+                        entity_placeholder[0].split("_")[-1][:-1]
+                    )
+                else:
+                    entity_type_counter[entity_type][entity_value] = (
+                        len(vault_entities) + new_entity_counter.get(entity_type, 0) + 1
+                    )
+                    new_entity_counter[entity_type] = new_entity_counter.get(entity_type, 0) + 1
 
         results = []
         sorted_pii_entities = sorted(pii_entities, reverse=True)
@@ -319,14 +336,16 @@ class Anonymize(Scanner):
         merged_results = self._merge_entities_with_whitespace_between(prompt, analyzer_results)
 
         sanitized_prompt, anonymized_results = self._anonymize(
-            prompt, merged_results, self._use_faker
+            prompt, merged_results, self._vault, self._use_faker
         )
 
         if prompt != sanitized_prompt:
             logger.warning(
                 f"Found sensitive data in the prompt and replaced it: {merged_results}, risk score: {risk_score}"
             )
-            self._vault.extend(anonymized_results)
+            for entity_placeholder, entity_value in anonymized_results:
+                if not self._vault.placeholder_exists(entity_placeholder):
+                    self._vault.append((entity_placeholder, entity_value))
             return self._preamble + sanitized_prompt, False, risk_score
 
         logger.debug(f"Prompt does not have sensitive data to replace. Risk score is {risk_score}")
