@@ -248,16 +248,23 @@ class Anonymize(Scanner):
                 entity_type_counter[entity_type] = {}
 
             if entity_value not in entity_type_counter[entity_type]:
-                vault_entities = [(entity_placeholder, entity_vault_value)
-                                  for entity_placeholder, entity_vault_value in vault.get()
-                                  if entity_type in entity_placeholder]
-                entity_placeholder = [entity_placeholder for entity_placeholder, entity_vault_value in vault_entities
-                                      if entity_vault_value == entity_value]
+                vault_entities = [
+                    (entity_placeholder, entity_vault_value)
+                    for entity_placeholder, entity_vault_value in vault.get()
+                    if entity_type in entity_placeholder
+                ]
+                entity_placeholder = [
+                    entity_placeholder
+                    for entity_placeholder, entity_vault_value in vault_entities
+                    if entity_vault_value == entity_value
+                ]
                 if len(entity_placeholder) > 0:
-                    entity_type_counter[entity_type][entity_value] = int(entity_placeholder[0].split("_")[-1][:-1])
+                    entity_type_counter[entity_type][entity_value] = int(
+                        entity_placeholder[0].split("_")[-1][:-1]
+                    )
                 else:
                     entity_type_counter[entity_type][entity_value] = (
-                            len(vault_entities) + new_entity_counter.get(entity_type, 0) + 1
+                        len(vault_entities) + new_entity_counter.get(entity_type, 0) + 1
                     )
                     new_entity_counter[entity_type] = new_entity_counter.get(entity_type, 0) + 1
 
