@@ -53,6 +53,7 @@ class TransformersRecognizer(EntityRecognizer):
         model_path: Optional[str] = None,
         pipeline: Optional[TokenClassificationPipeline] = None,
         supported_entities: Optional[List[str]] = None,
+        supported_language: str = "en",
     ):
         if not supported_entities:
             supported_entities = BERT_BASE_NER_CONF["PRESIDIO_SUPPORTED_ENTITIES"]
@@ -75,6 +76,7 @@ class TransformersRecognizer(EntityRecognizer):
         self.id_entity_name = None
         self.id_score_reduction = None
         self.onnx_model_path = None
+        self.supported_language = supported_language
 
     def load_transformer(self, use_onnx: bool = False, **kwargs) -> None:
         """Load external configuration parameters and set default values.

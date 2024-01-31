@@ -10,7 +10,8 @@
       "30569309025904"
     ],
     "context": [],
-    "score": 0.75
+    "score": 0.75,
+    "languages": ["en", "zh"]
   },
   {
     "expressions": [
@@ -21,8 +22,10 @@
       "550e8400-e29b-41d4-a716-446655440000"
     ],
     "context": [],
-    "score": 0.75
+    "score": 0.75,
+    "languages": ["en", "zh"]
   },
+
   {
     "expressions": [
       "\\b[A-Za-z0-9._%+-]+(\\[AT\\]|@)[A-Za-z0-9.-]+(\\[DOT\\]|\\.)[A-Za-z]{2,}\\b"
@@ -35,7 +38,8 @@
       "john.doe@laiyer[DOT]ai"
     ],
     "context": [],
-    "score": 0.75
+    "score": 0.75,
+    "languages": ["en"]
   },
   {
     "expressions": [
@@ -47,6 +51,41 @@
       "987-65-4321"
     ],
     "context": [],
-    "score": 0.75
+    "score": 0.75,
+    "languages": ["en"]
+  },
+
+  {
+    "name": "CREDIT_CARD",
+    "reuse": {"language": "en", "name": "CREDIT_CARD"},
+    "languages": ["zh"]
+  },
+  {
+    "expressions": [
+      "[A-Za-z0-9._%+-]+(\\[AT\\]|@)[A-Za-z0-9.-]+(\\[DOT\\]|\\.)[A-Za-z]{2,}"
+    ],
+    "name": "EMAIL_ADDRESS_RE",
+    "examples": [
+      "john.doe@laiyer.ai",
+      "john.doe[AT]laiyer[DOT]ai",
+      "john.doe[AT]laiyer.ai",
+      "john.doe@laiyer[DOT]ai"
+    ],
+    "context": ["email"],
+    "score": 0.75,
+    "languages": ["zh"]
+  },
+  {
+    "expressions": [
+      "(13[0-9]|14[5-9]|15[0-3,5-9]|16[6]|17[0-8]|18[0-9]|19[8,9])\\d{8}"
+    ],
+    "name": "PHONE_NUMBER_ZH",
+    "examples": [
+      "13011112222",
+      "14922223333"
+    ],
+    "context": ["phone", "number", "telephone", "cell", "cellphone", "mobile", "call"],
+    "score": 0.4,
+    "languages": ["zh"]
   }
 ]

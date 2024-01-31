@@ -42,8 +42,8 @@ if is_debug:
 
 def create_app():
     cache = InMemoryCache(
-        max_size=config["app"]["cache_ttl"],
-        expiration_time=config["app"]["cache_ttl"],
+        max_size=int(config["app"]["cache_ttl"]),
+        expiration_time=int(config["app"]["cache_ttl"]),
     )
 
     if config["app"]["scan_fail_fast"]:
@@ -108,7 +108,7 @@ def register_routes(
                         request.output,
                         config["app"]["scan_fail_fast"],
                     ),
-                    timeout=config["app"]["scan_output_timeout"],
+                    timeout=float(config["app"]["scan_output_timeout"]),
                 )
 
                 response = AnalyzeOutputResponse(
@@ -152,7 +152,7 @@ def register_routes(
                         request.prompt,
                         config["app"]["scan_fail_fast"],
                     ),
-                    timeout=config["app"]["scan_prompt_timeout"],
+                    timeout=float(config["app"]["scan_prompt_timeout"]),
                 )
 
                 response = AnalyzePromptResponse(

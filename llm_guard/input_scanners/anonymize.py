@@ -6,6 +6,7 @@ from typing import Dict, List, Optional, Sequence
 from presidio_anonymizer.core.text_replace_builder import TextReplaceBuilder
 from presidio_anonymizer.entities import PIIEntity, RecognizerResult
 
+from llm_guard.exception import LLMGuardValidationError
 from llm_guard.util import logger
 from llm_guard.vault import Vault
 
@@ -23,6 +24,7 @@ sensitive_patterns_path = os.path.join(
     "resources",
     "sensisitive_patterns.json",
 )
+
 default_entity_types = [
     "CREDIT_CARD",
     "CRYPTO",
@@ -38,6 +40,8 @@ default_entity_types = [
     "EMAIL_ADDRESS_RE",
     "US_SSN_RE",
 ]
+
+ALL_SUPPORTED_LANGUAGES = ["en", "zh"]
 
 
 class Anonymize(Scanner):
@@ -61,6 +65,7 @@ class Anonymize(Scanner):
         recognizer_conf: Optional[Dict] = BERT_BASE_NER_CONF,
         threshold: float = 0,
         use_onnx: bool = False,
+        language: str = "en",
     ):
         """
         Initialize an instance of Anonymize class.
@@ -76,13 +81,20 @@ class Anonymize(Scanner):
             recognizer_conf (Optional[Dict]): Configuration to recognize PII data. Default is dslim/bert-base-NER.
             threshold (float): Acceptance threshold. Default is 0.
             use_onnx (bool): Whether to use ONNX runtime for inference. Default is False.
+            language (str): Language of the anonymize detect. Default is "en".
         """
+
+        if language not in ALL_SUPPORTED_LANGUAGES:
+            raise LLMGuardValidationError(
+                f"Language must be in the list of allowed: {ALL_SUPPORTED_LANGUAGES}"
+            )
 
         os.environ["TOKENIZERS_PARALLELISM"] = "false"  # Disables huggingface/tokenizers warning
 
         if not entity_types:
             logger.debug(f"No entity types provided, using default: {default_entity_types}")
             entity_types = default_entity_types.copy()
+
         entity_types.append("CUSTOM")
 
         if not hidden_names:
@@ -94,12 +106,19 @@ class Anonymize(Scanner):
         self._preamble = preamble
         self._use_faker = use_faker
         self._threshold = threshold
+        self._language = language
 
-        transformers_recognizer = get_transformers_recognizer(recognizer_conf, use_onnx)
+        transformers_recognizer = get_transformers_recognizer(
+            recognizer_conf=recognizer_conf,
+            use_onnx=use_onnx,
+            supported_language=language,
+        )
+
         self._analyzer = get_analyzer(
-            transformers_recognizer,
-            Anonymize.get_regex_patterns(regex_pattern_groups_path),
-            hidden_names,
+            recognizer=transformers_recognizer,
+            regex_groups=Anonymize.get_regex_patterns(regex_pattern_groups_path),
+            custom_names=hidden_names,
+            supported_languages=list(set(["en", language])),
         )
 
     @staticmethod
@@ -122,9 +141,11 @@ class Anonymize(Scanner):
                 regex_groups.append(
                     {
                         "name": group["name"].upper(),
-                        "expressions": group["expressions"],
-                        "context": group["context"],
-                        "score": group["score"],
+                        "expressions": group.get("expressions", []),
+                        "context": group.get("context", []),
+                        "score": group.get("score", 0.75),
+                        "languages": group.get("languages", ["en"]),
+                        "reuse": group.get("reuse", False),
                     }
                 )
                 logger.debug(f"Loaded regex pattern for {group['name']}")
@@ -220,7 +241,7 @@ class Anonymize(Scanner):
 
     @staticmethod
     def _anonymize(
-        prompt: str, pii_entities: List[PIIEntity], use_faker: bool
+        prompt: str, pii_entities: List[PIIEntity], vault: Vault, use_faker: bool
     ) -> (str, List[tuple]):
         """
         Replace detected entities in the prompt with anonymized placeholders.
@@ -228,6 +249,7 @@ class Anonymize(Scanner):
         Parameters:
             prompt (str): Original text prompt.
             pii_entities (List[PIIEntity]): List of entities detected in the prompt.
+            vault (Vault): A vault instance with the anonymized data stored.
             use_faker (bool): Whether to use faker to generate fake data.
 
         Returns:
@@ -236,7 +258,7 @@ class Anonymize(Scanner):
         """
         text_replace_builder = TextReplaceBuilder(original_text=prompt)
 
-        entity_type_counter = {}
+        entity_type_counter, new_entity_counter = {}, {}
         for pii_entity in pii_entities:
             entity_type = pii_entity.entity_type
             entity_value = text_replace_builder.get_text_in_position(
@@ -247,9 +269,25 @@ class Anonymize(Scanner):
                 entity_type_counter[entity_type] = {}
 
             if entity_value not in entity_type_counter[entity_type]:
-                entity_type_counter[entity_type][entity_value] = (
-                    len(entity_type_counter[entity_type]) + 1
-                )
+                vault_entities = [
+                    (entity_placeholder, entity_vault_value)
+                    for entity_placeholder, entity_vault_value in vault.get()
+                    if entity_type in entity_placeholder
+                ]
+                entity_placeholder = [
+                    entity_placeholder
+                    for entity_placeholder, entity_vault_value in vault_entities
+                    if entity_vault_value == entity_value
+                ]
+                if len(entity_placeholder) > 0:
+                    entity_type_counter[entity_type][entity_value] = int(
+                        entity_placeholder[0].split("_")[-1][:-1]
+                    )
+                else:
+                    entity_type_counter[entity_type][entity_value] = (
+                        len(vault_entities) + new_entity_counter.get(entity_type, 0) + 1
+                    )
+                    new_entity_counter[entity_type] = new_entity_counter.get(entity_type, 0) + 1
 
         results = []
         sorted_pii_entities = sorted(pii_entities, reverse=True)
@@ -282,7 +320,7 @@ class Anonymize(Scanner):
 
         analyzer_results = self._analyzer.analyze(
             text=Anonymize.remove_single_quotes(prompt),
-            language="en",
+            language=self._language,
             entities=self._entity_types,
             allow_list=self._allowed_names,
             score_threshold=self._threshold,
@@ -298,14 +336,16 @@ class Anonymize(Scanner):
         merged_results = self._merge_entities_with_whitespace_between(prompt, analyzer_results)
 
         sanitized_prompt, anonymized_results = self._anonymize(
-            prompt, merged_results, self._use_faker
+            prompt, merged_results, self._vault, self._use_faker
         )
 
         if prompt != sanitized_prompt:
             logger.warning(
                 f"Found sensitive data in the prompt and replaced it: {merged_results}, risk score: {risk_score}"
             )
-            self._vault.extend(anonymized_results)
+            for entity_placeholder, entity_value in anonymized_results:
+                if not self._vault.placeholder_exists(entity_placeholder):
+                    self._vault.append((entity_placeholder, entity_value))
             return self._preamble + sanitized_prompt, False, risk_score
 
         logger.debug(f"Prompt does not have sensitive data to replace. Risk score is {risk_score}")
