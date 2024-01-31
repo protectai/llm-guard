@@ -2,7 +2,7 @@
 
 ## Reporting a Vulnerability
 
-We take the security of our software products seriously, which includes not only the code base but also the scanners provided within. If you have found any issues that might have security implications, please send a report to [hello@laiyer.ai].
+We take the security of our software products seriously, which includes not only the code base but also the scanners provided within. If you have found any issues that might have security implications, please send a report to [security@protectai.com].
 
 **Do NOT open an issue on the GitHub repository, as doing so makes it public knowledge.**
 

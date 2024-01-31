@@ -1,13 +1,13 @@
 site_name: LLM Guard
-site_author: Laiyer.AI
-site_description: LLM-Guard is a comprehensive tool designed to fortify the security of Large Language Models (LLMs).
+site_author: Protect AI, Inc.
+site_description: LLM Guard is a comprehensive tool designed to fortify the security of Large Language Models (LLMs).
 site_url: https://llm-guard.com
 repo_url: https://github.com/laiyer-ai/llm-guard
 repo_name: laiyer-ai/llm-guard
 edit_uri: ""
 
 copyright: |
-  Maintained by <a href="https://laiyer.ai">Laiyer.AI</a>.
+  Maintained by <a href="https://protectai.com">Protect AI, Inc.</a>.
 
 theme:
   name: material
@@ -42,14 +42,14 @@ theme:
     - navigation.top
   palette:
     - scheme: default
-      primary: black
+      primary: custom
       toggle:
         icon: material/toggle-switch
         name: Switch to dark mode
 
     # Palette toggle for dark mode
     - scheme: slate
-      primary: black
+      primary: custom
       toggle:
         icon: material/toggle-switch-off-outline
         name: Switch to light mode
@@ -109,7 +109,7 @@ extra:
     - icon: fontawesome/brands/slack
       link: https://join.slack.com/t/laiyerai/shared_invite/zt-28jv3ci39-sVxXrLs3rQdaN3mIl9IT~w
     - icon: fontawesome/solid/globe
-      link: https://laiyer.ai
+      link: https://protectai.com/llm-guard
   analytics:
     provider: google
     property: G-B76J8KGG5Z
@@ -168,3 +168,6 @@ nav:
   - Roadmap: roadmap.md
   - Customization:
       - Add scanner: customization/add_scanner.md
+
+extra_css:
+  - assets/extra.css

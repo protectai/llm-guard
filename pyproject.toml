@@ -2,7 +2,7 @@
 name = "llm-guard"
 description = "LLM-Guard is a comprehensive tool designed to fortify the security of Large Language Models (LLMs). By offering sanitization, detection of harmful language, prevention of data leakage, and resistance against prompt injection attacks, LLM-Guard ensures that your interactions with LLMs remain safe and secure."
 authors = [
-  { name = "Laiyer.ai", email = "hello@laiyer.ai"}
+  { name = "Protect AI", email = "community@protectai.com"}
 ]
 keywords = ["llm", "language model", "security", "adversarial attacks", "prompt injection", "prompt leakage", "PII detection", "self-hardening", "firewall"]
 license = { file = "LICENSE" }

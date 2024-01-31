@@ -1,6 +1,6 @@
 # LLM Guard - The Security Toolkit for LLM Interactions
 
-LLM Guard by [Laiyer.ai](https://laiyer.ai) is a comprehensive tool designed to fortify the security of Large Language Models (LLMs).
+LLM Guard by [Protect AI](https://protectai.com/llm-guard) is a comprehensive tool designed to fortify the security of Large Language Models (LLMs).
 
 [**Documentation**](https://laiyer-ai.github.io/llm-guard/) | [**Playground**](https://huggingface.co/spaces/laiyer/llm-guard-playground) | [**Changelog**](https://llm-guard.com/changelog/) | [**Blog**](https://substack.com/@laiyer)
 
@@ -11,7 +11,6 @@ stars](https://img.shields.io/github/stars/laiyer-ai/llm-guard.svg?style=social&
 [![PyPI - Python Version](https://img.shields.io/pypi/v/llm-guard)](https://pypi.org/project/llm-guard)
 [![Downloads](https://static.pepy.tech/badge/llm-guard)](https://pepy.tech/project/llm-guard)
 [![Downloads](https://static.pepy.tech/badge/llm-guard/month)](https://pepy.tech/project/llm-guard)
-[![Twitter](https://img.shields.io/twitter/url/https/twitter.com/laiyer_ai.svg?style=social&label=Follow%20%40Laiyer_AI)](https://twitter.com/laiyer_ai)
 
 <a href="https://join.slack.com/t/laiyerai/shared_invite/zt-28jv3ci39-sVxXrLs3rQdaN3mIl9IT~w"><img src="https://github.com/laiyer-ai/llm-guard/blob/main/docs/assets/join-our-slack-community.png?raw=true" width="200"></a>
 
@@ -115,11 +114,4 @@ get help for package usage or contributions, or engage in discussions about LLM 
 
 We're eager to provide personalized assistance when deploying your LLM Guard to a production environment.
 
-- [Send Email ✉️](mailto:hello@laiyer.ai)
-
-## Supporters
-
-LLM Guard is supported by the following organizations:
-
-- [Google Patch Rewards program](https://bughunters.google.com/open-source-security/patch-rewards)
-- [JetBrains](https://jb.gg/OpenSourceSupport)
+- [Send Email ✉️](mailto:community@protectai.com)
