@@ -1,8 +1,9 @@
 from llm_guard.transformers_helpers import pipeline
-from llm_guard.util import calculate_risk_score, extract_urls, logger
+from llm_guard.util import calculate_risk_score, extract_urls, get_logger
 
 from .base import Scanner
 
+LOGGER = get_logger(__name__)
 _model_path = (
     "DunnBC22/codebert-base-Malicious_URLs",
     "laiyer/codebert-base-Malicious_URLs-onnx",  # ONNX version
@@ -52,7 +53,7 @@ class MaliciousURLs(Scanner):
         if len(urls) == 0:
             return output, True, 0.0
 
-        logger.debug(f"Found {len(urls)} URLs in the output")
+        LOGGER.debug("Found URLs in the output", len=len(urls))
 
         results = self._classifier(urls)
         for url, result in zip(urls, results):
@@ -61,12 +62,14 @@ class MaliciousURLs(Scanner):
             ]
             highest_malicious_score = max(malicious_scores)
             if highest_malicious_score > self._threshold:
-                logger.warning(
-                    f"Detected malware URL '{url}' with score: {highest_malicious_score}"
+                LOGGER.warning(
+                    "Detected malware URL",
+                    url=url,
+                    highest_malicious_score=highest_malicious_score,
                 )
 
                 return output, False, calculate_risk_score(highest_malicious_score, self._threshold)
 
-        logger.debug(f"Not malware URLs in the output: {results}")
+        LOGGER.debug("Not malware URLs in the output", results=results)
 
         return output, True, 0.0

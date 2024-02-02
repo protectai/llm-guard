@@ -3,9 +3,11 @@ import re
 from enum import Enum
 from typing import Sequence, Union
 
-from llm_guard.util import logger
+from llm_guard.util import get_logger
 
 from .base import Scanner
+
+LOGGER = get_logger(__name__)
 
 stop_file_path = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
@@ -88,28 +90,30 @@ class BanSubstrings(Scanner):
 
         if self._contains_all:
             if len(missing_substrings) > 0:
-                logger.debug(f"Some substrings were not found: " + ", ".join(missing_substrings))
+                LOGGER.debug(
+                    "Some substrings were not found", missing_substrings=missing_substrings
+                )
                 return sanitized_prompt, True, 0.0
 
             if self._redact:
                 sanitized_prompt = self._redact_text(sanitized_prompt, matched_substrings)
-                logger.debug("Redacted banned substrings")
+                LOGGER.debug("Redacted banned substrings")
 
-            logger.warning(f"All substrings were found")
+            LOGGER.warning("All substrings were found")
 
             return sanitized_prompt, False, 1.0
 
         if matched_substrings:
-            logger.warning(
-                f"Found the following banned substrings: " + ", ".join(matched_substrings)
+            LOGGER.warning(
+                "Found the following banned substrings", matched_substrings=matched_substrings
             )
 
             if self._redact:
                 sanitized_prompt = self._redact_text(sanitized_prompt, matched_substrings)
-                logger.debug("Redacted banned substrings")
+                LOGGER.debug("Redacted banned substrings")
 
             return sanitized_prompt, False, 1.0
 
-        logger.debug("No banned substrings found")
+        LOGGER.debug("No banned substrings found")
 
         return sanitized_prompt, True, 0.0

@@ -2,9 +2,11 @@ from typing import Tuple
 
 from llm_guard.exception import LLMGuardValidationError
 from llm_guard.transformers_helpers import get_tokenizer, is_onnx_supported
-from llm_guard.util import device, lazy_load_dep, logger
+from llm_guard.util import device, get_logger, lazy_load_dep
 
 from .base import Scanner
+
+LOGGER = get_logger(__name__)
 
 MODEL_EN_BGE_BASE = (
     "BAAI/bge-base-en-v1.5",
@@ -57,7 +59,7 @@ class Relevance(Scanner):
         self.normalize_embeddings = True
 
         if use_onnx and is_onnx_supported() is False:
-            logger.warning("ONNX is not supported on this machine. Using PyTorch instead of ONNX.")
+            LOGGER.warning("ONNX is not supported on this machine. Using PyTorch instead of ONNX.")
             use_onnx = False
 
         if use_onnx:
@@ -74,11 +76,11 @@ class Relevance(Scanner):
                 else "CPUExecutionProvider",
                 use_io_binding=True if device().type == "cuda" else False,
             )
-            logger.debug(f"Initialized ONNX model {model_path} on device {device()}")
+            LOGGER.debug("Initialized ONNX model", model=model_path, device=device())
         else:
             transformers = lazy_load_dep("transformers")
             self._model = transformers.AutoModel.from_pretrained(model_path).to(device())
-            logger.debug(f"Initialized model {model_path} on device {device()}")
+            LOGGER.debug("Initialized model", model=model_path, device=device())
             self._model.eval()
 
         self._tokenizer = get_tokenizer(model_path)
@@ -117,10 +119,10 @@ class Relevance(Scanner):
         similarity = prompt_embedding @ output_embedding.T
 
         if similarity < self._threshold:
-            logger.warning(f"Result is not similar to the prompt. Similarity score: {similarity}")
+            LOGGER.warning("Result is not similar to the prompt", similarity_score=similarity)
 
             return output, False, round(1 - similarity, 2)
 
-        logger.debug(f"Result is similar to the prompt. Similarity score: {similarity}")
+        LOGGER.debug("Result is similar to the prompt", similarity_score=similarity)
 
         return output, True, 0.0

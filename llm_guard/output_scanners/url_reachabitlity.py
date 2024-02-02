@@ -2,9 +2,11 @@ from typing import List
 
 import requests
 
-from llm_guard.util import extract_urls, logger
+from llm_guard.util import extract_urls, get_logger
 
 from .base import Scanner
+
+LOGGER = get_logger(__name__)
 
 
 class URLReachability(Scanner):
@@ -43,13 +45,13 @@ class URLReachability(Scanner):
         if not urls:
             return output, True, 0.0
 
-        logger.debug(f"Found {len(urls)} URLs in the output")
+        LOGGER.debug("Found URLs in the output", len=len(urls))
 
         unreachable_urls = [url for url in urls if not self.is_reachable(url)]
 
         if unreachable_urls:
-            logger.warning(f"Unreachable URLs detected: {unreachable_urls}")
+            LOGGER.warning(f"Unreachable URLs detected", urls=unreachable_urls)
             return output, False, 1.0
 
-        logger.debug("All URLs are reachable.")
+        LOGGER.debug("All URLs are reachable.")
         return output, True, 0.0

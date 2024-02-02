@@ -1,7 +1,8 @@
-from llm_guard.util import lazy_load_dep, logger
+from llm_guard.util import get_logger, lazy_load_dep
 
 from .base import Scanner
 
+LOGGER = get_logger(__name__)
 _lexicon = "vader_lexicon"
 
 
@@ -34,12 +35,18 @@ class Sentiment(Scanner):
         sentiment_score = self._sentiment_analyzer.polarity_scores(prompt)
         sentiment_score_compound = sentiment_score["compound"]
         if sentiment_score_compound > self._threshold:
-            logger.debug(f"Sentiment score: {sentiment_score}, threshold: {self._threshold}")
+            LOGGER.debug(
+                "Sentiment score is below the threshold",
+                sentiment_score=sentiment_score_compound,
+                self=self._threshold,
+            )
 
             return prompt, True, 0.0
 
-        logger.warning(
-            f"Sentiment score is over threshold: {sentiment_score}, threshold: {self._threshold}"
+        LOGGER.warning(
+            "Sentiment score is above the threshold",
+            sentiment_score=sentiment_score_compound,
+            self=self._threshold,
         )
 
         # Normalize such that -1 maps to 1 and threshold maps to 0

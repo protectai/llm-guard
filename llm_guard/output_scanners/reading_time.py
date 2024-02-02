@@ -1,6 +1,8 @@
-from llm_guard.util import logger
+from llm_guard.util import get_logger
 
 from .base import Scanner
+
+LOGGER = get_logger(__name__)
 
 
 class ReadingTime(Scanner):
@@ -26,7 +28,11 @@ class ReadingTime(Scanner):
         reading_time_minutes = word_count / self._words_per_minute
 
         if reading_time_minutes > self._max_time:
-            logger.warning(f"Output exceeded maximum reading time of {self._max_time} minutes")
+            LOGGER.warning(
+                "Output exceeded maximum reading time",
+                reading_time_minutes=reading_time_minutes,
+                max_reading_time_minutes=self._max_time,
+            )
             if self._truncate:
                 # Calculate the maximum number of words to fit within the time limit
                 max_words = int(self._max_time * self._words_per_minute)
@@ -34,5 +40,5 @@ class ReadingTime(Scanner):
 
             return output, False, 1.0
 
-        logger.debug(f"Output reading time: {reading_time_minutes} minutes")
+        LOGGER.debug("Output reading time", reading_time_minutes=reading_time_minutes)
         return output, True, 0.0

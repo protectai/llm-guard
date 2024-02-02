@@ -6,9 +6,11 @@ from detect_secrets.core.secrets_collection import SecretsCollection
 from detect_secrets.settings import transient_settings
 from presidio_anonymizer.core.text_replace_builder import TextReplaceBuilder
 
-from llm_guard.util import logger
+from llm_guard.util import get_logger
 
 from .base import Scanner
+
+LOGGER = get_logger(__name__)
 
 _custom_plugins_path = "file://" + os.path.join(
     os.path.dirname(os.path.abspath(__file__)), "secrets_plugins"
@@ -486,9 +488,9 @@ class Secrets(Scanner):
         os.remove(temp_file.name)
 
         if secret_types:
-            logger.warning(f"Detected secrets in prompt: {secret_types}")
+            LOGGER.warning("Detected secrets in prompt", secret_types=secret_types)
             return text_replace_builder.output_text, False, 1.0
 
-        logger.debug("No secrets detected in the prompt")
+        LOGGER.debug("No secrets detected in the prompt")
 
         return prompt, True, 0.0

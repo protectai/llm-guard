@@ -3,7 +3,7 @@ from typing import Dict, List, Optional
 
 from .input_scanners.base import Scanner as InputScanner
 from .output_scanners.base import Scanner as OutputScanner
-from .util import logger
+from .util import get_logger
 
 """
 This file contains main functionality for scanning both prompts and outputs of Large Language Models (LLMs).
@@ -15,6 +15,8 @@ These base classes define an `scan` method that takes in a string and returns a 
 
 These functions return the processed string after all scanners have been applied, along with a dictionary mapping the name of each scanner to its validity result.
 """
+
+LOGGER = get_logger(__name__)
 
 
 def scan_prompt(
@@ -47,8 +49,12 @@ def scan_prompt(
         start_time_scanner = time.time()
         sanitized_prompt, is_valid, risk_score = scanner.scan(sanitized_prompt)
         elapsed_time_scanner = time.time() - start_time_scanner
-        logger.debug(
-            f"Scanner {type(scanner).__name__}: Valid={is_valid}. Elapsed time: {elapsed_time_scanner:.6f} seconds"
+
+        LOGGER.debug(
+            "Scanner completed",
+            scanner=type(scanner).__name__,
+            is_valid=is_valid,
+            elapsed_time_seconds=round(elapsed_time_scanner, 6),
         )
 
         results_valid[type(scanner).__name__] = is_valid
@@ -57,9 +63,7 @@ def scan_prompt(
             break
 
     elapsed_time = time.time() - start_time
-    logger.info(
-        f"Scanned prompt with the score: {results_score}. Elapsed time: {elapsed_time:.6f} seconds"
-    )
+    LOGGER.info("Scanned prompt", scores=results_score, elapsed_time_seconds=round(elapsed_time, 6))
 
     return sanitized_prompt, results_valid, results_score
 
@@ -95,8 +99,12 @@ def scan_output(
         start_time_scanner = time.time()
         sanitized_output, is_valid, risk_score = scanner.scan(prompt, sanitized_output)
         elapsed_time_scanner = time.time() - start_time_scanner
-        logger.debug(
-            f"Scanner {type(scanner).__name__}: Valid={is_valid}. Elapsed time: {elapsed_time_scanner:.6f} seconds"
+
+        LOGGER.debug(
+            "Scanner completed",
+            scanner=type(scanner).__name__,
+            is_valid=is_valid,
+            elapsed_time_seconds=round(elapsed_time_scanner, 6),
         )
 
         results_valid[type(scanner).__name__] = is_valid
@@ -105,8 +113,6 @@ def scan_output(
             break
 
     elapsed_time = time.time() - start_time
-    logger.info(
-        f"Scanned output with the score: {results_score}. Elapsed time: {elapsed_time:.6f} seconds"
-    )
+    LOGGER.info("Scanned output", scores=results_score, elapsed_time_seconds=round(elapsed_time, 6))
 
     return sanitized_output, results_valid, results_score

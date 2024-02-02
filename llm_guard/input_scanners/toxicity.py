@@ -2,9 +2,11 @@ from enum import Enum
 from typing import List, Union
 
 from llm_guard.transformers_helpers import pipeline
-from llm_guard.util import calculate_risk_score, logger, split_text_by_sentences
+from llm_guard.util import calculate_risk_score, get_logger, split_text_by_sentences
 
 from .base import Scanner
+
+LOGGER = get_logger(__name__)
 
 _model_path = (
     "unitary/unbiased-toxic-roberta",
@@ -93,10 +95,10 @@ class Toxicity(Scanner):
                     highest_toxicity_score = result["score"]
 
         if len(toxicity_above_threshold) > 0:
-            logger.warning(f"Detected toxicity in the text: {toxicity_above_threshold}")
+            LOGGER.warning("Detected toxicity in the text", results=toxicity_above_threshold)
 
             return prompt, False, calculate_risk_score(highest_toxicity_score, self._threshold)
 
-        logger.debug(f"Not toxicity found in the text. Results: {results_all}")
+        LOGGER.debug("Not toxicity found in the text", results=results_all)
 
         return prompt, True, 0.0

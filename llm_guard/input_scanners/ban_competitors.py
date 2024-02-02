@@ -3,9 +3,11 @@ from typing import Dict, Optional, Sequence
 from presidio_anonymizer.core.text_replace_builder import TextReplaceBuilder
 
 from llm_guard.exception import LLMGuardValidationError
-from llm_guard.util import device, lazy_load_dep, logger
+from llm_guard.util import device, get_logger, lazy_load_dep
 
 from .base import Scanner
+
+LOGGER = get_logger(__name__)
 
 MODEL_BASE = {
     "path": "tomaarsen/span-marker-bert-base-orgs",
@@ -73,8 +75,10 @@ class BanCompetitors(Scanner):
                 continue
 
             if entity["score"] < self._threshold:
-                logger.debug(
-                    f"Competitor {entity['span']} detected but the score is below threshold: {entity['score']}"
+                LOGGER.debug(
+                    "Competitor detected but the score is below threshold",
+                    entity=entity["span"],
+                    score=entity["score"],
                 )
                 continue
 
@@ -87,11 +91,13 @@ class BanCompetitors(Scanner):
                     entity["char_end_index"],
                 )
 
-            logger.warning(f"Competitor {entity['span']} detected with score: {entity['score']}")
+            LOGGER.warning(
+                "Competitor detected with score", entity=entity["span"], score=entity["score"]
+            )
 
         if is_detected:
             return text_replace_builder.output_text, False, 1.0
 
-        logger.debug(f"None of the competitors were detected")
+        LOGGER.debug("None of the competitors were detected")
 
         return prompt, True, 0.0

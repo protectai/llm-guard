@@ -1,10 +1,11 @@
 from llm_guard.input_scanners.ban_topics import MODEL_BASE
 from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification
-from llm_guard.util import device, lazy_load_dep, logger
+from llm_guard.util import device, get_logger, lazy_load_dep
 
 from .base import Scanner
 
 torch = lazy_load_dep("torch")
+LOGGER = get_logger(__name__)
 
 _model = MODEL_BASE
 
@@ -53,10 +54,10 @@ class FactualConsistency(Scanner):
 
         entailment_score = prediction["entailment"]
         if entailment_score < self._minimum_score:
-            logger.warning(f"Entailment score is below the threshold: {prediction}")
+            LOGGER.warning("Entailment score is below the threshold", prediction=prediction)
 
             return output, False, prediction["not_entailment"]
 
-        logger.debug(f"The output is factually consistent: {prediction}")
+        LOGGER.debug("The output is factually consistent", prediction=prediction)
 
         return output, True, 0.0

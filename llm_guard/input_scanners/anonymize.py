@@ -6,10 +6,9 @@ from typing import Dict, List, Optional, Sequence
 from presidio_anonymizer.core.text_replace_builder import TextReplaceBuilder
 from presidio_anonymizer.entities import PIIEntity, RecognizerResult
 
-from llm_guard.exception import LLMGuardValidationError
-from llm_guard.util import logger
-from llm_guard.vault import Vault
-
+from ..exception import LLMGuardValidationError
+from ..util import get_logger
+from ..vault import Vault
 from .anonymize_helpers import (
     BERT_BASE_NER_CONF,
     get_analyzer,
@@ -17,6 +16,8 @@ from .anonymize_helpers import (
     get_transformers_recognizer,
 )
 from .base import Scanner
+
+LOGGER = get_logger(__name__)
 
 sensitive_patterns_path = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
@@ -92,7 +93,9 @@ class Anonymize(Scanner):
         os.environ["TOKENIZERS_PARALLELISM"] = "false"  # Disables huggingface/tokenizers warning
 
         if not entity_types:
-            logger.debug(f"No entity types provided, using default: {default_entity_types}")
+            LOGGER.debug(
+                "No entity types provided, using default", default_entities=default_entity_types
+            )
             entity_types = default_entity_types.copy()
 
         entity_types.append("CUSTOM")
@@ -148,11 +151,11 @@ class Anonymize(Scanner):
                         "reuse": group.get("reuse", False),
                     }
                 )
-                logger.debug(f"Loaded regex pattern for {group['name']}")
+                LOGGER.debug("Loaded regex pattern", group_name=group["name"])
         except FileNotFoundError:
-            logger.warning(f"Could not find {json_path}")
+            LOGGER.warning("Could not find file", path=json_path)
         except json.decoder.JSONDecodeError as json_error:
-            logger.warning(f"Could not parse {json_path}: {json_error}")
+            LOGGER.warning("Could not parse file", path=json_path, error=json_error)
         return regex_groups
 
     @staticmethod
@@ -186,7 +189,7 @@ class Anonymize(Scanner):
                 other_elements.append(result)
                 tmp_analyzer_results.append(result)
             else:
-                logger.debug(f"removing element {result} from " f"results list due to merge")
+                LOGGER.debug("Removing element the results list due to merge", result=result)
 
         unique_text_metadata_elements = []
         # This list contains all elements which we need to check a single result
@@ -202,7 +205,9 @@ class Anonymize(Scanner):
                 other_elements.append(result)
                 unique_text_metadata_elements.append(result)
             else:
-                logger.debug(f"removing element {result} from results list due to conflict")
+                LOGGER.debug(
+                    "Removing element from the results list due to conflict", result=result
+                )
         return unique_text_metadata_elements
 
     @staticmethod
@@ -340,14 +345,16 @@ class Anonymize(Scanner):
         )
 
         if prompt != sanitized_prompt:
-            logger.warning(
-                f"Found sensitive data in the prompt and replaced it: {merged_results}, risk score: {risk_score}"
+            LOGGER.warning(
+                "Found sensitive data in the prompt and replaced it",
+                merged_results=merged_results,
+                risk_score=risk_score,
             )
             for entity_placeholder, entity_value in anonymized_results:
                 if not self._vault.placeholder_exists(entity_placeholder):
                     self._vault.append((entity_placeholder, entity_value))
             return self._preamble + sanitized_prompt, False, risk_score
 
-        logger.debug(f"Prompt does not have sensitive data to replace. Risk score is {risk_score}")
+        LOGGER.debug("Prompt does not have sensitive data to replace", risk_score=risk_score)
 
         return prompt, True, 0.0

@@ -2,16 +2,60 @@ import importlib
 import json
 import logging
 import re
+import sys
 from functools import lru_cache
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Literal, Optional
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("llm-guard")
+import structlog
+
+LOGGER = structlog.getLogger(__name__)
 
 """
 This file contains utility functions.
 This is meant for internal use and not part of the public API.
 """
+
+LOG_LEVELS = Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
+EXTERNAL_LOGGERS = {
+    "transformers",
+}
+
+
+def configure_logger(log_level: LOG_LEVELS = "INFO"):
+    """
+    Configures the logger for the package.
+
+    Args:
+        log_level: The log level to use for the logger. It should be one of the following strings:
+            "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL".
+    """
+    logging.basicConfig(
+        format="[%(asctime)s - %(name)s - %(levelname)s] %(message)s",
+        level=log_level,
+        stream=sys.stdout,
+    )
+    structlog.configure(logger_factory=structlog.stdlib.LoggerFactory())
+    for log_name in EXTERNAL_LOGGERS:
+        logging.getLogger(log_name).setLevel(logging.WARNING)
+
+
+def _get_library_name() -> str:
+    return __name__.split(".")[0]
+
+
+def _get_library_root_logger() -> logging.Logger:
+    return logging.getLogger(_get_library_name())
+
+
+def get_logger(name: Optional[str] = None) -> Any:
+    """
+    Return a logger with the specified name.
+    """
+
+    if name is None:
+        name = _get_library_name()
+
+    return structlog.getLogger(name)
 
 
 # Detect pytorch device
@@ -46,11 +90,11 @@ def read_json_file(json_path: str) -> Dict[str, List[str]]:
     try:
         with open(json_path, "r") as myfile:
             result = json.load(myfile)
-            logger.debug(f"Loaded json file {json_path}")
+            LOGGER.debug("Loaded json file", path=json_path)
     except FileNotFoundError:
-        logger.error(f"Could not find {json_path}")
+        LOGGER.error("Could not find file", path=json_path)
     except json.decoder.JSONDecodeError as json_error:
-        logger.error(f"Could not parse {json_path}: {json_error}")
+        LOGGER.error("Could not parse file", path=json_path, error=json_error)
     return result
 
 
@@ -83,7 +127,7 @@ def lazy_load_dep(import_name: str, package_name: Optional[str] = None):
 
     spec = importlib.util.find_spec(import_name)
     if spec is None:
-        logger.warning(
+        LOGGER.warning(
             f"Optional feature dependent on missing package: {import_name} was initialized.\n"
             f"Use `pip install {package_name}` to install the package if running locally."
         )

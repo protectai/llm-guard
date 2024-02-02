@@ -2,9 +2,11 @@ from enum import Enum
 from typing import List, Union
 
 from llm_guard.transformers_helpers import pipeline
-from llm_guard.util import calculate_risk_score, logger, split_text_by_sentences
+from llm_guard.util import calculate_risk_score, get_logger, split_text_by_sentences
 
 from .base import Scanner
+
+LOGGER = get_logger(__name__)
 
 _model = {
     "path": "laiyer/distilroberta-base-rejection-v1",
@@ -77,10 +79,10 @@ class NoRefusal(Scanner):
                 highest_score = score
 
             if score > self._threshold:
-                logger.warning(f"Detected rejection with score: {score}")
+                LOGGER.warning("Detected rejection", score=score)
 
                 return output, False, calculate_risk_score(score, self._threshold)
 
-        logger.debug(f"No rejection detected, highest score: {highest_score}")
+        LOGGER.debug("No rejection detected", highest_score=highest_score)
 
         return output, True, 0.0

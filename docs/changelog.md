@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - `NoRefusal` scanner relies on the proprietary model [laiyer/distilroberta-base-rejection-v1](https://huggingface.co/laiyer/distilroberta-base-rejection-v1).
 - `NoRefusal` support `match_type` parameter to choose between `sentence` and `all` matches.
+- Using `structlog` for better logging.
 
 ### Removed
 -

@@ -3,9 +3,11 @@ import re
 
 import regex
 
-from llm_guard.util import lazy_load_dep, logger
+from llm_guard.util import get_logger, lazy_load_dep
 
 from .base import Scanner
+
+LOGGER = get_logger(__name__)
 
 
 class JSON(Scanner):
@@ -79,11 +81,15 @@ class JSON(Scanner):
                 continue
 
             if self._repair:
-                logger.warning(f"Found invalid JSON: {json_candidate}. Trying to repair it...")
+                LOGGER.warning(
+                    "Found invalid JSON. Trying to repair it...", json_candidate=json_candidate
+                )
 
                 repaired_json = self.repair_json(json_candidate)
                 if not self.is_valid_json(repaired_json):
-                    logger.warning(f"Could not repair JSON: {repaired_json}. Skipping...")
+                    LOGGER.warning(
+                        "Could not repair JSON. Skipping...", repaired_json=repaired_json
+                    )
                     continue
 
                 valid_jsons.append(repaired_json)
@@ -91,14 +97,20 @@ class JSON(Scanner):
 
         # Check if there are enough valid JSONs
         if len(valid_jsons) < self._required_elements:
-            logger.warning(
-                f"There should be at least {self._required_elements} JSONs but {len(valid_jsons)} found"
+            LOGGER.warning(
+                "Not all required JSON elements are found",
+                num_required_elements=self._required_elements,
+                num_found=len(valid_jsons),
             )
             return output, False, 1.0
 
         # Compare
         if len(valid_jsons) != len(json_candidates):
-            logger.warning(f"Only {len(valid_jsons)}/{len(json_candidates)} JSONs are valid")
+            LOGGER.warning(
+                "Only some JSONs are valid",
+                num_valid=len(valid_jsons),
+                num_total=len(json_candidates),
+            )
 
             return output, False, 1.0
 

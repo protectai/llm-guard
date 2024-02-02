@@ -3,9 +3,11 @@ from typing import Dict, List, Optional, Union
 
 from llm_guard.exception import LLMGuardValidationError
 from llm_guard.transformers_helpers import pipeline
-from llm_guard.util import calculate_risk_score, logger, split_text_by_sentences
+from llm_guard.util import calculate_risk_score, get_logger, split_text_by_sentences
 
 from .base import Scanner
+
+LOGGER = get_logger(__name__)
 
 # This model is proprietary but open source.
 MODEL_LAIYER = {
@@ -94,10 +96,10 @@ class PromptInjection(Scanner):
                 highest_score = injection_score
 
             if injection_score > self._threshold:
-                logger.warning(f"Detected prompt injection with score: {injection_score}")
+                LOGGER.warning("Detected prompt injection", injection_score=injection_score)
 
                 return prompt, False, calculate_risk_score(injection_score, self._threshold)
 
-        logger.debug(f"No prompt injection detected, highest score: {highest_score}")
+        LOGGER.debug("No prompt injection detected", highest_score=highest_score)
 
         return prompt, True, 0.0

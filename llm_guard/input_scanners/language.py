@@ -2,9 +2,11 @@ from enum import Enum
 from typing import List, Sequence, Union
 
 from llm_guard.transformers_helpers import pipeline
-from llm_guard.util import calculate_risk_score, logger, split_text_by_sentences
+from llm_guard.util import calculate_risk_score, get_logger, split_text_by_sentences
 
 from .base import Scanner
+
+LOGGER = get_logger(__name__)
 
 model_path = (
     "papluca/xlm-roberta-base-language-detection",
@@ -79,12 +81,12 @@ class Language(Scanner):
 
             # Check if any of the languages above threshold are not valid
             if len(set(languages_above_threshold) - set(self._valid_languages)) > 0:
-                logger.warning(
-                    f"Languages {languages_above_threshold} are found with high confidence"
+                LOGGER.warning(
+                    "Languages are found with high confidence", languages=languages_above_threshold
                 )
 
                 return prompt, False, calculate_risk_score(highest_score, self._threshold)
 
-        logger.debug(f"Only valid languages are found in the text.")
+        LOGGER.debug("Only valid languages are found in the text.")
 
         return prompt, True, 0.0

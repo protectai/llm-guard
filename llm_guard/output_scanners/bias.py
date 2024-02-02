@@ -2,9 +2,11 @@ from enum import Enum
 from typing import List, Union
 
 from llm_guard.transformers_helpers import pipeline
-from llm_guard.util import calculate_risk_score, logger, split_text_by_sentences
+from llm_guard.util import calculate_risk_score, get_logger, split_text_by_sentences
 
 from .base import Scanner
+
+LOGGER = get_logger(__name__)
 
 _model_path = (
     "valurank/distilroberta-bias",
@@ -73,14 +75,10 @@ class Bias(Scanner):
                 highest_score = score
 
             if score > self._threshold:
-                logger.warning(
-                    f"Detected biased text with score: {score}, threshold: {self._threshold}"
-                )
+                LOGGER.warning("Detected biased text", score=score, threshold=self._threshold)
 
                 return output, False, calculate_risk_score(score, self._threshold)
 
-        logger.debug(
-            f"Not biased result. Highest score: {highest_score}, threshold: {self._threshold}"
-        )
+        LOGGER.debug("Not biased result", highest_score=highest_score, threshold=self._threshold)
 
         return output, True, 0.0

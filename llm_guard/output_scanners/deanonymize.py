@@ -2,10 +2,12 @@ import re
 from enum import Enum
 from typing import List, Tuple, Union
 
-from llm_guard.util import lazy_load_dep, logger
+from llm_guard.util import get_logger, lazy_load_dep
 from llm_guard.vault import Vault
 
 from .base import Scanner
+
+LOGGER = get_logger(__name__)
 
 
 class MatchingStrategy(Enum):
@@ -28,7 +30,7 @@ class MatchingStrategy(Enum):
             vault_items (List[Tuple]): The list of items in the vault.
         """
         for vault_item in vault_items:
-            logger.debug(f"Replaced placeholder ${vault_item[0]} with real value")
+            LOGGER.debug("Replaced placeholder with real value", placeholder=vault_item[0])
             text = text.replace(vault_item[0], vault_item[1])
 
         return text
@@ -48,7 +50,7 @@ class MatchingStrategy(Enum):
             vault_items (List[Tuple]): The list of items in the vault.
         """
         for vault_item in vault_items:
-            logger.debug(f"Replaced placeholder ${vault_item[0]} with real value")
+            LOGGER.debug("Replaced placeholder with real value", placeholder=vault_item[0])
             # Use regular expressions for case-insensitive matching and replacing
             text = re.sub(vault_item[0], vault_item[1], text, flags=re.IGNORECASE)
 
@@ -71,7 +73,7 @@ class MatchingStrategy(Enum):
 
         fuzzysearch = lazy_load_dep("fuzzysearch")
         for vault_item in vault_items:
-            logger.debug(f"Replaced placeholder ${vault_item[0]} with real value")
+            LOGGER.debug("Replaced placeholder with real value", placeholder=vault_item[0])
 
             matches = fuzzysearch.find_near_matches(vault_item[0], text, max_l_dist=max_l_dist)
 
@@ -137,7 +139,7 @@ class Deanonymize(Scanner):
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         vault_items = self._vault.get()
         if len(vault_items) == 0:
-            logger.warning("No items found in the Vault")
+            LOGGER.warning("No items found in the Vault")
 
         output = self._matching_strategy.match(output, vault_items)
 

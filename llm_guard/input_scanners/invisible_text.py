@@ -1,8 +1,10 @@
 import unicodedata
 
-from llm_guard.util import logger
+from llm_guard.util import get_logger
 
 from .base import Scanner
+
+LOGGER = get_logger(__name__)
 
 
 class InvisibleText(Scanner):
@@ -35,9 +37,9 @@ class InvisibleText(Scanner):
             prompt = prompt.replace(char, "")
 
         if chars:
-            logger.warning(f"Found invisible characters {chars} in the prompt")
+            LOGGER.warning("Found invisible characters in the prompt", chars=chars)
 
             return prompt, False, 1.0
 
-        logger.debug(f"No invisible characters found")
+        LOGGER.debug("No invisible characters found")
         return prompt, True, 0.0

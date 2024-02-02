@@ -1,8 +1,10 @@
 from llm_guard.input_scanners.language import model_path
 from llm_guard.transformers_helpers import pipeline
-from llm_guard.util import logger
+from llm_guard.util import get_logger
 
 from .base import Scanner
+
+LOGGER = get_logger(__name__)
 
 
 class LanguageSame(Scanner):
@@ -52,17 +54,21 @@ class LanguageSame(Scanner):
         ]
 
         if len(prompt_languages) == 0:
-            logger.warning(f"None of languages are above found in the prompt")
+            LOGGER.warning("None of languages are above found in the prompt")
             return output, False, 1.0
 
         if len(output_languages) == 0:
-            logger.warning(f"None of languages are above threshold found in the output")
+            LOGGER.warning("None of languages are above threshold found in the output")
             return output, False, 1.0
 
         common_languages = list(set(prompt_languages).intersection(output_languages))
         if len(common_languages) == 0:
-            logger.warning(f"No common languages in the output and prompt: {common_languages}")
+            LOGGER.warning(
+                "No common languages in the output and prompt", common_languages=common_languages
+            )
             return output, False, 1.0
 
-        logger.debug(f"Languages {common_languages} are found in the prompt and output")
+        LOGGER.debug(
+            "Languages are found in the prompt and output", common_languages=common_languages
+        )
         return output, True, 0.0

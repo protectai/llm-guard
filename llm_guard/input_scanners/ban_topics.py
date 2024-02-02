@@ -2,9 +2,11 @@ from typing import Dict, Optional, Sequence
 
 from llm_guard.exception import LLMGuardValidationError
 from llm_guard.transformers_helpers import pipeline
-from llm_guard.util import logger
+from llm_guard.util import get_logger
 
 from .base import Scanner
+
+LOGGER = get_logger(__name__)
 
 # This model was trained on a mixture of 33 datasets and 389 classes reformatted in the universal NLI format.
 # The model is English only. You can also use it for multilingual zeroshot classification by first machine translating texts to English.
@@ -90,14 +92,18 @@ class BanTopics(Scanner):
 
         max_score = round(max(output_model["scores"]) if output_model["scores"] else 0, 2)
         if max_score > self._threshold:
-            logger.warning(
-                f"Topics detected for the prompt {output_model['labels']} with scores: {output_model['scores']}"
+            LOGGER.warning(
+                "Topics detected for the prompt",
+                labels=output_model["labels"],
+                scores=output_model["scores"],
             )
 
             return prompt, False, max_score
 
-        logger.debug(
-            f"No banned topics detected ({output_model['labels']}, scores: {output_model['scores']})"
+        LOGGER.debug(
+            "No banned topics detected",
+            labels=output_model["labels"],
+            scores=output_model["scores"],
         )
 
         return prompt, True, 0.0

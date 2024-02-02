@@ -6,9 +6,11 @@ from presidio_analyzer.nlp_engine import NlpArtifacts
 from transformers import TokenClassificationPipeline
 
 from llm_guard.transformers_helpers import pipeline
-from llm_guard.util import logger
+from llm_guard.util import get_logger
 
 from .ner_mapping import BERT_BASE_NER_CONF
+
+LOGGER = get_logger(__name__)
 
 
 class TransformersRecognizer(EntityRecognizer):
@@ -110,8 +112,9 @@ class TransformersRecognizer(EntityRecognizer):
             if not self.model_path:
                 self.model_path = "dslim/bert-base-NER"
                 self.onnx_model_path = "optimum/bert-base-NER"
-                logger.warning(
-                    f"Both 'model' and 'model_path' arguments are None. Using default model_path={self.model_path}"
+                LOGGER.warning(
+                    "Both 'model' and 'model_path' arguments are None. Using default",
+                    model_path=self.model_path,
                 )
 
         self._load_pipeline(use_onnx)
@@ -161,11 +164,13 @@ class TransformersRecognizer(EntityRecognizer):
                 continue
 
             if res["entity_group"] not in entities:
-                logger.debug(f"Ignoring entity {res['entity_group']}")
+                LOGGER.debug("Ignoring entity", entity_group=res["entity_group"])
                 continue
 
             if res["entity_group"] == self.id_entity_name:
-                logger.debug(f"ID entity found, multiplying score by {self.id_score_reduction}")
+                LOGGER.debug(
+                    "ID entity found, multiplying score", score_reduction=self.id_score_reduction
+                )
                 res["score"] = res["score"] * self.id_score_reduction
 
             textual_explanation = self.default_explanation.format(res["entity_group"])
@@ -198,7 +203,7 @@ class TransformersRecognizer(EntityRecognizer):
         if input_length < chunk_length:
             return [[0, input_length]]
         if chunk_length <= overlap_length:
-            logger.warning(
+            LOGGER.warning(
                 "overlap_length should be shorter than chunk_length, setting overlap_length to by half of chunk_length"
             )
             overlap_length = chunk_length // 2
@@ -224,8 +229,10 @@ class TransformersRecognizer(EntityRecognizer):
         if text_length <= model_max_length:
             predictions = self.pipeline(text)
         else:
-            logger.info(
-                f"splitting the text into chunks, length {text_length} > {model_max_length}"
+            LOGGER.info(
+                "splitting the text into chunks",
+                length=text_length,
+                model_max_length=model_max_length,
             )
             predictions = list()
             chunk_indexes = TransformersRecognizer.split_text_to_word_chunks(
@@ -311,10 +318,10 @@ class TransformersRecognizer(EntityRecognizer):
             return None
 
         if entity is None:
-            logger.warning(f"Found unrecognized label {label}, returning entity as is")
+            LOGGER.warning("Found unrecognized label, returning entity as is", label=label)
             return label
 
         if entity not in self.supported_entities:
-            logger.warning(f"Found entity {entity} which is not supported by Presidio")
+            LOGGER.warning("Found entity which is not supported by Presidio", entity=entity)
             return entity
         return entity

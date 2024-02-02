@@ -12,9 +12,11 @@ from llm_guard.input_scanners.anonymize_helpers import (
     get_analyzer,
     get_transformers_recognizer,
 )
-from llm_guard.util import logger
+from llm_guard.util import get_logger
 
 from .base import Scanner
+
+LOGGER = get_logger(__name__)
 
 
 class Sensitive(Scanner):
@@ -48,7 +50,9 @@ class Sensitive(Scanner):
            use_onnx (bool): Use ONNX model for inference. Default is False.
         """
         if not entity_types:
-            logger.debug(f"No entity types provided, using default: {default_entity_types}")
+            LOGGER.debug(
+                "No entity types provided, using default", default_entity_types=default_entity_types
+            )
             entity_types = default_entity_types.copy()
         entity_types.append("CUSTOM")
 
@@ -75,13 +79,13 @@ class Sensitive(Scanner):
 
         if analyzer_results:
             if self._redact:
-                logger.debug(f"Redacting sensitive entities")
+                LOGGER.debug("Redacting sensitive entities")
                 result = self._anonymizer.anonymize(text=output, analyzer_results=analyzer_results)
                 output = result.text
 
             risk_score = max(analyzer_result.score for analyzer_result in analyzer_results)
-            logger.warning(f"Found sensitive data in the output {analyzer_results}")
+            LOGGER.warning("Found sensitive data in the output", results=analyzer_results)
             return output, False, risk_score
 
-        logger.debug(f"No sensitive data found in the output")
+        LOGGER.debug("No sensitive data found in the output")
         return output, True, 0.0

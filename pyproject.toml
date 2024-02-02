@@ -34,7 +34,8 @@ dependencies = [
   "torch==2.0.1",
   "transformers==4.36.2",
   "xformers==0.0.22",
-  "span-marker==1.5.0"
+  "span-marker==1.5.0",
+  "structlog>=24"
 ]
 
 [project.optional-dependencies]

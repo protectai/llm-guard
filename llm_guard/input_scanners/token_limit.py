@@ -1,8 +1,10 @@
 from typing import List, Optional
 
-from llm_guard.util import lazy_load_dep, logger
+from llm_guard.util import get_logger, lazy_load_dep
 
 from .base import Scanner
+
+LOGGER = get_logger(__name__)
 
 
 class TokenLimit(Scanner):
@@ -57,9 +59,13 @@ class TokenLimit(Scanner):
 
         chunks, num_tokens = self._split_text_on_tokens(text=prompt)
         if num_tokens < self._limit:
-            logger.debug(f"Prompt fits the maximum tokens: {num_tokens}, max: {self._limit}")
+            LOGGER.debug(
+                "Prompt fits the maximum tokens", num_tokens=num_tokens, threshold=self._limit
+            )
             return prompt, True, 0.0
 
-        logger.warning(f"Prompt is too big ({num_tokens} tokens). Split into chunks: {chunks}")
+        LOGGER.warning(
+            "Prompt is too big. Splitting into chunks", num_tokens=num_tokens, chunks=chunks
+        )
 
         return chunks[0], False, 1.0

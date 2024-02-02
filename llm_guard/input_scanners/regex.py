@@ -4,9 +4,11 @@ from typing import Pattern, Sequence, Union
 
 from presidio_anonymizer.core.text_replace_builder import TextReplaceBuilder
 
-from llm_guard.util import logger
+from llm_guard.util import get_logger
 
 from .base import Scanner
+
+LOGGER = get_logger(__name__)
 
 
 class MatchType(Enum):
@@ -64,7 +66,7 @@ class Regex(Scanner):
                 continue
 
             if self._is_blocked:
-                logger.warning(f"Pattern {pattern} was detected in the text")
+                LOGGER.warning("Pattern was detected in the text", pattern=pattern)
 
                 if self._redact:
                     text_replace_builder.replace_text_get_insertion_index(
@@ -75,12 +77,12 @@ class Regex(Scanner):
 
                 return text_replace_builder.output_text, False, 1.0
 
-            logger.debug(f"Pattern {pattern} matched the text")
+            LOGGER.debug("Pattern matched the text", pattern=pattern)
             return text_replace_builder.output_text, True, 0.0
 
         if self._is_blocked:
-            logger.debug(f"None of the patterns were found in the text")
+            LOGGER.debug("None of the patterns were found in the text")
             return text_replace_builder.output_text, True, 0.0
 
-        logger.warning(f"None of the patterns matched the text")
+        LOGGER.warning("None of the patterns matched the text")
         return text_replace_builder.output_text, False, 1.0

@@ -3,9 +3,11 @@ from typing import List, Sequence
 
 from llm_guard.exception import LLMGuardValidationError
 from llm_guard.transformers_helpers import pipeline
-from llm_guard.util import calculate_risk_score, logger
+from llm_guard.util import calculate_risk_score, get_logger
 
 from .base import Scanner
+
+LOGGER = get_logger(__name__)
 
 _model_path = (
     "huggingface/CodeBERTa-language-id",
@@ -83,15 +85,17 @@ class Code(Scanner):
         # Try to extract code snippets from Markdown
         code_blocks = self._extract_code_blocks(prompt)
         if len(code_blocks) == 0:
-            logger.debug("No Markdown code blocks found in the output")
+            LOGGER.debug("No Markdown code blocks found in the output")
             return prompt, True, 0.0
 
-        logger.debug(f"Code blocks found in the output: {code_blocks}")
+        LOGGER.debug("Code blocks found in the output", code_blocks=code_blocks)
 
         # Only check when the code is detected
         for code_block in code_blocks:
             languages = self._pipeline(code_block)
-            logger.debug(f"Detected languages {languages} in the code: {code_block}")
+            LOGGER.debug(
+                "Detected languages in the code", languages=languages, code_block=code_block
+            )
 
             for language in languages:
                 language_name = language["label"]
@@ -101,16 +105,18 @@ class Code(Scanner):
                     continue
 
                 if self._is_blocked:
-                    logger.warning(f"Language {language_name} is not allowed (score {score})")
+                    LOGGER.warning(
+                        "Language is not allowed", language_name=language_name, score=score
+                    )
                     return prompt, False, calculate_risk_score(score, self._threshold)
 
                 if not self._is_blocked:
-                    logger.debug(f"Language {language_name} is allowed (score {score})")
+                    LOGGER.debug("Language is allowed", language_name=language_name, score=score)
                     return prompt, True, 0.0
 
         if self._is_blocked:
-            logger.debug(f"No blocked languages detected")
+            LOGGER.debug("No blocked languages detected")
             return prompt, True, 0.0
 
-        logger.warning(f"No allowed languages detected")
+        LOGGER.warning("No allowed languages detected")
         return prompt, False, 1.0
