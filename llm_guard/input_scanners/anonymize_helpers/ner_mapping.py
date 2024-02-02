@@ -63,7 +63,7 @@ BERT_ZH_NER_CONF = {
         "ORGANIZATION",
     ],
     "DEFAULT_MODEL_PATH": "gyr66/bert-base-chinese-finetuned-ner",
-    "ONNX_MODEL_PATH": "",
+    "ONNX_MODEL_PATH": "laiyer/gyr66-bert-base-chinese-finetuned-ner-onnx",
     "LABELS_TO_IGNORE": ["O", "CARDINAL"],
     "DEFAULT_EXPLANATION": "Identified as {} by the gyr66/bert-base-chinese-finetuned-ner NER model",
     "SUB_WORD_AGGREGATION": "simple",

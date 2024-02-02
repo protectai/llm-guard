@@ -52,7 +52,7 @@ Some model providers may train their models on your requests, which can be a pri
   library, crafted with spaCy, flair and transformers libraries, for precise detection of private data.
 - **Enhanced Detection**: Beyond Presidio Analyzer's capabilities, the scanner recognizes specific patterns like Email,
   US SSN, UUID, and more.
-- **Entities Support**:
+- **Entities support**:
   - Peek at
     our [default entities](https://github.com/laiyer-ai/llm-guard/blob/main/llm_guard/input_scanners/anonymize.py#L26-L40).
   - View
@@ -60,10 +60,11 @@ Some model providers may train their models on your requests, which can be a pri
   - And, we've
     got [custom regex patterns](https://github.com/laiyer-ai/llm-guard/blob/main/llm_guard/resources/sensisitive_patterns.json)
     too!
-- **Tailored Recognizers**:
+- **Tailored recognizers**:
   - Balance speed vs. accuracy of the recognizers.
   - **Top Pick: [dslim/bert-base-NER](https://huggingface.co/dslim/bert-base-NER)**
   - Alternatives: [dslim/bert-large-NER](https://huggingface.co/dslim/bert-large-NER).
+- **Support of multiple languages**: The scanner can detect PII in English and Chinese.
 
 !!! info
 

@@ -7,11 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] - 0.3.8
 
+**[Laiyer is now part of Protect AI](https://protectai.com/press/protect-ai-acquires-laiyer-ai)**
+
 ### Added
--
+- `Anonymize`: language support with `zh` ([#79](https://github.com/laiyer-ai/llm-guard/pull/79), thanks to [@Oscaner](https://github.com/Oscaner)).
 
 ### Fixed
--
+- Incorrect results when using `Deanonymize` multiple times ([#82](https://github.com/laiyer-ai/llm-guard/pull/82), thanks to [@andreaponti5](https://github.com/andreaponti5))
 
 ### Changed
 - `NoRefusal` scanner relies on the proprietary model [laiyer/distilroberta-base-rejection-v1](https://huggingface.co/laiyer/distilroberta-base-rejection-v1).
