@@ -10,11 +10,38 @@ from .base import Scanner
 LOGGER = get_logger(__name__)
 
 _model_path = (
-    "huggingface/CodeBERTa-language-id",
-    "laiyer/CodeBERTa-language-id-onnx",  # ONNX model
+    "philomath-1209/programming-language-identification",
+    "laiyer/philomath-1209-programming-language-identification-onnx",  # ONNX model
 )
 
-SUPPORTED_LANGUAGES = ["go", "java", "javascript", "php", "python", "ruby"]
+SUPPORTED_LANGUAGES = [
+    "ARM Assembly",
+    "AppleScript",
+    "C",
+    "C#",
+    "C++",
+    "COBOL",
+    "Erlang",
+    "Fortran",
+    "Go",
+    "Java",
+    "JavaScript",
+    "Kotlin",
+    "Lua",
+    "Mathematica/Wolfram Language",
+    "PHP",
+    "Pascal",
+    "Perl",
+    "PowerShell",
+    "Python",
+    "R",
+    "Ruby",
+    "Rust",
+    "Scala",
+    "Swift",
+    "Visual Basic .NET",
+    "jq",
+]
 
 
 class Code(Scanner):
@@ -43,7 +70,7 @@ class Code(Scanner):
             use_onnx (bool): Whether to use ONNX for inference. Default is False.
 
         Raises:
-            ValueError: If both 'allowed' and 'denied' lists are provided or if both are empty.
+            LLMGuardValidationError: If the languages are not a subset of SUPPORTED_LANGUAGES.
         """
         if not set(languages).issubset(set(SUPPORTED_LANGUAGES)):
             raise LLMGuardValidationError(f"Languages must be a subset of {SUPPORTED_LANGUAGES}")

@@ -57,6 +57,10 @@ Scanners will be executed in the order of configuration.
 
 We have an officially supported image on [Docker Hub](https://hub.docker.com/repository/docker/laiyer/llm-guard-api/general).
 
+!!! warning
+
+    Docker deployment requires a lot of RAM. We recommend at least 16GB of RAM. We are working on optimizing the memory usage when the container starts.
+
 ### Download Docker image
 
 ```sh

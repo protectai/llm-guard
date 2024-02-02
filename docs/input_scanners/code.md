@@ -12,16 +12,37 @@ Monitoring and controlling the nature of the code can be crucial to maintain the
 
 ## How it works
 
-Utilizing [huggingface/CodeBERTa-language-id](https://huggingface.co/huggingface/CodeBERTa-language-id) model, the scanner can identify code snippets within prompts across various programming languages.
+Utilizing [philomath-1209/programming-language-identification](https://huggingface.co/philomath-1209/programming-language-identification) model, the scanner can identify code snippets within prompts across various programming languages.
 Developers can configure the scanner to either allow or ban specific languages, thus retaining full control over which types of code can appear in user queries.
 
 The scanner is currently limited to extracting and detecting code snippets from Markdown in the following languages:
+
+- ARM Assembly
+- AppleScript
+- C
+- C#
+- C++
+- COBOL
+- Erlang
+- Fortran
 - Go
 - Java
 - JavaScript
+- Kotlin
+- Lua
+- Mathematica/Wolfram Language
 - PHP
+- Pascal
+- Perl
+- PowerShell
 - Python
+- R
 - Ruby
+- Rust
+- Scala
+- Swift
+- Visual Basic .NET
+- jq
 
 ## Usage
 
@@ -64,11 +85,4 @@ python benchmarks/run.py input Code
 
 Results:
 
-| Instance                         | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS      |
-|----------------------------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|----------|
-| AWS m5.xlarge                    | 2.84             | 139.08                | 165.71                | 187.02                | 85.69                | 2894.22  |
-| AWS m5.xlarge with ONNX          | 0.00             | 56.40                 | 56.90                 | 57.29                 | 55.32                | 4481.42  |
-| AWS g5.xlarge GPU                | 32.56            | 280.27                | 370.38                | 442.47                | 99.63                | 2489.33  |
-| AWS g5.xlarge GPU with ONNX      | 0.01             | 8.52                  | 10.04                 | 11.25                 | 5.44                 | 45608.72 |
-| Azure Standard_D4as_v4           | 3.61             | 156.96                | 186.50                | 210.14                | 95.88                | 2586.50  |
-| Azure Standard_D4as_v4 with ONNX | 0.00             | 39.36                 | 39.87                 | 40.27                 | 38.00                | 6525.72  |
+WIP
