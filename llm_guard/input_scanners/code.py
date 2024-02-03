@@ -9,10 +9,7 @@ from .base import Scanner
 
 LOGGER = get_logger(__name__)
 
-_model_path = (
-    "philomath-1209/programming-language-identification",
-    "laiyer/philomath-1209-programming-language-identification-onnx",  # ONNX model
-)
+_model_path = "philomath-1209/programming-language-identification"
 
 SUPPORTED_LANGUAGES = [
     "ARM Assembly",
@@ -81,8 +78,8 @@ class Code(Scanner):
 
         self._pipeline = pipeline(
             task="text-classification",
-            model=_model_path[0],
-            onnx_model=_model_path[1],
+            model=_model_path,
+            onnx_model=_model_path,
             use_onnx=use_onnx,
             truncation=True,
         )
