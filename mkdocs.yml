@@ -119,6 +119,7 @@ nav:
     - Index: index.md
     - Installation: get_started/installation.md
     - Quickstart: get_started/quickstart.md
+    - Attacks: get_started/attacks.md
   - Usage:
     - Best Practices: usage/best_practices.md
     - Playground: usage/playground.md
