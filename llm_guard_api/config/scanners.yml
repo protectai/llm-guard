@@ -6,7 +6,7 @@ app:
   scan_output_timeout: ${SCAN_OUTPUT_TIMEOUT:30}
   cache_ttl: ${CACHE_TTL:3600}
   cache_max_size: ${CACHE_MAX_SIZE:}
-  use_onnx: ${USE_ONNX:true}
+  port: ${APP_PORT:8000}
 
 # Scanners are applied in the order they are listed here.
 input_scanners:

@@ -1,39 +1,32 @@
 # Use the Python 3.11 slim image
 FROM python:3.11-slim
 
-# Install system packages
-RUN apt-get update && apt-get install -y \
+# Install system packages needed for building
+RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    curl \
-    software-properties-common \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Set the working directory
-WORKDIR /app
-
-# Copy requirements and install Python dependencies
-COPY requirements.txt .
-COPY requirements-cpu.txt .
-
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir torch==2.0.1 && \
-    pip install --no-cache-dir -r requirements.txt -r requirements-cpu.txt && \
-    python -m spacy download en_core_web_sm
-
-# Create a non-root user and set user environment variables
 RUN useradd -m -u 1000 user
+USER user
 ENV HOME=/home/user \
     PATH=/home/user/.local/bin:$PATH
 
-# Switch to the non-root user and set the working directory
-USER user
+# Set up a working directory
 WORKDIR $HOME/app
 
-# Copy the application to the user's directory
-COPY --chown=user src/ $HOME/app
+# Copy pyproject.toml and other necessary files for installation
+COPY --chown=user:user pyproject.toml ./
+COPY --chown=user:user src ./src
 
-# Expose the port the app runs on
+# Install the project's dependencies
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install torch==2.0.1 --index-url https://download.pytorch.org/whl/cpu && \
+    pip install --no-cache-dir ".[cpu]"
+
+RUN python -m spacy download en_core_web_sm
+
+COPY --chown=user:user ./config/scanners.yml ./config/scanners.yml
+
 EXPOSE 8000
 
-# Specify the default command
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["llm_guard_api", "/home/user/app/config/scanners.yml"]

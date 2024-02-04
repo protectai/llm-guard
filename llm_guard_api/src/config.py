@@ -47,7 +47,9 @@ def get_config(vault: Vault, file_name: str) -> Dict:
         logger.debug(f"Loading input scanner: {scanner['type']}")
         result["input_scanners"].append(
             _get_input_scanner(
-                scanner["type"], scanner["params"], use_onnx=conf["app"]["use_onnx"], vault=vault
+                scanner["type"],
+                scanner["params"],
+                vault=vault,
             )
         )
 
@@ -56,7 +58,9 @@ def get_config(vault: Vault, file_name: str) -> Dict:
         logger.debug(f"Loading output scanner: {scanner['type']}")
         result["output_scanners"].append(
             _get_output_scanner(
-                scanner["type"], scanner["params"], use_onnx=conf["app"]["use_onnx"], vault=vault
+                scanner["type"],
+                scanner["params"],
+                vault=vault,
             )
         )
 
@@ -67,7 +71,6 @@ def _get_input_scanner(
     scanner_name: str,
     scanner_config: Optional[Dict],
     *,
-    use_onnx: bool,
     vault: Vault,
 ):
     if scanner_config is None:
@@ -84,7 +87,7 @@ def _get_input_scanner(
         "PromptInjection",
         "Toxicity",
     ]:
-        scanner_config["use_onnx"] = use_onnx
+        scanner_config["use_onnx"] = True
 
     return input_scanners.get_scanner_by_name(scanner_name, scanner_config)
 
@@ -93,7 +96,6 @@ def _get_output_scanner(
     scanner_name: str,
     scanner_config: Optional[Dict],
     *,
-    use_onnx: bool,
     vault: Vault,
 ):
     if scanner_config is None:
@@ -115,6 +117,6 @@ def _get_output_scanner(
         "Sensitive",
         "Toxicity",
     ]:
-        scanner_config["use_onnx"] = use_onnx
+        scanner_config["use_onnx"] = True
 
     return output_scanners.get_scanner_by_name(scanner_name, scanner_config)

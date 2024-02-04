@@ -10,7 +10,7 @@ This example demonstrates how to use LLM Guard as an API. It uses [FastAPI](http
 
 2. Install dependencies (preferably in a virtual environment)
 ```sh
-python -m pip install -r requirements.txt
+python -m pip install ".[cpu]"
 ```
 
 Or you can use Makefile
@@ -40,6 +40,7 @@ make run-docker
 - `SCAN_PROMPT_TIMEOUT` (int): Time in seconds after which a prompt scan will timeout. Default is 10 seconds.
 - `SCAN_OUTPUT_TIMEOUT` (int): Time in seconds after which an output scan will timeout. Default is 30 seconds.
 - `USE_ONNX` (bool): Use ONNX models instead of PyTorch on CPU (faster inference). Default is `True`.
+- `APP_PORT` (int): Port to run the API. Default is `8000`.
 
 ### Scanners
 

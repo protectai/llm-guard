@@ -1,0 +1,48 @@
+[project]
+name = "llm-guard-api"
+description = "LLM Guard API is a deployment of LLM Guard as an API."
+authors = [
+  { name = "Protect AI", email = "community@protectai.com"}
+]
+readme = "README.md"
+dynamic = ["version"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+]
+requires-python = ">=3.9"
+
+dependencies = [
+    "asyncio==3.4.3",
+    "fastapi==0.109.1",
+    "llm-guard==0.3.7",
+    "pydantic==1.10.14",
+    "pyyaml==6.0.1",
+    "uvicorn[standard]==0.27.0",
+]
+
+[project.optional-dependencies]
+cpu = [
+  "llm-guard[onnxruntime]==0.3.7",
+]
+gpu = [
+  "llm-guard[onnxruntime-gpu]==0.3.7",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.dynamic]
+version = {attr = "app.version"}
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project.scripts]
+llm_guard_api = "app:run_app"

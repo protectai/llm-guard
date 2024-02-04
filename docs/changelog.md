@@ -21,6 +21,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `NoRefusal` support `match_type` parameter to choose between `sentence` and `all` matches.
 - Using `structlog` for better logging.
 - **[Breaking]**: `Code`: using new model [philomath-1209/programming-language-identification](https://huggingface.co/philomath-1209/programming-language-identification) with more languages support and better accuracy. Please update your `languages` parameter.
+- `API`: ONNX is enabled by default.
+- `protobuf` version is not capped to v3.
+- `API` uses `pyproject.toml` for dependencies and builds.
 
 ### Removed
 -

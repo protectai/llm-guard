@@ -13,8 +13,7 @@ ERROR_COLOR=\033[31;01m
 WARN_COLOR=\033[33;01m
 
 install:
-	pip install --upgrade pip && \
-	pip install -r requirements.txt
+	@python -m pip install ".[cpu]"
 
 build-docker-multi:
 	@docker buildx build --platform linux/amd64,linux/arm64 -t $(DOCKER_IMAGE_NAME):$(VERSION) -t $(DOCKER_IMAGE_NAME):latest . --push

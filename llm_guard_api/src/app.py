@@ -1,7 +1,7 @@
+import argparse
 import asyncio
 import concurrent.futures
 import logging
-import os
 import time
 
 from cache import InMemoryCache
@@ -22,16 +22,16 @@ from starlette.exceptions import HTTPException as StarletteHTTPException
 from llm_guard import scan_output, scan_prompt
 from llm_guard.vault import Vault
 
-version = "0.0.5"
+version = "0.0.6"
 
 logger = logging.getLogger("llm-guard-api")
 
 vault = Vault()
-scanners_config_file = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    "config",
-    "scanners.yml",
-)
+
+parser = argparse.ArgumentParser(description="LLM Guard API")
+parser.add_argument("config", type=str, help="Path to the configuration file")
+args = parser.parse_args()
+scanners_config_file = args.config
 
 config = get_config(vault, scanners_config_file)
 logger.setLevel(logging.INFO)
@@ -196,3 +196,18 @@ def register_routes(
 
 
 app = create_app()
+
+
+def run_app():
+    import uvicorn
+
+    uvicorn.run(
+        app,
+        host="0.0.0.0",
+        port=int(config["app"]["port"]),
+        server_header=False,
+        log_level="info",
+        proxy_headers=True,
+        forwarded_allow_ips="*",
+        timeout_keep_alive=2,
+    )

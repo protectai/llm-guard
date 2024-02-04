@@ -1,9 +1,4 @@
-if __name__ == "__main__":
-    import uvicorn
+from app import run_app
 
-    uvicorn.run(
-        "app:app",
-        host="0.0.0.0",
-        port=8000,
-        server_header=False,
-    )
+if __name__ == "__main__":
+    run_app()
