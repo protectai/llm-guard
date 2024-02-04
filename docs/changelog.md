@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - `Anonymize`: language support with `zh` ([#79](https://github.com/laiyer-ai/llm-guard/pull/79), thanks to [@Oscaner](https://github.com/Oscaner)).
 - `Anonymize`: more regex patterns, such as `PO_BOX_RE`, `PRICE_RE`, `HEX_COLOR`, `TIME_RE`, `DATE_RE`, `URL_RE`, `PHONE_NUMBER_WITH_EXT`, `BTC_ADDRESS`
+- Add [NIST Taxonomy](./get_started/attacks.md) to the documentation.
 
 ### Fixed
 - Incorrect results when using `Deanonymize` multiple times ([#82](https://github.com/laiyer-ai/llm-guard/pull/82), thanks to [@andreaponti5](https://github.com/andreaponti5))
