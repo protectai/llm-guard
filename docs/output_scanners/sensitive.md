@@ -5,12 +5,24 @@ Identifiable Information (PII) and other sensitive data, safeguarding user inter
 
 ## Attack scenario
 
-Language Learning Models (or LLMs) can accidentally share private info from the prompts they get. This can be
-bad because it might let others see or use this info in the wrong way.
+ML/AI systems are prone to data leakage, which can occur at various stages of data processing, model training, or output generation, leading to unintended exposure of sensitive or proprietary information.
 
-To stop this from happening, you can use the `Sensitive` scanner. It makes sure output doesn't have any private details.
+Data leakage in ML/AI systems encompasses more than unauthorized database access; it can occur subtly when models unintentionally expose information about their training data. For example, models that overfit may allow inferences about the data they were trained on, presenting challenging-to-detect risks of potential data breaches.
+
+A data breach in an AI system can have severe consequences, including:
+
+- Financial Impact: Data breaches can lead to significant fines and are particularly costly in heavily regulated industries or areas with strict data protection laws.
+- Reputation Damage: Trust issues stemming from data leaks can affect relationships with clients, partners, and the wider stakeholder community, potentially resulting in lost business.
+- Legal and Compliance Implications: Non-compliance with data protection can lead to legal repercussions and sanctions.
+- Operational Impact: Breaches may interrupt business operations, requiring extensive efforts to resolve and recover from the incident.
+- Intellectual Property Risks: Leaks in certain fields could disclose proprietary methodologies or trade secrets, offering competitors unfair advantages.
 
 Referring to the `OWASP Top 10 for Large Language Model Applications`, this falls under: [LLM06: Sensitive Information Disclosure](https://owasp.org/www-project-top-10-for-large-language-model-applications/).
+
+Also, CWE has identified the following weaknesses that are related to this scanner:
+
+- **CWE-200**: Exposure of Sensitive Information to an Unauthorized Actor: Denotes the risk of accidentally revealing sensitive data.
+- **CWE-359**: Exposure of Private Personal Information (PPI): Highlights the dangers of leaking personal data.
 
 ## How it works
 
