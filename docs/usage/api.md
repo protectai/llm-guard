@@ -6,7 +6,7 @@ This example demonstrates how to use LLM Guard as an API. It uses [FastAPI](http
 
 ## From source
 
-1. Copy the code from [llm_guard_api](https://github.com/laiyer-ai/llm-guard/tree/main/llm_guard_api)
+1. Copy the code from [llm_guard_api](https://github.com/protectai/llm-guard/tree/main/llm_guard_api)
 
 2. Install dependencies (preferably in a virtual environment)
 ```sh
@@ -33,7 +33,7 @@ make run-docker
 
 ### Environment variables
 
-- `DEBUG` (bool): Enable debug mode
+- `LOG_LEVEL` (bool): Log level. Default is `INFO`. If set as `DEBUG`, debug mode will be enabled.
 - `CACHE_MAX_SIZE` (int): Maximum number of items in the cache. Default is unlimited.
 - `CACHE_TTL` (int): Time in seconds after which a cached item expires. Default is 1 hour.
 - `SCAN_FAIL_FAST` (bool): Stop scanning after the first failed check. Default is `False`.
@@ -83,4 +83,4 @@ Alternatively, you can enable `low_cpu_mem_usage` in scanners that rely on Huggi
 
 ## Schema
 
-<swagger-ui src="https://raw.githubusercontent.com/laiyer-ai/llm-guard/main/llm_guard_api/openapi.json" />
+<swagger-ui src="https://raw.githubusercontent.com/protectai/llm-guard/main/llm_guard_api/openapi.json" />

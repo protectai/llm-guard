@@ -67,10 +67,10 @@ dev = [
 ]
 
 [project.urls]
-homepage = "https://github.com/laiyer-ai/llm-guard"
+homepage = "https://github.com/protectai/llm-guard"
 documentation = "https://llm-guard.com/"
-repository = "https://github.com/laiyer-ai/llm-guard"
-issues = "https://github.com/laiyer-ai/llm-guard/issues"
+repository = "https://github.com/protectai/llm-guard"
+issues = "https://github.com/protectai/llm-guard/issues"
 changelog = "https://llm-guard.com/changelog/"
 
 [tool.setuptools]

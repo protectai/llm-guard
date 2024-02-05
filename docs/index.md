@@ -34,7 +34,7 @@ pip install llm-guard
 
 **Examples**:
 
-- Get started with [ChatGPT and LLM Guard](https://github.com/laiyer-ai/llm-guard/blob/main/examples/openai_api.py).
+- Get started with [ChatGPT and LLM Guard](https://github.com/protectai/llm-guard/blob/main/examples/openai_api.py).
 
 ## Community, Contributing, Docs & Support
 
@@ -46,11 +46,11 @@ we would love to have you as part of our community.
 - Give us a ⭐️ github star ⭐️ on the top of this page to support what we're doing,
   it means a lot for open source projects!
 - Read our
-  [docs](https://laiyer-ai.github.io/llm-guard/)
+  [docs](https://llm-guard.com/)
   for more info about how to use and customize deepchecks, and for step-by-step tutorials.
 - Post a [Github
-  Issue](https://github.com/laiyer-ai/llm-guard/issues) to submit a bug report, feature request, or suggest an improvement.
-- To contribute to the package, check out our [contribution guidelines](https://github.com/laiyer-ai/llm-guard/blob/main/CONTRIBUTING.md), and open a PR.
+  Issue](https://github.com/protectai/llm-guard/issues) to submit a bug report, feature request, or suggest an improvement.
+- To contribute to the package, check out our [contribution guidelines](https://github.com/protectai/llm-guard/blob/main/CONTRIBUTING.md), and open a PR.
 
 Join our Slack to give us feedback, connect with the maintainers and fellow users, ask questions,
 get help for package usage or contributions, or engage in discussions about LLM security!

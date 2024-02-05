@@ -10,13 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 **[Laiyer is now part of Protect AI](https://protectai.com/press/protect-ai-acquires-laiyer-ai)**
 
 ### Added
-- `Anonymize`: language support with `zh` ([#79](https://github.com/laiyer-ai/llm-guard/pull/79), thanks to [@Oscaner](https://github.com/Oscaner)).
+- `Anonymize`: language support with `zh` ([#79](https://github.com/protectai/llm-guard/pull/79), thanks to [@Oscaner](https://github.com/Oscaner)).
 - `Anonymize`: more regex patterns, such as `PO_BOX_RE`, `PRICE_RE`, `HEX_COLOR`, `TIME_RE`, `DATE_RE`, `URL_RE`, `PHONE_NUMBER_WITH_EXT`, `BTC_ADDRESS`
 - Add [NIST Taxonomy](./get_started/attacks.md) to the documentation.
 - Pass HuggingFace Transformers `pipeline` `kwargs` for better control over the models. For example, `BanTopics(topics=["politics", "war", "religion"], transformers_kwargs={"low_cpu_mem_usage": True})` for better memory usage when handling big models.
 
 ### Fixed
-- Incorrect results when using `Deanonymize` multiple times ([#82](https://github.com/laiyer-ai/llm-guard/pull/82), thanks to [@andreaponti5](https://github.com/andreaponti5))
+- Incorrect results when using `Deanonymize` multiple times ([#82](https://github.com/protectai/llm-guard/pull/82), thanks to [@andreaponti5](https://github.com/andreaponti5))
 
 ### Changed
 - `NoRefusal` scanner relies on the proprietary model [laiyer/distilroberta-base-rejection-v1](https://huggingface.co/laiyer/distilroberta-base-rejection-v1).
@@ -47,7 +47,7 @@ _0.3.5 and 0.3.6 were skipped due to build issues._
 - `Bias` calculation of risk score based on the threshold.
 
 ### Changed
-- Using `pyproject.toml` instead of `setup.py` based on the [request](https://github.com/laiyer-ai/llm-guard/issues/68).
+- Using `pyproject.toml` instead of `setup.py` based on the [request](https://github.com/protectai/llm-guard/issues/68).
 - **[Breaking]** `Regex` scanners have a new signature. It accepts `patterns`, `is_blocked` and `match_type`.
 - **[Breaking]** `BanSubstrings`: `match_type` parameter became `Enum` instead of `str`.
 - **[Breaking]** `Code` scanners have a new signature. It accepts `languages` and `is_blocked` instead of 2 separate lists.
@@ -77,7 +77,7 @@ _0.3.5 and 0.3.6 were skipped due to build issues._
 - Benchmarks on Azure instances
 
 ### Changed
-- Upgraded `json_repair` library ([issue](https://github.com/laiyer-ai/llm-guard/issues/44))
+- Upgraded `json_repair` library ([issue](https://github.com/protectai/llm-guard/issues/44))
 - Use proprietary prompt injection detection model [laiyer/deberta-v3-base-prompt-injection](https://huggingface.co/laiyer/deberta-v3-base-prompt-injection)
 
 ## [0.3.2] - 2023-11-15
@@ -150,7 +150,7 @@ _0.3.5 and 0.3.6 were skipped due to build issues._
 ## [0.2.4] - 2023-10-07
 
 ### Added
-- Langchain [example](https://github.com/laiyer-ai/llm-guard/blob/main/examples/langchain_lcel.py) using [LangChain Expression Language (LCEL)](https://python.langchain.com/docs/expression_language/)
+- Langchain [example](https://github.com/protectai/llm-guard/blob/main/examples/langchain_lcel.py) using [LangChain Expression Language (LCEL)](https://python.langchain.com/docs/expression_language/)
 - Added prompt injection scanner v2 model based on [hubert233/GPTFuzz](https://huggingface.co/hubert233/GPTFuzz)
 
 ### Changed
@@ -188,7 +188,7 @@ _0.3.5 and 0.3.6 were skipped due to build issues._
 ### Added
 - New pages in the docs about usage of LLM Guard
 - Benchmark of AWS EC2 `inf1.xlarge` instance
-- Example of API with Docker in [llm_guard_api](https://github.com/laiyer-ai/llm-guard/tree/main/llm_guard_api)
+- Example of API with Docker in [llm_guard_api](https://github.com/protectai/llm-guard/tree/main/llm_guard_api)
 - `Regex` output scanner can redact the text using a regular expression
 
 ### Changed
@@ -305,22 +305,22 @@ _0.3.5 and 0.3.6 were skipped due to build issues._
   - [Sensitive](./output_scanners/sensitive.md)
   - [Toxicity](./output_scanners/toxicity.md)
 
-[Unreleased]: https://github.com/laiyer-ai/llm-guard/commits/main
-[0.3.7]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.3.7
-[0.3.4]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.3.4
-[0.3.3]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.3.3
-[0.3.2]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.3.2
-[0.3.1]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.3.1
-[0.3.0]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.3.0
-[0.2.4]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.2.4
-[0.2.3]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.2.3
-[0.2.2]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.2.2
-[0.2.1]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.2.1
-[0.2.0]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.2.0
-[0.1.3]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.1.3
-[0.1.2]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.1.2
-[0.1.1]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.1.1
-[0.1.0]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.1.0
-[0.0.3]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.0.3
-[0.0.2]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.0.2
-[0.0.1]: https://github.com/laiyer-ai/llm-guard/releases/tag/v0.0.1
+[Unreleased]: https://github.com/protectai/llm-guard/commits/main
+[0.3.7]: https://github.com/protectai/llm-guard/releases/tag/v0.3.7
+[0.3.4]: https://github.com/protectai/llm-guard/releases/tag/v0.3.4
+[0.3.3]: https://github.com/protectai/llm-guard/releases/tag/v0.3.3
+[0.3.2]: https://github.com/protectai/llm-guard/releases/tag/v0.3.2
+[0.3.1]: https://github.com/protectai/llm-guard/releases/tag/v0.3.1
+[0.3.0]: https://github.com/protectai/llm-guard/releases/tag/v0.3.0
+[0.2.4]: https://github.com/protectai/llm-guard/releases/tag/v0.2.4
+[0.2.3]: https://github.com/protectai/llm-guard/releases/tag/v0.2.3
+[0.2.2]: https://github.com/protectai/llm-guard/releases/tag/v0.2.2
+[0.2.1]: https://github.com/protectai/llm-guard/releases/tag/v0.2.1
+[0.2.0]: https://github.com/protectai/llm-guard/releases/tag/v0.2.0
+[0.1.3]: https://github.com/protectai/llm-guard/releases/tag/v0.1.3
+[0.1.2]: https://github.com/protectai/llm-guard/releases/tag/v0.1.2
+[0.1.1]: https://github.com/protectai/llm-guard/releases/tag/v0.1.1
+[0.1.0]: https://github.com/protectai/llm-guard/releases/tag/v0.1.0
+[0.0.3]: https://github.com/protectai/llm-guard/releases/tag/v0.0.3
+[0.0.2]: https://github.com/protectai/llm-guard/releases/tag/v0.0.2
+[0.0.1]: https://github.com/protectai/llm-guard/releases/tag/v0.0.1

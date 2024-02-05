@@ -4,7 +4,7 @@ LLM Guard can be extended to support new scanners, and to support additional mod
 
 !!! note
 
-    Before writing code, please read the [contributing guide](https://github.com/laiyer-ai/llm-guard/blob/main/CONTRIBUTING.md).
+    Before writing code, please read the [contributing guide](https://github.com/protectai/llm-guard/blob/main/CONTRIBUTING.md).
 
 ## Extending the input (prompt) scanners
 

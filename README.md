@@ -2,21 +2,21 @@
 
 LLM Guard by [Protect AI](https://protectai.com/llm-guard) is a comprehensive tool designed to fortify the security of Large Language Models (LLMs).
 
-[**Documentation**](https://laiyer-ai.github.io/llm-guard/) | [**Playground**](https://huggingface.co/spaces/laiyer/llm-guard-playground) | [**Changelog**](https://llm-guard.com/changelog/) | [**Blog**](https://substack.com/@laiyer)
+[**Documentation**](https://llm-guard.com/) | [**Playground**](https://huggingface.co/spaces/laiyer/llm-guard-playground) | [**Changelog**](https://llm-guard.com/changelog/) | [**Blog**](https://substack.com/@laiyer)
 
 [![GitHub
-stars](https://img.shields.io/github/stars/laiyer-ai/llm-guard.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/laiyer-ai/llm-guard/stargazers/)
+stars](https://img.shields.io/github/stars/protectai/llm-guard.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/protectai/llm-guard/stargazers/)
 [![MIT license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![PyPI - Python Version](https://img.shields.io/pypi/v/llm-guard)](https://pypi.org/project/llm-guard)
 [![Downloads](https://static.pepy.tech/badge/llm-guard)](https://pepy.tech/project/llm-guard)
 [![Downloads](https://static.pepy.tech/badge/llm-guard/month)](https://pepy.tech/project/llm-guard)
 
-<a href="https://join.slack.com/t/laiyerai/shared_invite/zt-28jv3ci39-sVxXrLs3rQdaN3mIl9IT~w"><img src="https://github.com/laiyer-ai/llm-guard/blob/main/docs/assets/join-our-slack-community.png?raw=true" width="200"></a>
+<a href="https://join.slack.com/t/laiyerai/shared_invite/zt-28jv3ci39-sVxXrLs3rQdaN3mIl9IT~w"><img src="https://github.com/protectai/llm-guard/blob/main/docs/assets/join-our-slack-community.png?raw=true" width="200"></a>
 
 ## What is LLM Guard?
 
-![LLM-Guard](https://github.com/laiyer-ai/llm-guard/blob/main/docs/assets/flow.png?raw=true)
+![LLM-Guard](https://github.com/protectai/llm-guard/blob/main/docs/assets/flow.png?raw=true)
 
 By offering sanitization, detection of harmful language, prevention of data leakage, and resistance against prompt
 injection attacks, LLM-Guard ensures that your interactions with LLMs remain safe and secure.
@@ -99,16 +99,16 @@ we would love to have you as part of our community.
 - Give us a ⭐️ github star ⭐️ on the top of this page to support what we're doing,
   it means a lot for open source projects!
 - Read our
-  [docs](https://laiyer-ai.github.io/llm-guard/)
+  [docs](https://llm-guard.com/)
   for more info about how to use and customize LLM Guard, and for step-by-step tutorials.
 - Post a [Github
-  Issue](https://github.com/laiyer-ai/llm-guard/issues) to submit a bug report, feature request, or suggest an improvement.
+  Issue](https://github.com/protectai/llm-guard/issues) to submit a bug report, feature request, or suggest an improvement.
 - To contribute to the package, check out our [contribution guidelines](CONTRIBUTING.md), and open a PR.
 
 Join our Slack to give us feedback, connect with the maintainers and fellow users, ask questions,
 get help for package usage or contributions, or engage in discussions about LLM security!
 
-<a href="https://join.slack.com/t/laiyerai/shared_invite/zt-28jv3ci39-sVxXrLs3rQdaN3mIl9IT~w"><img src="https://github.com/laiyer-ai/llm-guard/blob/main/docs/assets/join-our-slack-community.png?raw=true" width="200"></a>
+<a href="https://join.slack.com/t/laiyerai/shared_invite/zt-28jv3ci39-sVxXrLs3rQdaN3mIl9IT~w"><img src="https://github.com/protectai/llm-guard/blob/main/docs/assets/join-our-slack-community.png?raw=true" width="200"></a>
 
 ### Production Support
 

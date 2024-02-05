@@ -32,11 +32,11 @@ To install LLM Guard from source, first clone the repo:
 
 - Using HTTPS
 ```bash
-git clone https://github.com/laiyer-ai/llm-guard.git
+git clone https://github.com/protectai/llm-guard.git
 ```
 - Using SSH
 ```bash
-git clone git@github.com:laiyer-ai/llm-guard.git
+git clone git@github.com:protectai/llm-guard.git
 ```
 
 We recommend to use a virtual environment like `venv` or `conda` to install the package.
