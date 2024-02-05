@@ -21,13 +21,13 @@ build-docker-multi:
 build-docker-cuda-multi:
 	@docker buildx build --platform linux/amd64 -t $(DOCKER_IMAGE_NAME):$(VERSION)-cuda -t $(DOCKER_IMAGE_NAME):latest-cuda -f Dockerfile-cuda . --push
 
-run:
-	cd ./src && DEBUG=true uvicorn app:app --reload
+run: install
+	llm_guard_api ./config/scanners.yml
 
 run-docker:
-	@docker run -p 8000:8000 -e DEBUG='true' -v ./src/config:/home/user/app/config $(DOCKER_IMAGE_NAME):$(VERSION)
+	@docker run -p 8000:8000 -e DEBUG='true' -v ./config:/home/user/app/config $(DOCKER_IMAGE_NAME):$(VERSION)
 
 run-docker-cuda:
-	@docker run --gpus all -p 8000:8000 -e DEBUG='true' -v ./src/config:/home/user/app/config $(DOCKER_IMAGE_NAME):$(VERSION)-cuda
+	@docker run --gpus all -p 8000:8000 -e DEBUG='true' -v ./config:/home/user/app/config $(DOCKER_IMAGE_NAME):$(VERSION)-cuda
 
 .PHONY: install run build-docker-multi build-docker-cuda-multi run-docker run-docker-cuda

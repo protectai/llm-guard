@@ -1,6 +1,6 @@
 app:
   name: ${APP_NAME:LLM Guard API}
-  debug: ${DEBUG:false}
+  log_level: ${LOG_LEVEL:INFO}
   scan_fail_fast: ${SCAN_FAIL_FAST:false}
   scan_prompt_timeout: ${SCAN_PROMPT_TIMEOUT:10}
   scan_output_timeout: ${SCAN_OUTPUT_TIMEOUT:30}

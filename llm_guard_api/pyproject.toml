@@ -24,6 +24,7 @@ dependencies = [
     "pydantic==1.10.14",
     "pyyaml==6.0.1",
     "uvicorn[standard]==0.27.0",
+    "structlog>=24"
 ]
 
 [project.optional-dependencies]

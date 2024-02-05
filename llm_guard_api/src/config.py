@@ -1,14 +1,14 @@
-import logging
 import os
 import re
 from typing import Any, Dict, Optional
 
+import structlog
 import yaml
 
 from llm_guard import input_scanners, output_scanners
 from llm_guard.vault import Vault
 
-logger = logging.getLogger(__name__)
+LOGGER = structlog.getLogger(__name__)
 
 _var_matcher = re.compile(r"\${([^}^{]+)}")
 _tag_matcher = re.compile(r"[^$]*\${([^}^{]+)}.*")
@@ -29,12 +29,12 @@ def load_yaml(filename: str) -> dict:
         with open(filename, "r") as f:
             return yaml.safe_load(f.read())
     except (FileNotFoundError, PermissionError, yaml.YAMLError) as exc:
-        logger.error(f"Error loading YAML file: {exc}")
+        LOGGER.error("Error loading YAML file", exception=exc)
         return dict()
 
 
 def get_config(vault: Vault, file_name: str) -> Dict:
-    logger.debug(f"Loading config file: {file_name}")
+    LOGGER.debug("Loading config file", file_name=file_name)
 
     conf = load_yaml(file_name)
     if conf == {}:
@@ -44,7 +44,7 @@ def get_config(vault: Vault, file_name: str) -> Dict:
 
     # Loading input scanners
     for scanner in conf["input_scanners"]:
-        logger.debug(f"Loading input scanner: {scanner['type']}")
+        LOGGER.debug("Loading input scanner", scanner=scanner["type"])
         result["input_scanners"].append(
             _get_input_scanner(
                 scanner["type"],
@@ -55,7 +55,7 @@ def get_config(vault: Vault, file_name: str) -> Dict:
 
     # Loading output scanners
     for scanner in conf["output_scanners"]:
-        logger.debug(f"Loading output scanner: {scanner['type']}")
+        LOGGER.debug("Loading output scanner", scanner=scanner["type"])
         result["output_scanners"].append(
             _get_output_scanner(
                 scanner["type"],

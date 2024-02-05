@@ -1,9 +1,9 @@
 import argparse
 import asyncio
 import concurrent.futures
-import logging
 import time
 
+import structlog
 from cache import InMemoryCache
 from config import get_config
 from fastapi import FastAPI, HTTPException, status
@@ -18,13 +18,12 @@ from schemas import (
     AnalyzePromptResponse,
 )
 from starlette.exceptions import HTTPException as StarletteHTTPException
+from util import configure_logger
 
 from llm_guard import scan_output, scan_prompt
 from llm_guard.vault import Vault
 
 version = "0.0.6"
-
-logger = logging.getLogger("llm-guard-api")
 
 vault = Vault()
 
@@ -34,10 +33,11 @@ args = parser.parse_args()
 scanners_config_file = args.config
 
 config = get_config(vault, scanners_config_file)
-logger.setLevel(logging.INFO)
-is_debug = config["app"]["debug"]
-if is_debug:
-    logger.setLevel(logging.DEBUG)
+
+LOGGER = structlog.getLogger(__name__)
+log_level = config["app"]["log_level"]
+is_debug = log_level == "DEBUG"
+configure_logger(log_level)
 
 
 def create_app():
@@ -47,7 +47,7 @@ def create_app():
     )
 
     if config["app"]["scan_fail_fast"]:
-        logger.debug("Scan fail_fast mode is enabled")
+        LOGGER.debug("Scan fail_fast mode is enabled")
 
     app = FastAPI(
         title=config["app"]["name"],
@@ -93,7 +93,7 @@ def register_routes(
     async def analyze_output(
         request: AnalyzeOutputRequest,
     ) -> AnalyzeOutputResponse:
-        logger.debug(f"Received analyze request: {request}")
+        LOGGER.debug("Received analyze output request", request=request)
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
             loop = asyncio.get_event_loop()
@@ -117,8 +117,10 @@ def register_routes(
                     scanners=results_score,
                 )
                 elapsed_time = time.time() - start_time
-                logger.debug(
-                    f"Sanitized response with the score: {results_score}. Elapsed time: {elapsed_time:.6f} seconds"
+                LOGGER.debug(
+                    "Sanitized response",
+                    scores=results_score,
+                    elapsed_time_seconds=round(elapsed_time, 6),
                 )
             except asyncio.TimeoutError:
                 raise HTTPException(
@@ -131,11 +133,11 @@ def register_routes(
     async def analyze_prompt(
         request: AnalyzePromptRequest,
     ) -> AnalyzePromptResponse:
-        logger.debug(f"Received analyze request: {request}")
+        LOGGER.debug("Received analyze prompt request", request=request)
         cached_result = cache.get(request.prompt)
 
         if cached_result:
-            logger.debug("Response was found in cache")
+            LOGGER.debug("Response was found in cache")
             cached_result["is_cached"] = True
 
             return AnalyzePromptResponse(**cached_result)
@@ -163,8 +165,10 @@ def register_routes(
                 cache.set(request.prompt, response.dict())
 
                 elapsed_time = time.time() - start_time
-                logger.debug(
-                    f"Sanitized response with the score: {results_score}. Elapsed time: {elapsed_time:.6f} seconds"
+                LOGGER.debug(
+                    "Sanitized prompt response returned",
+                    scores=results_score,
+                    elapsed_time_seconds=round(elapsed_time, 6),
                 )
             except asyncio.TimeoutError:
                 raise HTTPException(
@@ -175,11 +179,11 @@ def register_routes(
 
     @app.on_event("shutdown")
     def shutdown_event():
-        logger.info({"message": "Shutting down app..."})
+        LOGGER.info("Shutting down app...")
 
     @app.exception_handler(StarletteHTTPException)
     async def http_exception_handler(request, exc):
-        logger.warning(f"HTTP exception: {exc}. Request {request}")
+        LOGGER.warning("HTTP exception", exception=str(exc), request=request)
 
         return JSONResponse(
             {"message": str(exc.detail), "details": None}, status_code=exc.status_code
@@ -187,7 +191,7 @@ def register_routes(
 
     @app.exception_handler(RequestValidationError)
     async def validation_exception_handler(request, exc):
-        logger.warning(f"Invalid request: {exc}. Request {request}")
+        LOGGER.warning("Invalid request", exception=str(exc), request=request)
 
         response = {"message": "Validation failed", "details": exc.errors()}
         return JSONResponse(
@@ -206,7 +210,7 @@ def run_app():
         host="0.0.0.0",
         port=int(config["app"]["port"]),
         server_header=False,
-        log_level="info",
+        log_level=log_level.lower(),
         proxy_headers=True,
         forwarded_allow_ips="*",
         timeout_keep_alive=2,
