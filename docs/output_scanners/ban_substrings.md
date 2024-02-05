@@ -34,7 +34,7 @@ prompt, making it more sophisticated.
 ### 2. Prevent harmful substrings in the model's output
 
 There is also a dataset prepared of harmful substrings for
-prompts: [output_stop_substrings.json](https://github.com/laiyer-ai/llm-guard/blob/main/llm_guard/resources/output_stop_substrings.json)
+prompts: [output_stop_substrings.json](https://github.com/protectai/llm-guard/blob/main/llm_guard/resources/output_stop_substrings.json)
 
 ### 3. Hide mentions of competitors
 
