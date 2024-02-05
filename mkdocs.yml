@@ -122,6 +122,7 @@ nav:
     - Attacks: get_started/attacks.md
   - Usage:
     - Best Practices: usage/best_practices.md
+    - Optimization: usage/optimization.md
     - Playground: usage/playground.md
     - Deployment as API: usage/api.md
     - OpenAI SDK: usage/openai.md

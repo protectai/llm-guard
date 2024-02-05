@@ -8,6 +8,7 @@ from llm_guard.util import get_logger, lazy_load_dep
 from .base import Scanner
 
 LOGGER = get_logger(__name__)
+JSON_PATTERN = r"(?<!\\)(?:\\\\)*\{(?:[^{}]|(?R))*\}"
 
 
 class JSON(Scanner):
@@ -28,6 +29,7 @@ class JSON(Scanner):
         """
         self._required_elements = required_elements
         self._repair = repair
+        self._pattern = regex.compile(JSON_PATTERN, re.DOTALL)
 
     @staticmethod
     def is_valid_json(json_str: str) -> bool:
@@ -42,7 +44,8 @@ class JSON(Scanner):
         try:
             json.loads(json_str)
             return True
-        except ValueError:
+        except ValueError as e:
+            LOGGER.warning("Invalid JSON", error=e)
             return False
 
     @staticmethod
@@ -71,7 +74,7 @@ class JSON(Scanner):
             return output, True, 0.0
 
         # Find JSON object and array candidates using regular expressions
-        json_candidates = regex.findall(r"(?<!\\)(?:\\\\)*\{(?:[^{}]|(?R))*\}", output, re.DOTALL)
+        json_candidates = self._pattern.findall(output)
 
         # Validate each JSON
         valid_jsons = []
@@ -90,6 +93,7 @@ class JSON(Scanner):
                     LOGGER.warning(
                         "Could not repair JSON. Skipping...", repaired_json=repaired_json
                     )
+
                     continue
 
                 valid_jsons.append(repaired_json)

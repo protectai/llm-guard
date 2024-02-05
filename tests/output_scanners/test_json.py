@@ -63,6 +63,13 @@ from llm_guard.output_scanners.json import JSON
             True,
             0.0,
         ),  # Bad JSON, can be repaired
+        (
+            "Return just JSON array",
+            "Here is the result: `[{}, 2, 3]`",
+            "Here is the result: `[{}, 2, 3]`",
+            True,
+            0.0,
+        ),  # Good JSON array
     ],
 )
 def test_scan(prompt, output, expected_output, expected_valid, expected_score):
