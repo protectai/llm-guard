@@ -46,6 +46,7 @@ class PromptInjection(Scanner):
         threshold: float = 0.9,
         match_type: Union[MatchType, str] = MatchType.FULL,
         use_onnx: bool = False,
+        transformers_kwargs: Optional[Dict] = None,
     ):
         """
         Initializes PromptInjection with a threshold.
@@ -55,6 +56,7 @@ class PromptInjection(Scanner):
             threshold (float): Threshold for the injection score. Default is 0.9.
             match_type (MatchType): Whether to match the full text or individual sentences. Default is MatchType.FULL.
             use_onnx (bool): Whether to use ONNX for inference. Defaults to False.
+            transformers_kwargs (Optional[Dict]): Optional keyword arguments for the transformers pipeline.
 
         Raises:
             ValueError: If non-existent models were provided.
@@ -71,13 +73,17 @@ class PromptInjection(Scanner):
         self._threshold = threshold
         self._match_type = match_type
         self._model = model
+
+        transformers_kwargs = transformers_kwargs or {}
+        transformers_kwargs["max_length"] = model["max_length"]
+        transformers_kwargs["truncation"] = True
+
         self._pipeline = pipeline(
             task="text-classification",
             model=model["path"],
             use_onnx=use_onnx,
             onnx_model=model["onnx_path"],
-            truncation=True,
-            max_length=model["max_length"],
+            **transformers_kwargs,
         )
 
     def scan(self, prompt: str) -> (str, bool, float):

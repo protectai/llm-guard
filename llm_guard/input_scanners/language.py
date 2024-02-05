@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import List, Sequence, Union
+from typing import Dict, List, Optional, Sequence, Union
 
 from llm_guard.transformers_helpers import pipeline
 from llm_guard.util import calculate_risk_score, get_logger, split_text_by_sentences
@@ -40,6 +40,7 @@ class Language(Scanner):
         threshold: float = 0.6,
         match_type: Union[MatchType, str] = MatchType.FULL,
         use_onnx: bool = False,
+        transformers_kwargs: Optional[Dict] = None,
     ):
         """
         Initializes the Language scanner with a list of valid languages.
@@ -49,6 +50,7 @@ class Language(Scanner):
             threshold (float): Minimum confidence score.
             match_type (MatchType): Whether to match the full text or individual sentences. Default is MatchType.FULL.
             use_onnx (bool): Whether to use ONNX for inference. Default is False.
+            transformers_kwargs (Optional[Dict]): Optional keyword arguments for the transformers pipeline.
         """
         if isinstance(match_type, str):
             match_type = MatchType(match_type)
@@ -57,14 +59,17 @@ class Language(Scanner):
         self._valid_languages = valid_languages
         self._match_type = match_type
 
+        transformers_kwargs = transformers_kwargs or {}
+        transformers_kwargs["max_length"] = 512
+        transformers_kwargs["truncation"] = True
+        transformers_kwargs["top_k"] = None
+
         self._pipeline = pipeline(
             task="text-classification",
             model=model_path[0],
             onnx_model=model_path[1],
-            top_k=None,
             use_onnx=use_onnx,
-            truncation=True,
-            max_length=512,
+            **transformers_kwargs,
         )
 
     def scan(self, prompt: str) -> (str, bool, float):

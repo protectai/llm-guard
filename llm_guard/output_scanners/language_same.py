@@ -1,3 +1,5 @@
+from typing import Dict, Optional
+
 from llm_guard.input_scanners.language import model_path
 from llm_guard.transformers_helpers import pipeline
 from llm_guard.util import get_logger
@@ -17,6 +19,7 @@ class LanguageSame(Scanner):
         *,
         threshold: float = 0.1,
         use_onnx: bool = False,
+        transformers_kwargs: Optional[Dict] = None,
     ):
         """
         Initializes the LanguageSame scanner.
@@ -24,17 +27,22 @@ class LanguageSame(Scanner):
         Parameters:
             threshold (float): Minimum confidence score
             use_onnx (bool): Whether to use ONNX for inference. Default is False.
+            transformers_kwargs (dict): Additional keyword arguments to pass to the transformers pipeline.
         """
 
         self._threshold = threshold
+
+        transformers_kwargs = transformers_kwargs or {}
+        transformers_kwargs["max_length"] = 512
+        transformers_kwargs["truncation"] = True
+        transformers_kwargs["top_k"] = None
+
         self._pipeline = pipeline(
             task="text-classification",
             model=model_path[0],
             onnx_model=model_path[1],
-            top_k=None,
             use_onnx=use_onnx,
-            truncation=True,
-            max_length=512,
+            **transformers_kwargs,
         )
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):

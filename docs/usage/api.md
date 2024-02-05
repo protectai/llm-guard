@@ -79,6 +79,7 @@ docker run -d -p 8001:8000 -e DEBUG='false' laiyer/llm-guard-api:latest
 ### Out-of-memory error
 
 If you get an out-of-memory error, you can change `config.yml` file to use less scanners.
+Alternatively, you can enable `low_cpu_mem_usage` in scanners that rely on HuggingFace models.
 
 ## Schema
 

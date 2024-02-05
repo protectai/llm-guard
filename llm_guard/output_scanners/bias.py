@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import List, Union
+from typing import Dict, List, Optional, Union
 
 from llm_guard.transformers_helpers import pipeline
 from llm_guard.util import calculate_risk_score, get_logger, split_text_by_sentences
@@ -36,6 +36,7 @@ class Bias(Scanner):
         threshold: float = 0.7,
         match_type: Union[MatchType, str] = MatchType.FULL,
         use_onnx: bool = False,
+        transformers_kwargs: Optional[Dict] = None,
     ):
         """
         Initializes the Bias scanner with a probability threshold for bias detection.
@@ -44,6 +45,7 @@ class Bias(Scanner):
            threshold (float): The threshold above which a text is considered biased. Default is 0.7.
            match_type (MatchType): Whether to match the full text or individual sentences. Default is MatchType.FULL.
            use_onnx (bool): Whether to use ONNX instead of PyTorch for inference.
+           transformers_kwargs (dict): Additional keyword arguments to pass to the transformers pipeline.
         """
         if isinstance(match_type, str):
             match_type = MatchType(match_type)
@@ -51,12 +53,15 @@ class Bias(Scanner):
         self._threshold = threshold
         self._match_type = match_type
 
+        transformers_kwargs = transformers_kwargs or {}
+        transformers_kwargs["truncation"] = True
+
         self._classifier = pipeline(
             task="text-classification",
             model=_model_path[0],
             onnx_model=_model_path[1],
-            truncation=True,
             use_onnx=use_onnx,
+            **transformers_kwargs,
         )
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):

@@ -34,22 +34,7 @@ sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 
 ## Optimization Strategies
 
-### ONNX
-
-The scanner can run on ONNX Runtime, which provides a significant performance boost on CPU instances.
-
-To enable it, install the `onnxruntime` package:
-
-```sh
-pip install llm-guard[onnxruntime] # for CPU instances
-pip install llm-guard[onnxruntime-gpu] # for GPU instances
-```
-
-And set `use_onnx=True`.
-
-### Use smaller models
-
-You can rely on base model variant (default) to reduce the latency and memory footprint.
+[Read more](../usage/optimization.md)
 
 ## Benchmarks
 

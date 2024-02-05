@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Anonymize`: language support with `zh` ([#79](https://github.com/laiyer-ai/llm-guard/pull/79), thanks to [@Oscaner](https://github.com/Oscaner)).
 - `Anonymize`: more regex patterns, such as `PO_BOX_RE`, `PRICE_RE`, `HEX_COLOR`, `TIME_RE`, `DATE_RE`, `URL_RE`, `PHONE_NUMBER_WITH_EXT`, `BTC_ADDRESS`
 - Add [NIST Taxonomy](./get_started/attacks.md) to the documentation.
+- Pass HuggingFace Transformers `pipeline` `kwargs` for better control over the models. For example, `BanTopics(topics=["politics", "war", "religion"], transformers_kwargs={"low_cpu_mem_usage": True})` for better memory usage when handling big models.
 
 ### Fixed
 - Incorrect results when using `Deanonymize` multiple times ([#82](https://github.com/laiyer-ai/llm-guard/pull/82), thanks to [@andreaponti5](https://github.com/andreaponti5))
@@ -27,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `API` uses `pyproject.toml` for dependencies and builds.
 
 ### Removed
--
+- Roadmap documentation as it's not up-to-date.
 
 ## [0.3.7] - 2023-01-15
 

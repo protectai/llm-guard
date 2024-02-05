@@ -1,4 +1,4 @@
-from typing import Sequence
+from typing import Dict, Optional, Sequence
 
 from llm_guard.input_scanners.code import Code as InputCode
 
@@ -20,6 +20,7 @@ class Code(Scanner):
         is_blocked: bool = True,
         threshold: float = 0.5,
         use_onnx: bool = False,
+        transformers_kwargs: Optional[Dict] = None,
     ):
         """
         Initializes an instance of the Code class.
@@ -29,13 +30,18 @@ class Code(Scanner):
             is_blocked (bool): Whether the languages are blocked or allowed. Default is True.
             threshold (float): The threshold for the model output to be considered valid. Default is 0.5.
             use_onnx (bool): Whether to use ONNX for inference. Default is False.
+            transformers_kwargs: Optional[Dict] = None,
 
         Raises:
             ValueError: If both 'allowed' and 'denied' lists are provided or if both are empty.
         """
 
         self._scanner = InputCode(
-            languages, is_blocked=is_blocked, threshold=threshold, use_onnx=use_onnx
+            languages,
+            is_blocked=is_blocked,
+            threshold=threshold,
+            use_onnx=use_onnx,
+            transformers_kwargs=transformers_kwargs,
         )
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):

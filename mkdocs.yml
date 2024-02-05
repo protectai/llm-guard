@@ -166,7 +166,6 @@ nav:
       - Toxicity: output_scanners/toxicity.md
       - URL Reachability: output_scanners/url_reachability.md
   - Changelog: changelog.md
-  - Roadmap: roadmap.md
   - Customization:
       - Add scanner: customization/add_scanner.md
 

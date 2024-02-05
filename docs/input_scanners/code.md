@@ -49,24 +49,13 @@ The scanner is currently limited to extracting and detecting code snippets from 
 ```python
 from llm_guard.input_scanners import Code
 
-scanner = Code(languages=["python"], is_blocked=True)
+scanner = Code(languages=["Python"], is_blocked=True)
 sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
 
 ## Optimization Strategies
 
-### ONNX
-
-The scanner can be optimized by using the ONNX converted model [laiyer/CodeBERTa-language-id-onnx](https://huggingface.co/laiyer/CodeBERTa-language-id-onnx).
-
-Make sure to install the `onnxruntime` package:
-
-```sh
-pip install llm-guard[onnxruntime] # for CPU instances
-pip install llm-guard[onnxruntime-gpu] # for GPU instances
-```
-
-And set `use_onnx=True`.
+[Read more](../usage/optimization.md)
 
 ## Benchmarks
 

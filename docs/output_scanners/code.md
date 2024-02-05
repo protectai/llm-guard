@@ -53,16 +53,7 @@ sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 
 ## Optimization Strategies
 
-### ONNX
-
-The scanner can be optimized by using the ONNX converted model [laiyer/CodeBERTa-language-id-onnx](https://huggingface.co/laiyer/CodeBERTa-language-id-onnx). This can be done by setting the `use_onnx`.
-
-Make sure to install the `onnxruntime` package:
-
-```sh
-pip install llm-guard[onnxruntime] # for CPU instances
-pip install llm-guard[onnxruntime-gpu] # for GPU instances
-```
+[Read more](../usage/optimization.md)
 
 ## Benchmarks
 

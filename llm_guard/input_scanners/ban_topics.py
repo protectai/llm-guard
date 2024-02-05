@@ -53,6 +53,7 @@ class BanTopics(Scanner):
         threshold: float = 0.6,
         model: Optional[Dict] = None,
         use_onnx: bool = False,
+        transformers_kwargs: Optional[Dict] = None,
     ):
         """
         Initialize BanTopics object.
@@ -62,6 +63,7 @@ class BanTopics(Scanner):
             threshold (float, optional): Threshold to determine if a topic is present in the prompt. Default is 0.75.
             model (Dict, optional): Model to use for zero-shot classification. Default is deberta-v3-base-zeroshot-v1.
             use_onnx (bool, optional): Whether to use ONNX for inference. Default is False.
+            transformers_kwargs (Dict, optional): Additional kwargs to pass to the transformers pipeline. Default is None.
 
         Raises:
             ValueError: If no topics are provided.
@@ -75,13 +77,16 @@ class BanTopics(Scanner):
         self._topics = topics
         self._threshold = threshold
 
+        transformers_kwargs = transformers_kwargs or {}
+        transformers_kwargs["max_length"] = model["max_length"]
+        transformers_kwargs["truncation"] = True
+
         self._classifier = pipeline(
             task="zero-shot-classification",
             model=model["path"],
             onnx_model=model["onnx_path"],
             use_onnx=use_onnx,
-            max_length=model["max_length"],
-            truncation=True,
+            **transformers_kwargs,
         )
 
     def scan(self, prompt: str) -> (str, bool, float):

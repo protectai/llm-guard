@@ -1,5 +1,5 @@
 import re
-from typing import List, Sequence
+from typing import Dict, List, Optional, Sequence
 
 from llm_guard.exception import LLMGuardValidationError
 from llm_guard.transformers_helpers import pipeline
@@ -56,6 +56,7 @@ class Code(Scanner):
         is_blocked: bool = True,
         threshold: float = 0.5,
         use_onnx: bool = False,
+        transformers_kwargs: Optional[Dict] = None,
     ):
         """
         Initializes Code with the allowed and denied languages.
@@ -65,6 +66,7 @@ class Code(Scanner):
             is_blocked (bool): Whether the languages are blocked or allowed. Default is True.
             threshold (float): The threshold for the risk score. Default is 0.5.
             use_onnx (bool): Whether to use ONNX for inference. Default is False.
+            transformers_kwargs (Optional[Dict]): Optional keyword arguments for the transformers pipeline.
 
         Raises:
             LLMGuardValidationError: If the languages are not a subset of SUPPORTED_LANGUAGES.
@@ -76,12 +78,15 @@ class Code(Scanner):
         self._is_blocked = is_blocked
         self._threshold = threshold
 
+        transformers_kwargs = transformers_kwargs or {}
+        transformers_kwargs["truncation"] = True
+
         self._pipeline = pipeline(
             task="text-classification",
             model=_model_path,
             onnx_model=_model_path,
             use_onnx=use_onnx,
-            truncation=True,
+            **transformers_kwargs,
         )
 
         self._fenced_code_regex = re.compile(r"```(?:[a-zA-Z0-9]*\n)?(.*?)```", re.DOTALL)

@@ -1,4 +1,4 @@
-from typing import Sequence, Union
+from typing import Dict, Optional, Sequence, Union
 
 from llm_guard.input_scanners.language import Language as InputLanguage
 from llm_guard.input_scanners.language import MatchType
@@ -19,6 +19,7 @@ class Language(Scanner):
         threshold: float = 0.7,
         match_type: Union[MatchType, str] = MatchType.FULL,
         use_onnx: bool = False,
+        transformers_kwargs: Optional[Dict] = None,
     ):
         """
         Initializes the Language scanner with a list of valid languages.
@@ -28,6 +29,7 @@ class Language(Scanner):
             threshold (float): Minimum confidence score.
             match_type (MatchType): Whether to match the full text or individual sentences. Default is MatchType.FULL.
             use_onnx (bool): Whether to use ONNX for inference. Default is False.
+            transformers_kwargs (dict): Additional keyword arguments to pass to the transformers pipeline.
         """
 
         self._scanner = InputLanguage(
@@ -35,6 +37,7 @@ class Language(Scanner):
             threshold=threshold,
             match_type=match_type,
             use_onnx=use_onnx,
+            transformers_kwargs=transformers_kwargs,
         )
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):

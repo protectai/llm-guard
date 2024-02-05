@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import List, Union
+from typing import Dict, List, Optional, Union
 
 from llm_guard.transformers_helpers import pipeline
 from llm_guard.util import calculate_risk_score, get_logger, split_text_by_sentences
@@ -48,6 +48,7 @@ class Toxicity(Scanner):
         threshold: float = 0.5,
         match_type: Union[MatchType, str] = MatchType.FULL,
         use_onnx: bool = False,
+        transformers_kwargs: Optional[Dict] = None,
     ):
         """
         Initializes Toxicity with a threshold for toxicity.
@@ -56,6 +57,7 @@ class Toxicity(Scanner):
            threshold (float): Threshold for toxicity. Default is 0.5.
            match_type (MatchType): Whether to match the full text or individual sentences. Default is MatchType.FULL.
            use_onnx (bool): Whether to use ONNX for inference. Default is False.
+           transformers_kwargs (Optional[Dict]): Optional keyword arguments for the transformers pipeline.
         """
         if isinstance(match_type, str):
             match_type = MatchType(match_type)
@@ -63,15 +65,18 @@ class Toxicity(Scanner):
         self._threshold = threshold
         self._match_type = match_type
 
+        transformers_kwargs = transformers_kwargs or {}
+        transformers_kwargs["truncation"] = True
+        transformers_kwargs["padding"] = "max_length"
+        transformers_kwargs["top_k"] = None
+        transformers_kwargs["function_to_apply"] = "sigmoid"
+
         self._pipeline = pipeline(
             task="text-classification",
             model=_model_path[0],
             onnx_model=_model_path[1],
-            top_k=None,
             use_onnx=use_onnx,
-            padding="max_length",
-            function_to_apply="sigmoid",
-            truncation=True,
+            **transformers_kwargs,
         )
 
     def scan(self, prompt: str) -> (str, bool, float):

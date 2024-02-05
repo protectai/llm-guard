@@ -33,24 +33,7 @@ sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 
 ## Optimization Strategies
 
-### ONNX
-
-The scanner can run on ONNX Runtime, which provides a significant performance boost on CPU instances. It will fetch
-Laiyer's ONNX converted models from [Hugging Face Hub](https://huggingface.co/laiyer).
-
-To enable it, install the `onnxruntime` package:
-
-```sh
-pip install llm-guard[onnxruntime] # for CPU instances
-pip install llm-guard[onnxruntime-gpu] # for GPU instances
-```
-
-And set `use_onnx=True`.
-
-### Use smaller models
-
-You can use smaller model `BAAI/bge-small-en-v1.5` (`MODEL_EN_BGE_SMALL`) to speed up the scanner. It is 4 times faster
-than the default model, but it is less accurate.
+[Read more](../usage/optimization.md)
 
 ## Benchmarks
 

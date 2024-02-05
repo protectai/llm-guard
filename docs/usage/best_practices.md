@@ -8,6 +8,10 @@
 
 3. **Use ONNX Runtime for CPU inference**: [ONNX Runtime](https://onnxruntime.ai/) is a high-performance inference engine for machine learning models. When possible, we recommend using ONNX Runtime for serving the models.
 
+4. **Tune Transformers kwargs**: Transformers have a variety of parameters that can be tuned to optimize performance. For example, `low_cpu_mem_usage`, which helps to [use less memory](https://huggingface.co/docs/transformers/main_classes/model#large-model-loading) by utilizing Accelerate library.
+
+[Read more about optimization strategies](optimization.md)
+
 ## Serving Configurations
 
 1. **Fast Failure Mode**: Enable the `fail_fast` mode while serving to ensure early exits, preventing the wait for all scanners to complete, thus optimizing the response time.

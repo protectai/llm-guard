@@ -1,3 +1,5 @@
+from typing import Dict, Optional
+
 from llm_guard.transformers_helpers import pipeline
 from llm_guard.util import calculate_risk_score, extract_urls, get_logger
 
@@ -25,24 +27,31 @@ class MaliciousURLs(Scanner):
     URLs as either malicious or benign to safeguard users from potential threats.
     """
 
-    def __init__(self, *, threshold=0.5, use_onnx: bool = False):
+    def __init__(
+        self, *, threshold=0.5, use_onnx: bool = False, transformers_kwargs: Optional[Dict] = None
+    ):
         """
         Initializes an instance of the MaliciousURLs class.
 
         Parameters:
             threshold (float): The threshold used to determine if the website is malicious. Defaults to 0.5.
             use_onnx (bool): Whether to use the ONNX version of the model. Defaults to False.
+            transformers_kwargs (dict): Additional keyword arguments to pass to the transformers pipeline.
         """
 
         self._threshold = threshold
+
+        transformers_kwargs = transformers_kwargs or {}
+        transformers_kwargs["max_length"] = 512
+        transformers_kwargs["truncation"] = True
+        transformers_kwargs["top_k"] = None
+
         self._classifier = pipeline(
             task="text-classification",
             model=_model_path[0],
             onnx_model=_model_path[1],
-            truncation=True,
             use_onnx=use_onnx,
-            top_k=None,
-            max_length=512,
+            **transformers_kwargs,
         )
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
