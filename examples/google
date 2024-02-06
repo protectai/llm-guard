@@ -61,3 +61,4 @@ if all(results_valid.values())is True:
 else:
   #If the input scanner detects a parameter is higher then a threshold then print the prompt is not valid
   print("Prompt is not valid")
+exit code(1)
