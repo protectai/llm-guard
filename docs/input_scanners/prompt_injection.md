@@ -13,24 +13,38 @@ primary ways an attacker might exploit:
 
 - **Indirect Injection**: Alters inputs coming from external sources.
 
-!!! info
+As specified by the `OWASP Top 10 LLM attacks`, this vulnerability is categorized under:
 
-    As specified by the `OWASP Top 10 LLM attacks`, this vulnerability is categorized under:
-
-    [LLM01: Prompt Injection](https://owasp.org/www-project-top-10-for-large-language-model-applications/) - It's crucial to
-    monitor and validate prompts rigorously to keep the LLM safe from such threats.
+[LLM01: Prompt Injection](https://owasp.org/www-project-top-10-for-large-language-model-applications/) - It's crucial to
+monitor and validate prompts rigorously to keep the LLM safe from such threats.
 
 **Examples:**
 
 - https://www.jailbreakchat.com/
+
+Prompt injection attacks are particularly potent in the following scenarios:
+
+- **Retrieval augmented generation (RAG)**: RAG utilizes a vector database to hold a large amount of data that the LLM
+  may not have seen during training. This allows the model to cite data sources, provide better-supported responses, or
+  be customized for different enterprises. The adversary may prompt inject some of the documents included in the
+  database, and the attack activates when the model reads those documents.
+- **Chatbot with a web-browsing capability**: This scenario is similar to RAG, but instead of a local database, the
+  model can access any website on the internet often via a browsing tool or an API (rather than computing a vector
+  similarity like RAG). Indirect prompt injection attack is particularly potent in this case as data on the internet are
+  mostly unfiltered and can be dynamically changed to hide or activate the attack at any time.
+- **Automated customer service applications that read and write emails**: The application might use a LLM to summarize
+  or read and respond to messages. An attacker can send a message containing an injected prompt, and thereby manipulate
+  the behavior of the app in unexpected ways.
 
 ## How it works
 
 Choose models you would like to validate against:
 
 [laiyer/deberta-v3-base-prompt-injection](https://huggingface.co/laiyer/deberta-v3-base-prompt-injection).
-This model is a fine-tuned version of the `microsoft/deberta-v3-base` on multiple dataset of prompt injections and normal prompts to classify text.
-It aims to identify prompt injections, classifying inputs into two categories: `0` for no injection and `1` for injection detected. We are still testing it.
+This model is a fine-tuned version of the `microsoft/deberta-v3-base` on multiple dataset of prompt injections and
+normal prompts to classify text.
+It aims to identify prompt injections, classifying inputs into two categories: `0` for no injection and `1` for
+injection detected. We are still testing it.
 
 Usage:
 
