@@ -58,7 +58,7 @@ if all(results_valid.values())is True:
   else:
     #if the input and output scanners come back with no findings print the model response
     print(response.text)
-    exist()
+    exit()
 else:
   #If the input scanner detects a parameter is higher then a threshold then print the prompt is not valid
   print("Prompt is not valid")
