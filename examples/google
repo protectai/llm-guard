@@ -1,7 +1,7 @@
 #Install Vertex AI
 !pip install google-cloud-aiplatform --upgrade --user
 
-#Install LLM guard
+#Install LLM guard reference https://github.com/GoogleCloudPlatform/generative-ai/blob/main/gemini/getting-started/intro_gemini_python.ipynb for more detailed instructions
 !pip install llm-guard
 
 #Set Project and Location
