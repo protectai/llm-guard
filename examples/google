@@ -55,7 +55,6 @@ if all(results_valid.values())is True:
   if not all(output_results_valid.values()) is True:
     #If the models response is above the LLM Guardrules output scanners threshold then print the Prompt and the message "Prompt is not valid" 
     print(f"Prompt:{prompt} is not valid")
-    exit(1)
   else:
     #if the input and output scanners come back with no findings print the model response
     print(response.text)
