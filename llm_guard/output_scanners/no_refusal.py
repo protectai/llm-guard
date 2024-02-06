@@ -9,8 +9,8 @@ from .base import Scanner
 LOGGER = get_logger(__name__)
 
 _model = {
-    "path": "laiyer/distilroberta-base-rejection-v1",
-    "onnx_path": "laiyer/distilroberta-base-rejection-v1",
+    "path": "ProtectAI/distilroberta-base-rejection-v1",
+    "onnx_path": "ProtectAI/distilroberta-base-rejection-v1",
     "max_length": 512,
 }
 

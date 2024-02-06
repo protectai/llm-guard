@@ -16,7 +16,7 @@ of refusals can include statements like "Sorry, I can't assist with that" or "I'
 
 ## How it works
 
-It leverages the proprietary model [laiyer/distilroberta-base-rejection-v1](https://huggingface.co/laiyer/distilroberta-base-rejection-v1) to classify the model's output.
+It leverages the proprietary model [ProtectAI/distilroberta-base-rejection-v1](https://huggingface.co/ProtectAI/distilroberta-base-rejection-v1) to classify the model's output.
 
 ## Usage
 

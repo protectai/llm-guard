@@ -8,6 +8,10 @@ app:
   cache_max_size: ${CACHE_MAX_SIZE:}
   port: ${APP_PORT:8000}
 
+auth:
+  use: http_bearer
+  token: ${AUTH_TOKEN:}
+
 # Scanners are applied in the order they are listed here.
 input_scanners:
   - type: Anonymize

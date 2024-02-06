@@ -10,7 +10,7 @@ LOGGER = get_logger(__name__)
 
 model_path = (
     "papluca/xlm-roberta-base-language-detection",
-    "laiyer/xlm-roberta-base-language-detection-onnx",
+    "ProtectAI/xlm-roberta-base-language-detection-onnx",
 )
 
 

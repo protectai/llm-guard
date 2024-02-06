@@ -40,7 +40,7 @@ Prompt injection attacks are particularly potent in the following scenarios:
 
 Choose models you would like to validate against:
 
-[laiyer/deberta-v3-base-prompt-injection](https://huggingface.co/laiyer/deberta-v3-base-prompt-injection).
+[ProtectAI/deberta-v3-base-prompt-injection](https://huggingface.co/ProtectAI/deberta-v3-base-prompt-injection).
 This model is a fine-tuned version of the `microsoft/deberta-v3-base` on multiple dataset of prompt injections and
 normal prompts to classify text.
 It aims to identify prompt injections, classifying inputs into two categories: `0` for no injection and `1` for

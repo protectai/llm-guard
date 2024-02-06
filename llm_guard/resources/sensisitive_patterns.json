@@ -37,10 +37,10 @@
     ],
     "name": "EMAIL_ADDRESS_RE",
     "examples": [
-      "john.doe@laiyer.ai",
-      "john.doe[AT]laiyer[DOT]ai",
-      "john.doe[AT]laiyer.ai",
-      "john.doe@laiyer[DOT]ai"
+      "john.doe@protectai.com",
+      "john.doe[AT]protectai[DOT]com",
+      "john.doe[AT]protectai.com",
+      "john.doe@protectai[DOT]com"
     ],
     "context": [],
     "score": 0.75,
@@ -86,9 +86,9 @@
     ],
     "name": "URL_RE",
     "examples": [
-      "http://www.laiyer.ai",
-      "https://laiyer.ai",
-      "www.laiyer.ai"
+      "http://www.protectai.com",
+      "https://protectai.com",
+      "www.protectai.com"
     ],
     "context": [],
     "score": 0.75,
@@ -112,10 +112,10 @@
     ],
     "name": "EMAIL_ADDRESS_RE",
     "examples": [
-      "john.doe@laiyer.ai",
-      "john.doe[AT]laiyer[DOT]ai",
-      "john.doe[AT]laiyer.ai",
-      "john.doe@laiyer[DOT]ai"
+      "john.doe@protectai.com",
+      "john.doe[AT]protectai[DOT]com",
+      "john.doe[AT]protectai.com",
+      "john.doe@protectai[DOT]com"
     ],
     "context": [
       "email"

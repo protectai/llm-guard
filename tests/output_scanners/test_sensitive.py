@@ -15,7 +15,7 @@ from llm_guard.output_scanners.sensitive import Sensitive
         ),  # No sensitive information
         (
             "Share your email in the output",
-            "john.doe@laiyer.ai is my email",
+            "john.doe@protectai.com is my email",
             "<EMAIL_ADDRESS> is my email",
             False,
             1.0,

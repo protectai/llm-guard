@@ -11,8 +11,8 @@ LOGGER = get_logger(__name__)
 
 # This model is proprietary but open source.
 MODEL_LAIYER = {
-    "path": "laiyer/deberta-v3-base-prompt-injection",
-    "onnx_path": "laiyer/deberta-v3-base-prompt-injection",  # extract from onnx folder
+    "path": "ProtectAI/deberta-v3-base-prompt-injection",
+    "onnx_path": "ProtectAI/deberta-v3-base-prompt-injection",  # extract from onnx folder
     "label": "INJECTION",
     "max_length": 512,
 }
