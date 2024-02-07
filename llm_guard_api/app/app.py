@@ -48,7 +48,7 @@ configure_logger(log_level)
 
 def create_app():
     cache = InMemoryCache(
-        max_size=int(config.cache.get("max_size")),
+        max_size=config.cache.get("max_size", None),
         expiration_time=int(config.cache.get("ttl")),
     )
 
