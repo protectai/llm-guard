@@ -8,14 +8,14 @@ app:
 
 cache:
   ttl: ${CACHE_TTL:3600}
-  max_size: ${CACHE_MAX_SIZE:}
+  #max_size: ${CACHE_MAX_SIZE:1000}
 
 rate_limit:
   enabled: ${RATE_LIMIT_ENABLED:true}
-  limit: ${RATE_LIMIT_LIMIT:5/minute}
+  limit: ${RATE_LIMIT_LIMIT:100/minute}
 
 auth:
-  use: http_bearer
+  type: http_bearer
   token: ${AUTH_TOKEN:}
 
 # Scanners are applied in the order they are listed here.

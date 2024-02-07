@@ -41,22 +41,22 @@ scanners_config_file = args.config
 config = get_config(vault, scanners_config_file)
 
 LOGGER = structlog.getLogger(__name__)
-log_level = config.app.get("log_level")
+log_level = config.app.log_level
 is_debug = log_level == "DEBUG"
 configure_logger(log_level)
 
 
 def create_app():
     cache = InMemoryCache(
-        max_size=config.cache.get("max_size", None),
-        expiration_time=int(config.cache.get("ttl")),
+        max_size=config.cache.max_size,
+        expiration_time=config.cache.ttl,
     )
 
-    if config.app.get("scan_fail_fast"):
+    if config.app.scan_fail_fast:
         LOGGER.debug("Scan fail_fast mode is enabled")
 
     app = FastAPI(
-        title=config.app.get("name"),
+        title=config.app.name,
         description="API to run LLM Guard scanners.",
         debug=is_debug,
         version=__version__,
@@ -79,10 +79,10 @@ def register_routes(
         allow_headers=["Authorization", "Content-Type"],
     )
 
-    limiter = Limiter(key_func=get_remote_address, default_limits=[config.rate_limit.get("limit")])
+    limiter = Limiter(key_func=get_remote_address, default_limits=[config.rate_limit.limit])
     app.state.limiter = limiter
     app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
-    if bool(config.rate_limit.get("enabled")):
+    if bool(config.rate_limit.enabled):
         app.add_middleware(SlowAPIMiddleware)
 
     security = HTTPBearer()
@@ -90,7 +90,7 @@ def register_routes(
     async def is_token_valid(
         credentials: Annotated[HTTPAuthorizationCredentials, Depends(security)]
     ) -> bool:
-        if credentials.credentials != config.auth.get("token"):
+        if credentials.credentials != config.auth.token:
             raise HTTPException(status_code=401, detail="Invalid API key")
 
         return True
@@ -133,9 +133,9 @@ def register_routes(
                         output_scanners,
                         request.prompt,
                         request.output,
-                        bool(config.app.get("scan_fail_fast")),
+                        config.app.scan_fail_fast,
                     ),
-                    timeout=float(config.app.get("scan_output_timeout")),
+                    timeout=config.app.scan_output_timeout,
                 )
 
                 response = AnalyzeOutputResponse(
@@ -189,9 +189,9 @@ def register_routes(
                         scan_prompt,
                         input_scanners,
                         request.prompt,
-                        bool(config.app.get("scan_fail_fast")),
+                        config.app.scan_fail_fast,
                     ),
-                    timeout=float(config.app.get("scan_prompt_timeout")),
+                    timeout=config.app.scan_prompt_timeout,
                 )
 
                 response = AnalyzePromptResponse(
@@ -245,7 +245,7 @@ def run_app():
     uvicorn.run(
         app,
         host="0.0.0.0",
-        port=int(config.app.get("port")),
+        port=config.app.port,
         server_header=False,
         log_level=log_level.lower(),
         proxy_headers=True,
