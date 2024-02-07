@@ -1,9 +1,10 @@
 import os
 import re
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional
 
 import structlog
 import yaml
+from pydantic import BaseModel
 
 from llm_guard import input_scanners, output_scanners
 from llm_guard.vault import Vault
@@ -12,6 +13,17 @@ LOGGER = structlog.getLogger(__name__)
 
 _var_matcher = re.compile(r"\${([^}^{]+)}")
 _tag_matcher = re.compile(r"[^$]*\${([^}^{]+)}.*")
+
+
+class Config(BaseModel):
+    input_scanners_loaded: List[Any] = []
+    output_scanners_loaded: List[Any] = []
+    input_scanners: List[Dict] = []
+    output_scanners: List[Dict] = []
+    rate_limit: Dict = {}
+    app: Dict = {}
+    cache: Dict = {}
+    auth: Dict = {}
 
 
 def _path_constructor(_loader: Any, node: Any):
@@ -33,19 +45,19 @@ def load_yaml(filename: str) -> dict:
         return dict()
 
 
-def get_config(vault: Vault, file_name: str) -> Dict:
+def get_config(vault: Vault, file_name: str) -> Optional[Config]:
     LOGGER.debug("Loading config file", file_name=file_name)
 
     conf = load_yaml(file_name)
     if conf == {}:
-        return {}
+        return None
 
-    result = {"app": conf["app"], "input_scanners": [], "output_scanners": []}
+    result = Config(**conf)
 
     # Loading input scanners
-    for scanner in conf["input_scanners"]:
+    for scanner in result.input_scanners:
         LOGGER.debug("Loading input scanner", scanner=scanner["type"])
-        result["input_scanners"].append(
+        result.input_scanners_loaded.append(
             _get_input_scanner(
                 scanner["type"],
                 scanner["params"],
@@ -54,9 +66,9 @@ def get_config(vault: Vault, file_name: str) -> Dict:
         )
 
     # Loading output scanners
-    for scanner in conf["output_scanners"]:
+    for scanner in result.output_scanners:
         LOGGER.debug("Loading output scanner", scanner=scanner["type"])
-        result["output_scanners"].append(
+        result.output_scanners_loaded.append(
             _get_output_scanner(
                 scanner["type"],
                 scanner["params"],

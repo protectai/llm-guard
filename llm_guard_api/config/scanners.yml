@@ -4,9 +4,15 @@ app:
   scan_fail_fast: ${SCAN_FAIL_FAST:false}
   scan_prompt_timeout: ${SCAN_PROMPT_TIMEOUT:10}
   scan_output_timeout: ${SCAN_OUTPUT_TIMEOUT:30}
-  cache_ttl: ${CACHE_TTL:3600}
-  cache_max_size: ${CACHE_MAX_SIZE:}
   port: ${APP_PORT:8000}
+
+cache:
+  ttl: ${CACHE_TTL:3600}
+  max_size: ${CACHE_MAX_SIZE:}
+
+rate_limit:
+  enabled: ${RATE_LIMIT_ENABLED:true}
+  limit: ${RATE_LIMIT_LIMIT:5/minute}
 
 auth:
   use: http_bearer

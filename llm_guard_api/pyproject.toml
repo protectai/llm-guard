@@ -24,7 +24,8 @@ dependencies = [
     "pydantic==1.10.14",
     "pyyaml==6.0.1",
     "uvicorn[standard]==0.27.0",
-    "structlog>=24"
+    "structlog>=24",
+    "slowapi==0.1.9",
 ]
 
 [project.optional-dependencies]
@@ -36,14 +37,14 @@ gpu = [
 ]
 
 [tool.setuptools]
-package-dir = {"" = "src"}
+packages = ["app"]
 
 [tool.setuptools.dynamic]
-version = {attr = "app.version"}
+version = {attr = "app.version.__version__"}
 
 [build-system]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project.scripts]
-llm_guard_api = "app:run_app"
+llm_guard_api = "app.app:run_app"
