@@ -16,6 +16,7 @@ from fastapi.security import (
     HTTPBasicCredentials,
     HTTPBearer,
 )
+from prometheus_client import CONTENT_TYPE_LATEST, REGISTRY, generate_latest
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 from slowapi.middleware import SlowAPIMiddleware
@@ -247,6 +248,15 @@ def register_routes(
                 )
 
         return response
+
+    if config.metrics and config.metrics.exporter == "prometheus":
+
+        @app.get("/metrics", tags=["Metrics"])
+        @limiter.exempt
+        async def metrics():
+            return Response(
+                content=generate_latest(REGISTRY), headers={"Content-Type": CONTENT_TYPE_LATEST}
+            )
 
     @app.on_event("shutdown")
     async def shutdown_event():

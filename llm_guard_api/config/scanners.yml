@@ -23,7 +23,7 @@ tracing:
   endpoint: ${TRACING_OTEL_ENDPOINT:}  # Example: "<traces-endpoint>/v1/traces"
 
 metrics:
-  exporter: ${METRICS_TYPE:console}
+  exporter: ${METRICS_TYPE:prometheus}
   endpoint: ${METRICS_ENDPOINT:}  # Example: "<metrics-endpoint>/v1/metrics"
 
 # Scanners are applied in the order they are listed here.

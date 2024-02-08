@@ -9,7 +9,6 @@ from opentelemetry.sdk.metrics.export import ConsoleMetricExporter, PeriodicExpo
 from opentelemetry.sdk.resources import SERVICE_NAME, SERVICE_VERSION, Resource
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor, ConsoleSpanExporter
-from prometheus_client import start_http_server
 
 from .config import MetricsConfig, TracingConfig
 from .version import __version__
@@ -20,8 +19,6 @@ def _configure_tracing(tracing_config: TracingConfig, resource: Resource) -> Non
 
     if tracing_config is None:
         return
-
-    print(tracing_config.exporter)
 
     if tracing_config.exporter == "otel_http":
         exporter = OTLPSpanExporter(endpoint=tracing_config.endpoint)
@@ -35,15 +32,12 @@ def _configure_metrics(metrics_config: MetricsConfig, resource: Resource) -> Non
     if metrics_config is None:
         return
 
-    print(metrics_config.exporter)
-
     if metrics_config.exporter == "console":
         reader = PeriodicExportingMetricReader(ConsoleMetricExporter())
     elif metrics_config.exporter == "otel_http":
         reader = PeriodicExportingMetricReader(OTLPMetricExporter(endpoint=metrics_config.endpoint))
     elif metrics_config.exporter == "prometheus":
         reader = PrometheusMetricReader()
-        start_http_server(port=9464, addr="localhost")
 
     meter_provider = MeterProvider(resource=resource, metric_readers=[reader])
     metrics.set_meter_provider(meter_provider)
@@ -62,4 +56,9 @@ def instrument_app(
     _configure_tracing(tracing_config, resource)
     _configure_metrics(metrics_config, resource)
 
-    FastAPIInstrumentor.instrument_app(app, excluded_urls="healtz,readyz")
+    FastAPIInstrumentor.instrument_app(
+        app,
+        excluded_urls="healtz,readyz,metrics",
+        meter_provider=metrics.get_meter_provider(),
+        tracer_provider=trace.get_tracer_provider(),
+    )
