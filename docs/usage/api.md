@@ -54,6 +54,32 @@ All configurations are stored in `config/scanners.yml`. It supports configuring 
 2. Enable `CACHE_MAX_SIZE` and `CACHE_TTL` to cache results and avoid unnecessary scans.
 3. Enable authentication and rate limiting to avoid abuse.
 
+## Observability
+
+There are built-in environment variables to configure observability:
+
+- [FastAPI Instrumentation](https://opentelemetry-python-contrib.readthedocs.io/en/latest/instrumentation/fastapi/fastapi.html)
+- [OpenTelemetry](https://opentelemetry.io/)
+
+### Logging
+
+Logs are written to `stdout` in a structured format.
+
+### Metrics
+
+The following exporters are available for metrics:
+
+- Console
+- Prometheus
+- OpenTelemetry (HTTP endpoint)
+
+### Tracing
+
+The following exporters are available for tracing:
+
+- Console
+- OpenTelemetry (HTTP endpoint)
+
 ## Deploy Docker
 
 We have an officially supported image on [Docker Hub](https://hub.docker.com/repository/docker/laiyer/llm-guard-api/general).

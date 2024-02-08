@@ -18,6 +18,14 @@ auth:
   type: http_bearer
   token: ${AUTH_TOKEN:}
 
+tracing:
+  exporter: ${TRACING_EXPORTER:console}
+  endpoint: ${TRACING_OTEL_ENDPOINT:}  # Example: "<traces-endpoint>/v1/traces"
+
+metrics:
+  exporter: ${METRICS_TYPE:console}
+  endpoint: ${METRICS_ENDPOINT:}  # Example: "<metrics-endpoint>/v1/metrics"
+
 # Scanners are applied in the order they are listed here.
 input_scanners:
   - type: Anonymize

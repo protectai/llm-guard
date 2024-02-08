@@ -34,6 +34,16 @@ class AuthConfig(BaseModel):
     password: Optional[str] = Field(default=None)
 
 
+class TracingConfig(BaseModel):
+    exporter: Literal["otel_http", "console"] = Field(default="console")
+    endpoint: Optional[str] = Field(default=None)
+
+
+class MetricsConfig(BaseModel):
+    exporter: Literal["otel_http", "prometheus", "console"] = Field(default="console")
+    endpoint: Optional[str] = Field(default=None)
+
+
 class AppConfig(BaseModel):
     name: Optional[str] = Field(default="LLM Guard API")
     port: Optional[int] = Field(default=8000)
@@ -55,6 +65,8 @@ class Config(BaseModel):
     cache: CacheConfig = Field(default_factory=CacheConfig)
     auth: Optional[AuthConfig] = Field(default=None)
     app: AppConfig = Field(default_factory=AppConfig)
+    tracing: Optional[TracingConfig] = Field(default=None)
+    metrics: Optional[MetricsConfig] = Field(default=None)
 
     input_scanners_loaded: List[Any] = Field(default=[])
     output_scanners_loaded: List[Any] = Field(default=[])

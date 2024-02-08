@@ -28,6 +28,7 @@ from llm_guard.vault import Vault
 
 from .cache import InMemoryCache
 from .config import AuthConfig, get_config
+from .otel import instrument_app
 from .schemas import (
     AnalyzeOutputRequest,
     AnalyzeOutputResponse,
@@ -146,6 +147,7 @@ def register_routes(
         tags=["Analyze"],
         response_model=AnalyzeOutputResponse,
         status_code=status.HTTP_200_OK,
+        description="Analyze an output and return the sanitized output and the results of the scanners",
     )
     @limiter.limit("5/minute")
     async def analyze_output(
@@ -192,6 +194,7 @@ def register_routes(
         tags=["Analyze"],
         response_model=AnalyzePromptResponse,
         status_code=status.HTTP_200_OK,
+        description="Analyze a prompt and return the sanitized prompt and the results of the scanners",
     )
     async def analyze_prompt(
         request: AnalyzePromptRequest,
@@ -270,6 +273,7 @@ def register_routes(
 
 
 app = create_app()
+instrument_app(app, config.app.name, config.tracing, config.metrics)
 
 
 def run_app():
