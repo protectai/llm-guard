@@ -5,7 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] - 0.3.8
+## [Unreleased] - 0.3.10
+
+### Added
+-
+
+### Fixed
+-
+
+### Changed
+-
+
+### Removed
+-
+
+## [0.3.9] - 2024-02-08
 
 **[Laiyer is now part of Protect AI](https://protectai.com/press/protect-ai-acquires-laiyer-ai)**
 
@@ -14,18 +28,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Anonymize`: more regex patterns, such as `PO_BOX_RE`, `PRICE_RE`, `HEX_COLOR`, `TIME_RE`, `DATE_RE`, `URL_RE`, `PHONE_NUMBER_WITH_EXT`, `BTC_ADDRESS`
 - Add [NIST Taxonomy](./get_started/attacks.md) to the documentation.
 - Pass HuggingFace Transformers `pipeline` `kwargs` for better control over the models. For example, `BanTopics(topics=["politics", "war", "religion"], transformers_kwargs={"low_cpu_mem_usage": True})` for better memory usage when handling big models.
+- `API`: rate limiting.
+- `API`: HTTP basic authentication and API key authentication.
+- `API`: OpenTelemetry support for tracing and metrics.
 
 ### Fixed
 - Incorrect results when using `Deanonymize` multiple times ([#82](https://github.com/protectai/llm-guard/pull/82), thanks to [@andreaponti5](https://github.com/andreaponti5))
 
 ### Changed
-- `NoRefusal` scanner relies on the proprietary model [laiyer/distilroberta-base-rejection-v1](https://huggingface.co/laiyer/distilroberta-base-rejection-v1).
+- `NoRefusal` scanner relies on the proprietary model [ProtectAI/distilroberta-base-rejection-v1](https://huggingface.co/ProtectAI/distilroberta-base-rejection-v1).
 - `NoRefusal` support `match_type` parameter to choose between `sentence` and `all` matches.
 - Using `structlog` for better logging.
 - **[Breaking]**: `Code`: using new model [philomath-1209/programming-language-identification](https://huggingface.co/philomath-1209/programming-language-identification) with more languages support and better accuracy. Please update your `languages` parameter.
 - `API`: ONNX is enabled by default.
 - `protobuf` version is not capped to v3.
 - `API` uses `pyproject.toml` for dependencies and builds.
+- **[Breaking]**: `API` configuration changes with separate sections for `auth`, `rate_limit` and `cache`.
 
 ### Removed
 - Roadmap documentation as it's not up-to-date.
@@ -78,7 +96,7 @@ _0.3.5 and 0.3.6 were skipped due to build issues._
 
 ### Changed
 - Upgraded `json_repair` library ([issue](https://github.com/protectai/llm-guard/issues/44))
-- Use proprietary prompt injection detection model [laiyer/deberta-v3-base-prompt-injection](https://huggingface.co/laiyer/deberta-v3-base-prompt-injection)
+- Use proprietary prompt injection detection model [ProtectAI/deberta-v3-base-prompt-injection](https://huggingface.co/ProtectAI/deberta-v3-base-prompt-injection)
 
 ## [0.3.2] - 2023-11-15
 
@@ -306,6 +324,7 @@ _0.3.5 and 0.3.6 were skipped due to build issues._
   - [Toxicity](./output_scanners/toxicity.md)
 
 [Unreleased]: https://github.com/protectai/llm-guard/commits/main
+[0.3.9]: https://github.com/protectai/llm-guard/releases/tag/v0.3.9
 [0.3.7]: https://github.com/protectai/llm-guard/releases/tag/v0.3.7
 [0.3.4]: https://github.com/protectai/llm-guard/releases/tag/v0.3.4
 [0.3.3]: https://github.com/protectai/llm-guard/releases/tag/v0.3.3

@@ -101,11 +101,11 @@ plugins:
 extra:
   social:
     - icon: fontawesome/brands/twitter
-      link: https://twitter.com/laiyer_ai
+      link: https://twitter.com/ProtectAICorp
     - icon: fontawesome/brands/github
       link: https://github.com/protectai
     - icon: fontawesome/brands/linkedin
-      link: https://www.linkedin.com/company/98454520
+      link: https://www.linkedin.com/company/protect-ai
     - icon: fontawesome/brands/slack
       link: https://join.slack.com/t/laiyerai/shared_invite/zt-28jv3ci39-sVxXrLs3rQdaN3mIl9IT~w
     - icon: fontawesome/solid/globe

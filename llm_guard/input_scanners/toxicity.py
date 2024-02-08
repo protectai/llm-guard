@@ -10,7 +10,7 @@ LOGGER = get_logger(__name__)
 
 _model_path = (
     "unitary/unbiased-toxic-roberta",
-    "laiyer/unbiased-toxic-roberta-onnx",  # ONNX model
+    "ProtectAI/unbiased-toxic-roberta-onnx",  # ONNX model
 )
 _toxic_labels = [
     "toxicity",

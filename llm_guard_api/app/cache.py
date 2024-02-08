@@ -1,6 +1,7 @@
 import threading
 import time
 from collections import OrderedDict
+from typing import Optional
 
 
 class InMemoryCache:
@@ -29,7 +30,7 @@ class InMemoryCache:
         b = cache["b"]
     """
 
-    def __init__(self, max_size=None, expiration_time=60 * 60):
+    def __init__(self, max_size: Optional[int] = None, expiration_time: Optional[int] = 60 * 60):
         """
         Initialize a new InMemoryCache instance.
 

@@ -2,7 +2,7 @@
 
 LLM Guard by [Protect AI](https://protectai.com/llm-guard) is a comprehensive tool designed to fortify the security of Large Language Models (LLMs).
 
-[**Documentation**](https://llm-guard.com/) | [**Playground**](https://huggingface.co/spaces/laiyer/llm-guard-playground) | [**Changelog**](https://llm-guard.com/changelog/) | [**Blog**](https://substack.com/@laiyer)
+[**Documentation**](https://llm-guard.com/) | [**Playground**](https://huggingface.co/spaces/ProtectAI/llm-guard-playground) | [**Changelog**](https://llm-guard.com/changelog/)
 
 [![GitHub
 stars](https://img.shields.io/github/stars/protectai/llm-guard.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/protectai/llm-guard/stargazers/)

@@ -47,10 +47,10 @@ def test_scan_full(raw_prompt, output, expected_output, expected_valid, expected
         (
             [
                 ("[REDACTED_PERSON_1]", "John Doe"),
-                ("[REDACTED_EMAIL_ADDRESS_1]", "test@laiyer.ai"),
+                ("[REDACTED_EMAIL_ADDRESS_1]", "test@protectai.com"),
             ],
             "Hello, my name is [REDACTED_PERSON_1] and my email address is [REDACTED_EMAIL_ADDRESS_1].",
-            "Hello, my name is John Doe and my email address is test@laiyer.ai.",
+            "Hello, my name is John Doe and my email address is test@protectai.com.",
             MatchingStrategy.EXACT.value,
         ),
         (

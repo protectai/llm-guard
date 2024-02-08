@@ -8,7 +8,7 @@ from .base import Scanner
 LOGGER = get_logger(__name__)
 _model_path = (
     "DunnBC22/codebert-base-Malicious_URLs",
-    "laiyer/codebert-base-Malicious_URLs-onnx",  # ONNX version
+    "ProtectAI/codebert-base-Malicious_URLs-onnx",  # ONNX version
 )
 
 _malicious_labels = [

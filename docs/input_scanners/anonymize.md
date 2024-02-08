@@ -26,12 +26,12 @@ Some model providers may train their models on your requests, which can be a pri
 - **PHONE_NUMBER**:
   - `5555551234`
 - **URL**: A URL (Uniform Resource Locator), unique identifier used to locate a resource on the Internet.
-  - `https://laiyer.ai`
+  - `https://protectai.com/`
 - **E-mail Addresses**: Standard email formats.
-  - `john.doe@laiyer.ai`
-  - `john.doe[AT]laiyer[DOT]ai`
-  - `john.doe[AT]laiyer.ai`
-  - `john.doe@laiyer[DOT]ai`
+  - `john.doe@protectai.com`
+  - `john.doe[AT]protectai[DOT]com`
+  - `john.doe[AT]protectai.com`
+  - `john.doe@protectai[DOT]com`
 - **IPs**: An Internet Protocol (IP) address (either IPv4 or IPv6).
   - `192.168.1.1` (IPv4)
   - `2001:db8:3333:4444:5555:6666:7777:8888` (IPv6)

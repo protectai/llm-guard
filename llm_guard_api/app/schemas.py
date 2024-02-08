@@ -1,4 +1,4 @@
-from typing import Dict, Optional
+from typing import Dict
 
 from pydantic import BaseModel
 
@@ -11,7 +11,6 @@ class AnalyzePromptResponse(BaseModel):
     sanitized_prompt: str
     is_valid: bool
     scanners: Dict[str, float]
-    is_cached: Optional[bool] = False
 
 
 class AnalyzeOutputRequest(BaseModel):

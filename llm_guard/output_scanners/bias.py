@@ -10,7 +10,7 @@ LOGGER = get_logger(__name__)
 
 _model_path = (
     "valurank/distilroberta-bias",
-    "laiyer/distilroberta-bias-onnx",  # ONNX model
+    "ProtectAI/distilroberta-bias-onnx",  # ONNX model
 )
 
 

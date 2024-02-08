@@ -12,8 +12,10 @@ Monitoring and controlling the nature of the code can be crucial to maintain the
 
 ## How it works
 
-Utilizing [philomath-1209/programming-language-identification](https://huggingface.co/philomath-1209/programming-language-identification) model, the scanner can identify code snippets within prompts across various programming languages.
-Developers can configure the scanner to either allow or ban specific languages, thus retaining full control over which types of code can appear in user queries.
+Utilizing [philomath-1209/programming-language-identification](https://huggingface.co/philomath-1209/programming-language-identification)
+model, the scanner can identify code snippets within prompts across various programming languages.
+Developers can configure the scanner to either allow or ban specific languages, thus retaining full control over which
+types of code can appear in user queries.
 
 The scanner is currently limited to extracting and detecting code snippets from Markdown in the following languages:
 
@@ -74,4 +76,9 @@ python benchmarks/run.py input Code
 
 Results:
 
-WIP
+| Instance                    | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS      |
+|-----------------------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|----------|
+| AWS m5.xlarge               | 2.64             | 138.80                | 164.44                | 184.95                | 87.28                | 2841.37  |
+| AWS m5.xlarge with ONNX     | 0.00             | 59.06                 | 59.40                 | 59.68                 | 58.07                | 4270.94  |
+| AWS g5.xlarge GPU           | 32.49            | 280.46                | 370.49                | 442.51                | 100.05               | 2478.86  |
+| AWS g5.xlarge GPU with ONNX | 0.01             | 8.83                  | 10.38                 | 11.62                 | 5.68                 | 43654.48 |

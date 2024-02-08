@@ -10,8 +10,10 @@ Controlling and inspecting the code in the model's output can be paramount in en
 
 ## How it works
 
-Utilizing [philomath-1209/programming-language-identification](https://huggingface.co/philomath-1209/programming-language-identification) model, the scanner can identify code snippets within prompts across various programming languages.
-Developers can configure the scanner to either allow or ban specific languages, thus retaining full control over which types of code can appear in user queries.
+Utilizing [philomath-1209/programming-language-identification](https://huggingface.co/philomath-1209/programming-language-identification)
+model, the scanner can identify code snippets within prompts across various programming languages.
+Developers can configure the scanner to either allow or ban specific languages, thus retaining full control over which
+types of code can appear in user queries.
 
 The scanner is currently limited to extracting and detecting code snippets from Markdown in the following languages:
 
@@ -72,4 +74,9 @@ python benchmarks/run.py output Code
 
 Results:
 
-WIP
+| Instance                    | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS      |
+|-----------------------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|----------|
+| AWS m5.xlarge               | 2.76             | 109.82                | 136.05                | 157.04                | 57.16                | 2781.88  |
+| AWS m5.xlarge with ONNX     | 0.03             | 26.15                 | 28.35                 | 30.11                 | 20.22                | 7864.68  |
+| AWS g5.xlarge GPU           | 32.10            | 273.88                | 363.37                | 434.96                | 94.52                | 1682.22  |
+| AWS g5.xlarge GPU with ONNX | 0.01             | 6.79                  | 8.32                  | 9.53                  | 3.73                 | 42667.01 |

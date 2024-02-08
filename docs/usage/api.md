@@ -31,7 +31,13 @@ make run-docker
 
 ## Configuration
 
-### Environment variables
+All configurations are stored in `config/scanners.yml`. It supports configuring via environment variables.
+
+!!! note
+
+    Scanners will be executed in the order of configuration.
+
+### Default environment variables
 
 - `LOG_LEVEL` (bool): Log level. Default is `INFO`. If set as `DEBUG`, debug mode will be enabled.
 - `CACHE_MAX_SIZE` (int): Maximum number of items in the cache. Default is unlimited.
@@ -42,17 +48,37 @@ make run-docker
 - `USE_ONNX` (bool): Use ONNX models instead of PyTorch on CPU (faster inference). Default is `True`.
 - `APP_PORT` (int): Port to run the API. Default is `8000`.
 
-### Scanners
-
-You can configure scanners in `scanners.yml` referring to their names and parameters.
-
-Scanners will be executed in the order of configuration.
-
 ### Best practices
 
 1. Enable `SCAN_FAIL_FAST` to avoid unnecessary scans.
-2. Enable `USE_ONNX` to speed up inference on CPU.
-3. Enable `CACHE_MAX_SIZE` and `CACHE_TTL` to cache results and avoid unnecessary scans.
+2. Enable `CACHE_MAX_SIZE` and `CACHE_TTL` to cache results and avoid unnecessary scans.
+3. Enable authentication and rate limiting to avoid abuse.
+
+## Observability
+
+There are built-in environment variables to configure observability:
+
+- [FastAPI Instrumentation](https://opentelemetry-python-contrib.readthedocs.io/en/latest/instrumentation/fastapi/fastapi.html)
+- [OpenTelemetry](https://opentelemetry.io/)
+
+### Logging
+
+Logs are written to `stdout` in a structured format.
+
+### Metrics
+
+The following exporters are available for metrics:
+
+- Console
+- Prometheus
+- OpenTelemetry (HTTP endpoint)
+
+### Tracing
+
+The following exporters are available for tracing:
+
+- Console
+- OpenTelemetry (HTTP endpoint)
 
 ## Deploy Docker
 
