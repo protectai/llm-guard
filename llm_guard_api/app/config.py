@@ -7,6 +7,8 @@ import yaml
 from pydantic import BaseModel, Field
 
 from llm_guard import input_scanners, output_scanners
+from llm_guard.input_scanners.base import Scanner as InputScanner
+from llm_guard.output_scanners.base import Scanner as OutputScanner
 from llm_guard.vault import Vault
 
 from .util import get_resource_utilization
@@ -68,9 +70,6 @@ class Config(BaseModel):
     tracing: Optional[TracingConfig] = Field(default=None)
     metrics: Optional[MetricsConfig] = Field(default=None)
 
-    input_scanners_loaded: List[Any] = Field(default=[])
-    output_scanners_loaded: List[Any] = Field(default=[])
-
 
 def _path_constructor(_loader: Any, node: Any):
     def replace_fn(match):
@@ -91,19 +90,24 @@ def load_yaml(filename: str) -> dict:
         return dict()
 
 
-def get_config(vault: Vault, file_name: str) -> Optional[Config]:
+def get_config(file_name: str) -> Optional[Config]:
     LOGGER.debug("Loading config file", file_name=file_name)
 
     conf = load_yaml(file_name)
     if conf == {}:
         return None
 
-    result = Config(**conf)
+    return Config(**conf)
 
-    # Loading input scanners
-    for scanner in result.input_scanners:
+
+def get_input_scanners(scanners: List[ScannerConfig], vault: Vault) -> List[InputScanner]:
+    """
+    Load input scanners from the configuration file.
+    """
+    input_scanners_loaded = []
+    for scanner in scanners:
         LOGGER.debug("Loading input scanner", scanner=scanner.type, **get_resource_utilization())
-        result.input_scanners_loaded.append(
+        input_scanners_loaded.append(
             _get_input_scanner(
                 scanner.type,
                 scanner.params,
@@ -111,10 +115,17 @@ def get_config(vault: Vault, file_name: str) -> Optional[Config]:
             )
         )
 
-    # Loading output scanners
-    for scanner in result.output_scanners:
+    return input_scanners_loaded
+
+
+def get_output_scanners(scanners: List[ScannerConfig], vault: Vault) -> List[OutputScanner]:
+    """
+    Load output scanners from the configuration file.
+    """
+    output_scanners_loaded = []
+    for scanner in scanners:
         LOGGER.debug("Loading output scanner", scanner=scanner.type, **get_resource_utilization())
-        result.output_scanners_loaded.append(
+        output_scanners_loaded.append(
             _get_output_scanner(
                 scanner.type,
                 scanner.params,
@@ -122,7 +133,7 @@ def get_config(vault: Vault, file_name: str) -> Optional[Config]:
             )
         )
 
-    return result
+    return output_scanners_loaded
 
 
 def _get_input_scanner(

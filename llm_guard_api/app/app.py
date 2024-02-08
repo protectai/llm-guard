@@ -28,7 +28,7 @@ from llm_guard import scan_output, scan_prompt
 from llm_guard.vault import Vault
 
 from .cache import InMemoryCache
-from .config import AuthConfig, get_config
+from .config import AuthConfig, get_config, get_input_scanners, get_output_scanners
 from .otel import instrument_app
 from .schemas import (
     AnalyzeOutputRequest,
@@ -45,12 +45,15 @@ parser.add_argument("config", type=str, help="Path to the configuration file")
 args = parser.parse_args()
 scanners_config_file = args.config
 
-config = get_config(vault, scanners_config_file)
+config = get_config(scanners_config_file)
 
 LOGGER = structlog.getLogger(__name__)
 log_level = config.app.log_level
 is_debug = log_level == "DEBUG"
 configure_logger(log_level)
+
+input_scanners = get_input_scanners(config.input_scanners, vault)
+output_scanners = get_output_scanners(config.output_scanners, vault)
 
 
 def create_app():
@@ -70,7 +73,7 @@ def create_app():
         openapi_url="/openapi.json" if is_debug else None,  # hide docs in production
     )
 
-    register_routes(app, cache, config.input_scanners_loaded, config.output_scanners_loaded)
+    register_routes(app, cache, input_scanners, output_scanners)
 
     return app
 

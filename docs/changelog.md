@@ -5,7 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] - 0.3.8
+## [Unreleased] - 0.3.10
+
+### Added
+-
+
+### Fixed
+-
+
+### Changed
+-
+
+### Removed
+-
+
+## [0.3.9] - 2024-02-08
 
 **[Laiyer is now part of Protect AI](https://protectai.com/press/protect-ai-acquires-laiyer-ai)**
 
@@ -310,6 +324,7 @@ _0.3.5 and 0.3.6 were skipped due to build issues._
   - [Toxicity](./output_scanners/toxicity.md)
 
 [Unreleased]: https://github.com/protectai/llm-guard/commits/main
+[0.3.9]: https://github.com/protectai/llm-guard/releases/tag/v0.3.9
 [0.3.7]: https://github.com/protectai/llm-guard/releases/tag/v0.3.7
 [0.3.4]: https://github.com/protectai/llm-guard/releases/tag/v0.3.4
 [0.3.3]: https://github.com/protectai/llm-guard/releases/tag/v0.3.3

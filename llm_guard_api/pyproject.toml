@@ -19,8 +19,8 @@ requires-python = ">=3.9"
 
 dependencies = [
     "asyncio==3.4.3",
-    "fastapi==0.109.1",
-    "llm-guard==0.3.7",
+    "fastapi==0.109.2",
+    "llm-guard==0.3.9",
     "pydantic==1.10.14",
     "pyyaml==6.0.1",
     "uvicorn[standard]==0.27.0",
@@ -35,10 +35,10 @@ dependencies = [
 
 [project.optional-dependencies]
 cpu = [
-  "llm-guard[onnxruntime]==0.3.7",
+  "llm-guard[onnxruntime]==0.3.9",
 ]
 gpu = [
-  "llm-guard[onnxruntime-gpu]==0.3.7",
+  "llm-guard[onnxruntime-gpu]==0.3.9",
 ]
 
 [tool.setuptools]

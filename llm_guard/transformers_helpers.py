@@ -143,6 +143,7 @@ def _pipeline_ner(model: str, onnx_model: Optional[str] = None, use_onnx: bool =
         use_onnx = False
 
     if use_onnx:
+        subfolder = "onnx" if onnx_model == model else ""
         if onnx_model is not None:
             model = onnx_model
 
@@ -153,6 +154,7 @@ def _pipeline_ner(model: str, onnx_model: Optional[str] = None, use_onnx: bool =
         tf_model = optimum_onnxruntime.ORTModelForTokenClassification.from_pretrained(
             model,
             export=onnx_model is None,
+            subfolder=subfolder,
             provider="CUDAExecutionProvider" if device().type == "cuda" else "CPUExecutionProvider",
             use_io_binding=True if device().type == "cuda" else False,
         )

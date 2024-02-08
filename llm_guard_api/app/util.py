@@ -6,6 +6,8 @@ from typing import Dict, Literal
 import psutil
 import structlog
 
+from llm_guard.util import configure_logger as configure_llm_guard_logger
+
 LOG_LEVELS = Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
 EXTERNAL_LOGGERS = {
     "transformers",
@@ -29,7 +31,7 @@ def configure_logger(log_level: LOG_LEVELS = "INFO"):
     for log_name in EXTERNAL_LOGGERS:
         logging.getLogger(log_name).setLevel(logging.WARNING)
 
-    # TODO: Configure LLM Guard logger
+    configure_llm_guard_logger(log_level)
 
 
 def get_resource_utilization() -> Dict:

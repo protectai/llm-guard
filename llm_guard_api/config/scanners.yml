@@ -52,7 +52,7 @@ input_scanners:
       threshold: 0.6
   - type: Code
     params:
-      languages: ["python"]
+      languages: ["Python"]
       is_blocked: true
   - type: Language
     params:
@@ -103,7 +103,7 @@ output_scanners:
       threshold: 0.75
   - type: Code
     params:
-      languages: ["python"]
+      languages: ["Python"]
       is_blocked: true
   - type: Deanonymize
     params:

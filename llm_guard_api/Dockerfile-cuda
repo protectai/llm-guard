@@ -31,7 +31,7 @@ WORKDIR $HOME/app
 
 # Copy pyproject.toml and other necessary files for installation
 COPY --chown=user:user pyproject.toml ./
-COPY --chown=user:user src ./src
+COPY --chown=user:user app ./app
 
 # Install the project's dependencies
 RUN pip3 install --no-cache-dir --upgrade pip && \
