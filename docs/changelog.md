@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add [NIST Taxonomy](./get_started/attacks.md) to the documentation.
 - Pass HuggingFace Transformers `pipeline` `kwargs` for better control over the models. For example, `BanTopics(topics=["politics", "war", "religion"], transformers_kwargs={"low_cpu_mem_usage": True})` for better memory usage when handling big models.
 - `API` supports rate limiting.
+- `API` support of HTTP basic authentication and API key authentication.
 
 ### Fixed
 - Incorrect results when using `Deanonymize` multiple times ([#82](https://github.com/protectai/llm-guard/pull/82), thanks to [@andreaponti5](https://github.com/andreaponti5))

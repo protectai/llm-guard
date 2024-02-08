@@ -1,6 +1,6 @@
 import os
 import re
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Literal, Optional
 
 import structlog
 import yaml
@@ -8,6 +8,8 @@ from pydantic import BaseModel, Field
 
 from llm_guard import input_scanners, output_scanners
 from llm_guard.vault import Vault
+
+from .util import get_resource_utilization
 
 LOGGER = structlog.getLogger(__name__)
 
@@ -26,8 +28,10 @@ class CacheConfig(BaseModel):
 
 
 class AuthConfig(BaseModel):
-    type: str = Field(default="http_bearer")
+    type: Literal["http_bearer", "http_basic"] = Field()
     token: Optional[str] = Field(default=None)
+    username: Optional[str] = Field(default=None)
+    password: Optional[str] = Field(default=None)
 
 
 class AppConfig(BaseModel):
@@ -49,7 +53,7 @@ class Config(BaseModel):
     output_scanners: List[ScannerConfig] = Field()
     rate_limit: RateLimitConfig = Field(default_factory=RateLimitConfig)
     cache: CacheConfig = Field(default_factory=CacheConfig)
-    auth: AuthConfig = Field(default_factory=AuthConfig)
+    auth: Optional[AuthConfig] = Field(default=None)
     app: AppConfig = Field(default_factory=AppConfig)
 
     input_scanners_loaded: List[Any] = Field(default=[])
@@ -86,7 +90,7 @@ def get_config(vault: Vault, file_name: str) -> Optional[Config]:
 
     # Loading input scanners
     for scanner in result.input_scanners:
-        LOGGER.debug("Loading input scanner", scanner=scanner.type)
+        LOGGER.debug("Loading input scanner", scanner=scanner.type, **get_resource_utilization())
         result.input_scanners_loaded.append(
             _get_input_scanner(
                 scanner.type,
@@ -97,7 +101,7 @@ def get_config(vault: Vault, file_name: str) -> Optional[Config]:
 
     # Loading output scanners
     for scanner in result.output_scanners:
-        LOGGER.debug("Loading output scanner", scanner=scanner.type)
+        LOGGER.debug("Loading output scanner", scanner=scanner.type, **get_resource_utilization())
         result.output_scanners_loaded.append(
             _get_output_scanner(
                 scanner.type,

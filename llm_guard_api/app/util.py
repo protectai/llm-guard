@@ -1,7 +1,9 @@
 import logging
 import sys
-from typing import Literal
+from os import getpid
+from typing import Dict, Literal
 
+import psutil
 import structlog
 
 LOG_LEVELS = Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
@@ -26,3 +28,28 @@ def configure_logger(log_level: LOG_LEVELS = "INFO"):
     structlog.configure(logger_factory=structlog.stdlib.LoggerFactory())
     for log_name in EXTERNAL_LOGGERS:
         logging.getLogger(log_name).setLevel(logging.WARNING)
+
+    # TODO: Configure LLM Guard logger
+
+
+def get_resource_utilization() -> Dict:
+    """
+    Returns the current resource utilization of the system.
+
+    Returns:
+        A dictionary containing the current resource utilization of the system.
+    """
+
+    process = psutil.Process(getpid())
+    # A float representing the current system-wide CPU utilization as a percentage
+    cpu_percent = process.cpu_percent()
+    # A float representing process memory utilization as a percentage
+    memory_percent = process.memory_percent()
+    # Total physical memory
+    total_memory_bytes = psutil.virtual_memory().total
+
+    return {
+        "cpu_utilization_percent": cpu_percent,
+        "memory_utilization_percent": memory_percent,
+        "total_memory_available_bytes": total_memory_bytes,
+    }

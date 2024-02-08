@@ -10,7 +10,12 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from fastapi.security import (
+    HTTPAuthorizationCredentials,
+    HTTPBasic,
+    HTTPBasicCredentials,
+    HTTPBearer,
+)
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 from slowapi.middleware import SlowAPIMiddleware
@@ -22,7 +27,7 @@ from llm_guard import scan_output, scan_prompt
 from llm_guard.vault import Vault
 
 from .cache import InMemoryCache
-from .config import get_config
+from .config import AuthConfig, get_config
 from .schemas import (
     AnalyzeOutputRequest,
     AnalyzeOutputResponse,
@@ -68,6 +73,40 @@ def create_app():
     return app
 
 
+def _check_auth_function(auth_config: AuthConfig) -> callable:
+    async def check_auth_noop() -> bool:
+        return True
+
+    if not auth_config:
+        return check_auth_noop
+
+    if auth_config.type == "http_bearer":
+        credentials_type = Annotated[HTTPAuthorizationCredentials, Depends(HTTPBearer())]
+    elif auth_config.type == "http_basic":
+        credentials_type = Annotated[HTTPBasicCredentials, Depends(HTTPBasic())]
+    else:
+        raise ValueError(f"Invalid auth type: {auth_config.type}")
+
+    async def check_auth(credentials: credentials_type) -> bool:
+        if auth_config.type == "http_bearer":
+            if credentials.credentials != auth_config.token:
+                raise HTTPException(
+                    status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid API key"
+                )
+        elif auth_config.type == "http_basic":
+            if (
+                credentials.username != auth_config.username
+                or credentials.password != auth_config.password
+            ):
+                raise HTTPException(
+                    status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid Username or Password"
+                )
+
+        return True
+
+    return check_auth
+
+
 def register_routes(
     app: FastAPI, cache: InMemoryCache, input_scanners: list, output_scanners: list
 ):
@@ -85,15 +124,7 @@ def register_routes(
     if bool(config.rate_limit.enabled):
         app.add_middleware(SlowAPIMiddleware)
 
-    security = HTTPBearer()
-
-    async def is_token_valid(
-        credentials: Annotated[HTTPAuthorizationCredentials, Depends(security)]
-    ) -> bool:
-        if credentials.credentials != config.auth.token:
-            raise HTTPException(status_code=401, detail="Invalid API key")
-
-        return True
+    check_auth = _check_auth_function(config.auth)
 
     @app.get("/", tags=["Main"])
     @limiter.exempt
@@ -118,7 +149,7 @@ def register_routes(
     )
     @limiter.limit("5/minute")
     async def analyze_output(
-        request: AnalyzeOutputRequest, _: Annotated[bool, Depends(is_token_valid)]
+        request: AnalyzeOutputRequest, _: Annotated[bool, Depends(check_auth)]
     ) -> AnalyzeOutputResponse:
         LOGGER.debug("Received analyze output request", request=request)
 
@@ -164,7 +195,7 @@ def register_routes(
     )
     async def analyze_prompt(
         request: AnalyzePromptRequest,
-        _: Annotated[bool, Depends(is_token_valid)],
+        _: Annotated[bool, Depends(check_auth)],
         response: Response,
     ) -> AnalyzePromptResponse:
         LOGGER.debug("Received analyze prompt request", request=request)
@@ -220,7 +251,9 @@ def register_routes(
 
     @app.exception_handler(StarletteHTTPException)
     async def http_exception_handler(request, exc):
-        LOGGER.warning("HTTP exception", exception=str(exc), request=request)
+        LOGGER.warning(
+            "HTTP exception", exception_status_code=exc.status_code, exception_detail=exc.detail
+        )
 
         return JSONResponse(
             {"message": str(exc.detail), "details": None}, status_code=exc.status_code
@@ -228,7 +261,7 @@ def register_routes(
 
     @app.exception_handler(RequestValidationError)
     async def validation_exception_handler(request, exc):
-        LOGGER.warning("Invalid request", exception=str(exc), request=request)
+        LOGGER.warning("Invalid request", exception=str(exc))
 
         response = {"message": "Validation failed", "details": exc.errors()}
         return JSONResponse(
