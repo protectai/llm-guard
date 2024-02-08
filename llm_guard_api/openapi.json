@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "LLM Guard API",
-    "description": "API to run LLM Guard scanners",
-    "version": "0.0.1"
+    "description": "API to run LLM Guard scanners.",
+    "version": "0.0.6"
   },
   "paths": {
     "/": {
@@ -69,6 +69,7 @@
           "Analyze"
         ],
         "summary": "Analyze Output",
+        "description": "Analyze an output and return the sanitized output and the results of the scanners",
         "operationId": "analyze_output_analyze_output_post",
         "requestBody": {
           "content": {
@@ -101,7 +102,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
       }
     },
     "/analyze/prompt": {
@@ -110,6 +116,7 @@
           "Analyze"
         ],
         "summary": "Analyze Prompt",
+        "description": "Analyze a prompt and return the sanitized prompt and the results of the scanners",
         "operationId": "analyze_prompt_analyze_prompt_post",
         "requestBody": {
           "content": {
@@ -139,6 +146,30 @@
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
                 }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/metrics": {
+      "get": {
+        "tags": [
+          "Metrics"
+        ],
+        "summary": "Metrics",
+        "operationId": "metrics_metrics_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
               }
             }
           }
@@ -221,11 +252,6 @@
             },
             "type": "object",
             "title": "Scanners"
-          },
-          "is_cached": {
-            "type": "boolean",
-            "title": "Is Cached",
-            "default": false
           }
         },
         "type": "object",
@@ -281,6 +307,12 @@
           "type"
         ],
         "title": "ValidationError"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
       }
     }
   }
