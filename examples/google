@@ -34,7 +34,7 @@ prompt = f""" #What is Sundar's email?#"""
 #Set your values for LLM Guards Input Scanners, this example uses the defaults
 input_scanners = [TokenLimit(), Toxicity(), PromptInjection()]
 
-#Set response variables 
+#Set response variables
 sanitized_prompt, results_valid, results_score = scan_prompt(input_scanners, prompt)
 
 #Set Values for LLM Guards Output Scanners, this example uses the defaults
@@ -52,15 +52,14 @@ scan_output(output_scanners,prompt,response.text)
 #if the prompt is "safe" all parameters are below thershold. Results_valid is checking the input scanners findings
 if all(results_valid.values())is True:
 #if the input is "safe" still do a output scan to make sure the Model is producing expected output
-    if not all(output_results_valid.values()) is True:
-        #If the models response is above the LLM Guardrules output scanners threshold then print the Prompt and the message "Prompt is not valid"
-        print(f"Prompt:{prompt} is not valid")
-    else:
-        #if the input and output scanners come back with no findings print the model response
-        print(response.text)
-        
+  if not all(output_results_valid.values()) is True:
+    #If the models response is above the LLM Guardrules output scanners threshold then print the Prompt and the message "Prompt is not valid"
+    print(f"Prompt:{prompt} is not valid")
+  else:
+    #if the input and output scanners come back with no findings print the model response
+    print(response.text)
+    exit()
 else:
-    #If the input scanner detects a parameter is higher then a threshold then print the prompt is not valid
-    print("Prompt is not valid")
-
-
+  #If the input scanner detects a parameter is higher then a threshold then print the prompt is not valid
+  print("Prompt is not valid")
+exit code(1)
