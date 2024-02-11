@@ -22,7 +22,6 @@ from slowapi.errors import RateLimitExceeded
 from slowapi.middleware import SlowAPIMiddleware
 from slowapi.util import get_remote_address
 from starlette.exceptions import HTTPException as StarletteHTTPException
-from util import configure_logger
 
 from llm_guard import scan_output, scan_prompt
 from llm_guard.vault import Vault
@@ -36,6 +35,7 @@ from .schemas import (
     AnalyzePromptRequest,
     AnalyzePromptResponse,
 )
+from .util import configure_logger
 from .version import __version__
 
 vault = Vault()
