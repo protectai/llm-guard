@@ -23,7 +23,7 @@ dependencies = [
   "detect-secrets==1.4.0",
   "faker>=22,<23",
   "fuzzysearch==0.7.3",
-  "json-repair==0.8.0",
+  "json-repair==0.8.1",
   "nltk>=3.8,<4",
   "presidio-analyzer>=2.2,<3",
   "presidio-anonymizer>=2.2,<3",
