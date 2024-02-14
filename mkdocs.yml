@@ -40,6 +40,8 @@ theme:
     - toc.follow
     - toc.integrate
     - navigation.top
+    - content.code.copy
+    - content.code.annotate
   palette:
     - scheme: default
       primary: custom
@@ -119,11 +121,11 @@ nav:
     - Index: index.md
     - Installation: get_started/installation.md
     - Quickstart: get_started/quickstart.md
+    - Playground: usage/playground.md
     - Attacks: get_started/attacks.md
-  - Usage:
     - Best Practices: usage/best_practices.md
     - Optimization: usage/optimization.md
-    - Playground: usage/playground.md
+  - Usage:
     - Deployment as API: usage/api.md
     - OpenAI SDK: usage/openai.md
     - Langchain: usage/notebooks/langchain.ipynb

@@ -37,7 +37,7 @@ sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 
 ## Optimization Strategies
 
-[Read more](../usage/optimization.md)
+[Read more](../get_started/optimization.md)
 
 ## Benchmarks
 

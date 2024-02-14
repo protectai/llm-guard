@@ -58,7 +58,7 @@ sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 
 ## Optimization Strategies
 
-[Read more](../usage/optimization.md)
+[Read more](../get_started/optimization.md)
 
 ## Benchmarks
 
