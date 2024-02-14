@@ -59,7 +59,8 @@ theme:
 
 markdown_extensions:
   - pymdownx.highlight
-  - pymdownx.tabbed
+  - pymdownx.tabbed:
+      alternate_style: true
   - pymdownx.tasklist
   - pymdownx.inlinehilite
   - pymdownx.snippets
