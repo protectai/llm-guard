@@ -88,9 +88,7 @@ def get_tokenizer_and_model_for_classification(
         use_onnx = False
 
     if use_onnx is False:
-        tf_model = transformers.AutoModelForSequenceClassification.from_pretrained(
-            model, device=device()
-        )
+        tf_model = transformers.AutoModelForSequenceClassification.from_pretrained(model)
         LOGGER.debug("Initialized classification model", model=model, device=device())
 
         return tf_tokenizer, tf_model
@@ -162,9 +160,7 @@ def _pipeline_ner(model: str, onnx_model: Optional[str] = None, use_onnx: bool =
         )
         LOGGER.debug("Initialized NER ONNX model", model=model, device=device())
     else:
-        tf_model = transformers.AutoModelForTokenClassification.from_pretrained(
-            model, device=device()
-        )
+        tf_model = transformers.AutoModelForTokenClassification.from_pretrained(model)
         LOGGER.debug("Initialized NER model", model=model, device=device())
 
     return transformers.pipeline(
