@@ -16,6 +16,7 @@ from fastapi.security import (
     HTTPBasicCredentials,
     HTTPBearer,
 )
+from opentelemetry import metrics
 from prometheus_client import CONTENT_TYPE_LATEST, REGISTRY, generate_latest
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
@@ -27,8 +28,9 @@ from llm_guard import scan_output, scan_prompt
 from llm_guard.vault import Vault
 
 from .cache import InMemoryCache
-from .config import AuthConfig, get_config, get_input_scanners, get_output_scanners
-from .otel import instrument_app
+from .config import AuthConfig, get_config
+from .otel import configure_otel, instrument_app
+from .scanner import get_input_scanners, get_output_scanners
 from .schemas import (
     AnalyzeOutputRequest,
     AnalyzeOutputResponse,
@@ -52,11 +54,21 @@ log_level = config.app.log_level
 is_debug = log_level == "DEBUG"
 configure_logger(log_level)
 
+configure_otel(config.app.name, config.tracing, config.metrics)
+
 input_scanners = get_input_scanners(config.input_scanners, vault)
 output_scanners = get_output_scanners(config.output_scanners, vault)
 
 
-def create_app():
+meter = metrics.get_meter_provider().get_meter(__name__)
+scanners_valid_counter = meter.create_counter(
+    name="scanners.valid",
+    unit="1",
+    description="measures the number of valid scanners",
+)
+
+
+def create_app() -> FastAPI:
     cache = InMemoryCache(
         max_size=config.cache.max_size,
         expiration_time=config.cache.ttl,
@@ -153,7 +165,6 @@ def register_routes(
         status_code=status.HTTP_200_OK,
         description="Analyze an output and return the sanitized output and the results of the scanners",
     )
-    @limiter.limit("5/minute")
     async def analyze_output(
         request: AnalyzeOutputRequest, _: Annotated[bool, Depends(check_auth)]
     ) -> AnalyzeOutputResponse:
@@ -174,6 +185,11 @@ def register_routes(
                     ),
                     timeout=config.app.scan_output_timeout,
                 )
+
+                for scanner, valid in results_valid.items():
+                    scanners_valid_counter.add(
+                        1, {"source": "output", "valid": valid, "scanner": scanner}
+                    )
 
                 response = AnalyzeOutputResponse(
                     sanitized_output=sanitized_output,
@@ -232,6 +248,11 @@ def register_routes(
                     timeout=config.app.scan_prompt_timeout,
                 )
 
+                for scanner, valid in results_valid.items():
+                    scanners_valid_counter.add(
+                        1, {"source": "input", "valid": valid, "scanner": scanner}
+                    )
+
                 response = AnalyzePromptResponse(
                     sanitized_prompt=sanitized_prompt,
                     is_valid=all(results_valid.values()),
@@ -286,7 +307,7 @@ def register_routes(
 
 
 app = create_app()
-instrument_app(app, config.app.name, config.tracing, config.metrics)
+instrument_app(app)
 
 
 def run_app():

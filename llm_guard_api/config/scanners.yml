@@ -54,6 +54,8 @@ input_scanners:
     params:
       languages: ["Python"]
       is_blocked: true
+  - type: InvisibleText
+    params: { }
   - type: Language
     params:
       valid_languages: [ "en" ]
