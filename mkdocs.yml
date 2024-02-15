@@ -100,12 +100,11 @@ nav:
     - Index: index.md
     - Installation: get_started/installation.md
     - Quickstart: get_started/quickstart.md
-    - Playground: usage/playground.md
+    - Playground: get_started/playground.md
     - Attacks: get_started/attacks.md
-    - Best Practices: usage/best_practices.md
-    - Optimization: usage/optimization.md
+    - Best Practices: get_started/best_practices.md
+    - Optimization: get_started/optimization.md
   - Usage:
-    - Deployment as API: usage/api.md
     - OpenAI SDK: usage/openai.md
     - Langchain: usage/notebooks/langchain.ipynb
     - Retrieval-augmented Generation: usage/rag.md
@@ -147,6 +146,11 @@ nav:
       - Sentiment: output_scanners/sentiment.md
       - Toxicity: output_scanners/toxicity.md
       - URL Reachability: output_scanners/url_reachability.md
+  - API:
+    - Overview: api/overview.md
+    - Deployment: api/deployment.md
+    - API Reference: api/reference.md
+    - Client: api/client.md
   - Changelog: changelog.md
   - Customization:
       - Add scanner: customization/add_scanner.md
