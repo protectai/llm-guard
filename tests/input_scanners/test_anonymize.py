@@ -9,7 +9,12 @@ from llm_guard.input_scanners.anonymize import (
     default_entity_types,
     sensitive_patterns_path,
 )
-from llm_guard.input_scanners.anonymize_helpers import BERT_LARGE_NER_CONF, BERT_ZH_NER_CONF
+from llm_guard.input_scanners.anonymize_helpers import (
+    BERT_LARGE_NER_CONF,
+    BERT_ZH_NER_CONF,
+    DEBERTA_AI4PRIVACY_v2_CONF,
+    DISTILBERT_AI4PRIVACY_v2_CONF,
+)
 from llm_guard.util import read_json_file
 from llm_guard.vault import Vault
 
@@ -82,6 +87,84 @@ Create a summarized version of his resume.""",
             """Given the personal profile of [REDACTED_PERSON_1]:
 
 Full Name: [REDACTED_PERSON_1].
+Date of Birth: April 12, 1990.
+Address: 123 Elm Street, Springfield, IL, 62701.
+Email: [REDACTED_EMAIL_ADDRESS_RE_1].
+Phone Number: [REDACTED_PHONE_NUMBER_1].
+Educational Background:
+    Springfield High School, Graduated in 2008;
+    Springfield University, B.Sc. Computer Science, Graduated in 2012.
+Employment:
+    ABC Tech Solutions, Software Engineer, 2012-2015;
+    XYZ Global Systems, Senior Software Developer, 2015-2021.
+Social Security Number (SSN): [REDACTED_US_SSN_RE_1].
+Credit Card: [REDACTED_CREDIT_CARD_1], Exp: 09/25, CVV: 123.
+
+Create a summarized version of his resume.""",
+            False,
+            1.0,
+        ),
+        (
+            {"recognizer_conf": DEBERTA_AI4PRIVACY_v2_CONF},
+            """Given the personal profile:
+
+Full Name: Johnathan Edward Doe.
+Date of Birth: April 12, 1990.
+Address: 123 Elm Street, Springfield, IL, 62701.
+Email: john.doe@protectai[DOT]com.
+Phone Number: (123) 456-7890.
+Educational Background:
+    Springfield High School, Graduated in 2008;
+    Springfield University, B.Sc. Computer Science, Graduated in 2012.
+Employment:
+    ABC Tech Solutions, Software Engineer, 2012-2015;
+    XYZ Global Systems, Senior Software Developer, 2015-2021.
+Social Security Number (SSN): 123-45-6789.
+Credit Card: 4111111111111111, Exp: 09/25, CVV: 123.
+
+Create a summarized version of his resume.""",
+            """Given the personal profile:
+
+Full Name:[REDACTED_PERSON_1][REDACTED_PERSON_3][REDACTED_PERSON_2].
+Date of Birth: April 12, 1990.
+Address: 123 Elm Street, Springfield, IL, 62701.
+Email:[REDACTED_EMAIL_ADDRESS_1].
+Phone Number:[REDACTED_PHONE_NUMBER_1].
+Educational Background:
+    Springfield High School, Graduated in 2008;
+    Springfield University, B.Sc. Computer Science, Graduated in 2012.
+Employment:
+    ABC Tech Solutions, Software Engineer, 2012-2015;
+    XYZ Global Systems, Senior Software Developer, 2015-2021.
+Social Security Number (SSN): [REDACTED_US_SSN_RE_1].
+Credit Card: [REDACTED_CREDIT_CARD_1], Exp: 09/25, CVV: 123.
+
+Create a summarized version of his resume.""",
+            False,
+            1.0,
+        ),
+        (
+            {"recognizer_conf": DISTILBERT_AI4PRIVACY_v2_CONF},
+            """Given the personal profile:
+
+Full Name: Johnathan Edward Doe.
+Date of Birth: April 12, 1990.
+Address: 123 Elm Street, Springfield, IL, 62701.
+Email: john.doe@protectai[DOT]com.
+Phone Number: (123) 456-7890.
+Educational Background:
+    Springfield High School, Graduated in 2008;
+    Springfield University, B.Sc. Computer Science, Graduated in 2012.
+Employment:
+    ABC Tech Solutions, Software Engineer, 2012-2015;
+    XYZ Global Systems, Senior Software Developer, 2015-2021.
+Social Security Number (SSN): 123-45-6789.
+Credit Card: 4111111111111111, Exp: 09/25, CVV: 123.
+
+Create a summarized version of his resume.""",
+            """Given the personal profile:
+
+Full Name: [REDACTED_PERSON_3] [REDACTED_PERSON_2] [REDACTED_PERSON_1].
 Date of Birth: April 12, 1990.
 Address: 123 Elm Street, Springfield, IL, 62701.
 Email: [REDACTED_EMAIL_ADDRESS_RE_1].
@@ -177,7 +260,7 @@ def test_scan_zh(settings, prompt, expected_prompt, expected_valid, expected_sco
 
 def test_scan_unknow():
     try:
-        Anonymize(Vault(), language="unknow")
+        Anonymize(Vault(), language="unknown")
     except LLMGuardValidationError as e:
         assert str(e) == f"Language must be in the list of allowed: {ALL_SUPPORTED_LANGUAGES}"
 

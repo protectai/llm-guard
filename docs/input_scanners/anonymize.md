@@ -63,7 +63,9 @@ Some model providers may train their models on your requests, which can be a pri
 - **Tailored recognizers**:
   - Balance speed vs. accuracy of the recognizers.
   - **Top Pick: [dslim/bert-base-NER](https://huggingface.co/dslim/bert-base-NER)**
-  - Alternatives: [dslim/bert-large-NER](https://huggingface.co/dslim/bert-large-NER).
+  - Alternative with more parameters: [dslim/bert-large-NER](https://huggingface.co/dslim/bert-large-NER).
+  - Chinese recognizer: [gyr66/bert-base-chinese-finetuned-ner](https://huggingface.co/gyr66/bert-base-chinese-finetuned-ner).
+  - Good models from AI4Privacy: [Isotonic/distilbert_finetuned_ai4privacy_v2](https://huggingface.co/Isotonic/distilbert_finetuned_ai4privacy_v2) and [Isotonic/deberta-v3-base_finetuned_ai4privacy_v2](https://huggingface.co/Isotonic/deberta-v3-base_finetuned_ai4privacy_v2).
 - **Support of multiple languages**: The scanner can detect PII in English and Chinese.
 
 !!! info

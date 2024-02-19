@@ -8,5 +8,4 @@ __all__ = [
     "get_fake_value",
     "ALL_RECOGNIZER_CONF",
     "BERT_BASE_NER_CONF",
-    "BERT_LARGE_CASED_FINETUNED_COLL03_ENGLISH_CONF",
 ]
