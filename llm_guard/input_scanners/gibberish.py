@@ -8,10 +8,7 @@ from .base import Scanner
 
 LOGGER = get_logger(__name__)
 
-_model_path = (
-    "madhurjindal/autonlp-Gibberish-Detector-492513457",
-    "ProtectAI/madhurjindal-autonlp-Gibberish-Detector-492513457-onnx",  # ONNX model
-)
+_model_path = "madhurjindal/autonlp-Gibberish-Detector-492513457"
 
 
 class MatchType(Enum):
@@ -58,8 +55,8 @@ class Gibberish(Scanner):
 
         self._classifier = pipeline(
             task="text-classification",
-            model=_model_path[0],
-            onnx_model=_model_path[1],
+            model=_model_path,
+            onnx_model=_model_path,
             use_onnx=use_onnx,
             **transformers_kwargs,
         )
