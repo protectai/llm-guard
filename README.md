@@ -54,6 +54,7 @@ pip install llm-guard
 - [BanSubstrings](https://llm-guard.com/input_scanners/ban_substrings/)
 - [BanTopics](https://llm-guard.com/input_scanners/ban_topics/)
 - [Code](https://llm-guard.com/input_scanners/code/)
+- [Gibberish](https://llm-guard.com/input_scanners/gibberish/)
 - [InvisibleText](https://llm-guard.com/input_scanners/invisible_text/)
 - [Language](https://llm-guard.com/input_scanners/language/)
 - [PromptInjection](https://llm-guard.com/input_scanners/prompt_injection/)
@@ -78,16 +79,13 @@ pip install llm-guard
 - [NoRefusal](https://llm-guard.com/output_scanners/no_refusal/)
 - [ReadingTime](https://llm-guard.com/output_scanners/reading_time/)
 - [FactualConsistency](https://llm-guard.com/output_scanners/factual_consistency/)
+- [Gibberish](https://llm-guard.com/output_scanners/gibberish/)
 - [Regex](https://llm-guard.com/output_scanners/regex/)
 - [Relevance](https://llm-guard.com/output_scanners/relevance/)
 - [Sensitive](https://llm-guard.com/output_scanners/sensitive/)
 - [Sentiment](https://llm-guard.com/output_scanners/sentiment/)
 - [Toxicity](https://llm-guard.com/output_scanners/toxicity/)
 - [URLReachability](https://llm-guard.com/output_scanners/url_reachability/)
-
-## Roadmap
-
-You can find our roadmap [here](https://llm-guard.com/roadmap). Please don't hesitate to contribute or create issues, it helps us improve LLM Guard!
 
 ## Community, Contributing, Docs & Support
 
