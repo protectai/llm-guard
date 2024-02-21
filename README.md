@@ -85,10 +85,6 @@ pip install llm-guard
 - [Toxicity](https://llm-guard.com/output_scanners/toxicity/)
 - [URLReachability](https://llm-guard.com/output_scanners/url_reachability/)
 
-## Roadmap
-
-You can find our roadmap [here](https://llm-guard.com/roadmap). Please don't hesitate to contribute or create issues, it helps us improve LLM Guard!
-
 ## Community, Contributing, Docs & Support
 
 LLM Guard is an open source solution.
