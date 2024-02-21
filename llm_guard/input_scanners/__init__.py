@@ -4,6 +4,7 @@ from .ban_competitors import BanCompetitors
 from .ban_substrings import BanSubstrings
 from .ban_topics import BanTopics
 from .code import Code
+from .gibberish import Gibberish
 from .invisible_text import InvisibleText
 from .language import Language
 from .prompt_injection import PromptInjection
@@ -20,6 +21,7 @@ __all__ = [
     "BanSubstrings",
     "BanTopics",
     "Code",
+    "Gibberish",
     "InvisibleText",
     "Language",
     "PromptInjection",
