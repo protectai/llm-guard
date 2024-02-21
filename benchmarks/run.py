@@ -37,6 +37,9 @@ def build_input_scanner(scanner_name: str, use_onnx: bool) -> InputScanner:
     if scanner_name == "Code":
         return input_scanners.Code(languages=["Java"], is_blocked=True, use_onnx=use_onnx)
 
+    if scanner_name == "Gibberish":
+        return input_scanners.Gibberish(use_onnx=use_onnx)
+
     if scanner_name == "InvisibleText":
         return input_scanners.InvisibleText()
 
@@ -109,6 +112,9 @@ def build_output_scanner(scanner_name: str, use_onnx: bool) -> OutputScanner:
 
     if scanner_name == "FactualConsistency":
         return output_scanners.FactualConsistency(use_onnx=use_onnx)
+
+    if scanner_name == "Gibberish":
+        return output_scanners.Gibberish(use_onnx=use_onnx)
 
     if scanner_name == "Regex":
         return output_scanners.Regex(patterns=[r"Bearer [A-Za-z0-9-._~+/]+"])

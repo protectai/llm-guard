@@ -6,6 +6,7 @@ from .bias import Bias
 from .code import Code
 from .deanonymize import Deanonymize
 from .factual_consistency import FactualConsistency
+from .gibberish import Gibberish
 from .json import JSON
 from .language import Language
 from .language_same import LanguageSame
@@ -34,6 +35,7 @@ __all__ = [
     "NoRefusal",
     "ReadingTime",
     "FactualConsistency",
+    "Gibberish",
     "Regex",
     "Relevance",
     "Sensitive",

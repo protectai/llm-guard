@@ -118,6 +118,7 @@ nav:
       - Ban Substrings: input_scanners/ban_substrings.md
       - Ban Topics: input_scanners/ban_topics.md
       - Code: input_scanners/code.md
+      - Gibberish: input_scanners/gibberish.md
       - Invisible Text: input_scanners/invisible_text.md
       - Language: input_scanners/language.md
       - Prompt Injection: input_scanners/prompt_injection.md
@@ -140,6 +141,7 @@ nav:
       - No Refusal: output_scanners/no_refusal.md
       - Reading Time: output_scanners/reading_time.md
       - Factual Consistency: output_scanners/factual_consistency.md
+      - Gibberish: output_scanners/gibberish.md
       - Regex: output_scanners/regex.md
       - Relevance: output_scanners/relevance.md
       - Sensitive: output_scanners/sensitive.md

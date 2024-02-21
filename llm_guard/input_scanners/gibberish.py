@@ -9,8 +9,8 @@ from .base import Scanner
 LOGGER = get_logger(__name__)
 
 _model_path = (
-    "valurank/distilroberta-bias",
-    "ProtectAI/distilroberta-bias-onnx",  # ONNX model
+    "madhurjindal/autonlp-Gibberish-Detector-492513457",
+    "ProtectAI/madhurjindal-autonlp-Gibberish-Detector-492513457-onnx",  # ONNX model
 )
 
 
@@ -25,9 +25,9 @@ class MatchType(Enum):
         return [prompt]
 
 
-class Bias(Scanner):
+class Gibberish(Scanner):
     """
-    This class is designed to detect and evaluate potential biases in text using a pretrained model from HuggingFace.
+    A scanner that detects gibberish text.
     """
 
     def __init__(
@@ -39,10 +39,10 @@ class Bias(Scanner):
         transformers_kwargs: Optional[Dict] = None,
     ):
         """
-        Initializes the Bias scanner with a probability threshold for bias detection.
+        Initializes the Gibberish scanner with a probability threshold for gibberish detection.
 
         Parameters:
-           threshold (float): The threshold above which a text is considered biased. Default is 0.7.
+           threshold (float): The probability threshold for gibberish detection. Default is 0.7.
            match_type (MatchType): Whether to match the full text or individual sentences. Default is MatchType.FULL.
            use_onnx (bool): Whether to use ONNX instead of PyTorch for inference.
            transformers_kwargs (dict): Additional keyword arguments to pass to the transformers pipeline.
@@ -64,16 +64,16 @@ class Bias(Scanner):
             **transformers_kwargs,
         )
 
-    def scan(self, prompt: str, output: str) -> (str, bool, float):
-        if output.strip() == "":
-            return output, True, 0.0
+    def scan(self, prompt: str) -> (str, bool, float):
+        if prompt.strip() == "":
+            return prompt, True, 0.0
 
         highest_score = 0.0
-        results_all = self._classifier(self._match_type.get_inputs(output))
-        LOGGER.debug("Bias detection finished", results=results_all)
+        results_all = self._classifier(self._match_type.get_inputs(prompt))
+        LOGGER.debug("Gibberish detection finished", results=results_all)
         for result in results_all:
             score = round(
-                result["score"] if result["label"] == "BIASED" else 1 - result["score"],
+                1 - result["score"] if result["label"] == "clean" else result["score"],
                 2,
             )
 
@@ -81,10 +81,12 @@ class Bias(Scanner):
                 highest_score = score
 
             if score > self._threshold:
-                LOGGER.warning("Detected biased text", score=score, threshold=self._threshold)
+                LOGGER.warning("Detected gibberish text", score=score, threshold=self._threshold)
 
-                return output, False, calculate_risk_score(score, self._threshold)
+                return prompt, False, calculate_risk_score(score, self._threshold)
 
-        LOGGER.debug("Not biased result", highest_score=highest_score, threshold=self._threshold)
+        LOGGER.debug(
+            "No gibberish in the text", highest_score=highest_score, threshold=self._threshold
+        )
 
-        return output, True, 0.0
+        return prompt, True, 0.0
