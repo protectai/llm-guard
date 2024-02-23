@@ -53,8 +53,13 @@ class Bias(Scanner):
         self._threshold = threshold
         self._match_type = match_type
 
-        transformers_kwargs = transformers_kwargs or {}
-        transformers_kwargs["truncation"] = True
+        default_transformers_kwargs = {
+            "truncation": True,
+        }
+        if transformers_kwargs is None:
+            transformers_kwargs = {}
+
+        transformers_kwargs = {**default_transformers_kwargs, **transformers_kwargs}
 
         self._classifier = pipeline(
             task="text-classification",
@@ -70,7 +75,6 @@ class Bias(Scanner):
 
         highest_score = 0.0
         results_all = self._classifier(self._match_type.get_inputs(output))
-        LOGGER.debug("Bias detection finished", results=results_all)
         for result in results_all:
             score = round(
                 result["score"] if result["label"] == "BIASED" else 1 - result["score"],
@@ -81,7 +85,9 @@ class Bias(Scanner):
                 highest_score = score
 
             if score > self._threshold:
-                LOGGER.warning("Detected biased text", score=score, threshold=self._threshold)
+                LOGGER.warning(
+                    "Detected biased text", highest_score=score, threshold=self._threshold
+                )
 
                 return output, False, calculate_risk_score(score, self._threshold)
 

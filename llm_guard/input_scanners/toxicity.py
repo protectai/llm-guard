@@ -65,11 +65,16 @@ class Toxicity(Scanner):
         self._threshold = threshold
         self._match_type = match_type
 
-        transformers_kwargs = transformers_kwargs or {}
-        transformers_kwargs["truncation"] = True
-        transformers_kwargs["padding"] = "max_length"
-        transformers_kwargs["top_k"] = None
-        transformers_kwargs["function_to_apply"] = "sigmoid"
+        default_transformers_kwargs = {
+            "padding": "max_length",
+            "top_k": None,
+            "function_to_apply": "sigmoid",
+            "truncation": True,
+        }
+        if transformers_kwargs is None:
+            transformers_kwargs = {}
+
+        transformers_kwargs = {**default_transformers_kwargs, **transformers_kwargs}
 
         self._pipeline = pipeline(
             task="text-classification",

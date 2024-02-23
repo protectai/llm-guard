@@ -59,10 +59,15 @@ class Language(Scanner):
         self._valid_languages = valid_languages
         self._match_type = match_type
 
-        transformers_kwargs = transformers_kwargs or {}
-        transformers_kwargs["max_length"] = 512
-        transformers_kwargs["truncation"] = True
-        transformers_kwargs["top_k"] = None
+        default_transformers_kwargs = {
+            "max_length": 512,
+            "truncation": True,
+            "top_k": None,
+        }
+        if transformers_kwargs is None:
+            transformers_kwargs = {}
+
+        transformers_kwargs = {**default_transformers_kwargs, **transformers_kwargs}
 
         self._pipeline = pipeline(
             task="text-classification",

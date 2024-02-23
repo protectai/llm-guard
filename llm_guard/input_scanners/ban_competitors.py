@@ -72,6 +72,7 @@ class BanCompetitors(Scanner):
         entities = sorted(entities, key=lambda x: x["char_end_index"], reverse=True)
         for entity in entities:
             if entity["span"] not in self._competitors:
+                LOGGER.debug("Entity is not a specified competitor", entity=entity["span"])
                 continue
 
             if entity["score"] < self._threshold:

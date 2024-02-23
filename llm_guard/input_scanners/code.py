@@ -78,8 +78,13 @@ class Code(Scanner):
         self._is_blocked = is_blocked
         self._threshold = threshold
 
-        transformers_kwargs = transformers_kwargs or {}
-        transformers_kwargs["truncation"] = True
+        default_transformers_kwargs = {
+            "truncation": True,
+        }
+        if transformers_kwargs is None:
+            transformers_kwargs = {}
+
+        transformers_kwargs = {**default_transformers_kwargs, **transformers_kwargs}
 
         self._pipeline = pipeline(
             task="text-classification",

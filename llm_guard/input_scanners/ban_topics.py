@@ -77,9 +77,14 @@ class BanTopics(Scanner):
         self._topics = topics
         self._threshold = threshold
 
-        transformers_kwargs = transformers_kwargs or {}
-        transformers_kwargs["max_length"] = model["max_length"]
-        transformers_kwargs["truncation"] = True
+        default_transformers_kwargs = {
+            "max_length": model["max_length"],
+            "truncation": True,
+        }
+        if transformers_kwargs is None:
+            transformers_kwargs = {}
+
+        transformers_kwargs = {**default_transformers_kwargs, **transformers_kwargs}
 
         self._classifier = pipeline(
             task="zero-shot-classification",
@@ -94,21 +99,20 @@ class BanTopics(Scanner):
             return prompt, True, 0.0
 
         output_model = self._classifier(prompt, self._topics, multi_label=False)
+        label_score = dict(zip(output_model["labels"], output_model["scores"]))
 
         max_score = round(max(output_model["scores"]) if output_model["scores"] else 0, 2)
         if max_score > self._threshold:
             LOGGER.warning(
                 "Topics detected for the prompt",
-                labels=output_model["labels"],
-                scores=output_model["scores"],
+                scores=label_score,
             )
 
             return prompt, False, max_score
 
         LOGGER.debug(
             "No banned topics detected",
-            labels=output_model["labels"],
-            scores=output_model["scores"],
+            scores=label_score,
         )
 
         return prompt, True, 0.0

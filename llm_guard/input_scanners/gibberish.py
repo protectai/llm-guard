@@ -50,8 +50,13 @@ class Gibberish(Scanner):
         self._threshold = threshold
         self._match_type = match_type
 
-        transformers_kwargs = transformers_kwargs or {}
-        transformers_kwargs["truncation"] = True
+        default_transformers_kwargs = {
+            "truncation": True,
+        }
+        if transformers_kwargs is None:
+            transformers_kwargs = {}
+
+        transformers_kwargs = {**default_transformers_kwargs, **transformers_kwargs}
 
         self._classifier = pipeline(
             task="text-classification",

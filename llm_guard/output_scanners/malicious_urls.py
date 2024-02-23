@@ -41,10 +41,15 @@ class MaliciousURLs(Scanner):
 
         self._threshold = threshold
 
-        transformers_kwargs = transformers_kwargs or {}
-        transformers_kwargs["max_length"] = 512
-        transformers_kwargs["truncation"] = True
-        transformers_kwargs["top_k"] = None
+        default_transformers_kwargs = {
+            "max_length": 512,
+            "truncation": True,
+            "top_k": None,
+        }
+        if transformers_kwargs is None:
+            transformers_kwargs = {}
+
+        transformers_kwargs = {**default_transformers_kwargs, **transformers_kwargs}
 
         self._classifier = pipeline(
             task="text-classification",
@@ -64,6 +69,7 @@ class MaliciousURLs(Scanner):
 
         LOGGER.debug("Found URLs in the output", len=len(urls))
 
+        highest_malicious_score = 0.0
         results = self._classifier(urls)
         for url, result in zip(urls, results):
             malicious_scores = [
@@ -74,11 +80,13 @@ class MaliciousURLs(Scanner):
                 LOGGER.warning(
                     "Detected malware URL",
                     url=url,
-                    highest_malicious_score=highest_malicious_score,
+                    highest_score=highest_malicious_score,
                 )
 
                 return output, False, calculate_risk_score(highest_malicious_score, self._threshold)
 
-        LOGGER.debug("Not malware URLs in the output", results=results)
+        LOGGER.debug(
+            "Not malware URLs in the output", results=results, highest_score=highest_malicious_score
+        )
 
         return output, True, 0.0

@@ -74,9 +74,14 @@ class PromptInjection(Scanner):
         self._match_type = match_type
         self._model = model
 
-        transformers_kwargs = transformers_kwargs or {}
-        transformers_kwargs["max_length"] = model["max_length"]
-        transformers_kwargs["truncation"] = True
+        default_transformers_kwargs = {
+            "max_length": model["max_length"],
+            "truncation": True,
+        }
+        if transformers_kwargs is None:
+            transformers_kwargs = {}
+
+        transformers_kwargs = {**default_transformers_kwargs, **transformers_kwargs}
 
         self._pipeline = pipeline(
             task="text-classification",

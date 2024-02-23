@@ -10,7 +10,6 @@ LOGGER = get_logger(__name__)
 
 _model = {
     "path": "ProtectAI/distilroberta-base-rejection-v1",
-    "onnx_path": "ProtectAI/distilroberta-base-rejection-v1",
     "max_length": 512,
 }
 
@@ -57,14 +56,19 @@ class NoRefusal(Scanner):
         self._threshold = threshold
         self._match_type = match_type
 
-        transformers_kwargs = transformers_kwargs or {}
-        transformers_kwargs["max_length"] = _model["max_length"]
-        transformers_kwargs["truncation"] = True
+        default_transformers_kwargs = {
+            "max_length": _model["max_length"],
+            "truncation": True,
+        }
+        if transformers_kwargs is None:
+            transformers_kwargs = {}
+
+        transformers_kwargs = {**default_transformers_kwargs, **transformers_kwargs}
 
         self._pipeline = pipeline(
             task="text-classification",
             model=_model["path"],
-            onnx_model=_model["onnx_path"],
+            onnx_model=_model["path"],
             use_onnx=use_onnx,
             **transformers_kwargs,
         )
@@ -85,7 +89,7 @@ class NoRefusal(Scanner):
                 highest_score = score
 
             if score > self._threshold:
-                LOGGER.warning("Detected rejection", score=score)
+                LOGGER.warning("Detected rejection", highest_score=score)
 
                 return output, False, calculate_risk_score(score, self._threshold)
 
