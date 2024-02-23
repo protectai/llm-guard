@@ -8,6 +8,7 @@ from .bias import Bias
 from .code import Code
 from .deanonymize import Deanonymize
 from .factual_consistency import FactualConsistency
+from .gibberish import Gibberish
 from .json import JSON
 from .language import Language
 from .language_same import LanguageSame
@@ -53,6 +54,9 @@ def get_scanner_by_name(scanner_name: str, scanner_config: Optional[Dict] = None
 
     if scanner_name == "FactualConsistency":
         return FactualConsistency(**scanner_config)
+
+    if scanner_name == "Gibberish":
+        return Gibberish(**scanner_config)
 
     if scanner_name == "JSON":
         return JSON(**scanner_config)

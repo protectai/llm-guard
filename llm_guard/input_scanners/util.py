@@ -6,6 +6,7 @@ from .ban_substrings import BanSubstrings
 from .ban_topics import BanTopics
 from .base import Scanner
 from .code import Code
+from .gibberish import Gibberish
 from .invisible_text import InvisibleText
 from .language import Language
 from .prompt_injection import PromptInjection
@@ -44,6 +45,9 @@ def get_scanner_by_name(scanner_name: str, scanner_config: Optional[Dict] = None
 
     if scanner_name == "Code":
         return Code(**scanner_config)
+
+    if scanner_name == "Gibberish":
+        return Gibberish(**scanner_config)
 
     if scanner_name == "InvisibleText":
         return InvisibleText()
