@@ -36,7 +36,6 @@
                     "Content-Type": "application/json",
                     "Authorization": f"Bearer {LLM_GUARD_API_KEY}",
                 },
-                ssl=False,
             )
 
             response_json = response.json()

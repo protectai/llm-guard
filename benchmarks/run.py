@@ -126,7 +126,9 @@ def build_output_scanner(scanner_name: str, use_onnx: bool) -> OutputScanner:
         return output_scanners.Relevance(use_onnx=use_onnx)
 
     if scanner_name == "Sensitive":
-        return output_scanners.Sensitive(redact=True, use_onnx=use_onnx)
+        return output_scanners.Sensitive(
+            redact=True, use_onnx=use_onnx, recognizer_conf=DEBERTA_AI4PRIVACY_v2_CONF
+        )
 
     if scanner_name == "Sentiment":
         return output_scanners.Sentiment()
