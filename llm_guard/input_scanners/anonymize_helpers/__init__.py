@@ -8,4 +8,8 @@ __all__ = [
     "get_fake_value",
     "ALL_RECOGNIZER_CONF",
     "BERT_BASE_NER_CONF",
+    "DEBERTA_AI4PRIVACY_v2_CONF",
+    "DISTILBERT_AI4PRIVACY_v2_CONF",
+    "BERT_ZH_NER_CONF",
+    "BERT_LARGE_NER_CONF",
 ]

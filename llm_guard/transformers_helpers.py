@@ -151,6 +151,7 @@ def _pipeline_ner(model: str, onnx_model: Optional[str] = None, use_onnx: bool =
             "optimum.onnxruntime",
             "optimum[onnxruntime]" if device().type != "cuda" else "optimum[onnxruntime-gpu]",
         )
+        tf_tokenizer.model_input_names = ["input_ids", "attention_mask"]
         tf_model = optimum_onnxruntime.ORTModelForTokenClassification.from_pretrained(
             model,
             export=onnx_model is None,

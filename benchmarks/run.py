@@ -7,6 +7,7 @@ from typing import Dict, List
 import numpy
 
 from llm_guard import input_scanners, output_scanners
+from llm_guard.input_scanners.anonymize_helpers import DEBERTA_AI4PRIVACY_v2_CONF
 from llm_guard.input_scanners.ban_substrings import MatchType as BanSubstringsMatchType
 from llm_guard.input_scanners.base import Scanner as InputScanner
 from llm_guard.output_scanners.base import Scanner as OutputScanner
@@ -17,7 +18,9 @@ vault = Vault()
 
 def build_input_scanner(scanner_name: str, use_onnx: bool) -> InputScanner:
     if scanner_name == "Anonymize":
-        return input_scanners.Anonymize(vault=vault, use_onnx=use_onnx)
+        return input_scanners.Anonymize(
+            vault=vault, use_onnx=use_onnx, recognizer_conf=DEBERTA_AI4PRIVACY_v2_CONF
+        )
 
     if scanner_name == "BanCompetitors":
         return input_scanners.BanCompetitors(

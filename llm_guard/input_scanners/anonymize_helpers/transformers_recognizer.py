@@ -6,7 +6,7 @@ from presidio_analyzer.nlp_engine import NlpArtifacts
 from transformers import TokenClassificationPipeline
 
 from llm_guard.transformers_helpers import pipeline
-from llm_guard.util import get_logger
+from llm_guard.util import get_logger, split_text_to_word_chunks
 
 from .ner_mapping import BERT_BASE_NER_CONF
 
@@ -183,35 +183,6 @@ class TransformersRecognizer(EntityRecognizer):
 
         return results
 
-    @staticmethod
-    def split_text_to_word_chunks(
-        input_length: int, chunk_length: int, overlap_length: int
-    ) -> List[List]:
-        """The function calculates chunks of text with size chunk_length. Each chunk has overlap_length number of
-        words to create context and continuity for the model
-
-        :param input_length: Length of input_ids for a given text
-        :type input_length: int
-        :param chunk_length: Length of each chunk of input_ids.
-        Should match the max input length of the transformer model
-        :type chunk_length: int
-        :param overlap_length: Number of overlapping words in each chunk
-        :type overlap_length: int
-        :return: List of start and end positions for individual text chunks
-        :rtype: List[List]
-        """
-        if input_length < chunk_length:
-            return [[0, input_length]]
-        if chunk_length <= overlap_length:
-            LOGGER.warning(
-                "overlap_length should be shorter than chunk_length, setting overlap_length to by half of chunk_length"
-            )
-            overlap_length = chunk_length // 2
-        return [
-            [i, min([i + chunk_length, input_length])]
-            for i in range(0, input_length - overlap_length, chunk_length - overlap_length)
-        ]
-
     def _get_ner_results_for_text(self, text: str) -> List[dict]:
         """The function runs model inference on the provided text.
         The text is split into chunks with n overlapping characters.
@@ -235,7 +206,7 @@ class TransformersRecognizer(EntityRecognizer):
                 model_max_length=model_max_length,
             )
             predictions = list()
-            chunk_indexes = TransformersRecognizer.split_text_to_word_chunks(
+            chunk_indexes = split_text_to_word_chunks(
                 text_length, self.chunk_length, self.text_overlap_length
             )
 

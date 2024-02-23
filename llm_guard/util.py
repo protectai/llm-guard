@@ -188,6 +188,35 @@ def split_text_by_sentences(text: str) -> List[str]:
     return nltk.sent_tokenize(text.strip())
 
 
+def split_text_to_word_chunks(
+    input_length: int, chunk_length: int, overlap_length: int
+) -> List[List]:
+    """The function calculates chunks of text with size chunk_length. Each chunk has overlap_length number of
+    words to create context and continuity for the model
+
+    :param input_length: Length of input_ids for a given text
+    :type input_length: int
+    :param chunk_length: Length of each chunk of input_ids.
+    Should match the max input length of the transformer model
+    :type chunk_length: int
+    :param overlap_length: Number of overlapping words in each chunk
+    :type overlap_length: int
+    :return: List of start and end positions for individual text chunks
+    :rtype: List[List]
+    """
+    if input_length < chunk_length:
+        return [[0, input_length]]
+    if chunk_length <= overlap_length:
+        LOGGER.warning(
+            "overlap_length should be shorter than chunk_length, setting overlap_length to by half of chunk_length"
+        )
+        overlap_length = chunk_length // 2
+    return [
+        [i, min([i + chunk_length, input_length])]
+        for i in range(0, input_length - overlap_length, chunk_length - overlap_length)
+    ]
+
+
 url_pattern = re.compile(
     r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
 )
