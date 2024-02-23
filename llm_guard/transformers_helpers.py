@@ -5,7 +5,7 @@ from typing import Literal, Optional, get_args
 from .exception import LLMGuardValidationError
 from .util import device, get_logger, lazy_load_dep
 
-LOGGER = get_logger(__name__)
+LOGGER = get_logger()
 
 
 @lru_cache(maxsize=None)  # Set maxsize=None for an unbounded cache

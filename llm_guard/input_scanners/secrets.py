@@ -10,7 +10,7 @@ from llm_guard.util import get_logger
 
 from .base import Scanner
 
-LOGGER = get_logger(__name__)
+LOGGER = get_logger()
 
 _custom_plugins_path = "file://" + os.path.join(
     os.path.dirname(os.path.abspath(__file__)), "secrets_plugins"

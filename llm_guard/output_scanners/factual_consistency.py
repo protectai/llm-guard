@@ -5,7 +5,7 @@ from llm_guard.util import device, get_logger, lazy_load_dep
 from .base import Scanner
 
 torch = lazy_load_dep("torch")
-LOGGER = get_logger(__name__)
+LOGGER = get_logger()
 
 _model = MODEL_BASE
 

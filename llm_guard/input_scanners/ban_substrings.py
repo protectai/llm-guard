@@ -7,7 +7,7 @@ from llm_guard.util import get_logger
 
 from .base import Scanner
 
-LOGGER = get_logger(__name__)
+LOGGER = get_logger()
 
 stop_file_path = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),

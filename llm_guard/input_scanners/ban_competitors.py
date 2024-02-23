@@ -7,7 +7,7 @@ from llm_guard.util import device, get_logger, lazy_load_dep
 
 from .base import Scanner
 
-LOGGER = get_logger(__name__)
+LOGGER = get_logger()
 
 MODEL_BASE = {
     "path": "tomaarsen/span-marker-bert-base-orgs",

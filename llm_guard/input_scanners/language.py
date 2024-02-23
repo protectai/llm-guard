@@ -6,7 +6,7 @@ from llm_guard.util import calculate_risk_score, get_logger, split_text_by_sente
 
 from .base import Scanner
 
-LOGGER = get_logger(__name__)
+LOGGER = get_logger()
 
 model_path = (
     "papluca/xlm-roberta-base-language-detection",

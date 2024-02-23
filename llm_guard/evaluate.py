@@ -16,7 +16,7 @@ These base classes define an `scan` method that takes in a string and returns a 
 These functions return the processed string after all scanners have been applied, along with a dictionary mapping the name of each scanner to its validity result.
 """
 
-LOGGER = get_logger(__name__)
+LOGGER = get_logger()
 
 
 def scan_prompt(

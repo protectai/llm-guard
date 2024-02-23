@@ -6,7 +6,7 @@ from llm_guard.util import get_logger
 
 from .base import Scanner
 
-LOGGER = get_logger(__name__)
+LOGGER = get_logger()
 
 
 class LanguageSame(Scanner):

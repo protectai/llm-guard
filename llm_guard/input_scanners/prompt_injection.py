@@ -7,7 +7,7 @@ from llm_guard.util import calculate_risk_score, get_logger, split_text_by_sente
 
 from .base import Scanner
 
-LOGGER = get_logger(__name__)
+LOGGER = get_logger()
 
 # This model is proprietary but open source.
 MODEL_LAIYER = {

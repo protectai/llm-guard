@@ -17,7 +17,7 @@ from .anonymize_helpers import (
 )
 from .base import Scanner
 
-LOGGER = get_logger(__name__)
+LOGGER = get_logger()
 
 sensitive_patterns_path = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),

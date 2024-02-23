@@ -7,7 +7,7 @@ from llm_guard.vault import Vault
 
 from .base import Scanner
 
-LOGGER = get_logger(__name__)
+LOGGER = get_logger()
 
 
 class MatchingStrategy(Enum):

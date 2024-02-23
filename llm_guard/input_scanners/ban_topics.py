@@ -6,7 +6,7 @@ from llm_guard.util import get_logger
 
 from .base import Scanner
 
-LOGGER = get_logger(__name__)
+LOGGER = get_logger()
 
 # This model was trained on a mixture of 33 datasets and 389 classes reformatted in the universal NLI format.
 # The model is English only. You can also use it for multilingual zeroshot classification by first machine translating texts to English.

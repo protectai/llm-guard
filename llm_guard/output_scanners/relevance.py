@@ -6,7 +6,7 @@ from llm_guard.util import device, get_logger, lazy_load_dep
 
 from .base import Scanner
 
-LOGGER = get_logger(__name__)
+LOGGER = get_logger()
 
 MODEL_EN_BGE_BASE = (
     "BAAI/bge-base-en-v1.5",

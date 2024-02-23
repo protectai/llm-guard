@@ -7,7 +7,7 @@ from llm_guard.util import calculate_risk_score, get_logger
 
 from .base import Scanner
 
-LOGGER = get_logger(__name__)
+LOGGER = get_logger()
 
 _model_path = "philomath-1209/programming-language-identification"
 

@@ -10,7 +10,7 @@ from llm_guard.util import get_logger
 
 from .ner_mapping import BERT_BASE_NER_CONF
 
-LOGGER = get_logger(__name__)
+LOGGER = get_logger()
 
 
 class TransformersRecognizer(EntityRecognizer):

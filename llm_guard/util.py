@@ -18,6 +18,7 @@ This is meant for internal use and not part of the public API.
 LOG_LEVELS = Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
 EXTERNAL_LOGGERS = {
     "transformers",
+    "presidio-analyzer",
 }
 
 
@@ -41,10 +42,6 @@ def configure_logger(log_level: LOG_LEVELS = "INFO"):
 
 def _get_library_name() -> str:
     return __name__.split(".")[0]
-
-
-def _get_library_root_logger() -> logging.Logger:
-    return logging.getLogger(_get_library_name())
 
 
 def get_logger(name: Optional[str] = None) -> Any:

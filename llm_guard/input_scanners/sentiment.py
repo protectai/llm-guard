@@ -2,7 +2,7 @@ from llm_guard.util import get_logger, lazy_load_dep
 
 from .base import Scanner
 
-LOGGER = get_logger(__name__)
+LOGGER = get_logger()
 _lexicon = "vader_lexicon"
 
 
