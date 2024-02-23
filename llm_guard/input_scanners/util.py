@@ -73,4 +73,4 @@ def get_scanner_by_name(scanner_name: str, scanner_config: Optional[Dict] = None
     if scanner_name == "Toxicity":
         return Toxicity(**scanner_config)
 
-    raise ValueError("Unknown scanner name")
+    raise ValueError(f"Unknown scanner name: {scanner_name}")
