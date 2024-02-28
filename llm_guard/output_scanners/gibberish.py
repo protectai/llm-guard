@@ -17,7 +17,8 @@ class Gibberish(Scanner):
         threshold: float = 0.7,
         match_type: Union[MatchType, str] = MatchType.FULL,
         use_onnx: bool = False,
-        transformers_kwargs: Optional[Dict] = None,
+        model_kwargs: Optional[Dict] = None,
+        pipeline_kwargs: Optional[Dict] = None,
     ):
         """
         Initializes the Gibberish scanner with a probability threshold for gibberish detection.
@@ -26,14 +27,16 @@ class Gibberish(Scanner):
            threshold (float): The probability threshold for gibberish detection. Default is 0.7.
            match_type (MatchType): Whether to match the full text or individual sentences. Default is MatchType.FULL.
            use_onnx (bool): Whether to use ONNX instead of PyTorch for inference.
-           transformers_kwargs (dict): Additional keyword arguments to pass to the transformers pipeline.
+           model_kwargs (Dict): Keyword arguments passed to the model.
+           pipeline_kwargs (Dict): Keyword arguments passed to the pipeline.
         """
 
         self._scanner = InputGibberish(
             threshold=threshold,
             match_type=match_type,
             use_onnx=use_onnx,
-            transformers_kwargs=transformers_kwargs,
+            model_kwargs=model_kwargs,
+            pipeline_kwargs=pipeline_kwargs,
         )
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):

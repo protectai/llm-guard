@@ -17,9 +17,10 @@ class BanTopics(Scanner):
         topics: Sequence[str],
         *,
         threshold: float = 0.75,
-        model: Optional[Dict] = None,
+        model: Optional[str] = None,
         use_onnx: bool = False,
-        transformers_kwargs: Optional[Dict] = None,
+        model_kwargs: Optional[Dict] = None,
+        pipeline_kwargs: Optional[Dict] = None,
     ):
         """
         Initializes BanTopics with a list of topics and a probability threshold.
@@ -30,7 +31,8 @@ class BanTopics(Scanner):
                                Default is 0.75.
             model (Dict, optional): The name of the zero-shot-classification model to be used. Default is MODEL_BASE.
             use_onnx (bool, optional): Whether to use ONNX for inference. Default is False.
-            transformers_kwargs (Dict, optional): Additional kwargs to pass to the transformers pipeline. Default is None.
+            model_kwargs (Dict, optional): Keyword arguments passed to the model.
+            pipeline_kwargs (Dict, optional): Keyword arguments passed to the pipeline.
 
         Raises:
             ValueError: If no topics are provided.
@@ -40,7 +42,8 @@ class BanTopics(Scanner):
             threshold=threshold,
             model=model,
             use_onnx=use_onnx,
-            transformers_kwargs=transformers_kwargs,
+            model_kwargs=model_kwargs,
+            pipeline_kwargs=pipeline_kwargs,
         )
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):

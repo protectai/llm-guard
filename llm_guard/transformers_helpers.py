@@ -1,6 +1,13 @@
 import importlib
 from functools import lru_cache
-from typing import Literal, Optional, get_args
+from typing import Literal, Optional, Union, get_args
+
+from transformers import (
+    PreTrainedModel,
+    PreTrainedTokenizer,
+    PreTrainedTokenizerFast,
+    TFPreTrainedModel,
+)
 
 from .exception import LLMGuardValidationError
 from .util import device, get_logger, lazy_load_dep
@@ -9,7 +16,7 @@ LOGGER = get_logger()
 
 
 @lru_cache(maxsize=None)  # Set maxsize=None for an unbounded cache
-def get_tokenizer(model_identifier: str):
+def get_tokenizer(model_identifier: str, **kwargs):
     """
     This function loads a tokenizer given a model identifier and caches it.
     Subsequent calls with the same model_identifier will return the cached tokenizer.
@@ -18,7 +25,7 @@ def get_tokenizer(model_identifier: str):
         model_identifier (str): The model identifier to load the tokenizer for.
     """
     transformers = lazy_load_dep("transformers")
-    tokenizer = transformers.AutoTokenizer.from_pretrained(model_identifier)
+    tokenizer = transformers.AutoTokenizer.from_pretrained(model_identifier, **kwargs)
     return tokenizer
 
 
@@ -36,7 +43,9 @@ def is_onnx_supported() -> bool:
     return is_supported
 
 
-def _ort_model_for_sequence_classification(model: str, export: bool = False, subfolder: str = ""):
+def _ort_model_for_sequence_classification(
+    model: str, export: bool = False, subfolder: str = "", **kwargs
+):
     if device().type == "cuda":
         optimum_onnxruntime = lazy_load_dep("optimum.onnxruntime", "optimum[onnxruntime-gpu]")
         tf_model = optimum_onnxruntime.ORTModelForSequenceClassification.from_pretrained(
@@ -46,6 +55,7 @@ def _ort_model_for_sequence_classification(model: str, export: bool = False, sub
             file_name="model.onnx",
             provider="CUDAExecutionProvider",
             use_io_binding=True,
+            **kwargs,
         )
 
         LOGGER.debug("Initialized classification ONNX model", model=model, device=device())
@@ -58,6 +68,7 @@ def _ort_model_for_sequence_classification(model: str, export: bool = False, sub
         export=export,
         subfolder=subfolder,
         file_name="model.onnx",
+        **kwargs,
     )
     LOGGER.debug("Initialized classification ONNX model", model=model, device=device())
 
@@ -77,7 +88,7 @@ def get_tokenizer_and_model_for_classification(
         use_onnx (bool): Whether to use the ONNX version of the model. Defaults to False.
         **kwargs: Keyword arguments to pass to the tokenizer and model.
     """
-    tf_tokenizer = get_tokenizer(model)
+    tf_tokenizer = get_tokenizer(model, **kwargs)
     transformers = lazy_load_dep("transformers")
 
     if kwargs.get("max_length", None) is None:
@@ -88,7 +99,7 @@ def get_tokenizer_and_model_for_classification(
         use_onnx = False
 
     if use_onnx is False:
-        tf_model = transformers.AutoModelForSequenceClassification.from_pretrained(model)
+        tf_model = transformers.AutoModelForSequenceClassification.from_pretrained(model, **kwargs)
         LOGGER.debug("Initialized classification model", model=model, device=device())
 
         return tf_tokenizer, tf_model
@@ -101,40 +112,36 @@ def get_tokenizer_and_model_for_classification(
     tf_tokenizer.model_input_names = ["input_ids", "attention_mask"]
 
     tf_model = _ort_model_for_sequence_classification(
-        model, export=onnx_model is None, subfolder=subfolder
+        model, export=onnx_model is None, subfolder=subfolder, **kwargs
     )
 
     return tf_tokenizer, tf_model
 
 
-ClassificationTask = Literal["text-classification", "zero-shot-classification", "ner"]
+ClassificationTask = Literal["text-classification", "zero-shot-classification"]
 
 
 def pipeline(
-    task: str, model: str, onnx_model: Optional[str] = None, use_onnx: bool = False, **kwargs
+    task: str,
+    model: Union[PreTrainedModel, TFPreTrainedModel],
+    tokenizer: Union[PreTrainedTokenizer, PreTrainedTokenizerFast],
+    **kwargs,
 ):
     if task not in get_args(ClassificationTask):
         raise LLMGuardValidationError(f"Invalid task. Must be one of {ClassificationTask}")
 
-    if task == "ner":
-        return _pipeline_ner(model, onnx_model, use_onnx, **kwargs)
-
     transformers = lazy_load_dep("transformers")
-    tf_tokenizer, tf_model = get_tokenizer_and_model_for_classification(
-        model, onnx_model, use_onnx, **kwargs
-    )
-
     return transformers.pipeline(
         task,
-        model=tf_model,
-        tokenizer=tf_tokenizer,
+        model=model,
+        tokenizer=tokenizer,
         device=device(),
         batch_size=1,
         **kwargs,
     )
 
 
-def _pipeline_ner(model: str, onnx_model: Optional[str] = None, use_onnx: bool = False, **kwargs):
+def pipeline_ner(model: str, onnx_model: Optional[str] = None, use_onnx: bool = False, **kwargs):
     transformers = lazy_load_dep("transformers")
     tf_tokenizer = get_tokenizer(model)
 

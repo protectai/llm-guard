@@ -19,7 +19,8 @@ class Toxicity(Scanner):
         threshold: float = 0.7,
         match_type: Union[MatchType, str] = MatchType.FULL,
         use_onnx: bool = False,
-        transformers_kwargs: Optional[Dict] = None,
+        model_kwargs: Optional[Dict] = None,
+        pipeline_kwargs: Optional[Dict] = None,
     ):
         """
         Initializes an instance of the Toxicity class.
@@ -28,14 +29,16 @@ class Toxicity(Scanner):
             threshold (float): The threshold used to determine toxicity. Defaults to 0.7.
             match_type (MatchType): Whether to match the full text or individual sentences. Defaults to MatchType.FULL.
             use_onnx (bool): Whether to use ONNX for inference. Defaults to False.
-            transformers_kwargs (dict): Additional keyword arguments to pass to the transformers pipeline.
+            model_kwargs (Optional[Dict]): Optional keyword arguments for the model.
+            pipeline_kwargs (Optional[Dict]): Optional keyword arguments for the pipeline.
         """
 
         self._scanner = InputToxicity(
             threshold=threshold,
             match_type=match_type,
             use_onnx=use_onnx,
-            transformers_kwargs=transformers_kwargs,
+            model_kwargs=model_kwargs,
+            pipeline_kwargs=pipeline_kwargs,
         )
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):

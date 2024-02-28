@@ -1,7 +1,7 @@
 from typing import Dict, Optional
 
 from llm_guard.input_scanners.language import model_path
-from llm_guard.transformers_helpers import pipeline
+from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
 from llm_guard.util import get_logger
 
 from .base import Scanner
@@ -19,7 +19,8 @@ class LanguageSame(Scanner):
         *,
         threshold: float = 0.1,
         use_onnx: bool = False,
-        transformers_kwargs: Optional[Dict] = None,
+        model_kwargs: Optional[Dict] = None,
+        pipeline_kwargs: Optional[Dict] = None,
     ):
         """
         Initializes the LanguageSame scanner.
@@ -27,27 +28,32 @@ class LanguageSame(Scanner):
         Parameters:
             threshold (float): Minimum confidence score
             use_onnx (bool): Whether to use ONNX for inference. Default is False.
-            transformers_kwargs (dict): Additional keyword arguments to pass to the transformers pipeline.
+            model_kwargs (Dict, optional): Keyword arguments passed to the model.
+            pipeline_kwargs (Dict, optional): Keyword arguments passed to the pipeline.
         """
 
         self._threshold = threshold
 
-        default_transformers_kwargs = {
+        default_pipeline_kwargs = {
             "max_length": 512,
             "truncation": True,
             "top_k": None,
         }
-        if transformers_kwargs is None:
-            transformers_kwargs = {}
+        if pipeline_kwargs is None:
+            pipeline_kwargs = {}
 
-        transformers_kwargs = {**default_transformers_kwargs, **transformers_kwargs}
+        pipeline_kwargs = {**default_pipeline_kwargs, **pipeline_kwargs}
+        model_kwargs = model_kwargs or {}
+
+        tf_tokenizer, tf_model = get_tokenizer_and_model_for_classification(
+            model=model_path[0], onnx_model=model_path[1], use_onnx=use_onnx, **model_kwargs
+        )
 
         self._pipeline = pipeline(
             task="text-classification",
-            model=model_path[0],
-            onnx_model=model_path[1],
-            use_onnx=use_onnx,
-            **transformers_kwargs,
+            model=tf_model,
+            tokenizer=tf_tokenizer,
+            **pipeline_kwargs,
         )
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):

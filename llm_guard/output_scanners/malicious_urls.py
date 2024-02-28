@@ -1,6 +1,6 @@
 from typing import Dict, Optional
 
-from llm_guard.transformers_helpers import pipeline
+from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
 from llm_guard.util import calculate_risk_score, extract_urls, get_logger
 
 from .base import Scanner
@@ -28,7 +28,12 @@ class MaliciousURLs(Scanner):
     """
 
     def __init__(
-        self, *, threshold=0.5, use_onnx: bool = False, transformers_kwargs: Optional[Dict] = None
+        self,
+        *,
+        threshold=0.5,
+        use_onnx: bool = False,
+        model_kwargs: Optional[Dict] = None,
+        pipeline_kwargs: Optional[Dict] = None,
     ):
         """
         Initializes an instance of the MaliciousURLs class.
@@ -36,27 +41,32 @@ class MaliciousURLs(Scanner):
         Parameters:
             threshold (float): The threshold used to determine if the website is malicious. Defaults to 0.5.
             use_onnx (bool): Whether to use the ONNX version of the model. Defaults to False.
-            transformers_kwargs (dict): Additional keyword arguments to pass to the transformers pipeline.
+            model_kwargs (Dict, optional): Keyword arguments passed to the model.
+            pipeline_kwargs (Dict, optional): Keyword arguments passed to the pipeline.
         """
 
         self._threshold = threshold
 
-        default_transformers_kwargs = {
+        default_pipeline_kwargs = {
             "max_length": 512,
             "truncation": True,
             "top_k": None,
         }
-        if transformers_kwargs is None:
-            transformers_kwargs = {}
+        if pipeline_kwargs is None:
+            pipeline_kwargs = {}
 
-        transformers_kwargs = {**default_transformers_kwargs, **transformers_kwargs}
+        pipeline_kwargs = {**default_pipeline_kwargs, **pipeline_kwargs}
+        model_kwargs = model_kwargs or {}
+
+        tf_tokenizer, tf_model = get_tokenizer_and_model_for_classification(
+            model=_model_path[0], onnx_model=_model_path[1], use_onnx=use_onnx, **model_kwargs
+        )
 
         self._classifier = pipeline(
             task="text-classification",
-            model=_model_path[0],
-            onnx_model=_model_path[1],
-            use_onnx=use_onnx,
-            **transformers_kwargs,
+            model=tf_model,
+            tokenizer=tf_tokenizer,
+            **pipeline_kwargs,
         )
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):

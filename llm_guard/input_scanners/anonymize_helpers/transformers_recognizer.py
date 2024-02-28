@@ -5,7 +5,7 @@ from presidio_analyzer import AnalysisExplanation, EntityRecognizer, RecognizerR
 from presidio_analyzer.nlp_engine import NlpArtifacts
 from transformers import TokenClassificationPipeline
 
-from llm_guard.transformers_helpers import pipeline
+from llm_guard.transformers_helpers import pipeline_ner
 from llm_guard.util import get_logger, split_text_to_word_chunks
 
 from .ner_mapping import BERT_BASE_NER_CONF
@@ -121,8 +121,7 @@ class TransformersRecognizer(EntityRecognizer):
 
     def _load_pipeline(self, use_onnx: bool = False) -> None:
         """Initialize NER transformers_rec pipeline using the model_path provided"""
-        self.pipeline = pipeline(
-            task="ner",
+        self.pipeline = pipeline_ner(
             model=self.model_path,
             onnx_model=self.onnx_model_path,
             use_onnx=use_onnx,

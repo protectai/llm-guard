@@ -20,7 +20,8 @@ class Code(Scanner):
         is_blocked: bool = True,
         threshold: float = 0.5,
         use_onnx: bool = False,
-        transformers_kwargs: Optional[Dict] = None,
+        model_kwargs: Optional[Dict] = None,
+        pipeline_kwargs: Optional[Dict] = None,
     ):
         """
         Initializes an instance of the Code class.
@@ -30,7 +31,8 @@ class Code(Scanner):
             is_blocked (bool): Whether the languages are blocked or allowed. Default is True.
             threshold (float): The threshold for the model output to be considered valid. Default is 0.5.
             use_onnx (bool): Whether to use ONNX for inference. Default is False.
-            transformers_kwargs: Optional[Dict] = None,
+            model_kwargs (dict, optional): Keyword arguments passed to the model.
+            pipeline_kwargs (dict, optional): Keyword arguments passed to the pipeline.
 
         Raises:
             ValueError: If both 'allowed' and 'denied' lists are provided or if both are empty.
@@ -41,7 +43,8 @@ class Code(Scanner):
             is_blocked=is_blocked,
             threshold=threshold,
             use_onnx=use_onnx,
-            transformers_kwargs=transformers_kwargs,
+            model_kwargs=model_kwargs,
+            pipeline_kwargs=pipeline_kwargs,
         )
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):

@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import Dict, List, Optional, Union
 
-from llm_guard.transformers_helpers import pipeline
+from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
 from llm_guard.util import calculate_risk_score, get_logger, split_text_by_sentences
 
 from .base import Scanner
@@ -48,7 +48,8 @@ class Toxicity(Scanner):
         threshold: float = 0.5,
         match_type: Union[MatchType, str] = MatchType.FULL,
         use_onnx: bool = False,
-        transformers_kwargs: Optional[Dict] = None,
+        model_kwargs: Optional[Dict] = None,
+        pipeline_kwargs: Optional[Dict] = None,
     ):
         """
         Initializes Toxicity with a threshold for toxicity.
@@ -57,7 +58,8 @@ class Toxicity(Scanner):
            threshold (float): Threshold for toxicity. Default is 0.5.
            match_type (MatchType): Whether to match the full text or individual sentences. Default is MatchType.FULL.
            use_onnx (bool): Whether to use ONNX for inference. Default is False.
-           transformers_kwargs (Optional[Dict]): Optional keyword arguments for the transformers pipeline.
+           model_kwargs (Dict, optional): Keyword arguments passed to the model.
+           pipeline_kwargs (Dict, optional): Keyword arguments passed to the pipeline.
         """
         if isinstance(match_type, str):
             match_type = MatchType(match_type)
@@ -65,23 +67,27 @@ class Toxicity(Scanner):
         self._threshold = threshold
         self._match_type = match_type
 
-        default_transformers_kwargs = {
+        default_pipeline_kwargs = {
             "padding": "max_length",
             "top_k": None,
             "function_to_apply": "sigmoid",
             "truncation": True,
         }
-        if transformers_kwargs is None:
-            transformers_kwargs = {}
+        if pipeline_kwargs is None:
+            pipeline_kwargs = {}
 
-        transformers_kwargs = {**default_transformers_kwargs, **transformers_kwargs}
+        pipeline_kwargs = {**default_pipeline_kwargs, **pipeline_kwargs}
+        model_kwargs = model_kwargs or {}
+
+        tf_tokenizer, tf_model = get_tokenizer_and_model_for_classification(
+            model=_model_path[0], onnx_model=_model_path[1], use_onnx=use_onnx, **model_kwargs
+        )
 
         self._pipeline = pipeline(
             task="text-classification",
-            model=_model_path[0],
-            onnx_model=_model_path[1],
-            use_onnx=use_onnx,
-            **transformers_kwargs,
+            model=tf_model,
+            tokenizer=tf_tokenizer,
+            **pipeline_kwargs,
         )
 
     def scan(self, prompt: str) -> (str, bool, float):

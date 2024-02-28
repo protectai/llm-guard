@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Dict, Optional, Tuple
 
 from llm_guard.exception import LLMGuardValidationError
 from llm_guard.transformers_helpers import get_tokenizer, is_onnx_supported
@@ -37,7 +37,12 @@ class Relevance(Scanner):
     """
 
     def __init__(
-        self, *, threshold: float = 0.5, model: Tuple = MODEL_EN_BGE_BASE, use_onnx: bool = False
+        self,
+        *,
+        threshold: float = 0.5,
+        model: Tuple = MODEL_EN_BGE_BASE,
+        use_onnx: bool = False,
+        model_kwargs: Optional[Dict] = None,
     ):
         """
         Initializes an instance of the Relevance class.
@@ -46,6 +51,7 @@ class Relevance(Scanner):
             threshold (float): The minimum similarity score to compare prompt and output.
             model (Tuple): Model for calculating embeddings. Default is `BAAI/bge-base-en-v1.5`.
             use_onnx (bool): Whether to use the ONNX version of the model. Defaults to False.
+            model_kwargs (Dict, optional): Keyword arguments passed to the model.
         """
 
         self._threshold = threshold
@@ -57,6 +63,7 @@ class Relevance(Scanner):
 
         self.pooling_method = "cls"
         self.normalize_embeddings = True
+        model_kwargs = model_kwargs or {}
 
         if use_onnx and is_onnx_supported() is False:
             LOGGER.warning("ONNX is not supported on this machine. Using PyTorch instead of ONNX.")
@@ -75,15 +82,18 @@ class Relevance(Scanner):
                 if device().type == "cuda"
                 else "CPUExecutionProvider",
                 use_io_binding=True if device().type == "cuda" else False,
+                **model_kwargs,
             )
             LOGGER.debug("Initialized ONNX model", model=model_path, device=device())
         else:
             transformers = lazy_load_dep("transformers")
-            self._model = transformers.AutoModel.from_pretrained(model_path).to(device())
+            self._model = transformers.AutoModel.from_pretrained(model_path, **model_kwargs).to(
+                device()
+            )
             LOGGER.debug("Initialized model", model=model_path, device=device())
             self._model.eval()
 
-        self._tokenizer = get_tokenizer(model_path)
+        self._tokenizer = get_tokenizer(model_path, **model_kwargs)
 
     def pooling(self, last_hidden_state: torch.Tensor, attention_mask: torch.Tensor = None):
         if self.pooling_method == "cls":

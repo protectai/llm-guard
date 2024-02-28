@@ -1,3 +1,5 @@
+from typing import Dict, Optional
+
 from llm_guard.input_scanners.ban_topics import MODEL_BASE
 from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification
 from llm_guard.util import device, get_logger, lazy_load_dep
@@ -17,21 +19,23 @@ class FactualConsistency(Scanner):
     This class checks for entailment between a given prompt and output using a pretrained NLI model.
     """
 
-    def __init__(self, *, minimum_score=0.5, use_onnx=False):
+    def __init__(self, *, minimum_score=0.5, use_onnx=False, model_kwargs: Optional[Dict] = None):
         """
         Initializes an instance of the Refutation class.
 
         Parameters:
             minimum_score (float): The minimum entailment score for the output to be considered valid. Defaults to 0.5.
             use_onnx (bool): Whether to use the ONNX version of the model. Defaults to False.
+            model_kwargs (Dict, optional): Keyword arguments passed to the model.
         """
 
         self._minimum_score = minimum_score
 
         self._tokenizer, self._model = get_tokenizer_and_model_for_classification(
-            model=_model["path"],
-            onnx_model=_model["onnx_path"],
+            model=_model,
+            onnx_model=_model,
             use_onnx=use_onnx,
+            **(model_kwargs or {}),
         )
         self._model = self._model.to(device())
 
