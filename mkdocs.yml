@@ -104,6 +104,7 @@ nav:
     - Attacks: get_started/attacks.md
     - Best Practices: get_started/best_practices.md
     - Optimization: get_started/optimization.md
+    - Local Models: usage/notebooks/local_models.ipynb
   - Usage:
     - OpenAI SDK: usage/openai.md
     - Langchain: usage/notebooks/langchain.ipynb

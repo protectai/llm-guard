@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - **Anonymize**: New NER models from AI4Privacy [Isotonic/distilbert_finetuned_ai4privacy_v2](https://huggingface.co/Isotonic/distilbert_finetuned_ai4privacy_v2) and [Isotonic/deberta-v3-base_finetuned_ai4privacy_v2](https://huggingface.co/Isotonic/deberta-v3-base_finetuned_ai4privacy_v2).
 - [Gibberish](https://llm-guard.com/input_scanners/gibberish/) scanner to check if the text contains gibberish.
+- Ability to load models from local folders instead of pulling them from HuggingFace.
 
 ### Fixed
 -
@@ -18,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API Documentation and Code improvements.
 - Improved logging to expose more information.
 - **Anonymize**: Tweaks for pattern-based matching.
+- Pass `pipeline` and `model` `kwargs` for better control over the models.
+- Relax validations to accept custom models.
 
 ### Removed
 -
