@@ -9,6 +9,7 @@ from presidio_analyzer import (
     PatternRecognizer,
     RecognizerRegistry,
 )
+from presidio_analyzer.context_aware_enhancers import LemmaContextAwareEnhancer
 from presidio_analyzer.nlp_engine import NlpEngine, NlpEngineProvider
 
 from llm_guard.exception import LLMGuardValidationError
@@ -143,4 +144,8 @@ def get_analyzer(
         nlp_engine=nlp_engine,
         registry=registry,
         supported_languages=supported_languages,
+        context_aware_enhancer=LemmaContextAwareEnhancer(
+            context_similarity_factor=0.35,
+            min_score_with_context_similarity=0.4,
+        ),
     )

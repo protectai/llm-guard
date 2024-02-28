@@ -258,7 +258,7 @@ def test_scan_zh(settings, prompt, expected_prompt, expected_valid, expected_sco
     assert score == expected_score
 
 
-def test_scan_unknow():
+def test_scan_unknown():
     try:
         Anonymize(Vault(), language="unknown")
     except LLMGuardValidationError as e:

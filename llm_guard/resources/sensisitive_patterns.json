@@ -10,7 +10,7 @@
       "30569309025904"
     ],
     "context": [],
-    "score": 0.75,
+    "score": 0.5,
     "languages": [
       "en",
       "zh"
@@ -25,7 +25,7 @@
       "550e8400-e29b-41d4-a716-446655440000"
     ],
     "context": [],
-    "score": 0.75,
+    "score": 0.5,
     "languages": [
       "en",
       "zh"
@@ -43,7 +43,7 @@
       "john.doe@protectai[DOT]com"
     ],
     "context": [],
-    "score": 0.75,
+    "score": 0.5,
     "languages": [
       "en"
     ]
@@ -58,7 +58,7 @@
       "987-65-4321"
     ],
     "context": [],
-    "score": 0.75,
+    "score": 0.5,
     "languages": [
       "en"
     ]
@@ -75,7 +75,7 @@
       "1Bow5EMqtDGV5n5xZVgdpRPJiiDK6XSjiC"
     ],
     "context": [],
-    "score": 0.75,
+    "score": 0.5,
     "languages": [
       "en"
     ]
@@ -91,7 +91,7 @@
       "www.protectai.com"
     ],
     "context": [],
-    "score": 0.75,
+    "score": 0.5,
     "languages": [
       "en"
     ]
@@ -120,7 +120,7 @@
     "context": [
       "email"
     ],
-    "score": 0.75,
+    "score": 0.5,
     "languages": [
       "zh"
     ]
@@ -143,7 +143,7 @@
       "mobile",
       "call"
     ],
-    "score": 0.4,
+    "score": 0.5,
     "languages": [
       "zh"
     ]
@@ -162,7 +162,7 @@
       "523-222-8888EXT623",
       "(523) 222-8888 x 623"
     ],
-    "score": 0.75,
+    "score": 0.5,
     "languages": [
       "en"
     ]
@@ -184,7 +184,7 @@
     "context": [
       "date"
     ],
-    "score": 0.75,
+    "score": 0.5,
     "languages": [
       "en"
     ]
@@ -205,7 +205,7 @@
     "context": [
       "time"
     ],
-    "score": 0.75,
+    "score": 0.5,
     "languages": [
       "en"
     ]
@@ -222,7 +222,7 @@
     "context": [
       "color"
     ],
-    "score": 0.75,
+    "score": 0.5,
     "languages": [
       "en"
     ]
@@ -245,7 +245,7 @@
       "value",
       "amount"
     ],
-    "score": 0.75,
+    "score": 0.5,
     "languages": [
       "en"
     ]
@@ -265,7 +265,7 @@
       "post",
       "box"
     ],
-    "score": 0.75,
+    "score": 0.5,
     "languages": [
       "en"
     ]
