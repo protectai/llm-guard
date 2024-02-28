@@ -1,12 +1,12 @@
 import copy
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 from presidio_analyzer import AnalysisExplanation, EntityRecognizer, RecognizerResult
 from presidio_analyzer.nlp_engine import NlpArtifacts
 from transformers import TokenClassificationPipeline
 
-from llm_guard.transformers_helpers import pipeline_ner
-from llm_guard.util import get_logger, split_text_to_word_chunks
+from llm_guard.transformers_helpers import device, get_tokenizer, is_onnx_supported
+from llm_guard.util import get_logger, lazy_load_dep, split_text_to_word_chunks
 
 from .ner_mapping import BERT_BASE_NER_CONF
 
@@ -80,9 +80,21 @@ class TransformersRecognizer(EntityRecognizer):
         self.onnx_model_path = None
         self.supported_language = supported_language
 
-    def load_transformer(self, use_onnx: bool = False, **kwargs) -> None:
+    def load_transformer(
+        self,
+        use_onnx: bool = False,
+        model_kwargs: Optional[Dict] = None,
+        pipeline_kwargs: Optional[Dict] = None,
+        **kwargs,
+    ) -> None:
         """Load external configuration parameters and set default values.
 
+        :param use_onnx: flag to use ONNX optimized model
+        :type use_onnx: bool, optional
+        :param model_kwargs: define default values for model attributes
+        :type model_kwargs: Optional[Dict], optional
+        :param pipeline_kwargs: define default values for pipeline attributes
+        :type pipeline_kwargs: Optional[Dict], optional
         :param kwargs: define default values for class attributes and modify pipeline behavior
         **DATASET_TO_PRESIDIO_MAPPING (dict) - defines mapping entity strings from dataset format to Presidio format
         **MODEL_TO_PRESIDIO_MAPPING (dict) -  defines mapping entity strings from chosen model format to Presidio format
@@ -117,18 +129,67 @@ class TransformersRecognizer(EntityRecognizer):
                     model_path=self.model_path,
                 )
 
-        self._load_pipeline(use_onnx)
+        self._load_pipeline(
+            use_onnx=use_onnx, model_kwargs=model_kwargs, pipeline_kwargs=pipeline_kwargs
+        )
 
-    def _load_pipeline(self, use_onnx: bool = False) -> None:
+    def _load_pipeline(
+        self,
+        use_onnx: bool = False,
+        model_kwargs: Optional[Dict] = None,
+        pipeline_kwargs: Optional[Dict] = None,
+    ) -> None:
         """Initialize NER transformers_rec pipeline using the model_path provided"""
-        self.pipeline = pipeline_ner(
-            model=self.model_path,
-            onnx_model=self.onnx_model_path,
-            use_onnx=use_onnx,
+        model = self.model_path
+        onnx_model = self.onnx_model_path
+        pipeline_kwargs = pipeline_kwargs or {}
+        model_kwargs = model_kwargs or {}
+
+        transformers = lazy_load_dep("transformers")
+        tf_tokenizer = get_tokenizer(model, **model_kwargs)
+
+        if use_onnx and is_onnx_supported() is False:
+            LOGGER.warning("ONNX is not supported on this machine. Using PyTorch instead of ONNX.")
+            use_onnx = False
+
+        if use_onnx:
+            subfolder = "onnx" if onnx_model == model else ""
+            if onnx_model is not None:
+                model = onnx_model
+
+            optimum_onnxruntime = lazy_load_dep(
+                "optimum.onnxruntime",
+                "optimum[onnxruntime]" if device().type != "cuda" else "optimum[onnxruntime-gpu]",
+            )
+            tf_tokenizer.model_input_names = ["input_ids", "attention_mask"]
+            tf_model = optimum_onnxruntime.ORTModelForTokenClassification.from_pretrained(
+                model,
+                export=onnx_model is None,
+                subfolder=subfolder,
+                provider="CUDAExecutionProvider"
+                if device().type == "cuda"
+                else "CPUExecutionProvider",
+                use_io_binding=True if device().type == "cuda" else False,
+                **model_kwargs,
+            )
+            LOGGER.debug("Initialized NER ONNX model", model=model, device=device())
+        else:
+            tf_model = transformers.AutoModelForTokenClassification.from_pretrained(
+                model, **model_kwargs
+            )
+            LOGGER.debug("Initialized NER model", model=model, device=device())
+
+        self.pipeline = transformers.pipeline(
+            "ner",
+            model=tf_model,
+            tokenizer=tf_tokenizer,
+            device=device(),
+            batch_size=1,
             # Will attempt to group sub-entities to word level
             aggregation_strategy=self.aggregation_mechanism,
             framework="pt",
             ignore_labels=self.ignore_labels,
+            **pipeline_kwargs,
         )
 
         self.is_loaded = True

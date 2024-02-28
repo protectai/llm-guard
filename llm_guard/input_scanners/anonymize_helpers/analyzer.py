@@ -1,5 +1,5 @@
 import copy
-from typing import Dict, List, Sequence
+from typing import Dict, List, Optional, Sequence
 
 import spacy
 from presidio_analyzer import (
@@ -108,8 +108,23 @@ def _get_nlp_engine(languages: List[str] = ["en"]) -> NlpEngine:
 
 
 def get_transformers_recognizer(
-    recognizer_conf: Dict, use_onnx: bool = False, supported_language: str = "en"
+    *,
+    recognizer_conf: Dict,
+    use_onnx: bool = False,
+    supported_language: str = "en",
+    model_kwargs: Optional[Dict] = None,
+    pipeline_kwargs: Optional[Dict] = None,
 ) -> EntityRecognizer:
+    """
+    This function loads a transformers recognizer given a recognizer configuration.
+
+    Args:
+        recognizer_conf (Dict): Configuration to recognize PII data.
+        use_onnx (bool): Whether to use the ONNX version of the model. Default is False.
+        supported_language (str): The language to use for the recognizer. Default is "en".
+        model_kwargs (Optional[Dict]): Keyword arguments passed to the model.
+        pipeline_kwargs (Optional[Dict]): Keyword arguments passed to the pipeline.
+    """
     if recognizer_conf not in ALL_RECOGNIZER_CONF:
         raise LLMGuardValidationError(
             f"Recognizer must be in the list of allowed: {ALL_RECOGNIZER_CONF}"
@@ -122,7 +137,12 @@ def get_transformers_recognizer(
         supported_entities=supported_entities,
         supported_language=supported_language,
     )
-    transformers_recognizer.load_transformer(use_onnx=use_onnx, **recognizer_conf)
+    transformers_recognizer.load_transformer(
+        use_onnx=use_onnx,
+        model_kwargs=model_kwargs,
+        pipeline_kwargs=pipeline_kwargs,
+        **recognizer_conf,
+    )
     return transformers_recognizer
 
 
