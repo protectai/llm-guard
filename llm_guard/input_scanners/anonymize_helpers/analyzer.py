@@ -1,5 +1,5 @@
 import copy
-from typing import Dict, List, Sequence
+from typing import Dict, List, Optional, Sequence
 
 import spacy
 from presidio_analyzer import (
@@ -9,11 +9,9 @@ from presidio_analyzer import (
     PatternRecognizer,
     RecognizerRegistry,
 )
+from presidio_analyzer.context_aware_enhancers import LemmaContextAwareEnhancer
 from presidio_analyzer.nlp_engine import NlpEngine, NlpEngineProvider
 
-from llm_guard.exception import LLMGuardValidationError
-
-from .ner_mapping import ALL_RECOGNIZER_CONF
 from .predefined_recognizers import _get_predefined_recognizers
 from .predefined_recognizers.zh import CustomPatternRecognizer
 from .transformers_recognizer import TransformersRecognizer
@@ -107,13 +105,23 @@ def _get_nlp_engine(languages: List[str] = ["en"]) -> NlpEngine:
 
 
 def get_transformers_recognizer(
-    recognizer_conf: Dict, use_onnx: bool = False, supported_language: str = "en"
+    *,
+    recognizer_conf: Dict,
+    use_onnx: bool = False,
+    supported_language: str = "en",
+    model_kwargs: Optional[Dict] = None,
+    pipeline_kwargs: Optional[Dict] = None,
 ) -> EntityRecognizer:
-    if recognizer_conf not in ALL_RECOGNIZER_CONF:
-        raise LLMGuardValidationError(
-            f"Recognizer must be in the list of allowed: {ALL_RECOGNIZER_CONF}"
-        )
+    """
+    This function loads a transformers recognizer given a recognizer configuration.
 
+    Args:
+        recognizer_conf (Dict): Configuration to recognize PII data.
+        use_onnx (bool): Whether to use the ONNX version of the model. Default is False.
+        supported_language (str): The language to use for the recognizer. Default is "en".
+        model_kwargs (Optional[Dict]): Keyword arguments passed to the model.
+        pipeline_kwargs (Optional[Dict]): Keyword arguments passed to the pipeline.
+    """
     model_path = recognizer_conf.get("DEFAULT_MODEL_PATH")
     supported_entities = recognizer_conf.get("PRESIDIO_SUPPORTED_ENTITIES")
     transformers_recognizer = TransformersRecognizer(
@@ -121,7 +129,12 @@ def get_transformers_recognizer(
         supported_entities=supported_entities,
         supported_language=supported_language,
     )
-    transformers_recognizer.load_transformer(use_onnx=use_onnx, **recognizer_conf)
+    transformers_recognizer.load_transformer(
+        use_onnx=use_onnx,
+        model_kwargs=model_kwargs,
+        pipeline_kwargs=pipeline_kwargs,
+        **recognizer_conf,
+    )
     return transformers_recognizer
 
 
@@ -143,4 +156,8 @@ def get_analyzer(
         nlp_engine=nlp_engine,
         registry=registry,
         supported_languages=supported_languages,
+        context_aware_enhancer=LemmaContextAwareEnhancer(
+            context_similarity_factor=0.35,
+            min_score_with_context_similarity=0.4,
+        ),
     )

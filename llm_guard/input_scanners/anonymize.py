@@ -67,6 +67,8 @@ class Anonymize(Scanner):
         threshold: float = 0,
         use_onnx: bool = False,
         language: str = "en",
+        model_kwargs: Optional[Dict] = None,
+        pipeline_kwargs: Optional[Dict] = None,
     ):
         """
         Initialize an instance of Anonymize class.
@@ -83,6 +85,8 @@ class Anonymize(Scanner):
             threshold (float): Acceptance threshold. Default is 0.
             use_onnx (bool): Whether to use ONNX runtime for inference. Default is False.
             language (str): Language of the anonymize detect. Default is "en".
+            model_kwargs (Optional[Dict]): Keyword arguments passed to the model.
+            pipeline_kwargs (Optional[Dict]): Keyword arguments passed to the pipeline.
         """
 
         if language not in ALL_SUPPORTED_LANGUAGES:
@@ -115,6 +119,8 @@ class Anonymize(Scanner):
             recognizer_conf=recognizer_conf,
             use_onnx=use_onnx,
             supported_language=language,
+            model_kwargs=model_kwargs,
+            pipeline_kwargs=pipeline_kwargs,
         )
 
         self._analyzer = get_analyzer(

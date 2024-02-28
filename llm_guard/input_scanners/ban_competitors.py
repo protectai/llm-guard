@@ -2,22 +2,14 @@ from typing import Dict, Optional, Sequence
 
 from presidio_anonymizer.core.text_replace_builder import TextReplaceBuilder
 
-from llm_guard.exception import LLMGuardValidationError
 from llm_guard.util import device, get_logger, lazy_load_dep
 
 from .base import Scanner
 
 LOGGER = get_logger()
 
-MODEL_BASE = {
-    "path": "tomaarsen/span-marker-bert-base-orgs",
-}
-
-MODEL_SMALL = {
-    "path": "tomaarsen/span-marker-bert-small-orgs",
-}
-
-ALL_MODELS = [MODEL_BASE, MODEL_SMALL]
+MODEL_BASE = "tomaarsen/span-marker-bert-base-orgs"
+MODEL_SMALL = "tomaarsen/span-marker-bert-small-orgs"
 
 
 class BanCompetitors(Scanner):
@@ -33,7 +25,8 @@ class BanCompetitors(Scanner):
         *,
         threshold: float = 0.5,
         redact: bool = True,
-        model: Optional[Dict] = None,
+        model: Optional[str] = None,
+        model_kwargs: Optional[Dict] = None,
     ):
         """
         Initialize BanCompetitors object.
@@ -42,7 +35,8 @@ class BanCompetitors(Scanner):
             competitors (Sequence[str]): List of competitors to detect.
             threshold (float, optional): Threshold to determine if a competitor is present in the prompt. Default is 0.5.
             redact (bool, optional): Whether to redact the competitor name. Default is True.
-            model (Dict, optional): Model to use for named-entity recognition. Default is BASE model.
+            model (str, optional): Model to use for named-entity recognition. Default is BASE model.
+            model_kwargs (Dict, optional): Keyword arguments passed to the model.
 
         Raises:
             ValueError: If no topics are provided.
@@ -50,16 +44,13 @@ class BanCompetitors(Scanner):
         if model is None:
             model = MODEL_BASE
 
-        if model not in ALL_MODELS:
-            raise LLMGuardValidationError(f"Model must be in the list of allowed: {ALL_MODELS}")
-
         self._competitors = competitors
         self._threshold = threshold
         self._redact = redact
 
         span_marker = lazy_load_dep("span_marker", "span-marker")
         self._ner_pipeline = span_marker.SpanMarkerModel.from_pretrained(
-            model["path"], labels=["ORG"]
+            model, labels=["ORG"], **(model_kwargs or {})
         )
 
         if device().type == "cuda":

@@ -6,7 +6,6 @@ __all__ = [
     "get_analyzer",
     "get_transformers_recognizer",
     "get_fake_value",
-    "ALL_RECOGNIZER_CONF",
     "BERT_BASE_NER_CONF",
     "DEBERTA_AI4PRIVACY_v2_CONF",
     "DISTILBERT_AI4PRIVACY_v2_CONF",

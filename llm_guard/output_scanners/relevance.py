@@ -1,6 +1,5 @@
-from typing import Tuple
+from typing import Dict, Optional
 
-from llm_guard.exception import LLMGuardValidationError
 from llm_guard.transformers_helpers import get_tokenizer, is_onnx_supported
 from llm_guard.util import device, get_logger, lazy_load_dep
 
@@ -21,8 +20,6 @@ MODEL_EN_BGE_SMALL = (
     "zeroshot/bge-small-en-v1.5-quant",  # Quantized and converted to ONNX version of BGE small
 )
 
-all_models = [MODEL_EN_BGE_LARGE, MODEL_EN_BGE_BASE, MODEL_EN_BGE_SMALL]
-
 torch = lazy_load_dep("torch")
 np = lazy_load_dep("numpy")
 
@@ -37,23 +34,30 @@ class Relevance(Scanner):
     """
 
     def __init__(
-        self, *, threshold: float = 0.5, model: Tuple = MODEL_EN_BGE_BASE, use_onnx: bool = False
+        self,
+        *,
+        threshold: float = 0.5,
+        model_path: Optional[str] = None,
+        use_onnx: bool = False,
+        model_kwargs: Optional[Dict] = None,
     ):
         """
         Initializes an instance of the Relevance class.
 
         Parameters:
             threshold (float): The minimum similarity score to compare prompt and output.
-            model (Tuple): Model for calculating embeddings. Default is `BAAI/bge-base-en-v1.5`.
+            model_path (str, optional): Model for calculating embeddings. Default is `BAAI/bge-base-en-v1.5`.
             use_onnx (bool): Whether to use the ONNX version of the model. Defaults to False.
+            model_kwargs (Dict, optional): Keyword arguments passed to the model.
         """
 
         self._threshold = threshold
+        model_kwargs = model_kwargs or {}
 
-        if model not in all_models:
-            raise LLMGuardValidationError(f"Model must be in the list of allowed: {all_models}")
-
-        model_path = model[0]
+        onnx_model_path = model_path
+        if model_path is None:
+            model_path = MODEL_EN_BGE_BASE[0]
+            onnx_model_path = MODEL_EN_BGE_BASE[1]
 
         self.pooling_method = "cls"
         self.normalize_embeddings = True
@@ -63,7 +67,7 @@ class Relevance(Scanner):
             use_onnx = False
 
         if use_onnx:
-            model_path = model[1]
+            model_path = onnx_model_path
             optimum_onnxruntime = lazy_load_dep(
                 "optimum.onnxruntime",
                 "optimum[onnxruntime-gpu]" if device().type == "cuda" else "optimum[onnxruntime]",
@@ -75,15 +79,18 @@ class Relevance(Scanner):
                 if device().type == "cuda"
                 else "CPUExecutionProvider",
                 use_io_binding=True if device().type == "cuda" else False,
+                **model_kwargs,
             )
             LOGGER.debug("Initialized ONNX model", model=model_path, device=device())
         else:
             transformers = lazy_load_dep("transformers")
-            self._model = transformers.AutoModel.from_pretrained(model_path).to(device())
+            self._model = transformers.AutoModel.from_pretrained(model_path, **model_kwargs).to(
+                device()
+            )
             LOGGER.debug("Initialized model", model=model_path, device=device())
             self._model.eval()
 
-        self._tokenizer = get_tokenizer(model_path)
+        self._tokenizer = get_tokenizer(model_path, **model_kwargs)
 
     def pooling(self, last_hidden_state: torch.Tensor, attention_mask: torch.Tensor = None):
         if self.pooling_method == "cls":
