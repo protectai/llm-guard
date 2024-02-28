@@ -57,7 +57,7 @@ docs-dev = [
 dev = [
   "llm_guard[docs-dev]",
   "autoflake>=2,<3",
-  "black>=23,<24",
+  "black>=23,<25",
   "isort>5,<6",
   "pytest>=7.4,<9",
   "pytest-cov>=4.1,<5",
