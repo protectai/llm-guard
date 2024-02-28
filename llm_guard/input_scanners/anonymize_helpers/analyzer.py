@@ -12,9 +12,6 @@ from presidio_analyzer import (
 from presidio_analyzer.context_aware_enhancers import LemmaContextAwareEnhancer
 from presidio_analyzer.nlp_engine import NlpEngine, NlpEngineProvider
 
-from llm_guard.exception import LLMGuardValidationError
-
-from .ner_mapping import ALL_RECOGNIZER_CONF
 from .predefined_recognizers import _get_predefined_recognizers
 from .predefined_recognizers.zh import CustomPatternRecognizer
 from .transformers_recognizer import TransformersRecognizer
@@ -125,11 +122,6 @@ def get_transformers_recognizer(
         model_kwargs (Optional[Dict]): Keyword arguments passed to the model.
         pipeline_kwargs (Optional[Dict]): Keyword arguments passed to the pipeline.
     """
-    if recognizer_conf not in ALL_RECOGNIZER_CONF:
-        raise LLMGuardValidationError(
-            f"Recognizer must be in the list of allowed: {ALL_RECOGNIZER_CONF}"
-        )
-
     model_path = recognizer_conf.get("DEFAULT_MODEL_PATH")
     supported_entities = recognizer_conf.get("PRESIDIO_SUPPORTED_ENTITIES")
     transformers_recognizer = TransformersRecognizer(

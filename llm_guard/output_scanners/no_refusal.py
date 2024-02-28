@@ -8,7 +8,7 @@ from .base import Scanner
 
 LOGGER = get_logger()
 
-_model = "ProtectAI/distilroberta-base-rejection-v1"
+_model_path = "ProtectAI/distilroberta-base-rejection-v1"
 
 
 class MatchType(Enum):
@@ -32,6 +32,7 @@ class NoRefusal(Scanner):
     def __init__(
         self,
         *,
+        model_path: str = _model_path,
         threshold: float = 0.75,
         match_type: Union[MatchType, str] = MatchType.FULL,
         use_onnx: bool = False,
@@ -42,6 +43,7 @@ class NoRefusal(Scanner):
         Initializes an instance of the NoRefusal class.
 
         Parameters:
+            model_path (str): The model path to use for scanning.
             threshold (float): The similarity threshold to consider an output as refusal.
             match_type (MatchType): Whether to match the full text or individual sentences. Default is MatchType.FULL.
             use_onnx (bool): Whether to use the ONNX version of the model. Defaults to False.
@@ -66,7 +68,7 @@ class NoRefusal(Scanner):
         model_kwargs = model_kwargs or {}
 
         tf_tokenizer, tf_model = get_tokenizer_and_model_for_classification(
-            model=_model, onnx_model=_model, use_onnx=use_onnx, **model_kwargs
+            model=model_path, onnx_model=model_path, use_onnx=use_onnx, **model_kwargs
         )
 
         self._pipeline = pipeline(

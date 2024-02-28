@@ -9,8 +9,6 @@ from .base import Scanner
 torch = lazy_load_dep("torch")
 LOGGER = get_logger()
 
-_model = MODEL_BASE
-
 
 class FactualConsistency(Scanner):
     """
@@ -19,11 +17,19 @@ class FactualConsistency(Scanner):
     This class checks for entailment between a given prompt and output using a pretrained NLI model.
     """
 
-    def __init__(self, *, minimum_score=0.5, use_onnx=False, model_kwargs: Optional[Dict] = None):
+    def __init__(
+        self,
+        *,
+        model_path: Optional[str] = None,
+        minimum_score=0.5,
+        use_onnx=False,
+        model_kwargs: Optional[Dict] = None,
+    ):
         """
         Initializes an instance of the Refutation class.
 
         Parameters:
+            model_path (str): Path to the model. Defaults to None.
             minimum_score (float): The minimum entailment score for the output to be considered valid. Defaults to 0.5.
             use_onnx (bool): Whether to use the ONNX version of the model. Defaults to False.
             model_kwargs (Dict, optional): Keyword arguments passed to the model.
@@ -31,9 +37,12 @@ class FactualConsistency(Scanner):
 
         self._minimum_score = minimum_score
 
+        if model_path is None:
+            model_path = MODEL_BASE
+
         self._tokenizer, self._model = get_tokenizer_and_model_for_classification(
-            model=_model,
-            onnx_model=_model,
+            model=model_path,
+            onnx_model=model_path,
             use_onnx=use_onnx,
             **(model_kwargs or {}),
         )

@@ -1,6 +1,6 @@
 from typing import Dict, Optional
 
-from llm_guard.input_scanners.language import model_path
+from llm_guard.input_scanners.language import default_model_path
 from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
 from llm_guard.util import get_logger
 
@@ -17,6 +17,7 @@ class LanguageSame(Scanner):
     def __init__(
         self,
         *,
+        model_path: Optional[str] = None,
         threshold: float = 0.1,
         use_onnx: bool = False,
         model_kwargs: Optional[Dict] = None,
@@ -26,6 +27,7 @@ class LanguageSame(Scanner):
         Initializes the LanguageSame scanner.
 
         Parameters:
+            model_path (str): The path to the model. Default is None.
             threshold (float): Minimum confidence score
             use_onnx (bool): Whether to use ONNX for inference. Default is False.
             model_kwargs (Dict, optional): Keyword arguments passed to the model.
@@ -45,8 +47,13 @@ class LanguageSame(Scanner):
         pipeline_kwargs = {**default_pipeline_kwargs, **pipeline_kwargs}
         model_kwargs = model_kwargs or {}
 
+        onnx_model_path = model_path
+        if model_path is None:
+            model_path = default_model_path[0]
+            onnx_model_path = default_model_path[1]
+
         tf_tokenizer, tf_model = get_tokenizer_and_model_for_classification(
-            model=model_path[0], onnx_model=model_path[1], use_onnx=use_onnx, **model_kwargs
+            model=model_path, onnx_model=onnx_model_path, use_onnx=use_onnx, **model_kwargs
         )
 
         self._pipeline = pipeline(

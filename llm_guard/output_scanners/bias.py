@@ -33,6 +33,7 @@ class Bias(Scanner):
     def __init__(
         self,
         *,
+        model_path: Optional[str] = None,
         threshold: float = 0.7,
         match_type: Union[MatchType, str] = MatchType.FULL,
         use_onnx: bool = False,
@@ -43,6 +44,7 @@ class Bias(Scanner):
         Initializes the Bias scanner with a probability threshold for bias detection.
 
         Parameters:
+           model_path (str): The model path to use for bias detection.
            threshold (float): The threshold above which a text is considered biased. Default is 0.7.
            match_type (MatchType): Whether to match the full text or individual sentences. Default is MatchType.FULL.
            use_onnx (bool): Whether to use ONNX instead of PyTorch for inference.
@@ -64,8 +66,13 @@ class Bias(Scanner):
         pipeline_kwargs = {**default_pipeline_kwargs, **pipeline_kwargs}
         model_kwargs = model_kwargs or {}
 
+        onnx_model_path = model_path
+        if model_path is None:
+            model_path = _model_path[0]
+            onnx_model_path = _model_path[1]
+
         tf_tokenizer, tf_model = get_tokenizer_and_model_for_classification(
-            model=_model_path[0], onnx_model=_model_path[1], use_onnx=use_onnx, **model_kwargs
+            model=model_path, onnx_model=onnx_model_path, use_onnx=use_onnx, **model_kwargs
         )
 
         self._classifier = pipeline(

@@ -9,7 +9,7 @@ from .base import Scanner
 
 LOGGER = get_logger()
 
-_model_path = "philomath-1209/programming-language-identification"
+default_model_path = "philomath-1209/programming-language-identification"
 
 SUPPORTED_LANGUAGES = [
     "ARM Assembly",
@@ -53,6 +53,7 @@ class Code(Scanner):
         self,
         languages: Sequence[str],
         *,
+        model_path: str = default_model_path,
         is_blocked: bool = True,
         threshold: float = 0.5,
         use_onnx: bool = False,
@@ -63,6 +64,7 @@ class Code(Scanner):
         Initializes Code with the allowed and denied languages.
 
         Parameters:
+            model_path (str): The path to the model to use for language detection.
             languages (Sequence[str]): The list of programming languages to allow or deny.
             is_blocked (bool): Whether the languages are blocked or allowed. Default is True.
             threshold (float): The threshold for the risk score. Default is 0.5.
@@ -90,7 +92,7 @@ class Code(Scanner):
         model_kwargs = model_kwargs or {}
 
         tf_tokenizer, tf_model = get_tokenizer_and_model_for_classification(
-            model=_model_path, onnx_model=_model_path, use_onnx=use_onnx, **model_kwargs
+            model=model_path, onnx_model=model_path, use_onnx=use_onnx, **model_kwargs
         )
 
         self._pipeline = pipeline(

@@ -8,7 +8,7 @@ from .base import Scanner
 
 LOGGER = get_logger()
 
-_model_path = "madhurjindal/autonlp-Gibberish-Detector-492513457"
+default_model_path = "madhurjindal/autonlp-Gibberish-Detector-492513457"
 
 
 class MatchType(Enum):
@@ -30,6 +30,7 @@ class Gibberish(Scanner):
     def __init__(
         self,
         *,
+        model_path: str = default_model_path,
         threshold: float = 0.7,
         match_type: Union[MatchType, str] = MatchType.FULL,
         use_onnx: bool = False,
@@ -40,6 +41,7 @@ class Gibberish(Scanner):
         Initializes the Gibberish scanner with a probability threshold for gibberish detection.
 
         Parameters:
+           model_path (str): The path to the model.
            threshold (float): The probability threshold for gibberish detection. Default is 0.7.
            match_type (MatchType): Whether to match the full text or individual sentences. Default is MatchType.FULL.
            use_onnx (bool): Whether to use ONNX instead of PyTorch for inference.
@@ -62,7 +64,7 @@ class Gibberish(Scanner):
         model_kwargs = model_kwargs or {}
 
         tf_tokenizer, tf_model = get_tokenizer_and_model_for_classification(
-            model=_model_path, onnx_model=_model_path, use_onnx=use_onnx, **model_kwargs
+            model=model_path, onnx_model=model_path, use_onnx=use_onnx, **model_kwargs
         )
 
         self._classifier = pipeline(

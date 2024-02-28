@@ -16,6 +16,7 @@ class Language(Scanner):
         self,
         valid_languages: Sequence[str],
         *,
+        model_path: Optional[str] = None,
         threshold: float = 0.7,
         match_type: Union[MatchType, str] = MatchType.FULL,
         use_onnx: bool = False,
@@ -26,6 +27,7 @@ class Language(Scanner):
         Initializes the Language scanner with a list of valid languages.
 
         Parameters:
+            model_path (str): The model path to use for inference.
             valid_languages (Sequence[str]): A list of valid language codes.
             threshold (float): Minimum confidence score.
             match_type (MatchType): Whether to match the full text or individual sentences. Default is MatchType.FULL.
@@ -36,6 +38,7 @@ class Language(Scanner):
 
         self._scanner = InputLanguage(
             valid_languages,
+            model_path=model_path,
             threshold=threshold,
             match_type=match_type,
             use_onnx=use_onnx,

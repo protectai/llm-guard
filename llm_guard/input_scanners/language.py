@@ -8,7 +8,7 @@ from .base import Scanner
 
 LOGGER = get_logger()
 
-model_path = (
+default_model_path = (
     "papluca/xlm-roberta-base-language-detection",
     "ProtectAI/xlm-roberta-base-language-detection-onnx",
 )
@@ -37,6 +37,7 @@ class Language(Scanner):
         self,
         valid_languages: Sequence[str],
         *,
+        model_path: Optional[str] = None,
         threshold: float = 0.6,
         match_type: Union[MatchType, str] = MatchType.FULL,
         use_onnx: bool = False,
@@ -72,8 +73,13 @@ class Language(Scanner):
         pipeline_kwargs = {**default_pipeline_kwargs, **pipeline_kwargs}
         model_kwargs = model_kwargs or {}
 
+        onnx_model_path = model_path
+        if model_path is None:
+            model_path = default_model_path[0]
+            onnx_model_path = default_model_path[1]
+
         tf_tokenizer, tf_model = get_tokenizer_and_model_for_classification(
-            model=model_path[0], onnx_model=model_path[1], use_onnx=use_onnx, **model_kwargs
+            model=model_path, onnx_model=onnx_model_path, use_onnx=use_onnx, **model_kwargs
         )
 
         self._pipeline = pipeline(
