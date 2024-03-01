@@ -57,7 +57,7 @@ class Anonymize(Scanner):
         regex_patterns: Optional[List[Dict]] = None,
         use_faker: bool = False,
         recognizer_conf: Optional[Dict] = BERT_BASE_NER_CONF,
-        threshold: float = 0,
+        threshold: float = 0.5,
         use_onnx: bool = False,
         language: str = "en",
         model_kwargs: Optional[Dict] = None,

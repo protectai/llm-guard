@@ -31,7 +31,7 @@ class Sensitive(Scanner):
         regex_patterns: Optional[List[Dict]] = None,
         redact: bool = False,
         recognizer_conf: Optional[Dict] = BERT_BASE_NER_CONF,
-        threshold: float = 0,
+        threshold: float = 0.5,
         use_onnx: bool = False,
         model_kwargs: Optional[Dict] = None,
         pipeline_kwargs: Optional[Dict] = None,
