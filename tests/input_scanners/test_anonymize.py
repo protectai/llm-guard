@@ -124,11 +124,11 @@ Credit Card: 4111111111111111, Exp: 09/25, CVV: 123.
 Create a summarized version of his resume.""",
             """Given the personal profile:
 
-Full Name:[REDACTED_PERSON_1][REDACTED_PERSON_3][REDACTED_PERSON_2].
+Full Name: [REDACTED_PERSON_1].
 Date of Birth: April 12, 1990.
 Address: 123 Elm Street, Springfield, IL, 62701.
-Email:[REDACTED_EMAIL_ADDRESS_1].
-Phone Number:[REDACTED_PHONE_NUMBER_1].
+Email: [REDACTED_EMAIL_ADDRESS_1].
+Phone Number: [REDACTED_PHONE_NUMBER_1].
 Educational Background:
     Springfield High School, Graduated in 2008;
     Springfield University, B.Sc. Computer Science, Graduated in 2012.
@@ -163,7 +163,7 @@ Credit Card: 4111111111111111, Exp: 09/25, CVV: 123.
 Create a summarized version of his resume.""",
             """Given the personal profile:
 
-Full Name: [REDACTED_PERSON_3] [REDACTED_PERSON_2] [REDACTED_PERSON_1].
+Full Name: [REDACTED_PERSON_1].
 Date of Birth: April 12, 1990.
 Address: 123 Elm Street, Springfield, IL, 62701.
 Email: [REDACTED_EMAIL_ADDRESS_RE_1].
