@@ -1,4 +1,3 @@
-import json
 import os
 import re
 from typing import Dict, List, Optional, Sequence
@@ -13,18 +12,12 @@ from .anonymize_helpers import (
     BERT_BASE_NER_CONF,
     get_analyzer,
     get_fake_value,
+    get_regex_patterns,
     get_transformers_recognizer,
 )
 from .base import Scanner
 
 LOGGER = get_logger()
-
-sensitive_patterns_path = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    "..",
-    "resources",
-    "sensisitive_patterns.json",
-)
 
 default_entity_types = [
     "CREDIT_CARD",
@@ -61,7 +54,7 @@ class Anonymize(Scanner):
         allowed_names: Optional[Sequence[str]] = None,
         entity_types: Optional[Sequence[str]] = None,
         preamble: str = "",
-        regex_pattern_groups_path: str = sensitive_patterns_path,
+        regex_patterns: Optional[List[Dict]] = None,
         use_faker: bool = False,
         recognizer_conf: Optional[Dict] = BERT_BASE_NER_CONF,
         threshold: float = 0,
@@ -79,7 +72,7 @@ class Anonymize(Scanner):
             allowed_names (Optional[Sequence[str]]): List of names allowed in the text without anonymizing.
             entity_types (Optional[Sequence[str]]): List of entity types to be detected. If not provided, defaults to all.
             preamble (str): Text to prepend to sanitized prompt. If not provided, defaults to an empty string.
-            regex_pattern_groups_path (str): Path to a JSON file with regex pattern groups. If not provided, defaults to sensisitive_patterns.json.
+            regex_patterns (Optional[List[Dict]]): List of regex patterns to be used for detection. If not provided, defaults to predefined list.
             use_faker (bool): Whether to use faker instead of placeholders in applicable cases. If not provided, defaults to False, replaces with placeholders [REDACTED_PERSON_1].
             recognizer_conf (Optional[Dict]): Configuration to recognize PII data. Default is dslim/bert-base-NER.
             threshold (float): Acceptance threshold. Default is 0.
@@ -125,44 +118,10 @@ class Anonymize(Scanner):
 
         self._analyzer = get_analyzer(
             recognizer=transformers_recognizer,
-            regex_groups=Anonymize.get_regex_patterns(regex_pattern_groups_path),
+            regex_groups=get_regex_patterns(regex_patterns),
             custom_names=hidden_names,
             supported_languages=list(set(["en", language])),
         )
-
-    @staticmethod
-    def get_regex_patterns(json_path: str) -> List[dict]:
-        """
-        Load regex patterns from a specified JSON file.
-
-        Parameters:
-            json_path (str): Path to the JSON file containing regex patterns.
-
-        Returns:
-            List[dict]: List of regex patterns with each dictionary containing "name", "expressions", "context", and "score".
-                        Returns an empty list if file not found or parsing error occurred.
-        """
-        regex_groups = []
-        try:
-            with open(json_path, "r") as myfile:
-                pattern_groups_raw = json.load(myfile)
-            for group in pattern_groups_raw:
-                regex_groups.append(
-                    {
-                        "name": group["name"].upper(),
-                        "expressions": group.get("expressions", []),
-                        "context": group.get("context", []),
-                        "score": group.get("score", 0.75),
-                        "languages": group.get("languages", ["en"]),
-                        "reuse": group.get("reuse", False),
-                    }
-                )
-                LOGGER.debug("Loaded regex pattern", group_name=group["name"])
-        except FileNotFoundError:
-            LOGGER.warning("Could not find file", path=json_path)
-        except json.decoder.JSONDecodeError as json_error:
-            LOGGER.warning("Could not parse file", path=json_path, error=json_error)
-        return regex_groups
 
     @staticmethod
     def _remove_conflicts_and_get_text_manipulation_data(

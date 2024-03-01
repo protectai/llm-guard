@@ -1,15 +1,12 @@
-from typing import Dict, Optional, Sequence
+from typing import Dict, List, Optional, Sequence
 
 from presidio_anonymizer import AnonymizerEngine
 
-from llm_guard.input_scanners.anonymize import (
-    Anonymize,
-    default_entity_types,
-    sensitive_patterns_path,
-)
+from llm_guard.input_scanners.anonymize import Anonymize, default_entity_types
 from llm_guard.input_scanners.anonymize_helpers import (
     BERT_BASE_NER_CONF,
     get_analyzer,
+    get_regex_patterns,
     get_transformers_recognizer,
 )
 from llm_guard.util import get_logger
@@ -23,7 +20,7 @@ class Sensitive(Scanner):
     """
     A class used to detect sensitive (PII) data in the output of a language model.
 
-    This class uses the Presidio Analyzer Engine and predefined internally patterns (sensitive_patterns.json) to analyze the output for specified entity types.
+    This class uses the Presidio Analyzer Engine and predefined internally patterns (patterns.py) to analyze the output for specified entity types.
     If no entity types are specified, it defaults to checking for all entity types.
     """
 
@@ -31,7 +28,7 @@ class Sensitive(Scanner):
         self,
         *,
         entity_types: Optional[Sequence[str]] = None,
-        regex_pattern_groups_path: str = sensitive_patterns_path,
+        regex_patterns: Optional[List[Dict]] = None,
         redact: bool = False,
         recognizer_conf: Optional[Dict] = BERT_BASE_NER_CONF,
         threshold: float = 0,
@@ -45,7 +42,7 @@ class Sensitive(Scanner):
         Parameters:
            entity_types (Optional[Sequence[str]]): The entity types to look for in the output. Defaults to all
                                                entity types.
-           regex_pattern_groups_path (str): Path to the regex patterns file. Default is sensitive_patterns.json.
+           regex_patterns (Optional[List[Dict]]): List of regex patterns to use for detection. Default is None.
            redact (bool): Redact found sensitive entities. Default to False.
            recognizer_conf (Optional[Dict]): Configuration to recognize PII data. Default is dslim/bert-base-NER.
            threshold (float): Acceptance threshold. Default is 0.
@@ -71,7 +68,7 @@ class Sensitive(Scanner):
             pipeline_kwargs=pipeline_kwargs,
         )
         self._analyzer = get_analyzer(
-            transformers_recognizer, Anonymize.get_regex_patterns(regex_pattern_groups_path), []
+            transformers_recognizer, get_regex_patterns(regex_patterns), []
         )
         self._anonymizer = AnonymizerEngine()
 

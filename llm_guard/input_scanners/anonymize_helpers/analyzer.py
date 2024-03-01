@@ -143,6 +143,7 @@ def get_analyzer(
     regex_groups,
     custom_names: Sequence[str],
     supported_languages: List[str] = ["en"],
+    score_threshold: float = 0.75,
 ) -> AnalyzerEngine:
     nlp_engine = _get_nlp_engine(languages=supported_languages)
 
@@ -156,6 +157,7 @@ def get_analyzer(
         nlp_engine=nlp_engine,
         registry=registry,
         supported_languages=supported_languages,
+        default_score_threshold=score_threshold,
         context_aware_enhancer=LemmaContextAwareEnhancer(
             context_similarity_factor=0.35,
             min_score_with_context_similarity=0.4,
