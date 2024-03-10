@@ -47,7 +47,7 @@ onnxruntime-gpu = [
 ]
 docs-dev = [
   "mkdocs>=1.5,<2",
-  "mkdocs-autorefs==0.5.0",
+  "mkdocs-autorefs==1.0.1",
   "mkdocs-git-revision-date-localized-plugin>=1.2",
   "mkdocs-jupyter>=0.24",
   "mkdocs-material>=9.5",
