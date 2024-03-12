@@ -237,6 +237,10 @@ class TransformersRecognizer(EntityRecognizer):
             explanation = self.build_transformers_explanation(
                 float(round(res["score"], 2)), textual_explanation, res["word"]
             )
+
+            word = text[res["start"] : res["end"]]
+            if word[0] == " ":
+                res["start"] += 1
             transformers_result = self._convert_to_recognizer_result(res, explanation)
 
             results.append(transformers_result)

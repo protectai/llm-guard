@@ -7,15 +7,14 @@ from llm_guard.input_scanners.anonymize import (
     ALL_SUPPORTED_LANGUAGES,
     Anonymize,
     default_entity_types,
-    sensitive_patterns_path,
 )
 from llm_guard.input_scanners.anonymize_helpers import (
     BERT_LARGE_NER_CONF,
     BERT_ZH_NER_CONF,
     DEBERTA_AI4PRIVACY_v2_CONF,
     DISTILBERT_AI4PRIVACY_v2_CONF,
+    get_regex_patterns,
 )
-from llm_guard.util import read_json_file
 from llm_guard.vault import Vault
 
 _preamble = (
@@ -125,11 +124,11 @@ Credit Card: 4111111111111111, Exp: 09/25, CVV: 123.
 Create a summarized version of his resume.""",
             """Given the personal profile:
 
-Full Name:[REDACTED_PERSON_1][REDACTED_PERSON_3][REDACTED_PERSON_2].
+Full Name: [REDACTED_PERSON_1].
 Date of Birth: April 12, 1990.
 Address: 123 Elm Street, Springfield, IL, 62701.
-Email:[REDACTED_EMAIL_ADDRESS_1].
-Phone Number:[REDACTED_PHONE_NUMBER_1].
+Email: [REDACTED_EMAIL_ADDRESS_1].
+Phone Number: [REDACTED_PHONE_NUMBER_1].
 Educational Background:
     Springfield High School, Graduated in 2008;
     Springfield University, B.Sc. Computer Science, Graduated in 2012.
@@ -164,7 +163,7 @@ Credit Card: 4111111111111111, Exp: 09/25, CVV: 123.
 Create a summarized version of his resume.""",
             """Given the personal profile:
 
-Full Name: [REDACTED_PERSON_3] [REDACTED_PERSON_2] [REDACTED_PERSON_1].
+Full Name: [REDACTED_PERSON_1].
 Date of Birth: April 12, 1990.
 Address: 123 Elm Street, Springfield, IL, 62701.
 Email: [REDACTED_EMAIL_ADDRESS_RE_1].
@@ -266,14 +265,11 @@ def test_scan_unknown():
 
 
 def test_patterns():
-    pattern_groups = read_json_file(sensitive_patterns_path)
-
-    for group in pattern_groups:
+    for group in get_regex_patterns():
         name = group["name"]
 
         for example in group.get("examples", []):
             for expression in group.get("expressions", []):
-                compiled_expression = re.compile(expression)
                 assert (
-                    compiled_expression.search(example) is not None
+                    re.search(expression, example) is not None
                 ), f"Test for {name} failed. No match found for example: {example}"

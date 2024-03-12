@@ -18,10 +18,6 @@ MODEL_BASE = "MoritzLaurer/deberta-v3-base-zeroshot-v1.1-all-33"
 # Same as above, just smaller/faster.
 MODEL_XSMALL = "MoritzLaurer/deberta-v3-xsmall-zeroshot-v1.1-all-33"
 
-# Same as above, just even faster. The model only has 22 million backbone parameters.
-# The model is 25 MB small (or 13 MB with ONNX quantization).
-MODEL_XTREMEDISTIL = "MoritzLaurer/xtremedistil-l6-h256-zeroshot-v1.1-all-33"
-
 
 class BanTopics(Scanner):
     """

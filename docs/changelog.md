@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Anonymize**: Tweaks for pattern-based matching.
 - Pass `pipeline` and `model` `kwargs` for better control over the models.
 - Relax validations to accept custom models.
+- **[Breaking]**: `Anonymize` scanner patterns are configured in Python instead of JSON file.
 
 ### Removed
 -

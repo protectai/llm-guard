@@ -40,7 +40,7 @@ docker pull laiyer/llm-guard-api:latest
 Now, you can run the Docker container:
 
 ```bash
-docker run -d -p 8000:8000 -e LOG_LEVEL='DEBUG' -e API_TOKEN='my-token' laiyer/llm-guard-api:latest
+docker run -d -p 8000:8000 -e LOG_LEVEL='DEBUG' -e AUTH_TOKEN='my-token' laiyer/llm-guard-api:latest
 ```
 
 This will start the API on port 8000. You can now access the API at `http://localhost:8000/swagger.json`.
