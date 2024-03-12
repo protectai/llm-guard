@@ -22,8 +22,8 @@ requires-python = ">=3.9"
 dependencies = [
   "detect-secrets==1.4.0",
   "faker>=22,<24",
-  "fuzzysearch==0.7.3",
-  "json-repair==0.8.1",
+  "fuzzysearch>=0.7,<0.9",
+  "json-repair>=0.8,<0.10",
   "nltk>=3.8,<4",
   "presidio-analyzer>=2.2,<3",
   "presidio-anonymizer>=2.2,<3",
@@ -32,18 +32,17 @@ dependencies = [
   "sentencepiece==0.1.99",
   "tiktoken>=0.5,<0.7",
   "torch==2.0.1",
-  "transformers==4.36.2",
-  "xformers==0.0.22",
+  "transformers==4.38.2",
   "span-marker==1.5.0",
   "structlog>=24"
 ]
 
 [project.optional-dependencies]
 onnxruntime = [
-  "optimum[onnxruntime]",
+  "optimum[onnxruntime]>=1.17",
 ]
 onnxruntime-gpu = [
-  "optimum[onnxruntime-gpu]",
+  "optimum[onnxruntime-gpu]>=1.17",
 ]
 docs-dev = [
   "mkdocs>=1.5,<2",
