@@ -9,6 +9,7 @@ from llm_guard.input_scanners.anonymize import (
     default_entity_types,
 )
 from llm_guard.input_scanners.anonymize_helpers import (
+    BERT_BASE_NER_CONF,
     BERT_LARGE_NER_CONF,
     BERT_ZH_NER_CONF,
     DEBERTA_AI4PRIVACY_v2_CONF,
@@ -35,7 +36,11 @@ _preamble = (
             0.0,
         ),  # Prompt without sensitive data
         (
-            {"preamble": _preamble, "hidden_names": ["Test LLC"]},
+            {
+                "preamble": _preamble,
+                "hidden_names": ["Test LLC"],
+                "recognizer_conf": BERT_BASE_NER_CONF,
+            },
             "Make an SQL insert statement to add a new user to our database. Name is John Doe. My email is test@test.com "
             "but also possible to contact him with hello@test.com email. Phone number is 555-123-4567 and "
             "the IP address is 192.168.1.100. And credit card number is 4567-8901-2345-6789. "
@@ -52,7 +57,7 @@ _preamble = (
             1.0,
         ),  # Exposed name, email, phone number, credit card number and IP
         (
-            {"entity_types": ["PERSON"]},
+            {"entity_types": ["PERSON"], "recognizer_conf": BERT_BASE_NER_CONF},
             "Make an SQL insert statement to add a new user to our database. Name is John Doe. E-mail is test@test.com "
             "but also possible to contact him with hello@test.com email. Phone number is 555-123-4567 and "
             "the IP address is 192.168.1.100. And credit card number is 4567-8901-2345-6789. "

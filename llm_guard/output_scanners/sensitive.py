@@ -4,7 +4,7 @@ from presidio_anonymizer import AnonymizerEngine
 
 from llm_guard.input_scanners.anonymize import Anonymize, default_entity_types
 from llm_guard.input_scanners.anonymize_helpers import (
-    BERT_BASE_NER_CONF,
+    DEBERTA_AI4PRIVACY_v2_CONF,
     get_analyzer,
     get_regex_patterns,
     get_transformers_recognizer,
@@ -30,7 +30,7 @@ class Sensitive(Scanner):
         entity_types: Optional[Sequence[str]] = None,
         regex_patterns: Optional[List[Dict]] = None,
         redact: bool = False,
-        recognizer_conf: Optional[Dict] = BERT_BASE_NER_CONF,
+        recognizer_conf: Optional[Dict] = DEBERTA_AI4PRIVACY_v2_CONF,
         threshold: float = 0.5,
         use_onnx: bool = False,
         model_kwargs: Optional[Dict] = None,
@@ -44,7 +44,7 @@ class Sensitive(Scanner):
                                                entity types.
            regex_patterns (Optional[List[Dict]]): List of regex patterns to use for detection. Default is None.
            redact (bool): Redact found sensitive entities. Default to False.
-           recognizer_conf (Optional[Dict]): Configuration to recognize PII data. Default is dslim/bert-base-NER.
+           recognizer_conf (Optional[Dict]): Configuration to recognize PII data. Default is Ai4Privacy DeBERTa.
            threshold (float): Acceptance threshold. Default is 0.
            use_onnx (bool): Use ONNX model for inference. Default is False.
            model_kwargs (Optional[Dict]): Keyword arguments passed to the model.

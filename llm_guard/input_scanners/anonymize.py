@@ -9,7 +9,7 @@ from ..exception import LLMGuardValidationError
 from ..util import get_logger
 from ..vault import Vault
 from .anonymize_helpers import (
-    BERT_BASE_NER_CONF,
+    DEBERTA_AI4PRIVACY_v2_CONF,
     get_analyzer,
     get_fake_value,
     get_regex_patterns,
@@ -56,7 +56,7 @@ class Anonymize(Scanner):
         preamble: str = "",
         regex_patterns: Optional[List[Dict]] = None,
         use_faker: bool = False,
-        recognizer_conf: Optional[Dict] = BERT_BASE_NER_CONF,
+        recognizer_conf: Optional[Dict] = DEBERTA_AI4PRIVACY_v2_CONF,
         threshold: float = 0.5,
         use_onnx: bool = False,
         language: str = "en",
@@ -74,7 +74,7 @@ class Anonymize(Scanner):
             preamble (str): Text to prepend to sanitized prompt. If not provided, defaults to an empty string.
             regex_patterns (Optional[List[Dict]]): List of regex patterns to be used for detection. If not provided, defaults to predefined list.
             use_faker (bool): Whether to use faker instead of placeholders in applicable cases. If not provided, defaults to False, replaces with placeholders [REDACTED_PERSON_1].
-            recognizer_conf (Optional[Dict]): Configuration to recognize PII data. Default is dslim/bert-base-NER.
+            recognizer_conf (Optional[Dict]): Configuration to recognize PII data. Default is Ai4Privacy DeBERTa model.
             threshold (float): Acceptance threshold. Default is 0.
             use_onnx (bool): Whether to use ONNX runtime for inference. Default is False.
             language (str): Language of the anonymize detect. Default is "en".
