@@ -11,7 +11,7 @@ from llm_guard.vault import Vault
     "raw_prompt,output,expected_output,expected_valid,expected_score",
     [
         (
-            "Make an SQL insert statement to add a new user to our database. Name is John Doe. Email is test@test.com "
+            "Make an SQL insert statement to add a new user to our database. Name is John Connors. Email is test@test.com "
             "but also possible to contact him with hello@test.com email. Phone number is 555-123-4567 and "
             "the IP address is 192.168.1.100. And credit card number is 4567-8901-2345-6789. "
             "He works in Test LLC.",
@@ -22,7 +22,7 @@ from llm_guard.vault import Vault
             "'[REDACTED_CREDIT_CARD_RE_1]', '[REDACTED_CUSTOM_1]');",
             "Sure! Here's the SQL insert statement to add a new user with the provided information to your database: "
             "INSERT INTO users (Name, Email, Alternate_Email, Phone_Number, IP_Address, Credit_Card_Number, Work_Place)"
-            " VALUES ('John Doe', 'test@test.com', 'hello@test.com', '555-123-4567', '192.168.1.100', "
+            " VALUES ('John Connors', 'test@test.com', 'hello@test.com', '555-123-4567', '192.168.1.100', "
             "'4567-8901-2345-6789', 'Test LLC');",
             True,
             0.0,
