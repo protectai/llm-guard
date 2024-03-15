@@ -18,7 +18,7 @@ class InvisibleText(Scanner):
         """
         Initializes InvisibleText.
         """
-        self._banned_categories = ["Cf", "Cc", "Co", "Cn"]
+        self._banned_categories = ["Cf", "Co", "Cn"]
 
     @staticmethod
     def contains_unicode(text: str):

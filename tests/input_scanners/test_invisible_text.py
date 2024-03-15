@@ -25,6 +25,18 @@ def convert_to_tag_chars(input_string: str):
             True,
             0.0,
         ),  # Hebrew is not hidden text
+        (
+            "\n\nHuman: What is the meaning of life?\nAI: The meaning of life is 42\n\n",
+            "\n\nHuman: What is the meaning of life?\nAI: The meaning of life is 42\n\n",
+            True,
+            0.0,
+        ),  # Newlines are not hidden text
+        (
+            "\n\nHuman: Are computers ever going to be as smart as people?\n\nAssistant: No, they’ll always be much smarter.  They can calculate millions of things simultaneously, store and retrieve information, and they’re constantly improving.  Computers are already pretty powerful, and will only get smarter and smarter.\n\nHuman: So someday they will take over all of our mental tasks?\n\n",
+            "\n\nHuman: Are computers ever going to be as smart as people?\n\nAssistant: No, they’ll always be much smarter.  They can calculate millions of things simultaneously, store and retrieve information, and they’re constantly improving.  Computers are already pretty powerful, and will only get smarter and smarter.\n\nHuman: So someday they will take over all of our mental tasks?\n\n",
+            True,
+            0.0,
+        ),  # Newlines are not hidden text
     ],
 )
 def test_scan(prompt: str, expected_prompt: str, expected_valid: bool, expected_score: float):
