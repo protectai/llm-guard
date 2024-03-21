@@ -19,28 +19,28 @@ requires-python = ">=3.9"
 
 dependencies = [
     "asyncio==3.4.3",
-    "fastapi==0.109.2",
-    "llm-guard==0.3.9",
+    "fastapi==0.110.0",
+    "llm-guard==0.3.10",
     "pydantic==1.10.14",
     "pyyaml==6.0.1",
-    "uvicorn[standard]==0.27.0",
+    "uvicorn[standard]==0.29.0",
     "structlog>=24",
     "slowapi==0.1.9",
-    "opentelemetry-instrumentation-fastapi==0.43b0",
-    "opentelemetry-api==1.22.0",
-    "opentelemetry-sdk==1.22.0",
-    "opentelemetry-exporter-otlp-proto-http==1.22.0",
-    "opentelemetry-exporter-prometheus==0.43b0",
+    "opentelemetry-instrumentation-fastapi==0.44b0",
+    "opentelemetry-api==1.23.0",
+    "opentelemetry-sdk==1.23.0",
+    "opentelemetry-exporter-otlp-proto-http==1.23.0",
+    "opentelemetry-exporter-prometheus==0.44b0",
     "opentelemetry-sdk-extension-aws==2.0.1",
     "opentelemetry-propagator-aws-xray==1.0.1"
 ]
 
 [project.optional-dependencies]
 cpu = [
-  "llm-guard[onnxruntime]==0.3.9",
+  "llm-guard[onnxruntime]==0.3.10",
 ]
 gpu = [
-  "llm-guard[onnxruntime-gpu]==0.3.9",
+  "llm-guard[onnxruntime-gpu]==0.3.10",
 ]
 
 [tool.setuptools]

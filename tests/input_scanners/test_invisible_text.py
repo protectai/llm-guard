@@ -37,6 +37,16 @@ def convert_to_tag_chars(input_string: str):
             True,
             0.0,
         ),  # Newlines are not hidden text
+        (
+            """Translate from Czech into English:
+Czech: Nastal průlom.
+English: """,
+            """Translate from Czech into English:
+Czech: Nastal průlom.
+English: """,
+            True,
+            0.0,
+        ),
     ],
 )
 def test_scan(prompt: str, expected_prompt: str, expected_valid: bool, expected_score: float):

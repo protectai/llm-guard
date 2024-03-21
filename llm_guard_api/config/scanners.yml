@@ -14,9 +14,9 @@ rate_limit:
   enabled: ${RATE_LIMIT_ENABLED:true}
   limit: ${RATE_LIMIT_LIMIT:100/minute}
 
-auth:
-  type: http_bearer
-  token: ${AUTH_TOKEN:}
+#auth:
+#  type: http_bearer
+#  token: ${AUTH_TOKEN:}
 
 tracing:
   exporter: ${TRACING_EXPORTER:console}
@@ -54,6 +54,9 @@ input_scanners:
     params:
       languages: ["Python"]
       is_blocked: true
+  - type: Gibberish
+    params:
+      threshold: 0.9
   - type: InvisibleText
     params: { }
   - type: Language
@@ -113,6 +116,9 @@ output_scanners:
   - type: FactualConsistency
     params:
       minimum_score: 0.5
+  - type: Gibberish
+    params:
+      threshold: 0.9
   - type: JSON
     params:
       required_elements: 0

@@ -5,7 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] - 0.3.10
+## [Unreleased] - 0.3.11
+
+### Added
+-
+
+### Fixed
+- `InvisibleText` scanner to allow control characters like `\n`, `\t`, etc.
+
+### Changed
+-
+
+### Removed
+-
+
+## [0.3.10] - 2024-03-14
 
 ### Added
 - **Anonymize**: New NER models from AI4Privacy [Isotonic/distilbert_finetuned_ai4privacy_v2](https://huggingface.co/Isotonic/distilbert_finetuned_ai4privacy_v2) and [Isotonic/deberta-v3-base_finetuned_ai4privacy_v2](https://huggingface.co/Isotonic/deberta-v3-base_finetuned_ai4privacy_v2).
@@ -331,6 +345,7 @@ _0.3.5 and 0.3.6 were skipped due to build issues._
   - [Toxicity](./output_scanners/toxicity.md)
 
 [Unreleased]: https://github.com/protectai/llm-guard/commits/main
+[0.3.10]: https://github.com/protectai/llm-guard/releases/tag/v0.3.10
 [0.3.9]: https://github.com/protectai/llm-guard/releases/tag/v0.3.9
 [0.3.7]: https://github.com/protectai/llm-guard/releases/tag/v0.3.7
 [0.3.4]: https://github.com/protectai/llm-guard/releases/tag/v0.3.4
