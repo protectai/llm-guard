@@ -69,7 +69,6 @@ class TransformersRecognizer(EntityRecognizer):
         self.pipeline = pipeline
         self.is_loaded = False
 
-        self.aggregation_mechanism = None
         self.ignore_labels = None
         self.model_to_presidio_mapping = None
         self.entity_mapping = None
@@ -92,7 +91,6 @@ class TransformersRecognizer(EntityRecognizer):
         :param kwargs: define default values for class attributes and modify pipeline behavior
         **DATASET_TO_PRESIDIO_MAPPING (dict) - defines mapping entity strings from dataset format to Presidio format
         **MODEL_TO_PRESIDIO_MAPPING (dict) -  defines mapping entity strings from chosen model format to Presidio format
-        **SUB_WORD_AGGREGATION(str) - define how to aggregate sub-word tokens into full words and spans as defined
         **CHUNK_OVERLAP_SIZE (int) - number of overlapping characters in each text chunk
         when splitting a single text into multiple inferences
         **CHUNK_SIZE (int) - number of characters in each chunk of text
@@ -106,7 +104,6 @@ class TransformersRecognizer(EntityRecognizer):
         self.entity_mapping = kwargs.get("DATASET_TO_PRESIDIO_MAPPING", {})
         self.model_to_presidio_mapping = kwargs.get("MODEL_TO_PRESIDIO_MAPPING", {})
         self.ignore_labels = kwargs.get("LABELS_TO_IGNORE", ["O"])
-        self.aggregation_mechanism = kwargs.get("SUB_WORD_AGGREGATION", "simple")
         self.default_explanation = kwargs.get("DEFAULT_EXPLANATION", None)
         self.text_overlap_length = kwargs.get("CHUNK_OVERLAP_SIZE", 40)
         self.chunk_length = kwargs.get("CHUNK_SIZE", 600)
@@ -118,7 +115,7 @@ class TransformersRecognizer(EntityRecognizer):
                 self.model = Model(
                     path="dslim/bert-base-NER",
                     onnx_path="dslim/bert-base-NER",
-                    subfolder="onnx",
+                    onnx_subfolder="onnx",
                 )
                 LOGGER.warning(
                     "'model' argument is None. Using default",
@@ -164,16 +161,13 @@ class TransformersRecognizer(EntityRecognizer):
             )
             LOGGER.debug("Initialized NER model", model=self.model, device=device())
 
+        self.model.pipeline_kwargs["ignore_labels"] = self.ignore_labels
         self.pipeline = transformers.pipeline(
             "ner",
             model=tf_model,
             tokenizer=tf_tokenizer,
             device=device(),
             batch_size=1,
-            # Will attempt to group sub-entities to word level
-            aggregation_strategy=self.aggregation_mechanism,
-            framework="pt",
-            ignore_labels=self.ignore_labels,
             **self.model.pipeline_kwargs,
         )
 

@@ -10,10 +10,12 @@ BERT_BASE_NER_CONF = {
         path="dslim/bert-base-NER",
         onnx_path="dslim/bert-base-NER",
         onnx_subfolder="onnx",
+        pipeline_kwargs={
+            "aggregation_strategy": "simple",
+        },
     ),
     "LABELS_TO_IGNORE": ["O", "CARDINAL"],
     "DEFAULT_EXPLANATION": "Identified as {} by the dslim/bert-base-NER NER model",
-    "SUB_WORD_AGGREGATION": "simple",
     "DATASET_TO_PRESIDIO_MAPPING": {
         "MISC": "O",
         "LOC": "LOCATION",
@@ -42,10 +44,12 @@ BERT_LARGE_NER_CONF = {
         path="dslim/bert-large-NER",
         onnx_path="dslim/bert-large-NER",
         onnx_subfolder="onnx",
+        pipeline_kwargs={
+            "aggregation_strategy": "simple",
+        },
     ),
     "LABELS_TO_IGNORE": ["O", "CARDINAL"],
     "DEFAULT_EXPLANATION": "Identified as {} by the dslim/bert-large-NER NER model",
-    "SUB_WORD_AGGREGATION": "simple",
     "DATASET_TO_PRESIDIO_MAPPING": {
         "MISC": "O",
         "LOC": "LOCATION",
@@ -73,10 +77,12 @@ BERT_ZH_NER_CONF = {
     "DEFAULT_MODEL": Model(
         path="gyr66/bert-base-chinese-finetuned-ner",
         onnx_path="ProtectAI/gyr66-bert-base-chinese-finetuned-ner-onnx",
+        pipeline_kwargs={
+            "aggregation_strategy": "simple",
+        },
     ),
     "LABELS_TO_IGNORE": ["O", "CARDINAL"],
     "DEFAULT_EXPLANATION": "Identified as {} by the gyr66/bert-base-chinese-finetuned-ner NER model",
-    "SUB_WORD_AGGREGATION": "simple",
     "DATASET_TO_PRESIDIO_MAPPING": {
         "MISC": "O",
         "address": "LOCATION",
@@ -112,11 +118,13 @@ DISTILBERT_AI4PRIVACY_v2_CONF = {
     "DEFAULT_MODEL": Model(
         path="Isotonic/distilbert_finetuned_ai4privacy_v2",
         onnx_path="Isotonic/distilbert_finetuned_ai4privacy_v2",
-        subfolder="onnx",
+        onnx_subfolder="onnx",
+        pipeline_kwargs={
+            "aggregation_strategy": "simple",
+        },
     ),
     "LABELS_TO_IGNORE": ["O", "CARDINAL"],
     "DEFAULT_EXPLANATION": "Identified as {} by the Isotonic/distilbert_finetuned_ai4privacy_v2 NER model",
-    "SUB_WORD_AGGREGATION": "simple",
     "DATASET_TO_PRESIDIO_MAPPING": {
         "MISC": "O",
         "STREET": "LOCATION",
@@ -202,11 +210,13 @@ DEBERTA_AI4PRIVACY_v2_CONF = {
     "DEFAULT_MODEL": Model(
         path="Isotonic/deberta-v3-base_finetuned_ai4privacy_v2",
         onnx_path="Isotonic/deberta-v3-base_finetuned_ai4privacy_v2",
-        subfolder="onnx",
+        onnx_subfolder="onnx",
+        pipeline_kwargs={
+            "aggregation_strategy": "simple",
+        },
     ),
     "LABELS_TO_IGNORE": ["O", "CARDINAL"],
     "DEFAULT_EXPLANATION": "Identified as {} by the Isotonic/deberta-v3-base_finetuned_ai4privacy_v2 NER model",
-    "SUB_WORD_AGGREGATION": "simple",
     "DATASET_TO_PRESIDIO_MAPPING": {
         "MISC": "O",
         "STREET": "LOCATION",
