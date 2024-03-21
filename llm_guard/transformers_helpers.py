@@ -49,7 +49,7 @@ def _ort_model_for_sequence_classification(
     if device().type == "cuda":
         optimum_onnxruntime = lazy_load_dep("optimum.onnxruntime", "optimum[onnxruntime-gpu]")
         tf_model = optimum_onnxruntime.ORTModelForSequenceClassification.from_pretrained(
-            model,
+            model.onnx_path or model.path,
             export=model.onnx_path is None,
             file_name=model.onnx_filename,
             provider="CUDAExecutionProvider",
@@ -64,7 +64,7 @@ def _ort_model_for_sequence_classification(
 
     optimum_onnxruntime = lazy_load_dep("optimum.onnxruntime", "optimum[onnxruntime]")
     tf_model = optimum_onnxruntime.ORTModelForSequenceClassification.from_pretrained(
-        model,
+        model.onnx_path or model.path,
         export=model.onnx_path is None,
         file_name=model.onnx_filename,
         subfolder=model.onnx_subfolder,
