@@ -1,7 +1,7 @@
 from typing import Dict, Optional, Sequence
 
 from llm_guard.input_scanners.code import Code as InputCode
-from llm_guard.input_scanners.code import default_model_path
+from llm_guard.model import Model
 
 from .base import Scanner
 
@@ -18,24 +18,21 @@ class Code(Scanner):
         self,
         languages: Sequence[str],
         *,
-        model_path: str = default_model_path,
+        model: Optional[Model] = None,
         is_blocked: bool = True,
         threshold: float = 0.5,
         use_onnx: bool = False,
-        model_kwargs: Optional[Dict] = None,
         pipeline_kwargs: Optional[Dict] = None,
     ):
         """
         Initializes an instance of the Code class.
 
         Parameters:
-            model_path (str): The path to the model to use for language detection.
+            model (Model, optional): The model to use for language detection.
             languages (Sequence[str]): The list of programming languages to allow or deny.
             is_blocked (bool): Whether the languages are blocked or allowed. Default is True.
             threshold (float): The threshold for the model output to be considered valid. Default is 0.5.
             use_onnx (bool): Whether to use ONNX for inference. Default is False.
-            model_kwargs (dict, optional): Keyword arguments passed to the model.
-            pipeline_kwargs (dict, optional): Keyword arguments passed to the pipeline.
 
         Raises:
             ValueError: If both 'allowed' and 'denied' lists are provided or if both are empty.
@@ -43,12 +40,10 @@ class Code(Scanner):
 
         self._scanner = InputCode(
             languages,
-            model_path=model_path,
+            model=model,
             is_blocked=is_blocked,
             threshold=threshold,
             use_onnx=use_onnx,
-            model_kwargs=model_kwargs,
-            pipeline_kwargs=pipeline_kwargs,
         )
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):

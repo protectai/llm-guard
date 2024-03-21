@@ -1,5 +1,5 @@
 import copy
-from typing import Dict, List, Optional, Sequence
+from typing import Dict, List, Sequence
 
 import spacy
 from presidio_analyzer import (
@@ -109,8 +109,6 @@ def get_transformers_recognizer(
     recognizer_conf: Dict,
     use_onnx: bool = False,
     supported_language: str = "en",
-    model_kwargs: Optional[Dict] = None,
-    pipeline_kwargs: Optional[Dict] = None,
 ) -> EntityRecognizer:
     """
     This function loads a transformers recognizer given a recognizer configuration.
@@ -119,20 +117,16 @@ def get_transformers_recognizer(
         recognizer_conf (Dict): Configuration to recognize PII data.
         use_onnx (bool): Whether to use the ONNX version of the model. Default is False.
         supported_language (str): The language to use for the recognizer. Default is "en".
-        model_kwargs (Optional[Dict]): Keyword arguments passed to the model.
-        pipeline_kwargs (Optional[Dict]): Keyword arguments passed to the pipeline.
     """
-    model_path = recognizer_conf.get("DEFAULT_MODEL_PATH")
+    model = recognizer_conf.get("DEFAULT_MODEL")
     supported_entities = recognizer_conf.get("PRESIDIO_SUPPORTED_ENTITIES")
     transformers_recognizer = TransformersRecognizer(
-        model_path=model_path,
+        model=model,
         supported_entities=supported_entities,
         supported_language=supported_language,
     )
     transformers_recognizer.load_transformer(
         use_onnx=use_onnx,
-        model_kwargs=model_kwargs,
-        pipeline_kwargs=pipeline_kwargs,
         **recognizer_conf,
     )
     return transformers_recognizer

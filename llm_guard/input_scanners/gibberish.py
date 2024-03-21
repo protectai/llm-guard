@@ -1,6 +1,7 @@
 from enum import Enum
-from typing import Dict, List, Optional, Union
+from typing import List, Optional, Union
 
+from llm_guard.model import Model
 from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
 from llm_guard.util import calculate_risk_score, get_logger, split_text_by_sentences
 
@@ -8,7 +9,12 @@ from .base import Scanner
 
 LOGGER = get_logger()
 
-default_model_path = "madhurjindal/autonlp-Gibberish-Detector-492513457"
+DEFAULT_MODEL = Model(
+    path="madhurjindal/autonlp-Gibberish-Detector-492513457",
+    onnx_path="madhurjindal/autonlp-Gibberish-Detector-492513457",
+    onnx_subfolder="onnx",
+    pipeline_kwargs={"truncation": True},
+)
 
 
 class MatchType(Enum):
@@ -30,23 +36,19 @@ class Gibberish(Scanner):
     def __init__(
         self,
         *,
-        model_path: str = default_model_path,
+        model: Optional[Model] = None,
         threshold: float = 0.7,
         match_type: Union[MatchType, str] = MatchType.FULL,
         use_onnx: bool = False,
-        model_kwargs: Optional[Dict] = None,
-        pipeline_kwargs: Optional[Dict] = None,
     ):
         """
         Initializes the Gibberish scanner with a probability threshold for gibberish detection.
 
         Parameters:
-           model_path (str): The path to the model.
+           model (Model, optional): The model object.
            threshold (float): The probability threshold for gibberish detection. Default is 0.7.
            match_type (MatchType): Whether to match the full text or individual sentences. Default is MatchType.FULL.
            use_onnx (bool): Whether to use ONNX instead of PyTorch for inference.
-           model_kwargs (dict): Keyword arguments passed to the model.
-           pipeline_kwargs (dict): Keyword arguments passed to the pipeline.
         """
         if isinstance(match_type, str):
             match_type = MatchType(match_type)
@@ -54,24 +56,19 @@ class Gibberish(Scanner):
         self._threshold = threshold
         self._match_type = match_type
 
-        default_pipeline_kwargs = {
-            "truncation": True,
-        }
-        if pipeline_kwargs is None:
-            pipeline_kwargs = {}
-
-        pipeline_kwargs = {**default_pipeline_kwargs, **pipeline_kwargs}
-        model_kwargs = model_kwargs or {}
+        if model is None:
+            model = DEFAULT_MODEL
 
         tf_tokenizer, tf_model = get_tokenizer_and_model_for_classification(
-            model=model_path, onnx_model=model_path, use_onnx=use_onnx, **model_kwargs
+            model=model,
+            use_onnx=use_onnx,
         )
 
         self._classifier = pipeline(
             task="text-classification",
             model=tf_model,
             tokenizer=tf_tokenizer,
-            **pipeline_kwargs,
+            **model.pipeline_kwargs,
         )
 
     def scan(self, prompt: str) -> (str, bool, float):

@@ -1,11 +1,16 @@
+from llm_guard.model import Model
+
 BERT_BASE_NER_CONF = {
     "PRESIDIO_SUPPORTED_ENTITIES": [
         "LOCATION",
         "PERSON",
         "ORGANIZATION",
     ],
-    "DEFAULT_MODEL_PATH": "dslim/bert-base-NER",
-    "ONNX_MODEL_PATH": "dslim/bert-base-NER",
+    "DEFAULT_MODEL": Model(
+        path="dslim/bert-base-NER",
+        onnx_path="dslim/bert-base-NER",
+        onnx_subfolder="onnx",
+    ),
     "LABELS_TO_IGNORE": ["O", "CARDINAL"],
     "DEFAULT_EXPLANATION": "Identified as {} by the dslim/bert-base-NER NER model",
     "SUB_WORD_AGGREGATION": "simple",
@@ -33,8 +38,11 @@ BERT_LARGE_NER_CONF = {
         "PERSON",
         "ORGANIZATION",
     ],
-    "DEFAULT_MODEL_PATH": "dslim/bert-large-NER",
-    "ONNX_MODEL_PATH": "dslim/bert-large-NER",
+    "DEFAULT_MODEL": Model(
+        path="dslim/bert-large-NER",
+        onnx_path="dslim/bert-large-NER",
+        onnx_subfolder="onnx",
+    ),
     "LABELS_TO_IGNORE": ["O", "CARDINAL"],
     "DEFAULT_EXPLANATION": "Identified as {} by the dslim/bert-large-NER NER model",
     "SUB_WORD_AGGREGATION": "simple",
@@ -62,8 +70,10 @@ BERT_ZH_NER_CONF = {
         "PERSON",
         "ORGANIZATION",
     ],
-    "DEFAULT_MODEL_PATH": "gyr66/bert-base-chinese-finetuned-ner",
-    "ONNX_MODEL_PATH": "ProtectAI/gyr66-bert-base-chinese-finetuned-ner-onnx",
+    "DEFAULT_MODEL": Model(
+        path="gyr66/bert-base-chinese-finetuned-ner",
+        onnx_path="ProtectAI/gyr66-bert-base-chinese-finetuned-ner-onnx",
+    ),
     "LABELS_TO_IGNORE": ["O", "CARDINAL"],
     "DEFAULT_EXPLANATION": "Identified as {} by the gyr66/bert-base-chinese-finetuned-ner NER model",
     "SUB_WORD_AGGREGATION": "simple",
@@ -99,8 +109,11 @@ DISTILBERT_AI4PRIVACY_v2_CONF = {
         "IP_ADDRESS",
         "URL",
     ],
-    "DEFAULT_MODEL_PATH": "Isotonic/distilbert_finetuned_ai4privacy_v2",
-    "ONNX_MODEL_PATH": "Isotonic/distilbert_finetuned_ai4privacy_v2",
+    "DEFAULT_MODEL": Model(
+        path="Isotonic/distilbert_finetuned_ai4privacy_v2",
+        onnx_path="Isotonic/distilbert_finetuned_ai4privacy_v2",
+        subfolder="onnx",
+    ),
     "LABELS_TO_IGNORE": ["O", "CARDINAL"],
     "DEFAULT_EXPLANATION": "Identified as {} by the Isotonic/distilbert_finetuned_ai4privacy_v2 NER model",
     "SUB_WORD_AGGREGATION": "simple",
@@ -186,8 +199,11 @@ DEBERTA_AI4PRIVACY_v2_CONF = {
         "IP_ADDRESS",
         "URL",
     ],
-    "DEFAULT_MODEL_PATH": "Isotonic/deberta-v3-base_finetuned_ai4privacy_v2",
-    "ONNX_MODEL_PATH": "Isotonic/deberta-v3-base_finetuned_ai4privacy_v2",
+    "DEFAULT_MODEL": Model(
+        path="Isotonic/deberta-v3-base_finetuned_ai4privacy_v2",
+        onnx_path="Isotonic/deberta-v3-base_finetuned_ai4privacy_v2",
+        subfolder="onnx",
+    ),
     "LABELS_TO_IGNORE": ["O", "CARDINAL"],
     "DEFAULT_EXPLANATION": "Identified as {} by the Isotonic/deberta-v3-base_finetuned_ai4privacy_v2 NER model",
     "SUB_WORD_AGGREGATION": "simple",

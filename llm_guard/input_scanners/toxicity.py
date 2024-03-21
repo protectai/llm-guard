@@ -1,6 +1,7 @@
 from enum import Enum
-from typing import Dict, List, Optional, Union
+from typing import List, Optional, Union
 
+from llm_guard.model import Model
 from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
 from llm_guard.util import calculate_risk_score, get_logger, split_text_by_sentences
 
@@ -8,10 +9,17 @@ from .base import Scanner
 
 LOGGER = get_logger()
 
-_model_path = (
-    "unitary/unbiased-toxic-roberta",
-    "ProtectAI/unbiased-toxic-roberta-onnx",  # ONNX model
+DEFAULT_MODEL = Model(
+    path="unitary/unbiased-toxic-roberta",
+    onnx_path="ProtectAI/unbiased-toxic-roberta-onnx",
+    pipeline_kwargs={
+        "padding": "max_length",
+        "top_k": None,
+        "function_to_apply": "sigmoid",
+        "truncation": True,
+    },
 )
+
 _toxic_labels = [
     "toxicity",
     "severe_toxicity",
@@ -45,23 +53,19 @@ class Toxicity(Scanner):
     def __init__(
         self,
         *,
-        model_path: Optional[str] = None,
+        model: Optional[Model] = None,
         threshold: float = 0.5,
         match_type: Union[MatchType, str] = MatchType.FULL,
         use_onnx: bool = False,
-        model_kwargs: Optional[Dict] = None,
-        pipeline_kwargs: Optional[Dict] = None,
     ):
         """
         Initializes Toxicity with a threshold for toxicity.
 
         Parameters:
-           model_path (str, optional): Path to the model. Default is None.
+           model (Model, optional): Path to the model. Default is None.
            threshold (float): Threshold for toxicity. Default is 0.5.
            match_type (MatchType): Whether to match the full text or individual sentences. Default is MatchType.FULL.
            use_onnx (bool): Whether to use ONNX for inference. Default is False.
-           model_kwargs (Dict, optional): Keyword arguments passed to the model.
-           pipeline_kwargs (Dict, optional): Keyword arguments passed to the pipeline.
         """
         if isinstance(match_type, str):
             match_type = MatchType(match_type)
@@ -69,32 +73,19 @@ class Toxicity(Scanner):
         self._threshold = threshold
         self._match_type = match_type
 
-        default_pipeline_kwargs = {
-            "padding": "max_length",
-            "top_k": None,
-            "function_to_apply": "sigmoid",
-            "truncation": True,
-        }
-        if pipeline_kwargs is None:
-            pipeline_kwargs = {}
-
-        pipeline_kwargs = {**default_pipeline_kwargs, **pipeline_kwargs}
-        model_kwargs = model_kwargs or {}
-
-        onnx_model_path = model_path
-        if model_path is None:
-            model_path = _model_path[0]
-            onnx_model_path = _model_path[1]
+        if model is None:
+            model = DEFAULT_MODEL
 
         tf_tokenizer, tf_model = get_tokenizer_and_model_for_classification(
-            model=model_path, onnx_model=onnx_model_path, use_onnx=use_onnx, **model_kwargs
+            model=model,
+            use_onnx=use_onnx,
         )
 
         self._pipeline = pipeline(
             task="text-classification",
             model=tf_model,
             tokenizer=tf_tokenizer,
-            **pipeline_kwargs,
+            **model.pipeline_kwargs,
         )
 
     def scan(self, prompt: str) -> (str, bool, float):

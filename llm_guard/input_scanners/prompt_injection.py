@@ -1,6 +1,7 @@
 from enum import Enum
-from typing import Dict, List, Optional, Union
+from typing import List, Optional, Union
 
+from llm_guard.model import Model
 from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
 from llm_guard.util import calculate_risk_score, get_logger, split_text_by_sentences
 
@@ -9,11 +10,15 @@ from .base import Scanner
 LOGGER = get_logger()
 
 # This model is proprietary but open source.
-MODEL_LAIYER = {
-    "path": "ProtectAI/deberta-v3-base-prompt-injection",
-    "label": "INJECTION",
-    "max_length": 512,
-}
+DEFAULT_MODEL = Model(
+    path="ProtectAI/deberta-v3-base-prompt-injection",
+    onnx_path="ProtectAI/deberta-v3-base-prompt-injection",
+    onnx_subfolder="onnx",
+    pipeline_kwargs={
+        "max_length": 512,
+        "truncation": True,
+    },
+)
 
 
 class MatchType(Enum):
@@ -36,29 +41,25 @@ class PromptInjection(Scanner):
     def __init__(
         self,
         *,
-        model: Optional[Dict] = None,
+        model: Optional[Model] = None,
         threshold: float = 0.9,
         match_type: Union[MatchType, str] = MatchType.FULL,
         use_onnx: bool = False,
-        model_kwargs: Optional[Dict] = None,
-        pipeline_kwargs: Optional[Dict] = None,
     ):
         """
         Initializes PromptInjection with a threshold.
 
         Parameters:
-            model (Dict, optional): Chosen model to classify prompt. Default is Laiyer's one.
+            model (Model, optional): Chosen model to classify prompt. Default is Laiyer's one.
             threshold (float): Threshold for the injection score. Default is 0.9.
             match_type (MatchType): Whether to match the full text or individual sentences. Default is MatchType.FULL.
             use_onnx (bool): Whether to use ONNX for inference. Defaults to False.
-            model_kwargs (Dict, optional): Keyword arguments passed to the model.
-            pipeline_kwargs (Dict, optional): Keyword arguments passed to the pipeline.
 
         Raises:
             ValueError: If non-existent models were provided.
         """
         if model is None:
-            model = MODEL_LAIYER
+            model = DEFAULT_MODEL
 
         if isinstance(match_type, str):
             match_type = MatchType(match_type)
@@ -67,25 +68,16 @@ class PromptInjection(Scanner):
         self._match_type = match_type
         self._model = model
 
-        default_pipeline_kwargs = {
-            "max_length": model["max_length"],
-            "truncation": True,
-        }
-        if pipeline_kwargs is None:
-            pipeline_kwargs = {}
-
-        pipeline_kwargs = {**default_pipeline_kwargs, **pipeline_kwargs}
-        model_kwargs = model_kwargs or {}
-
         tf_tokenizer, tf_model = get_tokenizer_and_model_for_classification(
-            model=model["path"], onnx_model=model["path"], use_onnx=use_onnx, **model_kwargs
+            model=model,
+            use_onnx=use_onnx,
         )
 
         self._pipeline = pipeline(
             task="text-classification",
             model=tf_model,
             tokenizer=tf_tokenizer,
-            **pipeline_kwargs,
+            **model.pipeline_kwargs,
         )
 
     def scan(self, prompt: str) -> (str, bool, float):
@@ -96,7 +88,7 @@ class PromptInjection(Scanner):
         results_all = self._pipeline(self._match_type.get_inputs(prompt))
         for result in results_all:
             injection_score = round(
-                result["score"] if result["label"] == self._model["label"] else 1 - result["score"],
+                result["score"] if result["label"] == "INJECTION" else 1 - result["score"],
                 2,
             )
 

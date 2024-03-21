@@ -14,10 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `InvisibleText` scanner to allow control characters like `\n`, `\t`, etc.
 
 ### Changed
--
+- **[Breaking]**: Introducing `Model` object for better customization of the models.
 
 ### Removed
--
+- `model_kwargs` and `pipeline_kwargs` as they are part of the `Model` object.
 
 ## [0.3.10] - 2024-03-14
 

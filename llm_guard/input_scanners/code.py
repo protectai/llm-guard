@@ -2,6 +2,7 @@ import re
 from typing import List, Optional, Sequence
 
 from llm_guard.exception import LLMGuardValidationError
+from llm_guard.model import Model
 from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
 from llm_guard.util import calculate_risk_score, get_logger
 
@@ -9,7 +10,12 @@ from .base import Scanner
 
 LOGGER = get_logger()
 
-default_model_path = "philomath-1209/programming-language-identification"
+DEFAULT_MODEL = Model(
+    path="philomath-1209/programming-language-identification",
+    onnx_path="philomath-1209/programming-language-identification-onnx",
+    onnx_subfolder="onnx",
+    pipeline_kwargs={"truncation": True},
+)
 
 SUPPORTED_LANGUAGES = [
     "ARM Assembly",
@@ -53,24 +59,20 @@ class Code(Scanner):
         self,
         languages: Sequence[str],
         *,
-        model_path: str = default_model_path,
+        model: Optional[Model] = None,
         is_blocked: bool = True,
         threshold: float = 0.5,
         use_onnx: bool = False,
-        model_kwargs: Optional[dict] = None,
-        pipeline_kwargs: Optional[dict] = None,
     ):
         """
         Initializes Code with the allowed and denied languages.
 
         Parameters:
-            model_path (str): The path to the model to use for language detection.
+            model (Model, optional): The model to use for language detection.
             languages (Sequence[str]): The list of programming languages to allow or deny.
             is_blocked (bool): Whether the languages are blocked or allowed. Default is True.
             threshold (float): The threshold for the risk score. Default is 0.5.
             use_onnx (bool): Whether to use ONNX for inference. Default is False.
-            model_kwargs (dict, optional): Keyword arguments passed to the model.
-            pipeline_kwargs (dict, optional): Keyword arguments passed to the pipeline.
 
         Raises:
             LLMGuardValidationError: If the languages are not a subset of SUPPORTED_LANGUAGES.
@@ -82,24 +84,19 @@ class Code(Scanner):
         self._is_blocked = is_blocked
         self._threshold = threshold
 
-        default_pipeline_kwargs = {
-            "truncation": True,
-        }
-        if pipeline_kwargs is None:
-            pipeline_kwargs = {}
-
-        pipeline_kwargs = {**default_pipeline_kwargs, **pipeline_kwargs}
-        model_kwargs = model_kwargs or {}
+        if model is None:
+            model = DEFAULT_MODEL
 
         tf_tokenizer, tf_model = get_tokenizer_and_model_for_classification(
-            model=model_path, onnx_model=model_path, use_onnx=use_onnx, **model_kwargs
+            model=model,
+            use_onnx=use_onnx,
         )
 
         self._pipeline = pipeline(
             task="text-classification",
             model=tf_model,
             tokenizer=tf_tokenizer,
-            **pipeline_kwargs,
+            **model.pipeline_kwargs,
         )
 
         self._fenced_code_regex = re.compile(r"```(?:[a-zA-Z0-9]*\n)?(.*?)```", re.DOTALL)

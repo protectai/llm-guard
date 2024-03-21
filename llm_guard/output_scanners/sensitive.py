@@ -30,11 +30,9 @@ class Sensitive(Scanner):
         entity_types: Optional[Sequence[str]] = None,
         regex_patterns: Optional[List[Dict]] = None,
         redact: bool = False,
-        recognizer_conf: Optional[Dict] = DEBERTA_AI4PRIVACY_v2_CONF,
+        recognizer_conf: Optional[Dict] = None,
         threshold: float = 0.5,
         use_onnx: bool = False,
-        model_kwargs: Optional[Dict] = None,
-        pipeline_kwargs: Optional[Dict] = None,
     ):
         """
         Initializes an instance of the Sensitive class.
@@ -47,8 +45,6 @@ class Sensitive(Scanner):
            recognizer_conf (Optional[Dict]): Configuration to recognize PII data. Default is Ai4Privacy DeBERTa.
            threshold (float): Acceptance threshold. Default is 0.
            use_onnx (bool): Use ONNX model for inference. Default is False.
-           model_kwargs (Optional[Dict]): Keyword arguments passed to the model.
-           pipeline_kwargs (Optional[Dict]): Keyword arguments passed to the pipeline.
         """
         if not entity_types:
             LOGGER.debug(
@@ -61,11 +57,12 @@ class Sensitive(Scanner):
         self._redact = redact
         self._threshold = threshold
 
+        if not recognizer_conf:
+            recognizer_conf = DEBERTA_AI4PRIVACY_v2_CONF
+
         transformers_recognizer = get_transformers_recognizer(
             recognizer_conf=recognizer_conf,
             use_onnx=use_onnx,
-            model_kwargs=model_kwargs,
-            pipeline_kwargs=pipeline_kwargs,
         )
         self._analyzer = get_analyzer(
             transformers_recognizer, get_regex_patterns(regex_patterns), []

@@ -206,7 +206,9 @@ _zh_preamble = (
     "settings,prompt,expected_prompt,expected_valid,expected_score",
     [
         (
-            {},
+            {
+                "recognizer_conf": BERT_ZH_NER_CONF,
+            },
             "只是一个简单的提示",
             "只是一个简单的提示",
             True,
@@ -246,7 +248,9 @@ _zh_preamble = (
             1.0,
         ),  # Exposed all but only with PERSON and hidden_names.
         (
-            {},
+            {
+                "recognizer_conf": BERT_ZH_NER_CONF,
+            },
             "",
             "",
             True,

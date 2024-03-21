@@ -1,6 +1,6 @@
 import importlib
 from functools import lru_cache
-from typing import Literal, Optional, Union, get_args
+from typing import Literal, Union, get_args
 
 from transformers import (
     PreTrainedModel,
@@ -10,22 +10,22 @@ from transformers import (
 )
 
 from .exception import LLMGuardValidationError
+from .model import Model
 from .util import device, get_logger, lazy_load_dep
 
 LOGGER = get_logger()
 
 
-@lru_cache(maxsize=None)  # Set maxsize=None for an unbounded cache
-def get_tokenizer(model_identifier: str, **kwargs):
+def get_tokenizer(model: Model, **kwargs):
     """
     This function loads a tokenizer given a model identifier and caches it.
     Subsequent calls with the same model_identifier will return the cached tokenizer.
 
     Args:
-        model_identifier (str): The model identifier to load the tokenizer for.
+        model (Model): The model to load the tokenizer for.
     """
     transformers = lazy_load_dep("transformers")
-    tokenizer = transformers.AutoTokenizer.from_pretrained(model_identifier, **kwargs)
+    tokenizer = transformers.AutoTokenizer.from_pretrained(model.path, **kwargs)
     return tokenizer
 
 
@@ -44,18 +44,18 @@ def is_onnx_supported() -> bool:
 
 
 def _ort_model_for_sequence_classification(
-    model: str, export: bool = False, subfolder: str = "", **kwargs
+    model: Model,
 ):
     if device().type == "cuda":
         optimum_onnxruntime = lazy_load_dep("optimum.onnxruntime", "optimum[onnxruntime-gpu]")
         tf_model = optimum_onnxruntime.ORTModelForSequenceClassification.from_pretrained(
             model,
-            export=export,
-            subfolder=subfolder,
-            file_name="model.onnx",
+            export=model.onnx_path is None,
+            file_name=model.onnx_filename,
             provider="CUDAExecutionProvider",
             use_io_binding=True,
-            **kwargs,
+            subfolder=model.onnx_subfolder,
+            **model.kwargs,
         )
 
         LOGGER.debug("Initialized classification ONNX model", model=model, device=device())
@@ -65,10 +65,10 @@ def _ort_model_for_sequence_classification(
     optimum_onnxruntime = lazy_load_dep("optimum.onnxruntime", "optimum[onnxruntime]")
     tf_model = optimum_onnxruntime.ORTModelForSequenceClassification.from_pretrained(
         model,
-        export=export,
-        subfolder=subfolder,
-        file_name="model.onnx",
-        **kwargs,
+        export=model.onnx_path is None,
+        file_name=model.onnx_filename,
+        subfolder=model.onnx_subfolder,
+        **model.kwargs,
     )
     LOGGER.debug("Initialized classification ONNX model", model=model, device=device())
 
@@ -76,7 +76,8 @@ def _ort_model_for_sequence_classification(
 
 
 def get_tokenizer_and_model_for_classification(
-    model: str, onnx_model: Optional[str] = None, use_onnx: bool = False, **kwargs
+    model: Model,
+    use_onnx: bool = False,
 ):
     """
     This function loads a tokenizer and model given a model identifier and caches them.
@@ -84,36 +85,30 @@ def get_tokenizer_and_model_for_classification(
 
     Args:
         model (str): The model identifier to load the tokenizer and model for.
-        onnx_model (Optional[str]): The model identifier to load the ONNX model for. Defaults to None.
         use_onnx (bool): Whether to use the ONNX version of the model. Defaults to False.
-        **kwargs: Keyword arguments to pass to the tokenizer and model.
     """
-    tf_tokenizer = get_tokenizer(model, **kwargs)
+    tf_tokenizer = get_tokenizer(model, **model.kwargs)
     transformers = lazy_load_dep("transformers")
 
-    if kwargs.get("max_length", None) is None:
-        kwargs["max_length"] = tf_tokenizer.model_max_length
+    if model.kwargs.get("max_length", None) is None:
+        model.kwargs["max_length"] = tf_tokenizer.model_max_length
 
     if use_onnx and is_onnx_supported() is False:
         LOGGER.warning("ONNX is not supported on this machine. Using PyTorch instead of ONNX.")
         use_onnx = False
 
     if use_onnx is False:
-        tf_model = transformers.AutoModelForSequenceClassification.from_pretrained(model, **kwargs)
+        tf_model = transformers.AutoModelForSequenceClassification.from_pretrained(
+            model.path, subfolder=model.subfolder, **model.kwargs
+        )
         LOGGER.debug("Initialized classification model", model=model, device=device())
 
         return tf_tokenizer, tf_model
 
-    subfolder = "onnx" if onnx_model == model else ""
-    if onnx_model is not None:
-        model = onnx_model
-
     # Hack for some models
     tf_tokenizer.model_input_names = ["input_ids", "attention_mask"]
 
-    tf_model = _ort_model_for_sequence_classification(
-        model, export=onnx_model is None, subfolder=subfolder, **kwargs
-    )
+    tf_model = _ort_model_for_sequence_classification(model)
 
     return tf_tokenizer, tf_model
 

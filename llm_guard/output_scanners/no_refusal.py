@@ -1,6 +1,7 @@
 from enum import Enum
-from typing import Dict, List, Optional, Union
+from typing import List, Optional, Union
 
+from llm_guard.model import Model
 from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
 from llm_guard.util import calculate_risk_score, get_logger, split_text_by_sentences
 
@@ -8,7 +9,15 @@ from .base import Scanner
 
 LOGGER = get_logger()
 
-_model_path = "ProtectAI/distilroberta-base-rejection-v1"
+DEFAULT_MODEL = Model(
+    path="ProtectAI/distilroberta-base-rejection-v1",
+    onnx_path="ProtectAI/distilroberta-base-rejection-v1-onnx",
+    onnx_subfolder="onnx",
+    pipeline_kwargs={
+        "max_length": 512,
+        "truncation": True,
+    },
+)
 
 
 class MatchType(Enum):
@@ -32,23 +41,19 @@ class NoRefusal(Scanner):
     def __init__(
         self,
         *,
-        model_path: str = _model_path,
+        model: Optional[Model] = None,
         threshold: float = 0.75,
         match_type: Union[MatchType, str] = MatchType.FULL,
         use_onnx: bool = False,
-        model_kwargs: Optional[Dict] = None,
-        pipeline_kwargs: Optional[Dict] = None,
     ):
         """
         Initializes an instance of the NoRefusal class.
 
         Parameters:
-            model_path (str): The model path to use for scanning.
+            model (Model, optional): The model to use for refusal detection.
             threshold (float): The similarity threshold to consider an output as refusal.
             match_type (MatchType): Whether to match the full text or individual sentences. Default is MatchType.FULL.
             use_onnx (bool): Whether to use the ONNX version of the model. Defaults to False.
-            model_kwargs (Dict, optional): Keyword arguments passed to the model.
-            pipeline_kwargs (Dict, optional): Keyword arguments passed to the pipeline.
         """
 
         if isinstance(match_type, str):
@@ -57,25 +62,19 @@ class NoRefusal(Scanner):
         self._threshold = threshold
         self._match_type = match_type
 
-        default_pipeline_kwargs = {
-            "max_length": 512,
-            "truncation": True,
-        }
-        if pipeline_kwargs is None:
-            pipeline_kwargs = {}
-
-        pipeline_kwargs = {**default_pipeline_kwargs, **pipeline_kwargs}
-        model_kwargs = model_kwargs or {}
+        if model is None:
+            model = DEFAULT_MODEL
 
         tf_tokenizer, tf_model = get_tokenizer_and_model_for_classification(
-            model=model_path, onnx_model=model_path, use_onnx=use_onnx, **model_kwargs
+            model=model,
+            use_onnx=use_onnx,
         )
 
         self._pipeline = pipeline(
             task="text-classification",
             model=tf_model,
             tokenizer=tf_tokenizer,
-            **pipeline_kwargs,
+            **model.pipeline_kwargs,
         )
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):

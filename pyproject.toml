@@ -32,7 +32,7 @@ dependencies = [
   "sentencepiece==0.2.0",
   "tiktoken>=0.5,<0.7",
   "torch==2.0.1",
-  "transformers==4.38.2",
+  "transformers==4.39.0",
   "span-marker==1.5.0",
   "structlog>=24"
 ]

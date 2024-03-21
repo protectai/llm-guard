@@ -1,15 +1,16 @@
-from typing import Dict, Optional, Sequence
+from typing import Optional, Sequence
 
 from presidio_anonymizer.core.text_replace_builder import TextReplaceBuilder
 
+from llm_guard.model import Model
 from llm_guard.util import device, get_logger, lazy_load_dep
 
 from .base import Scanner
 
 LOGGER = get_logger()
 
-MODEL_BASE = "tomaarsen/span-marker-bert-base-orgs"
-MODEL_SMALL = "tomaarsen/span-marker-bert-small-orgs"
+MODEL_BASE = Model("tomaarsen/span-marker-bert-base-orgs")
+MODEL_SMALL = Model("tomaarsen/span-marker-bert-small-orgs")
 
 
 class BanCompetitors(Scanner):
@@ -25,8 +26,7 @@ class BanCompetitors(Scanner):
         *,
         threshold: float = 0.5,
         redact: bool = True,
-        model: Optional[str] = None,
-        model_kwargs: Optional[Dict] = None,
+        model: Optional[Model] = None,
     ):
         """
         Initialize BanCompetitors object.
@@ -35,8 +35,7 @@ class BanCompetitors(Scanner):
             competitors (Sequence[str]): List of competitors to detect.
             threshold (float, optional): Threshold to determine if a competitor is present in the prompt. Default is 0.5.
             redact (bool, optional): Whether to redact the competitor name. Default is True.
-            model (str, optional): Model to use for named-entity recognition. Default is BASE model.
-            model_kwargs (Dict, optional): Keyword arguments passed to the model.
+            model (Model, optional): Model to use for named-entity recognition. Default is BASE model.
 
         Raises:
             ValueError: If no topics are provided.
@@ -50,7 +49,7 @@ class BanCompetitors(Scanner):
 
         span_marker = lazy_load_dep("span_marker", "span-marker")
         self._ner_pipeline = span_marker.SpanMarkerModel.from_pretrained(
-            model, labels=["ORG"], **(model_kwargs or {})
+            model.path, labels=["ORG"], **model.kwargs
         )
 
         if device().type == "cuda":

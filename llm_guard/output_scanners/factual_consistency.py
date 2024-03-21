@@ -1,6 +1,7 @@
 from typing import Dict, Optional
 
 from llm_guard.input_scanners.ban_topics import MODEL_BASE
+from llm_guard.model import Model
 from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification
 from llm_guard.util import device, get_logger, lazy_load_dep
 
@@ -20,7 +21,7 @@ class FactualConsistency(Scanner):
     def __init__(
         self,
         *,
-        model_path: Optional[str] = None,
+        model: Optional[Model] = None,
         minimum_score=0.5,
         use_onnx=False,
         model_kwargs: Optional[Dict] = None,
@@ -29,7 +30,7 @@ class FactualConsistency(Scanner):
         Initializes an instance of the Refutation class.
 
         Parameters:
-            model_path (str): Path to the model. Defaults to None.
+            model (Model, optional): The model to use for entailment checking. Defaults to None.
             minimum_score (float): The minimum entailment score for the output to be considered valid. Defaults to 0.5.
             use_onnx (bool): Whether to use the ONNX version of the model. Defaults to False.
             model_kwargs (Dict, optional): Keyword arguments passed to the model.
@@ -37,14 +38,12 @@ class FactualConsistency(Scanner):
 
         self._minimum_score = minimum_score
 
-        if model_path is None:
-            model_path = MODEL_BASE
+        if model is None:
+            model = MODEL_BASE
 
         self._tokenizer, self._model = get_tokenizer_and_model_for_classification(
-            model=model_path,
-            onnx_model=model_path,
+            model=model,
             use_onnx=use_onnx,
-            **(model_kwargs or {}),
         )
         self._model = self._model.to(device())
 
