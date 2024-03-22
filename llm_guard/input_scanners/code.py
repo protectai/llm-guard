@@ -12,7 +12,7 @@ LOGGER = get_logger()
 
 DEFAULT_MODEL = Model(
     path="philomath-1209/programming-language-identification",
-    onnx_path="philomath-1209/programming-language-identification-onnx",
+    onnx_path="philomath-1209/programming-language-identification",
     onnx_subfolder="onnx",
     pipeline_kwargs={"truncation": True},
 )
