@@ -90,9 +90,6 @@ def get_tokenizer_and_model_for_classification(
     tf_tokenizer = get_tokenizer(model, **model.kwargs)
     transformers = lazy_load_dep("transformers")
 
-    if model.kwargs.get("max_length", None) is None:
-        model.kwargs["max_length"] = tf_tokenizer.model_max_length
-
     if use_onnx and is_onnx_supported() is False:
         LOGGER.warning("ONNX is not supported on this machine. Using PyTorch instead of ONNX.")
         use_onnx = False
@@ -124,6 +121,9 @@ def pipeline(
 ):
     if task not in get_args(ClassificationTask):
         raise LLMGuardValidationError(f"Invalid task. Must be one of {ClassificationTask}")
+
+    if kwargs.get("max_length", None) is None:
+        kwargs["max_length"] = tokenizer.model_max_length
 
     transformers = lazy_load_dep("transformers")
     return transformers.pipeline(
