@@ -4,7 +4,6 @@ app:
   scan_fail_fast: ${SCAN_FAIL_FAST:false}
   scan_prompt_timeout: ${SCAN_PROMPT_TIMEOUT:10}
   scan_output_timeout: ${SCAN_OUTPUT_TIMEOUT:30}
-  port: ${APP_PORT:8000}
 
 cache:
   ttl: ${CACHE_TTL:3600}

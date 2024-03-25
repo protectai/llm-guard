@@ -21,8 +21,11 @@ build-docker-multi:
 build-docker-cuda-multi:
 	@docker buildx build --platform linux/amd64 -t $(DOCKER_IMAGE_NAME):$(VERSION)-cuda -t $(DOCKER_IMAGE_NAME):latest-cuda -f Dockerfile-cuda . --push
 
-run: install
+run-uvicorn: install
 	llm_guard_api ./config/scanners.yml
+
+run-gunicorn: install
+	@gunicorn --workers 1 --preload --worker-class uvicorn.workers.UvicornWorker 'app.app:create_app(config_file="./config/scanners.yml")'
 
 run-docker:
 	@docker run -p 8000:8000 -e DEBUG='true' -v ./config:/home/user/app/config $(DOCKER_IMAGE_NAME):$(VERSION)
