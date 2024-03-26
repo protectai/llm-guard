@@ -8,14 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased] - 0.3.11
 
 ### Added
--
+- Lazy loading of models in the API deployment. Now you can start loading models when the first request comes.
+- Support for `gunicorn` in the API deployment.
 
 ### Fixed
 - `InvisibleText` scanner to allow control characters like `\n`, `\t`, etc.
 
 ### Changed
 - **[Breaking]**: Introducing `Model` object for better customization of the models.
-- Support for `gunicorn` in the API deployment.
+-
 
 ### Removed
 - `model_kwargs` and `pipeline_kwargs` as they are part of the `Model` object.

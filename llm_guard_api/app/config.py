@@ -45,6 +45,7 @@ class AppConfig(BaseModel):
     scan_fail_fast: Optional[bool] = Field(default=False)
     scan_prompt_timeout: Optional[int] = Field(default=10)
     scan_output_timeout: Optional[int] = Field(default=30)
+    lazy_load: Optional[bool] = Field(default=False)
 
 
 class ScannerConfig(BaseModel):
