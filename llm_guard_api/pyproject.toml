@@ -19,11 +19,11 @@ requires-python = ">=3.9"
 
 dependencies = [
     "asyncio==3.4.3",
-    "fastapi==0.110.0",
+    "fastapi>=0.110",
     "llm-guard==0.3.10",
     "pydantic==1.10.14",
     "pyyaml==6.0.1",
-    "uvicorn[standard]==0.29.0",
+    "uvicorn[standard]>=0.29",
     "structlog>=24",
     "slowapi==0.1.9",
     "opentelemetry-instrumentation-fastapi==0.44b0",
@@ -32,7 +32,8 @@ dependencies = [
     "opentelemetry-exporter-otlp-proto-http==1.23.0",
     "opentelemetry-exporter-prometheus==0.44b0",
     "opentelemetry-sdk-extension-aws==2.0.1",
-    "opentelemetry-propagator-aws-xray==1.0.1"
+    "opentelemetry-propagator-aws-xray==1.0.1",
+    "gunicorn>=21",
 ]
 
 [project.optional-dependencies]
@@ -54,4 +55,4 @@ requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project.scripts]
-llm_guard_api = "app.app:run_app"
+llm_guard_api = "app.__main__:run_uvicorn"

@@ -43,7 +43,7 @@ pip install llm-guard
 **Examples**:
 
 - Get started with [ChatGPT and LLM Guard](./examples/openai_api.py).
-- Deploy LLM Guard as [API](https://llm-guard.com/usage/api/)
+- Deploy LLM Guard as [API](https://llm-guard.com/api/overview/)
 
 ## Supported scanners
 

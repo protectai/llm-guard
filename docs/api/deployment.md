@@ -15,10 +15,29 @@ python -m pip install ".[gpu]" # If you have a GPU
 make install
 ```
 
-4. Run the API locally:
+### Using uvicorn
+
+Run the API locally:
+
 ```bash
 make run
 ```
+
+Or using CLI:
+
+```bash
+llm_guard_api ./config/scanners.yml
+```
+
+### Using gunicorn
+
+In case you want to use `gunicorn` to run the API, you can use the following command:
+
+```bash
+gunicorn --workers 1 --preload --worker-class uvicorn.workers.UvicornWorker 'app.app:create_app(config_file="./config/scanners.yml")'
+```
+
+It will preload models in the shared memory among workers, which can be useful for performance.
 
 ## From Docker
 
@@ -61,3 +80,9 @@ docker run -d -p 8000:8000 -e LOG_LEVEL='INFO' -v ./config:/home/user/app/config
 
 If you get an out-of-memory error, you can change `config.yml` file to use less scanners.
 Alternatively, you can enable `low_cpu_mem_usage` in scanners that rely on HuggingFace models.
+
+### Failed HTTP probe
+
+If you get a failed HTTP probe, it might be because the API is still starting. You can increase the `initialDelaySeconds` in the Kubernetes deployment.
+
+Alternatively, you can configure `lazy_load` in the YAML config file to load models only on the first request.
