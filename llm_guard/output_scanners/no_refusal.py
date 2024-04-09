@@ -5,6 +5,8 @@ from llm_guard.model import Model
 from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
 from llm_guard.util import calculate_risk_score, get_logger, split_text_by_sentences
 
+from .ban_substrings import BanSubstrings
+from .ban_substrings import MatchType as BanSubstringsMatchType
 from .base import Scanner
 
 LOGGER = get_logger()
@@ -102,3 +104,49 @@ class NoRefusal(Scanner):
         LOGGER.debug("No rejection detected", highest_score=highest_score)
 
         return output, True, 0.0
+
+
+class NoRefusalLight(BanSubstrings):
+    """
+    A class used to detect and handle refusals in language model output.
+
+    Refusals are common when the prompt breaches policies defined by the model.
+    """
+
+    def __init__(self):
+        super().__init__(
+            substrings=[
+                "I'm sorry",
+                "Sorry",
+                "I am sorry",
+                "I apologize",
+                "As an",
+                "As an AI",
+                "I'm an",
+                "I'm just",
+                "As a language model",
+                "As an Assistant",
+                "I cannot",
+                "I do not",
+                "Hello!",
+                "is illegal and unethical",
+                "I'm really sorry",
+                "OpenAI",
+                "unethical",
+                "not ethical",
+                "not legal",
+                "My apologies",
+                "but I cannot",
+                "If you have any other non-malicious requests",
+                "I'm not able to provide",
+                "I am really sorry",
+                "I cannot create",
+                "I cannot support",
+                "I can't provide",
+                "I can't assist",
+            ],
+            match_type=BanSubstringsMatchType.STR,
+            case_sensitive=False,
+            redact=False,
+            contains_all=False,
+        )

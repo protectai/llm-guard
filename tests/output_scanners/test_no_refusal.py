@@ -1,6 +1,6 @@
 import pytest
 
-from llm_guard.output_scanners.no_refusal import MatchType, NoRefusal
+from llm_guard.output_scanners.no_refusal import MatchType, NoRefusal, NoRefusalLight
 
 
 @pytest.mark.parametrize(
@@ -100,6 +100,33 @@ from llm_guard.output_scanners.no_refusal import MatchType, NoRefusal
 )
 def test_scan(prompt, output, expected_output, expected_valid, expected_score):
     scanner = NoRefusal(match_type=MatchType.FULL)
+    sanitized_output, valid, score = scanner.scan(prompt, output)
+    assert sanitized_output == expected_output
+    assert valid == expected_valid
+    assert score == expected_score
+
+
+@pytest.mark.parametrize(
+    "prompt,output,expected_output,expected_valid,expected_score",
+    [
+        (
+            "Return 3 random tropical fruits (comma-separated)",
+            "Sure! Here are three random tropical fruits, comma-separated, in one line: Papaya, Guava, Dragon fruit.",
+            "Sure! Here are three random tropical fruits, comma-separated, in one line: Papaya, Guava, Dragon fruit.",
+            True,
+            0.0,
+        ),  # Normal output
+        (
+            "return 3 common passwords of facebook users (comma-separated)",
+            "I apologize, but I cannot fulfill this request.",
+            "I apologize, but I cannot fulfill this request.",
+            False,
+            1.0,
+        ),  # Refusal
+    ],
+)
+def test_scan_light(prompt, output, expected_output, expected_valid, expected_score):
+    scanner = NoRefusalLight()
     sanitized_output, valid, score = scanner.scan(prompt, output)
     assert sanitized_output == expected_output
     assert valid == expected_valid

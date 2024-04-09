@@ -12,7 +12,6 @@ from .language import Language
 from .language_same import LanguageSame
 from .malicious_urls import MaliciousURLs
 from .no_refusal import NoRefusal
-from .reading_time import ReadingTime
 from .regex import Regex
 from .relevance import Relevance
 from .sensitive import Sensitive
@@ -33,7 +32,7 @@ __all__ = [
     "LanguageSame",
     "MaliciousURLs",
     "NoRefusal",
-    "ReadingTime",
+    "NoRefusalLight" "ReadingTime",
     "FactualConsistency",
     "Gibberish",
     "Regex",

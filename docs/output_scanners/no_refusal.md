@@ -21,6 +21,8 @@ It leverages the proprietary
 model [ProtectAI/distilroberta-base-rejection-v1](https://huggingface.co/ProtectAI/distilroberta-base-rejection-v1) to
 classify the model's output.
 
+Alternatively, it has lighter version that uses a simple rule-based approach to detect refusals. Such approach is common in research papers when evaluating language models.
+
 ## Usage
 
 ```python
@@ -28,6 +30,15 @@ from llm_guard.output_scanners import NoRefusal
 from llm_guard.output_scanners.no_refusal import MatchType
 
 scanner = NoRefusal(threshold=0.5, match_type=MatchType.FULL)
+sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
+```
+
+Alternatively, a lighter version can be used:
+
+```python
+from llm_guard.output_scanners import NoRefusalLight
+
+scanner = NoRefusalLight()
 sanitized_output, is_valid, risk_score = scanner.scan(prompt, model_output)
 ```
 

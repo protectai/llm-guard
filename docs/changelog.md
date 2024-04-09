@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Lazy loading of models in the API deployment. Now you can start loading models when the first request comes.
 - Support for `gunicorn` in the API deployment.
+- `NoRefusalLight` scanner that uses a common set of phrases to detect refusal as per research papers.
 
 ### Fixed
 - `InvisibleText` scanner to allow control characters like `\n`, `\t`, etc.
