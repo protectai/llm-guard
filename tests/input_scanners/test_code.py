@@ -33,6 +33,18 @@ console.log(sayHello());
             True,
             0.0,
         ),  # Python is allowed
+        (
+            """function sayHello() {
+    return "Hello, World!";
+}
+console.log(sayHello());""",
+            """function sayHello() {
+    return "Hello, World!";
+}
+console.log(sayHello());""",
+            False,
+            1.0,
+        ),
     ],
 )
 def test_scan(prompt, expected_prompt, expected_valid, expected_score):

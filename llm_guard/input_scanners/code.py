@@ -16,7 +16,7 @@ DEFAULT_MODEL = Model(
     onnx_path="philomath-1209/programming-language-identification",
     onnx_revision="9090d38e7333a2c6ff00f154ab981a549842c20f",
     onnx_subfolder="onnx",
-    pipeline_kwargs={"truncation": True},
+    pipeline_kwargs={"truncation": True, "top_k": None},
 )
 
 SUPPORTED_LANGUAGES = [
@@ -126,33 +126,36 @@ class Code(Scanner):
         # Try to extract code snippets from Markdown
         code_blocks = self._extract_code_blocks(prompt)
         if len(code_blocks) == 0:
-            LOGGER.debug("No Markdown code blocks found in the output")
-            return prompt, True, 0.0
+            LOGGER.debug(
+                "No Markdown code blocks found in the output. Using the whole input as code."
+            )
+            code_blocks = [prompt]
 
         LOGGER.debug("Code blocks found in the output", code_blocks=code_blocks)
 
         # Only check when the code is detected
-        for code_block in code_blocks:
-            languages = self._pipeline(code_block)
+        results = self._pipeline(code_blocks)
+        for code_block, languages in zip(code_blocks, results):
             LOGGER.debug(
                 "Detected languages in the code", languages=languages, code_block=code_block
             )
 
             for language in languages:
-                language_name = language["label"]
                 score = round(language["score"], 2)
 
-                if score < self._threshold or language_name not in self._languages:
+                if score < self._threshold or language["label"] not in self._languages:
                     continue
 
                 if self._is_blocked:
                     LOGGER.warning(
-                        "Language is not allowed", language_name=language_name, score=score
+                        "Language is not allowed", language_name=language["label"], score=score
                     )
                     return prompt, False, calculate_risk_score(score, self._threshold)
 
                 if not self._is_blocked:
-                    LOGGER.debug("Language is allowed", language_name=language_name, score=score)
+                    LOGGER.debug(
+                        "Language is allowed", language_name=language["label"], score=score
+                    )
                     return prompt, True, 0.0
 
         if self._is_blocked:
