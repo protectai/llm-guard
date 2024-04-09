@@ -20,7 +20,7 @@ classifiers = [
 requires-python = ">=3.9"
 
 dependencies = [
-  "detect-secrets==1.4.0",
+  "bc-detect-secrets==1.5.5",
   "faker>=22,<25",
   "fuzzysearch>=0.7,<0.9",
   "json-repair>=0.8,<0.12",
@@ -30,17 +30,17 @@ dependencies = [
   "regex==2023.12.25",
   "tiktoken>=0.5,<0.7",
   "torch==2.0.1",
-  "transformers==4.38.2",
+  "transformers==4.39.3",
   "span-marker==1.5.0",
   "structlog>=24"
 ]
 
 [project.optional-dependencies]
 onnxruntime = [
-  "optimum[onnxruntime]>=1.17.1",
+  "optimum[onnxruntime]>=1.18",
 ]
 onnxruntime-gpu = [
-  "optimum[onnxruntime-gpu]>=1.17.1",
+  "optimum[onnxruntime-gpu]>=1.18",
 ]
 docs-dev = [
   "mkdocs>=1.5,<2",
