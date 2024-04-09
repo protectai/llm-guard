@@ -11,7 +11,9 @@ LOGGER = get_logger()
 
 DEFAULT_MODEL = Model(
     path="unitary/unbiased-toxic-roberta",
+    revision="36295dd80b422dc49f40052021430dae76241adc",
     onnx_path="ProtectAI/unbiased-toxic-roberta-onnx",
+    onnx_revision="34480fa958f6657ad835c345808475755b6974a7",
     pipeline_kwargs={
         "padding": "max_length",
         "top_k": None,

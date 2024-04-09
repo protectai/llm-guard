@@ -11,7 +11,9 @@ LOGGER = get_logger()
 
 DEFAULT_MODEL = Model(
     path="madhurjindal/autonlp-Gibberish-Detector-492513457",
+    revision="fddf42c3008ad61cc481f90d02dd0712ba1ee2d8",
     onnx_path="madhurjindal/autonlp-Gibberish-Detector-492513457",
+    onnx_revision="fddf42c3008ad61cc481f90d02dd0712ba1ee2d8",
     onnx_subfolder="onnx",
     pipeline_kwargs={"truncation": True},
 )

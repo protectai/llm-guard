@@ -9,8 +9,12 @@ from .base import Scanner
 
 LOGGER = get_logger()
 
-MODEL_BASE = Model("tomaarsen/span-marker-bert-base-orgs")
-MODEL_SMALL = Model("tomaarsen/span-marker-bert-small-orgs")
+MODEL_BASE = Model(
+    "tomaarsen/span-marker-bert-base-orgs", revision="312bcdb7bc02c85ab9b8b8fe99849ca28714b29d"
+)
+MODEL_SMALL = Model(
+    "tomaarsen/span-marker-bert-small-orgs", revision="437bd92fcc2b4236b7d7402113d47920793bab46"
+)
 
 
 class BanCompetitors(Scanner):

@@ -151,13 +151,18 @@ class TransformersRecognizer(EntityRecognizer):
                 provider="CUDAExecutionProvider"
                 if device().type == "cuda"
                 else "CPUExecutionProvider",
+                revision=self.model.onnx_revision,
+                file_name=self.model.onnx_filename,
                 use_io_binding=True if device().type == "cuda" else False,
                 **self.model.kwargs,
             )
             LOGGER.debug("Initialized NER ONNX model", model=self.model, device=device())
         else:
             tf_model = transformers.AutoModelForTokenClassification.from_pretrained(
-                self.model.path, subfolder=self.model.subfolder, **self.model.kwargs
+                self.model.path,
+                subfolder=self.model.subfolder,
+                revision=self.model.revision,
+                **self.model.kwargs,
             )
             LOGGER.debug("Initialized NER model", model=self.model, device=device())
 

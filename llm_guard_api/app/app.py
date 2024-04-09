@@ -313,6 +313,7 @@ def register_routes(
         return response
 
     if config.metrics and config.metrics.exporter == "prometheus":
+
         @app.get("/metrics", tags=["Metrics"])
         @limiter.exempt
         async def metrics_handler():

@@ -10,15 +10,25 @@ LOGGER = get_logger()
 
 MODEL_EN_BGE_BASE = Model(
     path="BAAI/bge-base-en-v1.5",
-    onnx_path="neuralmagic/bge-base-en-v1.5-quant",  # Quantized and converted to ONNX version of BGE base
+    revision="a5beb1e3e68b9ab74eb54cfd186867f64f240e1a",
+    onnx_path="BAAI/bge-base-en-v1.5",
+    onnx_subfolder="onnx",
+    onnx_filename="model.onnx",
+    onnx_revision="a5beb1e3e68b9ab74eb54cfd186867f64f240e1a",
 )
 MODEL_EN_BGE_LARGE = Model(
     path="BAAI/bge-large-en-v1.5",
-    onnx_path="neuralmagic/bge-large-en-v1.5-quant",  # Quantized and converted to ONNX version of BGE large
+    revision="d4aa6901d3a41ba39fb536a557fa166f842b0e09",
+    onnx_path="BAAI/bge-large-en-v1.5",
+    onnx_subfolder="onnx",
+    onnx_revision="d4aa6901d3a41ba39fb536a557fa166f842b0e09",
 )
 MODEL_EN_BGE_SMALL = Model(
     path="BAAI/bge-small-en-v1.5",
-    onnx_path="neuralmagic/bge-small-en-v1.5-quant",  # Quantized and converted to ONNX version of BGE small
+    revision="5c38ec7c405ec4b44b94cc5a9bb96e735b38267a",
+    onnx_path="BAAI/bge-small-en-v1.5",
+    onnx_revision="5c38ec7c405ec4b44b94cc5a9bb96e735b38267a",
+    onnx_subfolder="onnx",
 )
 
 torch = lazy_load_dep("torch")
@@ -71,6 +81,8 @@ class Relevance(Scanner):
                 model.onnx_path,
                 export=False,
                 subfolder=model.onnx_subfolder,
+                file_name=model.onnx_filename,
+                revision=model.onnx_revision,
                 provider="CUDAExecutionProvider"
                 if device().type == "cuda"
                 else "CPUExecutionProvider",
@@ -81,7 +93,7 @@ class Relevance(Scanner):
         else:
             transformers = lazy_load_dep("transformers")
             self._model = transformers.AutoModel.from_pretrained(
-                model.path, subfolder=model.subfolder, **model.kwargs
+                model.path, subfolder=model.subfolder, revision=model.revision, **model.kwargs
             ).to(device())
             LOGGER.debug("Initialized model", model=model, device=device())
             self._model.eval()

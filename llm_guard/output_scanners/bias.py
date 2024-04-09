@@ -11,7 +11,9 @@ LOGGER = get_logger()
 
 DEFAULT_MODEL = Model(
     path="valurank/distilroberta-bias",
+    revision="c1e4a2773522c3acc929a7b2c9af2b7e4137b96d",
     onnx_path="ProtectAI/distilroberta-bias-onnx",
+    onnx_revision="3e64d057d20d7ef43fa4f831b992bad28d72640e",
     pipeline_kwargs={"truncation": True},
 )
 

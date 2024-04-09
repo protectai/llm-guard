@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - **[Breaking]**: Introducing `Model` object for better customization of the models.
 - Updated all libraries
+- Introduced `revision` for all models to ensure the same model is used for the same revision.
 
 ### Removed
 - `model_kwargs` and `pipeline_kwargs` as they are part of the `Model` object.

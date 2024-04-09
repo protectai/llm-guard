@@ -1,4 +1,4 @@
-from typing import Dict, Optional
+from typing import Optional
 
 from llm_guard.input_scanners.ban_topics import MODEL_BASE
 from llm_guard.model import Model
@@ -24,7 +24,6 @@ class FactualConsistency(Scanner):
         model: Optional[Model] = None,
         minimum_score=0.5,
         use_onnx=False,
-        model_kwargs: Optional[Dict] = None,
     ):
         """
         Initializes an instance of the Refutation class.
@@ -33,7 +32,6 @@ class FactualConsistency(Scanner):
             model (Model, optional): The model to use for entailment checking. Defaults to None.
             minimum_score (float): The minimum entailment score for the output to be considered valid. Defaults to 0.5.
             use_onnx (bool): Whether to use the ONNX version of the model. Defaults to False.
-            model_kwargs (Dict, optional): Keyword arguments passed to the model.
         """
 
         self._minimum_score = minimum_score

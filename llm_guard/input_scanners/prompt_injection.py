@@ -12,8 +12,11 @@ LOGGER = get_logger()
 # This model is proprietary but open source.
 DEFAULT_MODEL = Model(
     path="ProtectAI/deberta-v3-base-prompt-injection",
+    revision="f51c3b2a5216ae1af467b511bc7e3b78dc4a99c9",
     onnx_path="ProtectAI/deberta-v3-base-prompt-injection",
+    onnx_revision="f51c3b2a5216ae1af467b511bc7e3b78dc4a99c9",
     onnx_subfolder="onnx",
+    onnx_filename="model.onnx",
     pipeline_kwargs={
         "max_length": 512,
         "truncation": True,

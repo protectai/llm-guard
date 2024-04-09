@@ -11,7 +11,9 @@ LOGGER = get_logger()
 
 DEFAULT_MODEL = Model(
     path="ProtectAI/distilroberta-base-rejection-v1",
-    onnx_path="ProtectAI/distilroberta-base-rejection-v1-onnx",
+    revision="65584967c3f22ff7723e5370c65e0e76791e6055",
+    onnx_path="ProtectAI/distilroberta-base-rejection-v1",
+    onnx_revision="65584967c3f22ff7723e5370c65e0e76791e6055",
     onnx_subfolder="onnx",
     pipeline_kwargs={
         "max_length": 512,

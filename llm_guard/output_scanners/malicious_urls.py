@@ -9,7 +9,9 @@ from .base import Scanner
 LOGGER = get_logger()
 DEFAULT_MODEL = Model(
     path="DunnBC22/codebert-base-Malicious_URLs",
+    revision="1221284b2495a4182cdb521be9d755de56e66899",
     onnx_path="ProtectAI/codebert-base-Malicious_URLs-onnx",
+    onnx_revision="7bc4fa926eeae5e752d0790cc42faa24eb32fa64",
     pipeline_kwargs={
         "max_length": 512,
         "truncation": True,

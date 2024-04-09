@@ -1,4 +1,4 @@
-from typing import Dict, Optional, Sequence
+from typing import Optional, Sequence
 
 from llm_guard.input_scanners.code import Code as InputCode
 from llm_guard.model import Model
@@ -22,7 +22,6 @@ class Code(Scanner):
         is_blocked: bool = True,
         threshold: float = 0.5,
         use_onnx: bool = False,
-        pipeline_kwargs: Optional[Dict] = None,
     ):
         """
         Initializes an instance of the Code class.

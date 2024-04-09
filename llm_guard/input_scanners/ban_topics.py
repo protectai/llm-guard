@@ -12,7 +12,9 @@ LOGGER = get_logger()
 # The model is English only. You can also use it for multilingual zeroshot classification by first machine translating texts to English.
 MODEL_LARGE = Model(
     path="MoritzLaurer/deberta-v3-large-zeroshot-v1.1-all-33",
+    revision="c5dca3bda16d30337e493e3e3e5caa19a3e7c8c2",
     onnx_path="MoritzLaurer/deberta-v3-large-zeroshot-v1.1-all-33",
+    onnx_revision="c5dca3bda16d30337e493e3e3e5caa19a3e7c8c2",
     onnx_subfolder="onnx",
     pipeline_kwargs={
         "max_length": 512,
@@ -24,7 +26,9 @@ MODEL_LARGE = Model(
 # Use it if you need more speed. The model is English-only.
 MODEL_BASE = Model(
     path="MoritzLaurer/deberta-v3-base-zeroshot-v1.1-all-33",
+    revision="7520e29795fdb58f884ef65ef6c46de2a5a8a63c",
     onnx_path="MoritzLaurer/deberta-v3-base-zeroshot-v1.1-all-33",
+    onnx_revision="7520e29795fdb58f884ef65ef6c46de2a5a8a63c",
     onnx_subfolder="onnx",
     pipeline_kwargs={
         "max_length": 512,
@@ -35,7 +39,9 @@ MODEL_BASE = Model(
 # Same as above, just smaller/faster.
 MODEL_XSMALL = Model(
     path="MoritzLaurer/deberta-v3-xsmall-zeroshot-v1.1-all-33",
+    revision="02d678b25107a8e8e9d41276a593a4b43ebcf9ca",
     onnx_path="MoritzLaurer/deberta-v3-xsmall-zeroshot-v1.1-all-33",
+    onnx_revision="02d678b25107a8e8e9d41276a593a4b43ebcf9ca",
     onnx_subfolder="onnx",
     pipeline_kwargs={
         "max_length": 512,
