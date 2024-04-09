@@ -17,12 +17,19 @@ Activate ONNX by initializing your scanner with the use_onnx parameter set to Tr
 scanner = Code(languages=["PHP"], use_onnx=True)
 ```
 
+## ONNX Runtime with Quantization
+
+Although not built-in in the library, you can use quantized or optimized versions of the models. However, that doesn't always lead to better latency but can reduce the model size.
+
 ## Enabling Low CPU/Memory Usage
 
-When available, the transformers_kwargs parameter can be configured to minimize CPU and memory usage:
+To minimize CPU and memory usage:
 
 ```python
-scanner = Code(languages=["PHP"], transformers_kwargs={"low_cpu_mem_usage": True})
+from llm_guard.input_scanners.code import Code, DEFAULT_MODEL
+
+DEFAULT_MODEL.kwargs["low_cpu_mem_usage"] = True
+scanner = Code(languages=["PHP"], model=DEFAULT_MODEL)
 ```
 
 For an in-depth understanding of this feature and its impact on large model handling, refer to the detailed [Large Model Loading Documentation](https://huggingface.co/docs/transformers/main_classes/model#large-model-loading).
@@ -30,3 +37,15 @@ For an in-depth understanding of this feature and its impact on large model hand
 ## Use smaller models
 
 For certain scanners, smaller model variants are available. These models are designed for enhanced performance, offering reduced latency without significantly compromising accuracy or effectiveness.
+
+## PyTorch hacks
+
+To speed up warm compile times:
+
+```python
+import torch
+torch.set_float32_matmul_precision('high')
+
+import torch._inductor.config
+torch._inductor.config.fx_graph_cache = True
+```

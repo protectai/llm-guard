@@ -116,12 +116,16 @@ class Relevance(Scanner):
             truncation=True,
             return_tensors="pt",
             max_length=max_length,
-        ).to(device())
-        last_hidden_state = self._model(**inputs, return_dict=True).last_hidden_state
-        embeddings = self.pooling(last_hidden_state, inputs["attention_mask"])
-        if self.normalize_embeddings:
-            embeddings = torch.nn.functional.normalize(embeddings, dim=-1)
-        embeddings = embeddings.cpu().numpy()
+        )
+        inputs = {key: val.to(device()) for key, val in inputs.items()}
+
+        with torch.no_grad():
+            last_hidden_state = self._model(**inputs, return_dict=True).last_hidden_state
+            embeddings = self.pooling(last_hidden_state, inputs["attention_mask"])
+            if self.normalize_embeddings:
+                embeddings = torch.nn.functional.normalize(embeddings, dim=-1)
+
+            embeddings = embeddings.cpu().numpy()
 
         return embeddings[0]
 

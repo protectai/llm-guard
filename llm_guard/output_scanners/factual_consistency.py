@@ -10,6 +10,8 @@ from .base import Scanner
 torch = lazy_load_dep("torch")
 LOGGER = get_logger()
 
+import torch
+
 
 class FactualConsistency(Scanner):
     """
@@ -44,6 +46,8 @@ class FactualConsistency(Scanner):
             use_onnx=use_onnx,
         )
         self._model = self._model.to(device())
+        if not use_onnx:
+            self._model.eval()
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
         if prompt.strip() == "":
@@ -51,12 +55,15 @@ class FactualConsistency(Scanner):
 
         tokenized_input_seq_pair = self._tokenizer(
             output, prompt, padding=True, truncation=True, return_tensors="pt"
-        ).to(device())
-
-        model_output = self._model(
-            tokenized_input_seq_pair["input_ids"], tokenized_input_seq_pair["attention_mask"]
         )
-        model_prediction = torch.softmax(model_output["logits"][0], -1).tolist()
+        tokenized_input_seq_pair = {
+            key: val.to(device()) for key, val in tokenized_input_seq_pair.items()
+        }
+
+        with torch.no_grad():
+            model_output = self._model(**tokenized_input_seq_pair)
+            model_prediction = torch.softmax(model_output["logits"][0], -1).tolist()
+
         label_names = ["entailment", "not_entailment"]
         prediction = {
             name: round(float(pred), 2) for pred, name in zip(model_prediction, label_names)

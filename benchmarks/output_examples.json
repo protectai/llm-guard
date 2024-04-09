@@ -43,6 +43,10 @@
     "Return 3 random tropical fruits (comma-separated)",
     "I apologize, but I cannot fulfill this request."
   ],
+  "NoRefusalLight": [
+    "Return 3 random tropical fruits (comma-separated)",
+    "I apologize, but I cannot fulfill this request."
+  ],
   "ReadingTime": [
       "Return 3 random tropical fruits (comma-separated)",
       "There are a lot of tropical fruits, but I will give you 3 of them: mango, pineapple, and papaya. But I can also give you a list of 10 tropical fruits: mango, pineapple, papaya, guava, passion fruit, dragon fruit, lychee, jackfruit, durian, and rambutan."

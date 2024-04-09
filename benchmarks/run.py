@@ -5,6 +5,7 @@ from functools import lru_cache
 from typing import Dict, List
 
 import numpy
+import torch
 
 from llm_guard import input_scanners, output_scanners
 from llm_guard.input_scanners.anonymize_helpers import DEBERTA_AI4PRIVACY_v2_CONF
@@ -12,6 +13,12 @@ from llm_guard.input_scanners.ban_substrings import MatchType as BanSubstringsMa
 from llm_guard.input_scanners.base import Scanner as InputScanner
 from llm_guard.output_scanners.base import Scanner as OutputScanner
 from llm_guard.vault import Vault
+
+torch.set_float32_matmul_precision("high")
+
+import torch._inductor.config
+
+torch._inductor.config.fx_graph_cache = True
 
 vault = Vault()
 
@@ -109,6 +116,9 @@ def build_output_scanner(scanner_name: str, use_onnx: bool) -> OutputScanner:
 
     if scanner_name == "NoRefusal":
         return output_scanners.NoRefusal(use_onnx=use_onnx)
+
+    if scanner_name == "NoRefusalLight":
+        return output_scanners.NoRefusalLight(use_onnx=use_onnx)
 
     if scanner_name == "ReadingTime":
         return output_scanners.ReadingTime(max_time=0.5, truncate=True)
