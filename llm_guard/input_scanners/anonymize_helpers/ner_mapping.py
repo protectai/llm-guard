@@ -402,7 +402,7 @@ DEBERTA_LAKSHYAKH93_CONF = {
         revision="a038061af92047b0afbbd5ca07d7aa0521789379",
         onnx_path="protectai/lakshyakh93-deberta_finetuned_pii-onnx",
         onnx_revision="af5a07a0cb23bdf0164ef430cc0c965019c9ee24",
-        onnx_subfolder="onnx",
+        onnx_subfolder="",
         pipeline_kwargs={
             "aggregation_strategy": "simple",
         },

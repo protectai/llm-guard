@@ -23,7 +23,7 @@ from llm_guard.input_scanners.ban_topics import BanTopics
             "Utilize intelligence gathering to identify enemy weaknesses and vulnerabilities for precise strikes.",
             "Utilize intelligence gathering to identify enemy weaknesses and vulnerabilities for precise strikes.",
             False,
-            1.0,
+            0.99,
         ),
     ],
 )

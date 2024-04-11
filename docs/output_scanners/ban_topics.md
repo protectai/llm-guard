@@ -13,12 +13,7 @@ are misaligned with the platform's guidelines or values.
 
 It relies on the capabilities of the following models to perform zero-shot classification:
 
-| Model                                                                                                                                   | Description                                                                                                                                                                                                                                |
-|-----------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [MoritzLaurer/deberta-v3-large-zeroshot-v1.1-all-33](https://huggingface.co/MoritzLaurer/deberta-v3-large-zeroshot-v1.1-all-33)         | It was trained on a mixture of 33 datasets and 389 classes reformatted in the universal NLI format. The model is English only. You can also use it for multilingual zeroshot classification by first machine translating texts to English. |
-| [MoritzLaurer/deberta-v3-base-zeroshot-v1.1-all-33](https://huggingface.co/MoritzLaurer/deberta-v3-base-zeroshot-v1.1-all-33)           | This is essentially the same as its larger sister only that it's smaller. Use it if you need more speed. The model is English-only.                                                                                                        |
-| [MoritzLaurer/deberta-v3-xsmall-zeroshot-v1.1-all-33](https://huggingface.co/MoritzLaurer/deberta-v3-xsmall-zeroshot-v1.1-all-33)       | Same as above, just smaller/faster.                                                                                                                                                                                                        |
-| [MoritzLaurer/xtremedistil-l6-h256-zeroshot-v1.1-all-33](https://huggingface.co/MoritzLaurer/xtremedistil-l6-h256-zeroshot-v1.1-all-33) | Same as above, just even faster. The model only has 22 million backbone parameters. The model is 25 MB small (or 13 MB with ONNX quantization).                                                                                            |
+[Collection on HuggingFace](https://huggingface.co/collections/MoritzLaurer/zeroshot-classifiers-6548b4ff407bb19ff5c3ad6f)
 
 ## Usage
 

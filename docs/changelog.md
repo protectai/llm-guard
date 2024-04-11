@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated all libraries
 - Introduced `revision` for all models to ensure the same model is used for the same revision.
 - `Code` scanner to rely on the output if there is no Code in the prompt.
+- `BanTopics`, `FactualConsistency`: support of the [new zero-shot-classification models](https://huggingface.co/collections/MoritzLaurer/zeroshot-classifiers-6548b4ff407bb19ff5c3ad6f).
 
 ### Removed
 - `model_kwargs` and `pipeline_kwargs` as they are part of the `Model` object.

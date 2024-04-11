@@ -1,6 +1,6 @@
 from typing import Optional
 
-from llm_guard.input_scanners.ban_topics import MODEL_BASE
+from llm_guard.input_scanners.ban_topics import MODEL_DEBERTA_BASE_V2
 from llm_guard.model import Model
 from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification
 from llm_guard.util import device, get_logger, lazy_load_dep
@@ -24,7 +24,7 @@ class FactualConsistency(Scanner):
         self,
         *,
         model: Optional[Model] = None,
-        minimum_score=0.5,
+        minimum_score=0.75,
         use_onnx=False,
     ):
         """
@@ -32,14 +32,14 @@ class FactualConsistency(Scanner):
 
         Parameters:
             model (Model, optional): The model to use for entailment checking. Defaults to None.
-            minimum_score (float): The minimum entailment score for the output to be considered valid. Defaults to 0.5.
+            minimum_score (float): The minimum entailment score for the output to be considered valid. Defaults to 0.75.
             use_onnx (bool): Whether to use the ONNX version of the model. Defaults to False.
         """
 
         self._minimum_score = minimum_score
 
         if model is None:
-            model = MODEL_BASE
+            model = MODEL_DEBERTA_BASE_V2
 
         self._tokenizer, self._model = get_tokenizer_and_model_for_classification(
             model=model,
