@@ -98,11 +98,11 @@ sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 - `entity_types`: Opt for particular information types to redact.
 - `regex_pattern_groups_path`: Input a path for personalized patterns.
 - `use_faker`: Substitutes eligible entities with fabricated data.
-- `recognizer_conf`: Configures recognizer for the PII data detection.
+- `recognizer_conf`: Configures recognizer for the PII data detection. There are many PII detection models available for various use-cases.
 - `threshold`: Sets the acceptance threshold (Default: `0`).
 - `language`: Language of the anonymize detect. Default is "en".
 
-Retrieving Original Data: To revert to the initial data, utilize the [Deanonymize](../output_scanners/deanonymize.md)
+To revert to the initial data, utilize the [Deanonymize](../output_scanners/deanonymize.md)
 scanner.
 
 ## Optimization Strategies
