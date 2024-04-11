@@ -46,6 +46,10 @@ The scanner is currently limited to extracting and detecting code snippets from 
 - Visual Basic .NET
 - jq
 
+!!! note
+
+    In case, you want to ban code snippets, you can use the [BanCode](./ban_code.md) scanner.
+
 ## Usage
 
 ```python

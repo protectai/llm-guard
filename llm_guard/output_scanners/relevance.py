@@ -39,7 +39,7 @@ class Relevance(Scanner):
     """
     A class used to scan the relevance of the output of a language model to the input prompt.
 
-    This class uses SentenceTransformers to encode the prompt and output into vector embeddings, then computes
+    This class encodes the prompt and output into vector embeddings, then computes
     the cosine similarity between them. If the similarity is below a given threshold, the output is considered
     not relevant to the prompt.
     """

@@ -115,6 +115,7 @@ nav:
     - Invisible Prompt Attack: tutorials/attacks/invisible_prompt.ipynb
   - Input Scanners:
       - Anonymize: input_scanners/anonymize.md
+      - BanCode: input_scanners/ban_code.md
       - Ban Competitors: input_scanners/ban_competitors.md
       - Ban Substrings: input_scanners/ban_substrings.md
       - Ban Topics: input_scanners/ban_topics.md

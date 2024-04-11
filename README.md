@@ -50,6 +50,7 @@ pip install llm-guard
 ### Prompt scanners
 
 - [Anonymize](https://llm-guard.com/input_scanners/anonymize/)
+- [BanCode](./docs/input_scanners/ban_code.md)
 - [BanCompetitors](https://llm-guard.com/input_scanners/ban_competitors/)
 - [BanSubstrings](https://llm-guard.com/input_scanners/ban_substrings/)
 - [BanTopics](https://llm-guard.com/input_scanners/ban_topics/)

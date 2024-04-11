@@ -10,18 +10,18 @@ LOGGER = get_logger()
 
 MODEL_SM = Model(
     path="vishnun/codenlbert-sm",
-    revision="2caf5a621b29c50038ee081479a82f192e9a5e69",
-    onnx_path="",
-    onnx_revision="",
-    pipeline_kwargs={"truncation": True},
+    revision="caa3d167fd262c76c7da23cd72c1d24cfdcafd0f",
+    onnx_path="protectai/vishnun-codenlbert-sm-onnx",
+    onnx_revision="2b1d298410bd98832e41e3da82e20f6d8dff1bc7",
+    pipeline_kwargs={"truncation": True, "max_length": 512},
 )
 
 MODEL_TINY = Model(
     path="vishnun/codenlbert-tiny",
     revision="2caf5a621b29c50038ee081479a82f192e9a5e69",
-    onnx_path="",
-    onnx_revision="",
-    pipeline_kwargs={"truncation": True},
+    onnx_path="protectai/vishnun-codenlbert-tiny-onnx",
+    onnx_revision="84148cb4b3f08fe44705e2d8ed81505450ae8abd",
+    pipeline_kwargs={"truncation": True, "max_length": 512},
 )
 
 
@@ -66,23 +66,17 @@ class BanCode(Scanner):
         if prompt.strip() == "":
             return prompt, True, 0.0
 
-        highest_score = 0.0
         result = self._classifier(prompt)[0]
         score = round(
-            1 - result["score"] if result["label"] == "clean" else result["score"],
+            result["score"] if result["label"] == "CODE" else 1 - result["score"],
             2,
         )
 
-        if score > highest_score:
-            highest_score = score
-
         if score > self._threshold:
-            LOGGER.warning("Detected gibberish text", score=score, threshold=self._threshold)
+            LOGGER.warning("Detected code in the text", score=score, threshold=self._threshold)
 
             return prompt, False, calculate_risk_score(score, self._threshold)
 
-            LOGGER.debug(
-                "No gibberish in the text", highest_score=highest_score, threshold=self._threshold
-            )
+        LOGGER.debug("No code detected in the text", score=score, threshold=self._threshold)
 
         return prompt, True, 0.0

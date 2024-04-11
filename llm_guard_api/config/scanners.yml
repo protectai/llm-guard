@@ -35,6 +35,9 @@ input_scanners:
       # entity_types: []
       # preamble: ""
       use_faker: false
+  - type: BanCode
+    params:
+      threshold: 0.9
   - type: BanCompetitors
     params:
       competitors: ["facebook"]
