@@ -83,8 +83,8 @@ _0.3.5 and 0.3.6 were skipped due to build issues._
 - [BanCompetitors](https://llm-guard.com/input_scanners/ban_competitors/) scanner to check if the prompt or output contains competitors' names.
 - [InvisibleText](https://llm-guard.com/input_scanners/invisible_text/) scanner to check if the prompt contains invisible unicode characters (steganography attack).
 - [ReadingTime](https://llm-guard.com/output_scanners/reading_time/) scanner to check if the output can be read in less than a certain amount of time.
-- Example of [invisible prompt attack](./attacks/invisible_prompt.ipynb) using `InvisibleText` scanner.
-- Example of [making Langchain agents secure](./usage/notebooks/langchain_agents.ipynb).
+- Example of [invisible prompt attack](tutorials/attacks/invisible_prompt.ipynb) using `InvisibleText` scanner.
+- Example of [making Langchain agents secure](./tutorials/notebooks/langchain_agents.ipynb).
 
 ### Fixed
 - `BanSubstrings`: bug when `case_sensitive` was enabled.
@@ -103,8 +103,8 @@ _0.3.5 and 0.3.6 were skipped due to build issues._
 ## [0.3.4] - 2023-12-21
 
 ### Added
-- Example of [securing RAG with Langchain](./usage/notebooks/langchain_rag.ipynb)
-- Example of [securing RAG with LlamaIndex](./usage/notebooks/llama_index_rag.ipynb)
+- Example of [securing RAG with Langchain](./tutorials/notebooks/langchain_rag.ipynb)
+- Example of [securing RAG with LlamaIndex](./tutorials/notebooks/llama_index_rag.ipynb)
 
 ### Changed
 - Upgraded all libraries to the latest versions
@@ -215,7 +215,7 @@ _0.3.5 and 0.3.6 were skipped due to build issues._
 ## [0.2.3] - 2023-09-23
 
 ### Changed
-- Added Swagger documentation on the [API](./usage/api.md) documentation page
+- Added Swagger documentation on the [API](./api/overview.md) documentation page
 - Added `fail_fast` flag to stop the execution after the first failure
   - Updated API and Playground to support `fail_fast` flag
   - Clarified order of execution in the documentation

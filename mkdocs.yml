@@ -103,16 +103,16 @@ nav:
     - Playground: get_started/playground.md
     - Attacks: get_started/attacks.md
     - Best Practices: get_started/best_practices.md
-    - Optimization: get_started/optimization.md
-    - Local Models: usage/notebooks/local_models.ipynb
-  - Usage:
-    - OpenAI SDK: usage/openai.md
-    - Langchain: usage/notebooks/langchain.ipynb
-    - Retrieval-augmented Generation: usage/rag.md
-    - Secure RAG with Langchain: usage/notebooks/langchain_rag.ipynb
-    - Secure RAG with LlamaIndex: usage/notebooks/llama_index_rag.ipynb
-    - Secure Agents with Langchain: usage/notebooks/langchain_agents.ipynb
-    - Invisible Prompt Attack: attacks/invisible_prompt.ipynb
+  - Tutorials:
+    - Optimization: tutorials/optimization.md
+    - Local Models: tutorials/notebooks/local_models.ipynb
+    - OpenAI SDK: tutorials/openai.md
+    - Langchain: tutorials/notebooks/langchain.ipynb
+    - Retrieval-augmented Generation: tutorials/rag.md
+    - Secure RAG with Langchain: tutorials/notebooks/langchain_rag.ipynb
+    - Secure RAG with LlamaIndex: tutorials/notebooks/llama_index_rag.ipynb
+    - Secure Agents with Langchain: tutorials/notebooks/langchain_agents.ipynb
+    - Invisible Prompt Attack: tutorials/attacks/invisible_prompt.ipynb
   - Input Scanners:
       - Anonymize: input_scanners/anonymize.md
       - Ban Competitors: input_scanners/ban_competitors.md

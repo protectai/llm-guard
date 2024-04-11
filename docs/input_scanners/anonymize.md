@@ -107,7 +107,7 @@ scanner.
 
 ## Optimization Strategies
 
-[Read more](../get_started/optimization.md)
+[Read more](../tutorials/optimization.md)
 
 ## Benchmarks
 

@@ -10,7 +10,7 @@
 
 4. **Tune Transformers kwargs**: Transformers have a variety of parameters that can be tuned to optimize performance. For example, `low_cpu_mem_usage`, which helps to [use less memory](https://huggingface.co/docs/transformers/main_classes/model#large-model-loading) by utilizing Accelerate library.
 
-[Read more about optimization strategies](optimization.md)
+[Read more about optimization strategies](../tutorials/optimization.md)
 
 ## Serving Configurations
 

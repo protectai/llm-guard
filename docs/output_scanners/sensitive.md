@@ -45,7 +45,7 @@ The `redact` feature, when enabled, ensures sensitive entities are seamlessly re
 
 ## Optimization Strategies
 
-[Read more](../get_started/optimization.md)
+[Read more](../tutorials/optimization.md)
 
 ## Benchmarks
 
