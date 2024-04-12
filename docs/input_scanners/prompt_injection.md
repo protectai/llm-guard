@@ -56,6 +56,10 @@ scanner = PromptInjection(threshold=0.5, match_type=MatchType.FULL)
 sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
 
+!!! info
+
+    Switching the match type might help with improving the accuracy, especially for longer prompts.
+
 ## Optimization Strategies
 
 [Read more](../tutorials/optimization.md)

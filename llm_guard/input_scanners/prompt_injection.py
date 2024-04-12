@@ -3,22 +3,29 @@ from typing import List, Optional, Union
 
 from llm_guard.model import Model
 from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
-from llm_guard.util import calculate_risk_score, get_logger, split_text_by_sentences
+from llm_guard.util import (
+    calculate_risk_score,
+    get_logger,
+    split_text_by_sentences,
+    split_text_to_word_chunks,
+)
 
 from .base import Scanner
 
 LOGGER = get_logger()
 
+PROMPT_LIMIT = 512
+
 # This model is proprietary but open source.
 DEFAULT_MODEL = Model(
-    path="ProtectAI/deberta-v3-base-prompt-injection",
+    path="protectai/deberta-v3-base-prompt-injection",
     revision="f51c3b2a5216ae1af467b511bc7e3b78dc4a99c9",
     onnx_path="ProtectAI/deberta-v3-base-prompt-injection",
     onnx_revision="f51c3b2a5216ae1af467b511bc7e3b78dc4a99c9",
     onnx_subfolder="onnx",
     onnx_filename="model.onnx",
     pipeline_kwargs={
-        "max_length": 512,
+        "max_length": PROMPT_LIMIT,
         "truncation": True,
     },
 )
@@ -27,10 +34,29 @@ DEFAULT_MODEL = Model(
 class MatchType(Enum):
     SENTENCE = "sentence"
     FULL = "full"
+    TRUNCATE_SIDES = "truncate_sides"
+    CHUNKS = "chunks"
 
     def get_inputs(self, prompt: str) -> List[str]:
         if self == MatchType.SENTENCE:
             return split_text_by_sentences(prompt)
+
+        if self == MatchType.CHUNKS:
+            chunks = []
+            for chunk_start, chunk_end in split_text_to_word_chunks(
+                len(prompt), chunk_length=PROMPT_LIMIT, overlap_length=25
+            ):
+                chunks.append(prompt[chunk_start:chunk_end])
+
+            return chunks
+
+        if self == MatchType.TRUNCATE_SIDES and len(prompt) > PROMPT_LIMIT:
+            part_length = (PROMPT_LIMIT - 3) // 2
+
+            start = prompt[:part_length]
+            end = prompt[-part_length:]
+
+            return [f"{start}...{end}"]
 
         return [prompt]
 
