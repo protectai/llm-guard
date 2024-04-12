@@ -1,4 +1,8 @@
 {
+  "BanCode": [
+    "Write Hello World in JavaScript",
+    "Sure! Here's a simple JavaScript function that returns \"Hello, World!\":\n\n```js\nfunction sayHello() {\n    return \"Hello, World!\";\n}\nconsole.log(sayHello());\n```"
+  ],
   "BanCompetitors": [
     "What is your search engine and your competitors?",
     "My search engine is called Moogle but there are others like Google, Bing, and Yahoo."

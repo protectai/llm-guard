@@ -100,6 +100,7 @@ def _get_output_scanner(
         scanner_config["vault"] = vault
 
     if scanner_name in [
+        "BanCode",
         "BanTopics",
         "Bias",
         "Code",

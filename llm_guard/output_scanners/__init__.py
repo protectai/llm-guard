@@ -1,4 +1,5 @@
 """LLM output scanners init"""
+from .ban_code import BanCode
 from .ban_competitors import BanCompetitors
 from .ban_substrings import BanSubstrings
 from .ban_topics import BanTopics
@@ -11,7 +12,8 @@ from .json import JSON
 from .language import Language
 from .language_same import LanguageSame
 from .malicious_urls import MaliciousURLs
-from .no_refusal import NoRefusal
+from .no_refusal import NoRefusal, NoRefusalLight
+from .reading_time import ReadingTime
 from .regex import Regex
 from .relevance import Relevance
 from .sensitive import Sensitive
@@ -21,6 +23,7 @@ from .url_reachabitlity import URLReachability
 from .util import get_scanner_by_name
 
 __all__ = [
+    "BanCode",
     "BanCompetitors",
     "BanSubstrings",
     "BanTopics",
@@ -32,7 +35,8 @@ __all__ = [
     "LanguageSame",
     "MaliciousURLs",
     "NoRefusal",
-    "NoRefusalLight" "ReadingTime",
+    "NoRefusalLight",
+    "ReadingTime",
     "FactualConsistency",
     "Gibberish",
     "Regex",

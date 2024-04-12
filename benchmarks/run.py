@@ -81,6 +81,9 @@ def build_input_scanner(scanner_name: str, use_onnx: bool) -> InputScanner:
 
 
 def build_output_scanner(scanner_name: str, use_onnx: bool) -> OutputScanner:
+    if scanner_name == "BanCode":
+        return output_scanners.BanCode(use_onnx=use_onnx)
+
     if scanner_name == "BanCompetitors":
         return output_scanners.BanCompetitors(
             competitors=["Google", "Bing", "Yahoo"],

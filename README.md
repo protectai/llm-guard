@@ -67,6 +67,7 @@ pip install llm-guard
 
 ### Output scanners
 
+- [BanCode](./docs/output_scanners/ban_code.md)
 - [BanCompetitors](https://llm-guard.com/output_scanners/ban_competitors/)
 - [BanSubstrings](https://llm-guard.com/output_scanners/ban_substrings/)
 - [BanTopics](https://llm-guard.com/output_scanners/ban_topics/)
