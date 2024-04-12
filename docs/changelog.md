@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Anonymize` and `Sensitive` scanners have a support of [lakshyakh93/deberta_finetuned_pii](https://huggingface.co/lakshyakh93/deberta_finetuned_pii) model.
 - `BanCode` scanner to detect and block code snippets in the prompt.
 - Benchmarks on the AMD CPU.
+- `API` has a new endpoint `POST /scan/prompt` to scan the prompt without sanitizing it. It is faster than the `POST /analyze/scan` endpoint.
 
 ### Fixed
 - `InvisibleText` scanner to allow control characters like `\n`, `\t`, etc.

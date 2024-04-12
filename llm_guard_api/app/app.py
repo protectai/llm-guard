@@ -15,7 +15,6 @@ from fastapi.security import (
     HTTPBasicCredentials,
     HTTPBearer,
 )
-from opentelemetry import metrics
 from prometheus_client import CONTENT_TYPE_LATEST, REGISTRY, generate_latest
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
@@ -31,12 +30,20 @@ from llm_guard.vault import Vault
 from .cache import InMemoryCache
 from .config import AuthConfig, Config, get_config
 from .otel import configure_otel, instrument_app
-from .scanner import get_input_scanners, get_output_scanners
+from .scanner import (
+    PromptIsInvalid,
+    ascan_prompt,
+    get_input_scanners,
+    get_output_scanners,
+    scanners_valid_counter,
+)
 from .schemas import (
     AnalyzeOutputRequest,
     AnalyzeOutputResponse,
     AnalyzePromptRequest,
     AnalyzePromptResponse,
+    ScanPromptRequest,
+    ScanPromptResponse,
 )
 from .util import configure_logger
 from .version import __version__
@@ -172,13 +179,6 @@ def register_routes(
 
     check_auth = _check_auth_function(config.auth)
 
-    meter = metrics.get_meter_provider().get_meter(__name__)
-    scanners_valid_counter = meter.create_counter(
-        name="scanners.valid",
-        unit="1",
-        description="measures the number of valid scanners",
-    )
-
     @app.get("/", tags=["Main"])
     @limiter.exempt
     async def read_root():
@@ -186,12 +186,12 @@ def register_routes(
 
     @app.get("/healthz", tags=["Health"])
     @limiter.exempt
-    async def healthcheck():
+    async def read_healthcheck():
         return JSONResponse({"status": "alive"})
 
     @app.get("/readyz", tags=["Health"])
     @limiter.exempt
-    async def liveliness():
+    async def read_liveliness():
         return JSONResponse({"status": "ready"})
 
     @app.post(
@@ -201,7 +201,7 @@ def register_routes(
         status_code=status.HTTP_200_OK,
         description="Analyze an output and return the sanitized output and the results of the scanners",
     )
-    async def analyze_output(
+    async def submit_analyze_output(
         request: AnalyzeOutputRequest,
         _: Annotated[bool, Depends(check_auth)],
         output_scanners=Depends(output_scanners_func),
@@ -254,7 +254,7 @@ def register_routes(
         status_code=status.HTTP_200_OK,
         description="Analyze a prompt and return the sanitized prompt and the results of the scanners",
     )
-    async def analyze_prompt(
+    async def submit_analyze_prompt(
         request: AnalyzePromptRequest,
         _: Annotated[bool, Depends(check_auth)],
         response: Response,
@@ -312,11 +312,78 @@ def register_routes(
 
         return response
 
+    @app.post(
+        "/scan/prompt",
+        tags=["Analyze"],
+        response_model=ScanPromptResponse,
+        status_code=status.HTTP_200_OK,
+        description="Scans a prompt in parallel without sanitizing the prompt",
+    )
+    async def submit_scan_prompt(
+        request: ScanPromptRequest,
+        _: Annotated[bool, Depends(check_auth)],
+        response: Response,
+        input_scanners=Depends(input_scanners_func),
+    ) -> ScanPromptResponse:
+        LOGGER.debug("Received scan prompt request", request=request)
+
+        cached_result = cache.get(request.prompt)
+        if cached_result:
+            LOGGER.debug("Response was found in cache")
+            response.headers["X-Cache-Hit"] = "true"
+
+            return ScanPromptResponse(**cached_result)
+
+        response.headers["X-Cache-Hit"] = "false"
+
+        result_is_valid = True
+        results_score = {}
+
+        start_time = time.time()
+        try:
+            tasks = [ascan_prompt(scanner, request.prompt) for scanner in input_scanners]
+            results = await asyncio.wait_for(
+                asyncio.gather(*tasks, return_exceptions=not config.app.scan_fail_fast),
+                config.app.scan_prompt_timeout,
+            )
+
+            for result in results:
+                if isinstance(result, PromptIsInvalid):
+                    result_is_valid = False
+                    results_score[result.scanner_name] = result.risk_score
+
+                    continue
+
+                scanner_name, risk_score = result
+                results_score[scanner_name] = risk_score
+        except PromptIsInvalid as e:
+            result_is_valid = False
+            results_score[e.scanner_name] = e.risk_score
+        except asyncio.TimeoutError:
+            raise HTTPException(
+                status_code=status.HTTP_408_REQUEST_TIMEOUT, detail="Request timeout."
+            )
+
+        response = ScanPromptResponse(
+            is_valid=result_is_valid,
+            scanners=results_score,
+        )
+        cache.set(request.prompt, response.dict())
+
+        elapsed_time = time.time() - start_time
+        LOGGER.debug(
+            "Scan prompt response returned",
+            scores=results_score,
+            elapsed_time_seconds=round(elapsed_time, 6),
+        )
+
+        return response
+
     if config.metrics and config.metrics.exporter == "prometheus":
 
         @app.get("/metrics", tags=["Metrics"])
         @limiter.exempt
-        async def metrics_handler():
+        async def read_metrics():
             return Response(
                 content=generate_latest(REGISTRY), headers={"Content-Type": CONTENT_TYPE_LATEST}
             )

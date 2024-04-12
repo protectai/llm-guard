@@ -1,6 +1,9 @@
+import asyncio
+import time
 from typing import Dict, List, Optional
 
 import structlog
+from opentelemetry import metrics
 
 from llm_guard import input_scanners, output_scanners
 from llm_guard.input_scanners.base import Scanner as InputScanner
@@ -11,6 +14,13 @@ from .config import ScannerConfig
 from .util import get_resource_utilization
 
 LOGGER = structlog.getLogger(__name__)
+
+meter = metrics.get_meter_provider().get_meter(__name__)
+scanners_valid_counter = meter.create_counter(
+    name="scanners.valid",
+    unit="1",
+    description="measures the number of valid scanners",
+)
 
 
 def get_input_scanners(scanners: List[ScannerConfig], vault: Vault) -> List[InputScanner]:
@@ -106,3 +116,38 @@ def _get_output_scanner(
         scanner_config["use_onnx"] = True
 
     return output_scanners.get_scanner_by_name(scanner_name, scanner_config)
+
+
+class PromptIsInvalid(Exception):
+    def __init__(self, scanner_name: str, prompt: str, risk_score: float):
+        self.scanner_name = scanner_name
+        self.prompt = prompt
+        self.risk_score = risk_score
+
+    def __str__(self):
+        return f"Prompt is invalid based on {self.scanner_name}: {self.prompt} (risk score: {self.risk_score})"
+
+
+def scan_prompt(scanner: InputScanner, prompt: str) -> (str, float):
+    start_time_scanner = time.time()
+    sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
+    elapsed_time_scanner = time.time() - start_time_scanner
+
+    scanner_name = type(scanner).__name__
+    LOGGER.debug(
+        "Scanner completed",
+        scanner=scanner_name,
+        is_valid=is_valid,
+        elapsed_time_seconds=round(elapsed_time_scanner, 6),
+    )
+
+    scanners_valid_counter.add(1, {"source": "input", "valid": is_valid, "scanner": scanner_name})
+
+    if not is_valid:
+        raise PromptIsInvalid(scanner_name, prompt, risk_score)
+
+    return type(scanner).__name__, risk_score
+
+
+async def ascan_prompt(scanner: InputScanner, prompt: str) -> (str, float):
+    return await asyncio.to_thread(scan_prompt, scanner, prompt)
