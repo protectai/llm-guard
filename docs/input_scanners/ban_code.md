@@ -44,4 +44,7 @@ python benchmarks/run.py input BanCode
 
 Results:
 
-WIP
+| Instance                       | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS      |
+|--------------------------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|----------|
+| AWS r6a.xlarge (AMD)           | 0.00             | 23.37                 | 23.97                 | 24.45                 | 21.71                | 11424.20 |
+| AWS r6a.xlarge (AMD) with ONNX | 0.02             | 22.34                 | 24.71                 | 26.60                 | 17.54                | 14142.09 |

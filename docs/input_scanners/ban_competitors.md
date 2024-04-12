@@ -70,7 +70,8 @@ python benchmarks/run.py input BanCompetitors
 
 Results:
 
-| Instance          | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS    |
-|-------------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|--------|
-| AWS m5.xlarge     | 2.85             | 616.51                | 642.39                | 663.09                | 561.55               | 149.59 |
-| AWS g5.xlarge GPU | 26.72            | 274.92                | 356.44                | 421.66                | 111.01               | 756.69 |
+| Instance             | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS    |
+|----------------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|--------|
+| AWS m5.xlarge        | 2.85             | 616.51                | 642.39                | 663.09                | 561.55               | 149.59 |
+| AWS g5.xlarge GPU    | 26.72            | 274.92                | 356.44                | 421.66                | 111.01               | 756.69 |
+| AWS r6a.xlarge (AMD) | 0.44             | 646.05                | 650.56                | 654.17                | 620.68               | 135.34 |

@@ -80,9 +80,11 @@ python benchmarks/run.py input Code
 
 Results:
 
-| Instance                    | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS      |
-|-----------------------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|----------|
-| AWS m5.xlarge               | 2.64             | 138.80                | 164.44                | 184.95                | 87.28                | 2841.37  |
-| AWS m5.xlarge with ONNX     | 0.00             | 59.06                 | 59.40                 | 59.68                 | 58.07                | 4270.94  |
-| AWS g5.xlarge GPU           | 32.49            | 280.46                | 370.49                | 442.51                | 100.05               | 2478.86  |
-| AWS g5.xlarge GPU with ONNX | 0.01             | 8.83                  | 10.38                 | 11.62                 | 5.68                 | 43654.48 |
+| Instance                       | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS      |
+|--------------------------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|----------|
+| AWS m5.xlarge                  | 2.64             | 138.80                | 164.44                | 184.95                | 87.28                | 2841.37  |
+| AWS m5.xlarge with ONNX        | 0.00             | 59.06                 | 59.40                 | 59.68                 | 58.07                | 4270.94  |
+| AWS g5.xlarge GPU              | 32.49            | 280.46                | 370.49                | 442.51                | 100.05               | 2478.86  |
+| AWS g5.xlarge GPU with ONNX    | 0.01             | 8.83                  | 10.38                 | 11.62                 | 5.68                 | 43654.48 |
+| AWS r6a.xlarge (AMD)           | 0.00             | 64.58                 | 65.47                 | 66.18                 | 62.60                | 3961.36  |
+| AWS r6a.xlarge (AMD) with ONNX | 0.07             | 43.84                 | 48.04                 | 51.41                 | 35.25                | 7034.54  |

@@ -47,4 +47,7 @@ python benchmarks/run.py input Gibberish
 
 Results:
 
-WIP
+| Instance                       | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS     |
+|--------------------------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|---------|
+| AWS r6a.xlarge (AMD)           | 0.01             | 94.73                 | 95.76                 | 96.58                 | 91.74                | 7161.76 |
+| AWS r6a.xlarge (AMD) with ONNX | 0.07             | 87.77                 | 91.84                 | 95.10                 | 79.40                | 8274.11 |

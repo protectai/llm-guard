@@ -126,11 +126,11 @@ python benchmarks/run.py input Anonymize
 
 Results:
 
-| Instance                         | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS     |
-|----------------------------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|---------|
-| AWS m5.xlarge                    | 6.11             | 255.64                | 294.57                | 325.71                | 177.13               | 1789.64 |
-| AWS m5.xlarge with ONNX          | 0.73             | 155.64                | 169.13                | 179.93                | 128.64               | 2464.29 |
-| AWS g5.xlarge GPU                | 38.50            | 321.59                | 419.60                | 498.01                | 125.18               | 2532.35 |
-| AWS g5.xlarge GPU with ONNX      | 1.04             | 70.49                 | 86.47                 | 99.26                 | 38.11                | 8317.53 |
-| Azure Standard_D4as_v4           | 48.72            | 487.29                | 597.19                | 685.10                | 265.64               | 1193.33 |
-| Azure Standard_D4as_v4 with ONNX | 1.47             | 268.17                | 286.89                | 301.87                | 228.86               | 1385.13 |
+| Instance                       | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS     |
+|--------------------------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|---------|
+| AWS m5.xlarge                  | 6.11             | 255.64                | 294.57                | 325.71                | 177.13               | 1789.64 |
+| AWS m5.xlarge with ONNX        | 0.73             | 155.64                | 169.13                | 179.93                | 128.64               | 2464.29 |
+| AWS g5.xlarge GPU              | 38.50            | 321.59                | 419.60                | 498.01                | 125.18               | 2532.35 |
+| AWS g5.xlarge GPU with ONNX    | 1.04             | 70.49                 | 86.47                 | 99.26                 | 38.11                | 8317.53 |
+| AWS r6a.xlarge (AMD)           | 0.45             | 266.44                | 276.45                | 284.47                | 244.17               | 1298.29 |
+| AWS r6a.xlarge (AMD) with ONNX | 0.35             | 238.15                | 247.22                | 254.47                | 218.91               | 1448.06 |

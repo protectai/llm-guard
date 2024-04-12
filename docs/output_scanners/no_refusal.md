@@ -21,7 +21,8 @@ It leverages the proprietary
 model [ProtectAI/distilroberta-base-rejection-v1](https://huggingface.co/ProtectAI/distilroberta-base-rejection-v1) to
 classify the model's output.
 
-Alternatively, it has lighter version that uses a simple rule-based approach to detect refusals. Such approach is common in research papers when evaluating language models.
+Alternatively, it has lighter version that uses a simple rule-based approach to detect refusals. Such approach is common
+in research papers when evaluating language models.
 
 ## Usage
 
@@ -63,9 +64,11 @@ python benchmarks/run.py output NoRefusal
 
 Results:
 
-| Instance                    | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS     |
-|-----------------------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|---------|
-| AWS m5.xlarge               | 2.65             | 109.78                | 135.49                | 156.06                | 58.27                | 806.66  |
-| AWS m5.xlarge with ONNX     | 0.00             | 12.20                 | 12.55                 | 12.84                 | 11.36                | 4138.75 |
-| AWS g5.xlarge GPU           | 31.15            | 269.84                | 357.97                | 428.47                | 93.09                | 504.86  |
-| AWS g5.xlarge GPU with ONNX | 0.11             | 18.09                 | 23.41                 | 27.67                 | 7.41                 | 6346.18 |
+| Instance                       | Latency Variance | Latency 90 Percentile | Latency 95 Percentile | Latency 99 Percentile | Average Latency (ms) | QPS     |
+|--------------------------------|------------------|-----------------------|-----------------------|-----------------------|----------------------|---------|
+| AWS m5.xlarge                  | 2.65             | 109.78                | 135.49                | 156.06                | 58.27                | 806.66  |
+| AWS m5.xlarge with ONNX        | 0.00             | 12.20                 | 12.55                 | 12.84                 | 11.36                | 4138.75 |
+| AWS g5.xlarge GPU              | 31.15            | 269.84                | 357.97                | 428.47                | 93.09                | 504.86  |
+| AWS g5.xlarge GPU with ONNX    | 0.11             | 18.09                 | 23.41                 | 27.67                 | 7.41                 | 6346.18 |
+| AWS r6a.xlarge (AMD)           | 0.00             | 26.33                 | 27.07                 | 27.66                 | 24.61                | 1909.65 |
+| AWS r6a.xlarge (AMD) with ONNX | 0.08             | 27.08                 | 31.53                 | 35.09                 | 18.11                | 2595.73 |

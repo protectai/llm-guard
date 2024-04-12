@@ -60,3 +60,5 @@ Results:
 | AWS g5.xlarge GPU with ONNX      | 0.01             | 6.69                  | 8.22                  | 9.45                  | 3.59                 | 35633.81 |
 | Azure Standard_D4as_v4           | 3.91             | 126.54                | 157.68                | 182.60                | 63.81                | 2006.08  |
 | Azure Standard_D4as_v4 with ONNX | 0.03             | 29.55                 | 31.41                 | 32.89                 | 23.36                | 5479.92  |
+| AWS r6a.xlarge (AMD)             | 0.00             | 33.08                 | 33.71                 | 34.21                 | 31.56                | 4055.29  |
+| AWS r6a.xlarge (AMD) with ONNX   | 0.07             | 37.63                 | 41.64                 | 44.85                 | 29.52                | 4336.52  |
