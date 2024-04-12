@@ -97,7 +97,8 @@ def get_tokenizer_and_model_for_classification(
         return tf_tokenizer, tf_model
 
     # Hack for some models
-    tf_tokenizer.model_input_names = ["input_ids", "attention_mask"]
+    if model.onnx_enable_hack:
+        tf_tokenizer.model_input_names = ["input_ids", "attention_mask"]
 
     tf_model = _ort_model_for_sequence_classification(model)
 

@@ -25,6 +25,7 @@ class Model:
     onnx_revision: Optional[str] = None
     onnx_subfolder: str = ""
     onnx_filename: str = "model.onnx"
+    onnx_enable_hack: bool = True  # Enable hack to remove token_type_ids from input
     kwargs: Dict = dataclasses.field(default_factory=dict)
     pipeline_kwargs: Dict = dataclasses.field(default_factory=dict)
 

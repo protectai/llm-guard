@@ -14,6 +14,7 @@ MODEL_SM = Model(
     onnx_path="protectai/vishnun-codenlbert-sm-onnx",
     onnx_revision="2b1d298410bd98832e41e3da82e20f6d8dff1bc7",
     pipeline_kwargs={"truncation": True, "max_length": 512},
+    onnx_enable_hack=False,
 )
 
 MODEL_TINY = Model(
@@ -22,6 +23,7 @@ MODEL_TINY = Model(
     onnx_path="protectai/vishnun-codenlbert-tiny-onnx",
     onnx_revision="84148cb4b3f08fe44705e2d8ed81505450ae8abd",
     pipeline_kwargs={"truncation": True, "max_length": 512},
+    onnx_enable_hack=False,
 )
 
 
