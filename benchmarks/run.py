@@ -29,6 +29,9 @@ def build_input_scanner(scanner_name: str, use_onnx: bool) -> InputScanner:
             vault=vault, use_onnx=use_onnx, recognizer_conf=DEBERTA_AI4PRIVACY_v2_CONF
         )
 
+    if scanner_name == "BanCode":
+        return input_scanners.BanCode(use_onnx=use_onnx)
+
     if scanner_name == "BanCompetitors":
         return input_scanners.BanCompetitors(
             competitors=["Google", "Bing", "Yahoo"],

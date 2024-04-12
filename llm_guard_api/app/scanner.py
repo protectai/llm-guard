@@ -64,6 +64,7 @@ def _get_input_scanner(
 
     if scanner_name in [
         "Anonymize",
+        "BanCode",
         "BanTopics",
         "Code",
         "Gibberish",
