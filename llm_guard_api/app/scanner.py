@@ -119,14 +119,14 @@ def _get_output_scanner(
     return output_scanners.get_scanner_by_name(scanner_name, scanner_config)
 
 
-class PromptIsInvalid(Exception):
-    def __init__(self, scanner_name: str, prompt: str, risk_score: float):
+class InputIsInvalid(Exception):
+    def __init__(self, scanner_name: str, input: str, risk_score: float):
         self.scanner_name = scanner_name
-        self.prompt = prompt
+        self.input = input
         self.risk_score = risk_score
 
     def __str__(self):
-        return f"Prompt is invalid based on {self.scanner_name}: {self.prompt} (risk score: {self.risk_score})"
+        return f"Input is invalid based on {self.scanner_name}: {self.input} (risk score: {self.risk_score})"
 
 
 def scan_prompt(scanner: InputScanner, prompt: str) -> (str, float):
@@ -136,7 +136,7 @@ def scan_prompt(scanner: InputScanner, prompt: str) -> (str, float):
 
     scanner_name = type(scanner).__name__
     LOGGER.debug(
-        "Scanner completed",
+        "Input scanner completed",
         scanner=scanner_name,
         is_valid=is_valid,
         elapsed_time_seconds=round(elapsed_time_scanner, 6),
@@ -145,10 +145,35 @@ def scan_prompt(scanner: InputScanner, prompt: str) -> (str, float):
     scanners_valid_counter.add(1, {"source": "input", "valid": is_valid, "scanner": scanner_name})
 
     if not is_valid:
-        raise PromptIsInvalid(scanner_name, prompt, risk_score)
+        raise InputIsInvalid(scanner_name, prompt, risk_score)
 
     return type(scanner).__name__, risk_score
 
 
 async def ascan_prompt(scanner: InputScanner, prompt: str) -> (str, float):
     return await asyncio.to_thread(scan_prompt, scanner, prompt)
+
+
+def scan_output(scanner: OutputScanner, prompt: str, output: str) -> (str, float):
+    start_time_scanner = time.time()
+    sanitized_output, is_valid, risk_score = scanner.scan(prompt, output)
+    elapsed_time_scanner = time.time() - start_time_scanner
+
+    scanner_name = type(scanner).__name__
+    LOGGER.debug(
+        "Output scanner completed",
+        scanner=scanner_name,
+        is_valid=is_valid,
+        elapsed_time_seconds=round(elapsed_time_scanner, 6),
+    )
+
+    scanners_valid_counter.add(1, {"source": "output", "valid": is_valid, "scanner": scanner_name})
+
+    if not is_valid:
+        raise InputIsInvalid(scanner_name, output, risk_score)
+
+    return type(scanner).__name__, risk_score
+
+
+async def ascan_output(scanner: OutputScanner, prompt: str, output: str) -> (str, float):
+    return await asyncio.to_thread(scan_output, scanner, prompt, output)
