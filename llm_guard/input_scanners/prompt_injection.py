@@ -8,13 +8,14 @@ from llm_guard.util import (
     get_logger,
     split_text_by_sentences,
     split_text_to_word_chunks,
+    truncate_tokens_head_tail,
 )
 
 from .base import Scanner
 
 LOGGER = get_logger()
 
-PROMPT_LIMIT = 512
+PROMPT_CHARACTERS_LIMIT = 512
 
 # This model is proprietary but open source.
 DEFAULT_MODEL = Model(
@@ -25,7 +26,7 @@ DEFAULT_MODEL = Model(
     onnx_subfolder="onnx",
     onnx_filename="model.onnx",
     pipeline_kwargs={
-        "max_length": PROMPT_LIMIT,
+        "max_length": 512,
         "truncation": True,
     },
 )
@@ -34,8 +35,16 @@ DEFAULT_MODEL = Model(
 class MatchType(Enum):
     SENTENCE = "sentence"
     FULL = "full"
-    TRUNCATE_SIDES = "truncate_sides"
+    # TRUNCATE_TOKEN_HEAD_TAIL is used to split the prompt into two parts (126 head and 382 tail) and check them.
+    TRUNCATE_TOKEN_HEAD_TAIL = "truncate_token_head_tail"
+    # TRUNCATE_SIDES is used to split the prompt into two parts (256 head and 256 tail) and check them.
+    TRUNCATE_HEAD_TAIL = "truncate_head_tail"
     CHUNKS = "chunks"
+
+    _tokenizer: Optional = None
+
+    def set_tokenizer(self, tokenizer):
+        self._tokenizer = tokenizer
 
     def get_inputs(self, prompt: str) -> List[str]:
         if self == MatchType.SENTENCE:
@@ -44,14 +53,23 @@ class MatchType(Enum):
         if self == MatchType.CHUNKS:
             chunks = []
             for chunk_start, chunk_end in split_text_to_word_chunks(
-                len(prompt), chunk_length=PROMPT_LIMIT, overlap_length=25
+                len(prompt), chunk_length=PROMPT_CHARACTERS_LIMIT, overlap_length=25
             ):
                 chunks.append(prompt[chunk_start:chunk_end])
 
             return chunks
 
-        if self == MatchType.TRUNCATE_SIDES and len(prompt) > PROMPT_LIMIT:
-            part_length = (PROMPT_LIMIT - 3) // 2
+        if self == MatchType.TRUNCATE_TOKEN_HEAD_TAIL and self._tokenizer is not None:
+            tokenized_input = self._tokenizer.tokenize(prompt)
+            print(
+                self._tokenizer.convert_tokens_to_string(truncate_tokens_head_tail(tokenized_input))
+            )
+            return [
+                self._tokenizer.convert_tokens_to_string(truncate_tokens_head_tail(tokenized_input))
+            ]
+
+        if self == MatchType.TRUNCATE_HEAD_TAIL and len(prompt) > PROMPT_CHARACTERS_LIMIT:
+            part_length = (PROMPT_CHARACTERS_LIMIT - 3) // 2
 
             start = prompt[:part_length]
             end = prompt[-part_length:]
@@ -94,7 +112,6 @@ class PromptInjection(Scanner):
             match_type = MatchType(match_type)
 
         self._threshold = threshold
-        self._match_type = match_type
         self._model = model
 
         tf_tokenizer, tf_model = get_tokenizer_and_model_for_classification(
@@ -108,6 +125,9 @@ class PromptInjection(Scanner):
             tokenizer=tf_tokenizer,
             **model.pipeline_kwargs,
         )
+
+        match_type.set_tokenizer(tf_tokenizer)
+        self._match_type = match_type
 
     def scan(self, prompt: str) -> (str, bool, float):
         if prompt.strip() == "":

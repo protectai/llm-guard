@@ -31,7 +31,8 @@ from .cache import InMemoryCache
 from .config import AuthConfig, Config, get_config
 from .otel import configure_otel, instrument_app
 from .scanner import (
-    PromptIsInvalid,
+    InputIsInvalid,
+    ascan_output,
     ascan_prompt,
     get_input_scanners,
     get_output_scanners,
@@ -42,6 +43,8 @@ from .schemas import (
     AnalyzeOutputResponse,
     AnalyzePromptRequest,
     AnalyzePromptResponse,
+    ScanOutputRequest,
+    ScanOutputResponse,
     ScanPromptRequest,
     ScanPromptResponse,
 )
@@ -248,6 +251,64 @@ def register_routes(
         return response
 
     @app.post(
+        "/scan/output",
+        tags=["Analyze"],
+        response_model=ScanOutputResponse,
+        status_code=status.HTTP_200_OK,
+        description="Scans an output running scanners in parallel without sanitizing the prompt",
+    )
+    async def submit_scan_output(
+        request: ScanOutputRequest,
+        _: Annotated[bool, Depends(check_auth)],
+        output_scanners=Depends(output_scanners_func),
+    ) -> ScanOutputResponse:
+        LOGGER.debug("Received scan output request", request=request)
+
+        result_is_valid = True
+        results_score = {}
+
+        start_time = time.time()
+        try:
+            tasks = [
+                ascan_output(scanner, request.prompt, request.output) for scanner in output_scanners
+            ]
+            results = await asyncio.wait_for(
+                asyncio.gather(*tasks, return_exceptions=not config.app.scan_fail_fast),
+                config.app.scan_output_timeout,
+            )
+
+            for result in results:
+                if isinstance(result, InputIsInvalid):
+                    result_is_valid = False
+                    results_score[result.scanner_name] = result.risk_score
+
+                    continue
+
+                scanner_name, risk_score = result
+                results_score[scanner_name] = risk_score
+        except InputIsInvalid as e:
+            result_is_valid = False
+            results_score[e.scanner_name] = e.risk_score
+        except asyncio.TimeoutError:
+            raise HTTPException(
+                status_code=status.HTTP_408_REQUEST_TIMEOUT, detail="Request timeout."
+            )
+
+        response = ScanOutputResponse(
+            is_valid=result_is_valid,
+            scanners=results_score,
+        )
+
+        elapsed_time = time.time() - start_time
+        LOGGER.debug(
+            "Scan output response returned",
+            scores=results_score,
+            elapsed_time_seconds=round(elapsed_time, 6),
+        )
+
+        return response
+
+    @app.post(
         "/analyze/prompt",
         tags=["Analyze"],
         response_model=AnalyzePromptResponse,
@@ -317,7 +378,7 @@ def register_routes(
         tags=["Analyze"],
         response_model=ScanPromptResponse,
         status_code=status.HTTP_200_OK,
-        description="Scans a prompt in parallel without sanitizing the prompt",
+        description="Scans a prompt running scanners in parallel without sanitizing the prompt",
     )
     async def submit_scan_prompt(
         request: ScanPromptRequest,
@@ -348,7 +409,7 @@ def register_routes(
             )
 
             for result in results:
-                if isinstance(result, PromptIsInvalid):
+                if isinstance(result, InputIsInvalid):
                     result_is_valid = False
                     results_score[result.scanner_name] = result.risk_score
 
@@ -356,7 +417,7 @@ def register_routes(
 
                 scanner_name, risk_score = result
                 results_score[scanner_name] = risk_score
-        except PromptIsInvalid as e:
+        except InputIsInvalid as e:
             result_is_valid = False
             results_score[e.scanner_name] = e.risk_score
         except asyncio.TimeoutError:
