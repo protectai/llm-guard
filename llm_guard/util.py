@@ -217,6 +217,14 @@ def split_text_to_word_chunks(
     ]
 
 
+def truncate_tokens_head_tail(tokens, max_length=512, head_length=128, tail_length=382):
+    if len(tokens) > max_length:
+        head_tokens = tokens[:head_length]
+        tail_tokens = tokens[-tail_length:]
+        tokens = head_tokens + tail_tokens
+    return tokens
+
+
 url_pattern = re.compile(
     r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
 )
