@@ -207,7 +207,7 @@ def register_routes(
     async def submit_analyze_output(
         request: AnalyzeOutputRequest,
         _: Annotated[bool, Depends(check_auth)],
-        output_scanners=Depends(output_scanners_func),
+        output_scanners: List[OutputScanner] = Depends(output_scanners_func),
     ) -> AnalyzeOutputResponse:
         LOGGER.debug("Received analyze output request", request=request)
 
@@ -260,7 +260,7 @@ def register_routes(
     async def submit_scan_output(
         request: ScanOutputRequest,
         _: Annotated[bool, Depends(check_auth)],
-        output_scanners=Depends(output_scanners_func),
+        output_scanners: List[OutputScanner] = Depends(output_scanners_func),
     ) -> ScanOutputResponse:
         LOGGER.debug("Received scan output request", request=request)
 
@@ -319,7 +319,7 @@ def register_routes(
         request: AnalyzePromptRequest,
         _: Annotated[bool, Depends(check_auth)],
         response: Response,
-        input_scanners=Depends(input_scanners_func),
+        input_scanners: List[InputScanner] = Depends(input_scanners_func),
     ) -> AnalyzePromptResponse:
         LOGGER.debug("Received analyze prompt request", request=request)
 
@@ -384,7 +384,7 @@ def register_routes(
         request: ScanPromptRequest,
         _: Annotated[bool, Depends(check_auth)],
         response: Response,
-        input_scanners=Depends(input_scanners_func),
+        input_scanners: List[InputScanner] = Depends(input_scanners_func),
     ) -> ScanPromptResponse:
         LOGGER.debug("Received scan prompt request", request=request)
 

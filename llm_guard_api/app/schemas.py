@@ -1,15 +1,15 @@
 from typing import Dict
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class ScanPromptRequest(BaseModel):
-    prompt: str
+    prompt: str = Field(title="Prompt")
 
 
 class ScanPromptResponse(BaseModel):
-    is_valid: bool
-    scanners: Dict[str, float]
+    is_valid: bool = Field(title="Whether the prompt is safe")
+    scanners: Dict[str, float] = Field(title="Risk scores of individual scanners")
 
 
 class AnalyzePromptRequest(ScanPromptRequest):
@@ -17,17 +17,17 @@ class AnalyzePromptRequest(ScanPromptRequest):
 
 
 class AnalyzePromptResponse(ScanPromptResponse):
-    sanitized_prompt: str
+    sanitized_prompt: str = Field(title="Sanitized prompt")
 
 
 class ScanOutputRequest(BaseModel):
-    prompt: str
-    output: str
+    prompt: str = Field(title="Prompt")
+    output: str = Field(title="Model output")
 
 
 class ScanOutputResponse(BaseModel):
-    is_valid: bool
-    scanners: Dict[str, float]
+    is_valid: bool = Field(title="Whether the output is safe")
+    scanners: Dict[str, float] = Field(title="Risk scores of individual scanners")
 
 
 class AnalyzeOutputRequest(ScanOutputRequest):
@@ -35,4 +35,4 @@ class AnalyzeOutputRequest(ScanOutputRequest):
 
 
 class AnalyzeOutputResponse(ScanOutputResponse):
-    sanitized_output: str
+    sanitized_output: str = Field(title="Sanitized output")

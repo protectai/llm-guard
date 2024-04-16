@@ -3,7 +3,7 @@
   "info": {
     "title": "LLM Guard API",
     "description": "API to run LLM Guard scanners.",
-    "version": "0.0.6"
+    "version": "0.0.8"
   },
   "paths": {
     "/": {
@@ -30,8 +30,8 @@
         "tags": [
           "Health"
         ],
-        "summary": "Healthcheck",
-        "operationId": "healthcheck_healthz_get",
+        "summary": "Read Healthcheck",
+        "operationId": "read_healthcheck_healthz_get",
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -49,8 +49,8 @@
         "tags": [
           "Health"
         ],
-        "summary": "Liveliness",
-        "operationId": "liveliness_readyz_get",
+        "summary": "Read Liveliness",
+        "operationId": "read_liveliness_readyz_get",
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -68,9 +68,9 @@
         "tags": [
           "Analyze"
         ],
-        "summary": "Analyze Output",
+        "summary": "Submit Analyze Output",
         "description": "Analyze an output and return the sanitized output and the results of the scanners",
-        "operationId": "analyze_output_analyze_output_post",
+        "operationId": "submit_analyze_output_analyze_output_post",
         "requestBody": {
           "content": {
             "application/json": {
@@ -102,12 +102,49 @@
               }
             }
           }
+        }
+      }
+    },
+    "/scan/output": {
+      "post": {
+        "tags": [
+          "Analyze"
+        ],
+        "summary": "Submit Scan Output",
+        "description": "Scans an output running scanners in parallel without sanitizing the prompt",
+        "operationId": "submit_scan_output_scan_output_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScanOutputRequest"
+              }
+            }
+          },
+          "required": true
         },
-        "security": [
-          {
-            "HTTPBearer": []
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanOutputResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
           }
-        ]
+        }
       }
     },
     "/analyze/prompt": {
@@ -115,9 +152,9 @@
         "tags": [
           "Analyze"
         ],
-        "summary": "Analyze Prompt",
+        "summary": "Submit Analyze Prompt",
         "description": "Analyze a prompt and return the sanitized prompt and the results of the scanners",
-        "operationId": "analyze_prompt_analyze_prompt_post",
+        "operationId": "submit_analyze_prompt_analyze_prompt_post",
         "requestBody": {
           "content": {
             "application/json": {
@@ -149,12 +186,49 @@
               }
             }
           }
+        }
+      }
+    },
+    "/scan/prompt": {
+      "post": {
+        "tags": [
+          "Analyze"
+        ],
+        "summary": "Submit Scan Prompt",
+        "description": "Scans a prompt running scanners in parallel without sanitizing the prompt",
+        "operationId": "submit_scan_prompt_scan_prompt_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScanPromptRequest"
+              }
+            }
+          },
+          "required": true
         },
-        "security": [
-          {
-            "HTTPBearer": []
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanPromptResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
           }
-        ]
+        }
       }
     },
     "/metrics": {
@@ -162,8 +236,8 @@
         "tags": [
           "Metrics"
         ],
-        "summary": "Metrics",
-        "operationId": "metrics_metrics_get",
+        "summary": "Read Metrics",
+        "operationId": "read_metrics_metrics_get",
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -187,7 +261,7 @@
           },
           "output": {
             "type": "string",
-            "title": "Output"
+            "title": "Model output"
           }
         },
         "type": "object",
@@ -199,27 +273,27 @@
       },
       "AnalyzeOutputResponse": {
         "properties": {
-          "sanitized_output": {
-            "type": "string",
-            "title": "Sanitized Output"
-          },
           "is_valid": {
             "type": "boolean",
-            "title": "Is Valid"
+            "title": "Whether the output is safe"
           },
           "scanners": {
             "additionalProperties": {
               "type": "number"
             },
             "type": "object",
-            "title": "Scanners"
+            "title": "Risk scores of individual scanners"
+          },
+          "sanitized_output": {
+            "type": "string",
+            "title": "Sanitized output"
           }
         },
         "type": "object",
         "required": [
-          "sanitized_output",
           "is_valid",
-          "scanners"
+          "scanners",
+          "sanitized_output"
         ],
         "title": "AnalyzeOutputResponse"
       },
@@ -238,27 +312,27 @@
       },
       "AnalyzePromptResponse": {
         "properties": {
-          "sanitized_prompt": {
-            "type": "string",
-            "title": "Sanitized Prompt"
-          },
           "is_valid": {
             "type": "boolean",
-            "title": "Is Valid"
+            "title": "Whether the prompt is safe"
           },
           "scanners": {
             "additionalProperties": {
               "type": "number"
             },
             "type": "object",
-            "title": "Scanners"
+            "title": "Risk scores of individual scanners"
+          },
+          "sanitized_prompt": {
+            "type": "string",
+            "title": "Sanitized prompt"
           }
         },
         "type": "object",
         "required": [
-          "sanitized_prompt",
           "is_valid",
-          "scanners"
+          "scanners",
+          "sanitized_prompt"
         ],
         "title": "AnalyzePromptResponse"
       },
@@ -274,6 +348,79 @@
         },
         "type": "object",
         "title": "HTTPValidationError"
+      },
+      "ScanOutputRequest": {
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "title": "Prompt"
+          },
+          "output": {
+            "type": "string",
+            "title": "Model output"
+          }
+        },
+        "type": "object",
+        "required": [
+          "prompt",
+          "output"
+        ],
+        "title": "ScanOutputRequest"
+      },
+      "ScanOutputResponse": {
+        "properties": {
+          "is_valid": {
+            "type": "boolean",
+            "title": "Whether the output is safe"
+          },
+          "scanners": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Risk scores of individual scanners"
+          }
+        },
+        "type": "object",
+        "required": [
+          "is_valid",
+          "scanners"
+        ],
+        "title": "ScanOutputResponse"
+      },
+      "ScanPromptRequest": {
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "title": "Prompt"
+          }
+        },
+        "type": "object",
+        "required": [
+          "prompt"
+        ],
+        "title": "ScanPromptRequest"
+      },
+      "ScanPromptResponse": {
+        "properties": {
+          "is_valid": {
+            "type": "boolean",
+            "title": "Whether the prompt is safe"
+          },
+          "scanners": {
+            "additionalProperties": {
+              "type": "number"
+            },
+            "type": "object",
+            "title": "Risk scores of individual scanners"
+          }
+        },
+        "type": "object",
+        "required": [
+          "is_valid",
+          "scanners"
+        ],
+        "title": "ScanPromptResponse"
       },
       "ValidationError": {
         "properties": {
@@ -307,12 +454,6 @@
           "type"
         ],
         "title": "ValidationError"
-      }
-    },
-    "securitySchemes": {
-      "HTTPBearer": {
-        "type": "http",
-        "scheme": "bearer"
       }
     }
   }
