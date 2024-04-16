@@ -27,6 +27,15 @@ scanner = BanTopics(topics=["violence"], threshold=0.5)
 sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 ```
 
+## How to configure topics
+
+The topics to be banned can be chosen based on the use-case and the potential risks associated with it.
+
+The dataset, which was used to train the zero-shot classifier model can be found [here](https://huggingface.co/datasets/MoritzLaurer/synthetic_zeroshot_mixtral_v0.1).
+It will give you an idea of the topics that the model can classify.
+
+Additionally, we recommend experimenting with the formulating of the topics to choose the longer options ([Read more](https://huggingface.co/MoritzLaurer/deberta-v3-base-zeroshot-v2.0#flexible-usage-and-prompting)).
+
 ## Optimization Strategies
 
 [Read more](../tutorials/optimization.md)
