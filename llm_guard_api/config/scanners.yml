@@ -35,9 +35,10 @@ input_scanners:
       # entity_types: []
       # preamble: ""
       use_faker: false
+      threshold: 0.6
   - type: BanCode
     params:
-      threshold: 0.9
+      threshold: 0.95
   - type: BanCompetitors
     params:
       competitors: ["facebook"]
@@ -53,10 +54,10 @@ input_scanners:
     params:
       topics: ["violence"]
       threshold: 0.6
-  - type: Code
-    params:
-      languages: ["Python"]
-      is_blocked: true
+#  - type: Code
+#    params:
+#      languages: ["Python"]
+#      is_blocked: true
   - type: Gibberish
     params:
       threshold: 0.9
@@ -68,6 +69,7 @@ input_scanners:
   - type: PromptInjection
     params:
       threshold: 0.9
+      match_type: truncate_head_tail
   - type: Regex
     params:
       patterns: ["Bearer [A-Za-z0-9-._~+/]+"]
@@ -112,10 +114,10 @@ output_scanners:
   - type: Bias
     params:
       threshold: 0.75
-  - type: Code
-    params:
-      languages: ["Python"]
-      is_blocked: true
+#  - type: Code
+#    params:
+#      languages: ["Python"]
+#      is_blocked: true
   - type: Deanonymize
     params:
       matching_strategy: "exact"
@@ -155,9 +157,8 @@ output_scanners:
       threshold: 0.5
   - type: Sensitive
     params:
-      # entity_types:
       redact: false
-      threshold: 0.0
+      threshold: 0.6
   - type: Sentiment
     params:
       threshold: -0.1

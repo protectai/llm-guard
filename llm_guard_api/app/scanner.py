@@ -6,8 +6,14 @@ import structlog
 from opentelemetry import metrics
 
 from llm_guard import input_scanners, output_scanners
+from llm_guard.input_scanners.anonymize_helpers import DISTILBERT_AI4PRIVACY_v2_CONF
+from llm_guard.input_scanners.ban_competitors import MODEL_SMALL as BAN_COMPETITORS_MODEL
+from llm_guard.input_scanners.ban_topics import MODEL_ROBERTA_BASE_C_V2 as BAN_TOPICS_MODEL
 from llm_guard.input_scanners.base import Scanner as InputScanner
+from llm_guard.input_scanners.language import DEFAULT_MODEL as LANGUAGE_MODEL
+from llm_guard.input_scanners.prompt_injection import DEFAULT_MODEL as PROMPT_INJECTION_MODEL
 from llm_guard.output_scanners.base import Scanner as OutputScanner
+from llm_guard.output_scanners.relevance import MODEL_EN_BGE_SMALL as RELEVANCE_MODEL
 from llm_guard.vault import Vault
 
 from .config import ScannerConfig
@@ -84,6 +90,24 @@ def _get_input_scanner(
     ]:
         scanner_config["use_onnx"] = True
 
+    if scanner_name == "Anonymize":
+        scanner_config["recognizer_conf"] = DISTILBERT_AI4PRIVACY_v2_CONF
+
+    if scanner_name == "Language":
+        LANGUAGE_MODEL.onnx_filename = "model_optimized.onnx"
+        scanner_config["model"] = LANGUAGE_MODEL
+
+    if scanner_name == "PromptInjection":
+        PROMPT_INJECTION_MODEL.onnx_filename = "model_optimized.onnx"
+        PROMPT_INJECTION_MODEL.kwargs["max_length"] = 128
+        scanner_config["model"] = PROMPT_INJECTION_MODEL
+
+    if scanner_name == "BanCompetitors":
+        scanner_config["model"] = BAN_COMPETITORS_MODEL
+
+    if scanner_name == "BanTopics":
+        scanner_config["model"] = BAN_TOPICS_MODEL
+
     return input_scanners.get_scanner_by_name(scanner_name, scanner_config)
 
 
@@ -115,6 +139,22 @@ def _get_output_scanner(
         "Toxicity",
     ]:
         scanner_config["use_onnx"] = True
+
+    if scanner_name == "Sensitive":
+        scanner_config["recognizer_conf"] = DISTILBERT_AI4PRIVACY_v2_CONF
+
+    if scanner_name == "Language":
+        LANGUAGE_MODEL.onnx_filename = "model_optimized.onnx"
+        scanner_config["model"] = LANGUAGE_MODEL
+
+    if scanner_name == "BanCompetitors":
+        scanner_config["model"] = BAN_COMPETITORS_MODEL
+
+    if scanner_name == "FactualConsistency" or scanner_name == "BanTopics":
+        scanner_config["model"] = BAN_TOPICS_MODEL
+
+    if scanner_name == "Relevance":
+        scanner_config["model"] = RELEVANCE_MODEL
 
     return output_scanners.get_scanner_by_name(scanner_name, scanner_config)
 
