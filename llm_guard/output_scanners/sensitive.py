@@ -9,7 +9,7 @@ from llm_guard.input_scanners.anonymize_helpers import (
     get_regex_patterns,
     get_transformers_recognizer,
 )
-from llm_guard.util import get_logger
+from llm_guard.util import calculate_risk_score, get_logger
 
 from .base import Scanner
 
@@ -86,9 +86,11 @@ class Sensitive(Scanner):
                 result = self._anonymizer.anonymize(text=output, analyzer_results=analyzer_results)
                 output = result.text
 
-            risk_score = max(analyzer_result.score for analyzer_result in analyzer_results)
+            risk_score = round(
+                max(analyzer_result.score for analyzer_result in analyzer_results), 2
+            )
             LOGGER.warning("Found sensitive data in the output", results=analyzer_results)
-            return output, False, risk_score
+            return output, False, calculate_risk_score(risk_score, self._threshold)
 
         LOGGER.debug("No sensitive data found in the output")
         return output, True, 0.0

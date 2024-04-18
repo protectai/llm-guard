@@ -6,7 +6,7 @@ from presidio_anonymizer.core.text_replace_builder import TextReplaceBuilder
 from presidio_anonymizer.entities import PIIEntity, RecognizerResult
 
 from ..exception import LLMGuardValidationError
-from ..util import get_logger
+from ..util import calculate_risk_score, get_logger
 from ..vault import Vault
 from .anonymize_helpers import (
     DEBERTA_AI4PRIVACY_v2_CONF,
@@ -321,7 +321,7 @@ class Anonymize(Scanner):
             max(analyzer_result.score for analyzer_result in analyzer_results)
             if analyzer_results
             else 0.0,
-            1,
+            2,
         )
         analyzer_results = self._remove_conflicts_and_get_text_manipulation_data(analyzer_results)
         merged_results = self._merge_entities_with_whitespace_between(prompt, analyzer_results)
@@ -339,7 +339,11 @@ class Anonymize(Scanner):
             for entity_placeholder, entity_value in anonymized_results:
                 if not self._vault.placeholder_exists(entity_placeholder):
                     self._vault.append((entity_placeholder, entity_value))
-            return self._preamble + sanitized_prompt, False, risk_score
+            return (
+                self._preamble + sanitized_prompt,
+                False,
+                calculate_risk_score(risk_score, self._threshold),
+            )
 
         LOGGER.debug("Prompt does not have sensitive data to replace", risk_score=risk_score)
 
