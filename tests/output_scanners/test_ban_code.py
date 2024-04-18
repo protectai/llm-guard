@@ -30,7 +30,6 @@ console.log(sayHello());
             "Write Hello World in Go",
             """Sure, below you can find the code:
 
-```go
 package main
 
 import "fmt"
@@ -39,10 +38,9 @@ func main() {
     text := "hello world"
     fmt.Println(text)
 }
-```""",
+""",
             """Sure, below you can find the code:
 
-```go
 package main
 
 import "fmt"
@@ -51,7 +49,7 @@ func main() {
     text := "hello world"
     fmt.Println(text)
 }
-```""",
+""",
             False,
             1.0,
         ),
