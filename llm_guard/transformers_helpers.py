@@ -125,7 +125,5 @@ def pipeline(
         task,
         model=model,
         tokenizer=tokenizer,
-        device=device(),
-        batch_size=1,
         **kwargs,
     )

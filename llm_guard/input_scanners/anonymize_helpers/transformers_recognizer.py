@@ -174,8 +174,6 @@ class TransformersRecognizer(EntityRecognizer):
             "ner",
             model=tf_model,
             tokenizer=tf_tokenizer,
-            device=device(),
-            batch_size=1,
             **self.model.pipeline_kwargs,
         )
 

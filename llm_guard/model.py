@@ -1,6 +1,8 @@
 import dataclasses
 from typing import Dict, Optional
 
+from .util import device
+
 
 @dataclasses.dataclass
 class Model:
@@ -27,7 +29,9 @@ class Model:
     onnx_filename: str = "model.onnx"
     onnx_enable_hack: bool = True  # Enable hack to remove token_type_ids from input
     kwargs: Dict = dataclasses.field(default_factory=dict)
-    pipeline_kwargs: Dict = dataclasses.field(default_factory=dict)
+    pipeline_kwargs: Dict = dataclasses.field(
+        default_factory=lambda: {"batch_size": 1, "device": device()}
+    )
 
     def __str__(self):
         return self.path
