@@ -17,6 +17,8 @@ Activate ONNX by initializing your scanner with the use_onnx parameter set to Tr
 scanner = Code(languages=["PHP"], use_onnx=True)
 ```
 
+In case you have issues installing the ONNX Runtime package, you can check the [official documentation](https://onnxruntime.ai/docs/install/).
+
 ## ONNX Runtime with Quantization
 
 Although not built-in in the library, you can use quantized or optimized versions of the models. However, that doesn't always lead to better latency but can reduce the model size.

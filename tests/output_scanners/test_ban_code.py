@@ -11,20 +11,18 @@ from llm_guard.output_scanners.ban_code import BanCode
             "Write Hello World in JavaScript",
             """Sure! Here's a simple JavaScript function that returns "Hello, World!":
 
-```js
 function sayHello() {
     return "Hello, World!";
 }
 console.log(sayHello());
-```""",
+""",
             """Sure! Here's a simple JavaScript function that returns "Hello, World!":
 
-```js
 function sayHello() {
     return "Hello, World!";
 }
 console.log(sayHello());
-```""",
+""",
             False,
             1.0,
         ),

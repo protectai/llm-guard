@@ -235,3 +235,26 @@ def extract_urls(text: str) -> List[str]:
     Extracts URLs from the given text.
     """
     return url_pattern.findall(text)
+
+
+def remove_markdown(text):
+    # Patterns to remove various Markdown elements
+    patterns = [
+        r"\*\*([^\*]+)\*\*",  # Bold
+        r"\*([^\*]+)\*",  # Italic
+        r"\!\[[^\]]+\]\([^\)]+\)",  # Images
+        r"\[[^\]]+\]\([^\)]+\)",  # Links
+        r"\#{1,6}\s",  # Headers
+        r"\>+",  # Blockquotes
+        r"`{1,3}[^`]+`{1,3}",  # Inline code and code blocks
+        r"\n{2,}",  # Multiple newlines
+    ]
+
+    clean_text = text
+    for pattern in patterns:
+        clean_text = re.sub(pattern, "", clean_text)
+
+    # Extra cleanup for simpler elements
+    clean_text = re.sub(r"\*|\_|\`", "", clean_text)
+
+    return clean_text
