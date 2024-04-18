@@ -1,15 +1,17 @@
 # OpenAI ChatGPT
 
-This example demonstrates how to use LLM Guard as a firewall of OpenAI ChatGPT client.
+This example demonstrates how to use LLM Guard as a firewall of OpenAI client.
 
-## Usage
+## Simple example
 
-1. Configure API key:
-```bash
-export OPENAI_API_KEY="<your key>"
-```
+In [openai_api.py](https://github.com/protectai/llm-guard/blob/main/examples/openai_api.py), LLM Guard is used to protect OpenAI ChatGPT client.
 
-2. Run [openai_api.py](https://github.com/protectai/llm-guard/blob/main/examples/openai_api.py)
-```bash
-python examples/openai_api.py
-```
+All scanners will run sequentially before the request is sent to the OpenAI API. Then, once the request is received, the response will be scanned by the scanners.
+
+## Advanced example
+
+In [openai_streaming.py](https://github.com/protectai/llm-guard/blob/main/examples/openai_streaming.py), LLM Guard is used to protect OpenAI ChatGPT client with streaming.
+
+The prompt is scanned in parallel with the request to the OpenAI API. If the prompt is not safe, the request will be blocked.
+
+Then, the response is scanned in a streaming mode i.e. in chunks. If any chunk is not safe, the response will be blocked.

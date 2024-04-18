@@ -21,7 +21,8 @@ In case you have issues installing the ONNX Runtime package, you can check the [
 
 ## ONNX Runtime with Quantization
 
-Although not built-in in the library, you can use quantized or optimized versions of the models. However, that doesn't always lead to better latency but can reduce the model size.
+Although not built-in in the library, you can use quantized or optimized versions of the models.
+However, that doesn't always lead to better latency but can reduce the model size.
 
 ## Enabling Low CPU/Memory Usage
 
@@ -36,9 +37,12 @@ scanner = Code(languages=["PHP"], model=DEFAULT_MODEL)
 
 For an in-depth understanding of this feature and its impact on large model handling, refer to the detailed [Large Model Loading Documentation](https://huggingface.co/docs/transformers/main_classes/model#large-model-loading).
 
+Alternatively, quantization can be used to reduce the model size and memory usage.
+
 ## Use smaller models
 
-For certain scanners, smaller model variants are available. These models are designed for enhanced performance, offering reduced latency without significantly compromising accuracy or effectiveness.
+For certain scanners, smaller model variants are available e.g. distilbert, bert-small, bert-tiny versions.
+These models are designed for enhanced performance, offering reduced latency without significantly compromising accuracy or effectiveness.
 
 ## PyTorch hacks
 
@@ -51,3 +55,7 @@ torch.set_float32_matmul_precision('high')
 import torch._inductor.config
 torch._inductor.config.fx_graph_cache = True
 ```
+
+## Streaming mode
+
+To optimize the output scanning, you can analyze the output in chunks. In [OpenAI](./openai.md) guide, we demonstrate how to use LLM Guard to protect OpenAI client with streaming.
