@@ -17,6 +17,7 @@ MODEL_DEBERTA_LARGE_V2 = Model(
     onnx_revision="cf44676c28ba7312e5c5f8f8d2c22b3e0c9cdae2",
     onnx_subfolder="onnx",
     pipeline_kwargs={
+        "return_token_type_ids": False,
         "max_length": 512,
         "truncation": True,
     },
@@ -32,6 +33,7 @@ MODEL_DEBERTA_BASE_V2 = Model(
     onnx_subfolder="onnx",
     onnx_revision="8e7e5af5983a0ddb1a5b45a38b129ab69e2258e8",
     pipeline_kwargs={
+        "return_token_type_ids": False,
         "max_length": 512,
         "truncation": True,
     },
@@ -46,7 +48,8 @@ MODEL_BGE_M3_V2 = Model(
     onnx_subfolder="onnx",
     onnx_revision="cd3f8598c7359a3b5cbce164d7fcdafb83a36484",
     pipeline_kwargs={
-        "max_length": 8192,
+        "return_token_type_ids": False,
+        "max_length": 512,
         "truncation": True,
     },
 )
@@ -61,6 +64,7 @@ MODEL_ROBERTA_LARGE_C_V2 = Model(
     onnx_subfolder="onnx",
     onnx_revision="4c24ed4bba5af8d3162604abc2a141b9d2183ecc",
     pipeline_kwargs={
+        "return_token_type_ids": False,
         "max_length": 512,
         "truncation": True,
     },
@@ -73,6 +77,7 @@ MODEL_ROBERTA_BASE_C_V2 = Model(
     onnx_path="protectai/MoritzLaurer-roberta-base-zeroshot-v2.0-c-onnx",
     onnx_revision="fde5343dbad32f1a5470890505c72ec656db6dbe",
     pipeline_kwargs={
+        "return_token_type_ids": False,
         "max_length": 512,
         "truncation": True,
     },

@@ -26,7 +26,7 @@ def get_tokenizer(model: Model):
     """
     transformers = lazy_load_dep("transformers")
     tokenizer = transformers.AutoTokenizer.from_pretrained(
-        model.path, revision=model.revision, **model.kwargs
+        model.path, revision=model.revision, **model.tokenizer_kwargs
     )
     return tokenizer
 
@@ -95,10 +95,6 @@ def get_tokenizer_and_model_for_classification(
         LOGGER.debug("Initialized classification model", model=model, device=device())
 
         return tf_tokenizer, tf_model
-
-    # Hack for some models
-    if model.onnx_enable_hack:
-        tf_tokenizer.model_input_names = ["input_ids", "attention_mask"]
 
     tf_model = _ort_model_for_sequence_classification(model)
 
