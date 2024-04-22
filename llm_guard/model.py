@@ -27,11 +27,16 @@ class Model:
     onnx_revision: Optional[str] = None
     onnx_subfolder: str = ""
     onnx_filename: str = "model.onnx"
-    onnx_enable_hack: bool = True  # Enable hack to remove token_type_ids from input
     kwargs: Dict = dataclasses.field(default_factory=dict)
-    pipeline_kwargs: Dict = dataclasses.field(
-        default_factory=lambda: {"batch_size": 1, "device": device()}
-    )
+    pipeline_kwargs: Dict = dataclasses.field(default_factory=dict)
+    tokenizer_kwargs: Dict = dataclasses.field(default_factory=dict)
+
+    def __post_init__(self):
+        default_pipeline_kwargs = {
+            "batch_size": 1,
+            "device": device(),
+        }
+        self.pipeline_kwargs = {**default_pipeline_kwargs, **self.pipeline_kwargs}
 
     def __str__(self):
         return self.path

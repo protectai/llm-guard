@@ -144,9 +144,6 @@ class TransformersRecognizer(EntityRecognizer):
                 "optimum[onnxruntime]" if device().type != "cuda" else "optimum[onnxruntime-gpu]",
             )
 
-            if self.model.onnx_enable_hack:
-                tf_tokenizer.model_input_names = ["input_ids", "attention_mask"]
-
             tf_model = optimum_onnxruntime.ORTModelForTokenClassification.from_pretrained(
                 self.model.onnx_path,
                 export=False,
