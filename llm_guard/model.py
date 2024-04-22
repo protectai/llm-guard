@@ -29,14 +29,12 @@ class Model:
     onnx_filename: str = "model.onnx"
     kwargs: Dict = dataclasses.field(default_factory=dict)
     pipeline_kwargs: Dict = dataclasses.field(default_factory=dict)
+    tokenizer_kwargs: Dict = dataclasses.field(default_factory=dict)
 
     def __post_init__(self):
         default_pipeline_kwargs = {
-            "max_length": 512,
-            "truncation": True,
             "batch_size": 1,
             "device": device(),
-            "return_token_type_ids": False,
         }
         self.pipeline_kwargs = {**default_pipeline_kwargs, **self.pipeline_kwargs}
 

@@ -15,6 +15,11 @@ DEFAULT_MODEL = Model(
     onnx_path="madhurjindal/autonlp-Gibberish-Detector-492513457",
     onnx_revision="fddf42c3008ad61cc481f90d02dd0712ba1ee2d8",
     onnx_subfolder="onnx",
+    pipeline_kwargs={
+        "return_token_type_ids": False,
+        "max_length": 512,
+        "truncation": True,
+    },
 )
 
 

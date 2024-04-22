@@ -17,6 +17,11 @@ DEFAULT_MODEL = Model(
     onnx_path="ProtectAI/distilroberta-base-rejection-v1",
     onnx_revision="65584967c3f22ff7723e5370c65e0e76791e6055",
     onnx_subfolder="onnx",
+    pipeline_kwargs={
+        "return_token_type_ids": False,
+        "max_length": 512,
+        "truncation": True,
+    },
 )
 
 

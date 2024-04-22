@@ -26,7 +26,7 @@ def get_tokenizer(model: Model):
     """
     transformers = lazy_load_dep("transformers")
     tokenizer = transformers.AutoTokenizer.from_pretrained(
-        model.path, revision=model.revision, **model.kwargs
+        model.path, revision=model.revision, **model.tokenizer_kwargs
     )
     return tokenizer
 

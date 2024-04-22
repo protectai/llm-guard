@@ -15,6 +15,7 @@ BERT_BASE_NER_CONF = {
         pipeline_kwargs={
             "aggregation_strategy": "simple",
         },
+        tokenizer_kwargs={"model_input_names": ["input_ids", "attention_mask"]},
     ),
     "LABELS_TO_IGNORE": ["O", "CARDINAL"],
     "DEFAULT_EXPLANATION": "Identified as {} by the dslim/bert-base-NER NER model",
@@ -51,6 +52,7 @@ BERT_LARGE_NER_CONF = {
         pipeline_kwargs={
             "aggregation_strategy": "simple",
         },
+        tokenizer_kwargs={"model_input_names": ["input_ids", "attention_mask"]},
     ),
     "LABELS_TO_IGNORE": ["O", "CARDINAL"],
     "DEFAULT_EXPLANATION": "Identified as {} by the dslim/bert-large-NER NER model",
@@ -86,6 +88,7 @@ BERT_ZH_NER_CONF = {
         pipeline_kwargs={
             "aggregation_strategy": "simple",
         },
+        tokenizer_kwargs={"model_input_names": ["input_ids", "attention_mask"]},
     ),
     "LABELS_TO_IGNORE": ["O", "CARDINAL"],
     "DEFAULT_EXPLANATION": "Identified as {} by the gyr66/bert-base-chinese-finetuned-ner NER model",
@@ -130,6 +133,7 @@ DISTILBERT_AI4PRIVACY_v2_CONF = {
         pipeline_kwargs={
             "aggregation_strategy": "simple",
         },
+        tokenizer_kwargs={"model_input_names": ["input_ids", "attention_mask"]},
     ),
     "LABELS_TO_IGNORE": ["O", "CARDINAL"],
     "DEFAULT_EXPLANATION": "Identified as {} by the Isotonic/distilbert_finetuned_ai4privacy_v2 NER model",
@@ -222,6 +226,7 @@ DEBERTA_AI4PRIVACY_v2_CONF = {
         pipeline_kwargs={
             "aggregation_strategy": "simple",
         },
+        tokenizer_kwargs={"model_input_names": ["input_ids", "attention_mask"]},
     ),
     "LABELS_TO_IGNORE": ["O", "CARDINAL"],
     "DEFAULT_EXPLANATION": "Identified as {} by the Isotonic/deberta-v3-base_finetuned_ai4privacy_v2 NER model",
@@ -314,6 +319,7 @@ MDEBERTA_AI4PRIVACY_v2_CONF = {
         pipeline_kwargs={
             "aggregation_strategy": "simple",
         },
+        tokenizer_kwargs={"model_input_names": ["input_ids", "attention_mask"]},
     ),
     "LABELS_TO_IGNORE": ["O", "CARDINAL"],
     "DEFAULT_EXPLANATION": "Identified as {} by the Isotonic/deberta-v3-base_finetuned_ai4privacy_v2 NER model",
@@ -406,6 +412,7 @@ DEBERTA_LAKSHYAKH93_CONF = {
         pipeline_kwargs={
             "aggregation_strategy": "simple",
         },
+        tokenizer_kwargs={"model_input_names": ["input_ids", "attention_mask"]},
     ),
     "LABELS_TO_IGNORE": ["O", "CARDINAL"],
     "DEFAULT_EXPLANATION": "Identified as {} by the lakshyakh93/deberta_finetuned_pii NER model",

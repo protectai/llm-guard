@@ -25,6 +25,11 @@ V1_MODEL = Model(
     onnx_revision="f51c3b2a5216ae1af467b511bc7e3b78dc4a99c9",
     onnx_subfolder="onnx",
     onnx_filename="model.onnx",
+    pipeline_kwargs={
+        "return_token_type_ids": False,
+        "max_length": 512,
+        "truncation": True,
+    },
 )
 
 V2_MODEL = Model(
@@ -34,6 +39,11 @@ V2_MODEL = Model(
     onnx_revision="69d3788a68e9d6c64b43e78284380a31182651d5",
     onnx_subfolder="onnx",
     onnx_filename="model.onnx",
+    pipeline_kwargs={
+        "return_token_type_ids": False,
+        "max_length": 512,
+        "truncation": True,
+    },
 )
 
 

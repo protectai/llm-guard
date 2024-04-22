@@ -16,6 +16,9 @@ DEFAULT_MODEL = Model(
     onnx_revision="dce2fa14a0dc61b6f889537e9ad4fccf083b22bd",
     pipeline_kwargs={
         "top_k": None,
+        "return_token_type_ids": False,
+        "max_length": 512,
+        "truncation": True,
     },
 )
 
