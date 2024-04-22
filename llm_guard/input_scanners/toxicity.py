@@ -18,7 +18,6 @@ DEFAULT_MODEL = Model(
         "padding": "max_length",
         "top_k": None,
         "function_to_apply": "sigmoid",
-        "truncation": True,
     },
 )
 

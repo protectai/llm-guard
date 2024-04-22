@@ -15,8 +15,6 @@ DEFAULT_MODEL = Model(
     onnx_path="ProtectAI/xlm-roberta-base-language-detection-onnx",
     onnx_revision="dce2fa14a0dc61b6f889537e9ad4fccf083b22bd",
     pipeline_kwargs={
-        "max_length": 512,
-        "truncation": True,
         "top_k": None,
     },
 )

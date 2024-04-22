@@ -13,8 +13,6 @@ DEFAULT_MODEL = Model(
     onnx_path="ProtectAI/codebert-base-Malicious_URLs-onnx",
     onnx_revision="7bc4fa926eeae5e752d0790cc42faa24eb32fa64",
     pipeline_kwargs={
-        "max_length": 512,
-        "truncation": True,
         "top_k": None,
     },
 )

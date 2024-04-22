@@ -16,7 +16,7 @@ DEFAULT_MODEL = Model(
     onnx_path="philomath-1209/programming-language-identification",
     onnx_revision="9090d38e7333a2c6ff00f154ab981a549842c20f",
     onnx_subfolder="onnx",
-    pipeline_kwargs={"truncation": True, "top_k": None},
+    pipeline_kwargs={"top_k": None},
 )
 
 SUPPORTED_LANGUAGES = [

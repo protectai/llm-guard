@@ -14,8 +14,7 @@ MODEL_SM = Model(
     revision="caa3d167fd262c76c7da23cd72c1d24cfdcafd0f",
     onnx_path="protectai/vishnun-codenlbert-sm-onnx",
     onnx_revision="2b1d298410bd98832e41e3da82e20f6d8dff1bc7",
-    pipeline_kwargs={"truncation": True, "max_length": 128},
-    onnx_enable_hack=False,
+    pipeline_kwargs={"max_length": 128, "return_token_type_ids": True},
 )
 
 MODEL_TINY = Model(
@@ -23,8 +22,7 @@ MODEL_TINY = Model(
     revision="2caf5a621b29c50038ee081479a82f192e9a5e69",
     onnx_path="protectai/vishnun-codenlbert-tiny-onnx",
     onnx_revision="84148cb4b3f08fe44705e2d8ed81505450ae8abd",
-    pipeline_kwargs={"truncation": True, "max_length": 128},
-    onnx_enable_hack=False,
+    pipeline_kwargs={"max_length": 128, "return_token_type_ids": True},
 )
 
 

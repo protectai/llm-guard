@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `BanTopics`, `FactualConsistency`: support of the [new zero-shot-classification models](https://huggingface.co/collections/MoritzLaurer/zeroshot-classifiers-6548b4ff407bb19ff5c3ad6f).
 - `PromptInjection` can support more match types for better accuracy.
 - `API` relies on the lighter models for faster inference but with a bit lower accuracy. You can remove the change and build from source to use the full models.
+- `PromptInjection` scanned uses the [new v2 model](https://huggingface.co/protectai/deberta-v3-base-prompt-injection-v2) for better accuracy.
 
 ### Removed
 - `model_kwargs` and `pipeline_kwargs` as they are part of the `Model` object.

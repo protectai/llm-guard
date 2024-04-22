@@ -16,10 +16,6 @@ MODEL_DEBERTA_LARGE_V2 = Model(
     onnx_path="MoritzLaurer/deberta-v3-large-zeroshot-v2.0",
     onnx_revision="cf44676c28ba7312e5c5f8f8d2c22b3e0c9cdae2",
     onnx_subfolder="onnx",
-    pipeline_kwargs={
-        "max_length": 512,
-        "truncation": True,
-    },
 )
 
 # The most performant base model. 0.18 B parameters, 369 MB.
@@ -31,10 +27,6 @@ MODEL_DEBERTA_BASE_V2 = Model(
     onnx_path="MoritzLaurer/deberta-v3-base-zeroshot-v2.0",
     onnx_subfolder="onnx",
     onnx_revision="8e7e5af5983a0ddb1a5b45a38b129ab69e2258e8",
-    pipeline_kwargs={
-        "max_length": 512,
-        "truncation": True,
-    },
 )
 
 # The most performance multilingual model. 0.57 B parameters, 1.14 GB.
@@ -45,10 +37,6 @@ MODEL_BGE_M3_V2 = Model(
     onnx_path="MoritzLaurer/bge-m3-zeroshot-v2.0",
     onnx_subfolder="onnx",
     onnx_revision="cd3f8598c7359a3b5cbce164d7fcdafb83a36484",
-    pipeline_kwargs={
-        "max_length": 8192,
-        "truncation": True,
-    },
 )
 
 # Less performant than deberta-v3 variants, but a bit faster and compatible with flash attention and TEI containers.
@@ -60,10 +48,6 @@ MODEL_ROBERTA_LARGE_C_V2 = Model(
     onnx_path="MoritzLaurer/roberta-large-zeroshot-v2.0-c",
     onnx_subfolder="onnx",
     onnx_revision="4c24ed4bba5af8d3162604abc2a141b9d2183ecc",
-    pipeline_kwargs={
-        "max_length": 512,
-        "truncation": True,
-    },
 )
 
 # Same model but smaller, more efficient version.
@@ -72,10 +56,6 @@ MODEL_ROBERTA_BASE_C_V2 = Model(
     revision="d825e740e0c59881cf0b0b1481ccf726b6d65341",
     onnx_path="protectai/MoritzLaurer-roberta-base-zeroshot-v2.0-c-onnx",
     onnx_revision="fde5343dbad32f1a5470890505c72ec656db6dbe",
-    pipeline_kwargs={
-        "max_length": 512,
-        "truncation": True,
-    },
 )
 
 

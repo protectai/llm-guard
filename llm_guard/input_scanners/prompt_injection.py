@@ -15,20 +15,25 @@ from .base import Scanner
 
 LOGGER = get_logger()
 
-PROMPT_CHARACTERS_LIMIT = 512
+PROMPT_CHARACTERS_LIMIT = 256
 
 # This model is proprietary but open source.
-DEFAULT_MODEL = Model(
+V1_MODEL = Model(
     path="protectai/deberta-v3-base-prompt-injection",
     revision="f51c3b2a5216ae1af467b511bc7e3b78dc4a99c9",
     onnx_path="ProtectAI/deberta-v3-base-prompt-injection",
     onnx_revision="f51c3b2a5216ae1af467b511bc7e3b78dc4a99c9",
     onnx_subfolder="onnx",
     onnx_filename="model.onnx",
-    pipeline_kwargs={
-        "max_length": 512,
-        "truncation": True,
-    },
+)
+
+V2_MODEL = Model(
+    path="protectai/deberta-v3-base-prompt-injection-v2-2024-04-20-16-52",
+    revision="69d3788a68e9d6c64b43e78284380a31182651d5",
+    onnx_path="ProtectAI/deberta-v3-base-prompt-injection",
+    onnx_revision="69d3788a68e9d6c64b43e78284380a31182651d5",
+    onnx_subfolder="onnx",
+    onnx_filename="model.onnx",
 )
 
 
@@ -106,7 +111,7 @@ class PromptInjection(Scanner):
             ValueError: If non-existent models were provided.
         """
         if model is None:
-            model = DEFAULT_MODEL
+            model = V2_MODEL
 
         if isinstance(match_type, str):
             match_type = MatchType(match_type)
