@@ -5,7 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] - 0.3.11
+## [Unreleased] - 0.3.12
+
+### Added
+-
+
+### Fixed
+-
+
+### Changed
+-
+
+### Removed
+-
+
+## [0.3.11] - 2024-04-23
 
 ### Added
 - Lazy loading of models in the API deployment. Now you can start loading models when the first request comes.
@@ -359,6 +373,7 @@ _0.3.5 and 0.3.6 were skipped due to build issues._
   - [Toxicity](./output_scanners/toxicity.md)
 
 [Unreleased]: https://github.com/protectai/llm-guard/commits/main
+[0.3.11]: https://github.com/protectai/llm-guard/releases/tag/v0.3.11
 [0.3.10]: https://github.com/protectai/llm-guard/releases/tag/v0.3.10
 [0.3.9]: https://github.com/protectai/llm-guard/releases/tag/v0.3.9
 [0.3.7]: https://github.com/protectai/llm-guard/releases/tag/v0.3.7

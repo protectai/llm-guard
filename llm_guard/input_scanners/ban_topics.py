@@ -2,7 +2,7 @@ from typing import Optional, Sequence
 
 from llm_guard.model import Model
 from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
-from llm_guard.util import get_logger
+from llm_guard.util import calculate_risk_score, get_logger
 
 from .base import Scanner
 
@@ -21,6 +21,9 @@ MODEL_DEBERTA_LARGE_V2 = Model(
         "max_length": 512,
         "truncation": True,
     },
+    tokenizer_kwargs={
+        "model_input_names": ["input_ids", "attention_mask"],
+    },
 )
 
 # The most performant base model. 0.18 B parameters, 369 MB.
@@ -36,6 +39,9 @@ MODEL_DEBERTA_BASE_V2 = Model(
         "return_token_type_ids": False,
         "max_length": 512,
         "truncation": True,
+    },
+    tokenizer_kwargs={
+        "model_input_names": ["input_ids", "attention_mask"],
     },
 )
 
@@ -105,7 +111,7 @@ class BanTopics(Scanner):
         Parameters:
             topics (Sequence[str]): List of topics to ban.
             threshold (float, optional): Threshold to determine if a topic is present in the prompt. Default is 0.75.
-            model (Model, optional): Model to use for zero-shot classification. Default is deberta-v3-base-zeroshot-v1.
+            model (Model, optional): Model to use for zero-shot classification. Default is roberta-base-c-v2.
             use_onnx (bool, optional): Whether to use ONNX for inference. Default is False.
 
         Raises:
@@ -115,7 +121,7 @@ class BanTopics(Scanner):
         self._threshold = threshold
 
         if model is None:
-            model = MODEL_DEBERTA_BASE_V2
+            model = MODEL_ROBERTA_BASE_C_V2
 
         tf_tokenizer, tf_model = get_tokenizer_and_model_for_classification(
             model=model,
@@ -143,7 +149,7 @@ class BanTopics(Scanner):
                 scores=label_score,
             )
 
-            return prompt, False, max_score
+            return prompt, False, calculate_risk_score(max_score, self._threshold)
 
         LOGGER.debug(
             "No banned topics detected",

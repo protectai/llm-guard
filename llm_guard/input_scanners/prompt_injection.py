@@ -33,10 +33,10 @@ V1_MODEL = Model(
 )
 
 V2_MODEL = Model(
-    path="protectai/deberta-v3-base-prompt-injection-v2-2024-04-20-16-52",
-    revision="69d3788a68e9d6c64b43e78284380a31182651d5",
-    onnx_path="ProtectAI/deberta-v3-base-prompt-injection",
-    onnx_revision="69d3788a68e9d6c64b43e78284380a31182651d5",
+    path="protectai/deberta-v3-base-prompt-injection-v2",
+    revision="89b085cd330414d3e7d9dd787870f315957e1e9f",
+    onnx_path="ProtectAI/deberta-v3-base-prompt-injection-v2",
+    onnx_revision="89b085cd330414d3e7d9dd787870f315957e1e9f",
     onnx_subfolder="onnx",
     onnx_filename="model.onnx",
     pipeline_kwargs={
