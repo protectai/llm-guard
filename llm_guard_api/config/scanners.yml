@@ -95,7 +95,7 @@ input_scanners:
 output_scanners:
   - type: BanCode
     params:
-      threshold: 0.9
+      threshold: 0.95
   - type: BanCompetitors
     params:
       competitors: ["facebook"]

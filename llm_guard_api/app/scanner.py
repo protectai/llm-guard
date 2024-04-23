@@ -7,11 +7,12 @@ from opentelemetry import metrics
 
 from llm_guard import input_scanners, output_scanners
 from llm_guard.input_scanners.anonymize_helpers import DISTILBERT_AI4PRIVACY_v2_CONF
+from llm_guard.input_scanners.ban_code import MODEL_TINY as BAN_CODE_MODEL
 from llm_guard.input_scanners.ban_competitors import MODEL_SMALL as BAN_COMPETITORS_MODEL
 from llm_guard.input_scanners.ban_topics import MODEL_ROBERTA_BASE_C_V2 as BAN_TOPICS_MODEL
 from llm_guard.input_scanners.base import Scanner as InputScanner
 from llm_guard.input_scanners.language import DEFAULT_MODEL as LANGUAGE_MODEL
-from llm_guard.input_scanners.prompt_injection import DEFAULT_MODEL as PROMPT_INJECTION_MODEL
+from llm_guard.input_scanners.prompt_injection import V2_MODEL as PROMPT_INJECTION_MODEL
 from llm_guard.output_scanners.base import Scanner as OutputScanner
 from llm_guard.output_scanners.relevance import MODEL_EN_BGE_SMALL as RELEVANCE_MODEL
 from llm_guard.vault import Vault
@@ -108,6 +109,9 @@ def _get_input_scanner(
     if scanner_name == "BanTopics":
         scanner_config["model"] = BAN_TOPICS_MODEL
 
+    if scanner_name == "BanCode":
+        scanner_config["model"] = BAN_CODE_MODEL
+
     return input_scanners.get_scanner_by_name(scanner_name, scanner_config)
 
 
@@ -155,6 +159,9 @@ def _get_output_scanner(
 
     if scanner_name == "Relevance":
         scanner_config["model"] = RELEVANCE_MODEL
+
+    if scanner_name == "BanCode":
+        scanner_config["model"] = BAN_CODE_MODEL
 
     return output_scanners.get_scanner_by_name(scanner_name, scanner_config)
 

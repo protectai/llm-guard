@@ -33,7 +33,7 @@ COPY --chown=user:user app ./app
 
 # Install the project's dependencies
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install torch==2.0.1 --index-url https://download.pytorch.org/whl/cpu && \
+    pip install torch==2.2.2 --index-url https://download.pytorch.org/whl/cpu && \
     pip install --no-cache-dir ".[cpu]"
 
 RUN python -m spacy download en_core_web_sm

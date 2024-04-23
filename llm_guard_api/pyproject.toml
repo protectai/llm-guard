@@ -15,12 +15,12 @@ classifiers = [
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.9,<3.12"
 
 dependencies = [
     "asyncio==3.4.3",
     "fastapi>=0.110",
-    "llm-guard==0.3.10",
+    "llm-guard==0.3.12",
     "pydantic==1.10.15",
     "pyyaml==6.0.1",
     "uvicorn[standard]>=0.29",
@@ -33,15 +33,15 @@ dependencies = [
     "opentelemetry-exporter-prometheus==0.45b0",
     "opentelemetry-sdk-extension-aws==2.0.1",
     "opentelemetry-propagator-aws-xray==1.0.1",
-    "gunicorn>=21",
+    "gunicorn>=22",
 ]
 
 [project.optional-dependencies]
 cpu = [
-  "llm-guard[onnxruntime]==0.3.10",
+  "llm-guard[onnxruntime]==0.3.12",
 ]
 gpu = [
-  "llm-guard[onnxruntime-gpu]==0.3.10",
+  "llm-guard[onnxruntime-gpu]==0.3.12",
 ]
 
 [tool.setuptools]
