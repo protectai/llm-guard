@@ -36,9 +36,10 @@ input_scanners:
       # preamble: ""
       use_faker: false
       threshold: 0.6
+      # model_path: "./distilbert_finetuned_ai4privacy_v2"
   - type: BanCode
     params:
-      threshold: 0.95
+      threshold: 0.97
   - type: BanCompetitors
     params:
       competitors: ["facebook"]
@@ -82,7 +83,7 @@ input_scanners:
   - type: Sentiment
     params:
       # lexicon: "vader_lexicon"
-      threshold: -0.1
+      threshold: -0.5
   - type: TokenLimit
     params:
       limit: 4096
@@ -95,7 +96,7 @@ input_scanners:
 output_scanners:
   - type: BanCode
     params:
-      threshold: 0.95
+      threshold: 0.97
   - type: BanCompetitors
     params:
       competitors: ["facebook"]
@@ -113,7 +114,7 @@ output_scanners:
       threshold: 0.6
   - type: Bias
     params:
-      threshold: 0.75
+      threshold: 0.9
 #  - type: Code
 #    params:
 #      languages: ["Python"]
@@ -161,7 +162,7 @@ output_scanners:
       threshold: 0.6
   - type: Sentiment
     params:
-      threshold: -0.1
+      threshold: -0.5
       # lexicon: "vader_lexicon"
   - type: Toxicity
     params:

@@ -323,7 +323,7 @@ def register_routes(
     ) -> AnalyzePromptResponse:
         LOGGER.debug("Received analyze prompt request", request=request)
 
-        cached_result = cache.get(request.prompt)
+        cached_result = cache.get(f"analyze|{request.prompt}")
         if cached_result:
             LOGGER.debug("Response was found in cache")
 
@@ -388,7 +388,7 @@ def register_routes(
     ) -> ScanPromptResponse:
         LOGGER.debug("Received scan prompt request", request=request)
 
-        cached_result = cache.get(request.prompt)
+        cached_result = cache.get(f"scan|{request.prompt}")
         if cached_result:
             LOGGER.debug("Response was found in cache")
             response.headers["X-Cache-Hit"] = "true"

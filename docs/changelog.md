@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Benchmarks on the AMD CPU.
 - `API` has a new endpoint `POST /scan/prompt` to scan the prompt without sanitizing it. It is faster than the `POST /analyze/scan` endpoint.
 - Example of running [LLM Guard with ChatGPT streaming mode](./tutorials/openai.md) enabled.
+- `API` supports loading models from the local folder.
 
 ### Fixed
 - `InvisibleText` scanner to allow control characters like `\n`, `\t`, etc.

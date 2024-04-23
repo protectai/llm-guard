@@ -25,6 +25,22 @@ All configurations are stored in `config/scanners.yml`. It supports configuring 
 1. Enable `SCAN_FAIL_FAST` to avoid unnecessary scans.
 2. Enable `CACHE_MAX_SIZE` and `CACHE_TTL` to cache results and avoid unnecessary scans.
 3. Enable authentication and rate limiting to avoid abuse.
+4. Enable lazy loading of models to avoid failed HTTP probes.
+5. Enable load of models from a directory to avoid downloading models each time the container starts.
+
+### Load models from a directory
+
+It's possible to load models from a local directory.
+You can set `model_path` in each supported scanner with the folder to the ONNX version of the model.
+
+This way, the models won't be downloaded each time the container starts.
+
+[Relevant notebook](../tutorials/notebooks/local_models.ipynb)
+
+### Lazy loading
+
+You can enable `lazy_load` in the YAML config file to load models only on the first request instead of the API start.
+That way, you can avoid failed HTTP probes due to the long model loading time.
 
 ## Observability
 
