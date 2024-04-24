@@ -92,6 +92,14 @@ log-level = "DEBUG"
 # phase, which will cause tests to fail or "magically" ignored.
 log_cli = "False"
 
+[tool.black]
+line-length = 100
+target-version = ['py39', 'py310', 'py310']
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
 [build-system]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
