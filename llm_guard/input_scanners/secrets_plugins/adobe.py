@@ -1,6 +1,7 @@
 """
 This plugin searches for Adobe keys
 """
+
 import re
 
 from detect_secrets.plugins.base import RegexBasedDetector

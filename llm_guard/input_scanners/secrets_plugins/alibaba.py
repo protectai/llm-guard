@@ -1,6 +1,7 @@
 """
 This plugin searches for Alibaba secrets
 """
+
 import re
 
 from detect_secrets.plugins.base import RegexBasedDetector

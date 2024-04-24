@@ -148,9 +148,9 @@ class TransformersRecognizer(EntityRecognizer):
                 self.model.onnx_path,
                 export=False,
                 subfolder=self.model.onnx_subfolder,
-                provider="CUDAExecutionProvider"
-                if device().type == "cuda"
-                else "CPUExecutionProvider",
+                provider=(
+                    "CUDAExecutionProvider" if device().type == "cuda" else "CPUExecutionProvider"
+                ),
                 revision=self.model.onnx_revision,
                 file_name=self.model.onnx_filename,
                 use_io_binding=True if device().type == "cuda" else False,

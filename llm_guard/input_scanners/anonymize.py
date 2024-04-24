@@ -318,9 +318,11 @@ class Anonymize(Scanner):
         )
 
         risk_score = round(
-            max(analyzer_result.score for analyzer_result in analyzer_results)
-            if analyzer_results
-            else 0.0,
+            (
+                max(analyzer_result.score for analyzer_result in analyzer_results)
+                if analyzer_results
+                else 0.0
+            ),
             2,
         )
         analyzer_results = self._remove_conflicts_and_get_text_manipulation_data(analyzer_results)

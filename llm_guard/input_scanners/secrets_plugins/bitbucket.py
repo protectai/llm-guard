@@ -1,6 +1,7 @@
 """
 This plugin searches for Bitbucket Client ID and Client Secret
 """
+
 import re
 
 from detect_secrets.plugins.base import RegexBasedDetector

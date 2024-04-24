@@ -1,6 +1,7 @@
 """
 This plugin searches for Bittrex Access Key and Secret Key
 """
+
 import re
 
 from detect_secrets.plugins.base import RegexBasedDetector
