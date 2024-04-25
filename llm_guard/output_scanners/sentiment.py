@@ -1,5 +1,4 @@
-from llm_guard.input_scanners.sentiment import Sentiment as InputSentiment
-from llm_guard.input_scanners.sentiment import _lexicon
+from llm_guard.input_scanners.sentiment import Sentiment as InputSentiment, _lexicon
 
 from .base import Scanner
 

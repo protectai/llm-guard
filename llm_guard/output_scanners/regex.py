@@ -1,7 +1,6 @@
 from typing import Sequence, Union
 
-from llm_guard.input_scanners.regex import MatchType
-from llm_guard.input_scanners.regex import Regex as InputRegex
+from llm_guard.input_scanners.regex import MatchType, Regex as InputRegex
 
 from .base import Scanner
 

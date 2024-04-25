@@ -1,7 +1,6 @@
 from typing import Optional, Sequence, Union
 
-from llm_guard.input_scanners.language import Language as InputLanguage
-from llm_guard.input_scanners.language import MatchType
+from llm_guard.input_scanners.language import Language as InputLanguage, MatchType
 from llm_guard.model import Model
 
 from .base import Scanner

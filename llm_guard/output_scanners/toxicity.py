@@ -1,7 +1,6 @@
 from typing import Optional, Union
 
-from llm_guard.input_scanners.toxicity import MatchType
-from llm_guard.input_scanners.toxicity import Toxicity as InputToxicity
+from llm_guard.input_scanners.toxicity import MatchType, Toxicity as InputToxicity
 from llm_guard.model import Model
 
 from .base import Scanner

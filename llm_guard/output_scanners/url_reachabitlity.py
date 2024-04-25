@@ -50,7 +50,7 @@ class URLReachability(Scanner):
         unreachable_urls = [url for url in urls if not self.is_reachable(url)]
 
         if unreachable_urls:
-            LOGGER.warning(f"Unreachable URLs detected", urls=unreachable_urls)
+            LOGGER.warning("Unreachable URLs detected", urls=unreachable_urls)
             return output, False, 1.0
 
         LOGGER.debug("All URLs are reachable.")
