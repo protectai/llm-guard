@@ -11,17 +11,16 @@ repos:
   - repo: local
     hooks:
       - id: ruff check
-        name: ruff
+        name: ruff-check
         entry: ruff check --force-exclude --fix
         language: system
-        pass_filenames: true
         types: [ python ]
       - id: ruff format
-        name: ruff
+        name: ruff-format
         entry: ruff format --force-exclude
         language: system
-        pass_filenames: true
         types: [ python ]
+
   - repo: https://github.com/zricethezav/gitleaks
     rev: v8.18.2
     hooks:
