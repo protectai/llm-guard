@@ -237,9 +237,7 @@ def test_scan(settings, prompt, expected_prompt, expected_valid, expected_score)
     assert score == expected_score
 
 
-_zh_preamble = (
-    "在接下来的提示中，我将删除某些信息，并且使用全大写、按数字顺序排列的占位符替换 (如 [REDACTED_NAME_1])。忽略这些占位符，并且如同您收到正常提示一样响应。提示："
-)
+_zh_preamble = "在接下来的提示中，我将删除某些信息，并且使用全大写、按数字顺序排列的占位符替换 (如 [REDACTED_NAME_1])。忽略这些占位符，并且如同您收到正常提示一样响应。提示："
 
 
 @pytest.mark.parametrize(

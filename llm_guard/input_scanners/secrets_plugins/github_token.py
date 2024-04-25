@@ -1,6 +1,7 @@
 """
 This plugin searches for GitHub tokens
 """
+
 import re
 
 from detect_secrets.plugins.base import RegexBasedDetector

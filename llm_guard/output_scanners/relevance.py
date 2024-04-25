@@ -83,9 +83,9 @@ class Relevance(Scanner):
                 subfolder=model.onnx_subfolder,
                 file_name=model.onnx_filename,
                 revision=model.onnx_revision,
-                provider="CUDAExecutionProvider"
-                if device().type == "cuda"
-                else "CPUExecutionProvider",
+                provider=(
+                    "CUDAExecutionProvider" if device().type == "cuda" else "CPUExecutionProvider"
+                ),
                 use_io_binding=True if device().type == "cuda" else False,
                 **model.kwargs,
             )

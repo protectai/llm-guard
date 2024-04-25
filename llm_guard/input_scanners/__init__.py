@@ -1,4 +1,5 @@
 """Input scanners init"""
+
 from .anonymize import Anonymize
 from .ban_code import BanCode
 from .ban_competitors import BanCompetitors

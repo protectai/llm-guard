@@ -1,6 +1,7 @@
 """
 This plugin searches for Coinbase Access Token
 """
+
 import re
 
 from detect_secrets.plugins.base import RegexBasedDetector

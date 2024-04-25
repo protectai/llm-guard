@@ -1,6 +1,7 @@
 """
 This plugin searches for Datadog Access Tokens.
 """
+
 import re
 
 from detect_secrets.plugins.base import RegexBasedDetector

@@ -1,6 +1,7 @@
 """
 This plugin searches for Confluent Access Token and Confluent Secret Key
 """
+
 import re
 
 from detect_secrets.plugins.base import RegexBasedDetector
