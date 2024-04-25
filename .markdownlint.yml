@@ -20,7 +20,7 @@
 ###############
 MD004: false                  # Unordered list style
 MD007:
-  indent: 2                   # Unordered list indentation
+  indent: 4                   # Unordered list indentation
 MD010:
   code_blocks: false          # Ignore no-hard-tabs in cde blocks because that's how formatting for golang works
 MD013:
