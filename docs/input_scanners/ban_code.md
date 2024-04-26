@@ -1,6 +1,6 @@
-# Code Scanner
+# Ban Code Scanner
 
-This scanner is designed to detect and ban code in the prompt.
+The `BanCode` scanner is designed to detect and ban code in the prompt.
 
 ## Attack scenario
 

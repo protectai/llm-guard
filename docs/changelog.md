@@ -241,8 +241,8 @@ _0.3.5 and 0.3.6 were skipped due to build issues._
 ### Changed
 - Added Swagger documentation on the [API](./api/overview.md) documentation page
 - Added `fail_fast` flag to stop the execution after the first failure
-  - Updated API and Playground to support `fail_fast` flag
-  - Clarified order of execution in the documentation
+    - Updated API and Playground to support `fail_fast` flag
+    - Clarified order of execution in the documentation
 - Added timeout configuration for API example
 - Better examples of `langchain` integration
 
@@ -354,24 +354,24 @@ _0.3.5 and 0.3.6 were skipped due to build issues._
 - [Documentation](./index.md)
 - Github Actions pipeline
 - Prompt scanners with tests:
-  - [Anonymize](./input_scanners/anonymize.md)
-  - [BanSubstrings](./input_scanners/ban_substrings.md)
-  - [BanTopics](./input_scanners/ban_topics.md)
-  - [Code](./input_scanners/code.md)
-  - [PromptInjection](./input_scanners/prompt_injection.md)
-  - [Sentiment](./input_scanners/sentiment.md)
-  - [TokenLimit](./input_scanners/token_limit.md)
-  - [Toxicity](./input_scanners/toxicity.md)
+    - [Anonymize](./input_scanners/anonymize.md)
+    - [BanSubstrings](./input_scanners/ban_substrings.md)
+    - [BanTopics](./input_scanners/ban_topics.md)
+    - [Code](./input_scanners/code.md)
+    - [PromptInjection](./input_scanners/prompt_injection.md)
+    - [Sentiment](./input_scanners/sentiment.md)
+    - [TokenLimit](./input_scanners/token_limit.md)
+    - [Toxicity](./input_scanners/toxicity.md)
 - Output scanners with tests:
-  - [BanSubstrings](./output_scanners/ban_substrings.md)
-  - [BanTopics](./output_scanners/ban_topics.md)
-  - [Code](./output_scanners/code.md)
-  - [Deanonymize](./output_scanners/deanonymize.md)
-  - [NoRefusal](./output_scanners/no_refusal.md)
-  - [Regex](./output_scanners/regex.md)
-  - [Relevance](./output_scanners/relevance.md)
-  - [Sensitive](./output_scanners/sensitive.md)
-  - [Toxicity](./output_scanners/toxicity.md)
+    - [BanSubstrings](./output_scanners/ban_substrings.md)
+    - [BanTopics](./output_scanners/ban_topics.md)
+    - [Code](./output_scanners/code.md)
+    - [Deanonymize](./output_scanners/deanonymize.md)
+    - [NoRefusal](./output_scanners/no_refusal.md)
+    - [Regex](./output_scanners/regex.md)
+    - [Relevance](./output_scanners/relevance.md)
+    - [Sensitive](./output_scanners/sensitive.md)
+    - [Toxicity](./output_scanners/toxicity.md)
 
 [Unreleased]: https://github.com/protectai/llm-guard/commits/main
 [0.3.12]: https://github.com/protectai/llm-guard/releases/tag/v0.3.12
