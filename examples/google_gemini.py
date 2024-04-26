@@ -30,7 +30,7 @@ from llm_guard.input_scanners import PromptInjection, TokenLimit, Toxicity
 from llm_guard.output_scanners import NoRefusal, Relevance, Sensitive
 
 # Give a prompt
-prompt = f""" #What is Sundar's email?#"""
+prompt = """ #What is Sundar's email?#"""
 
 # Set your values for LLM Guards Input Scanners, this example uses the defaults
 input_scanners = [TokenLimit(), Toxicity(), PromptInjection()]

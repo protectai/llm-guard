@@ -2,8 +2,7 @@ import logging
 import os
 from typing import Sequence, Union
 
-from llm_guard.input_scanners.ban_substrings import BanSubstrings as InputBanSubstrings
-from llm_guard.input_scanners.ban_substrings import MatchType
+from llm_guard.input_scanners.ban_substrings import BanSubstrings as InputBanSubstrings, MatchType
 
 from .base import Scanner
 

@@ -5,8 +5,7 @@ from llm_guard.model import Model
 from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
 from llm_guard.util import calculate_risk_score, get_logger, split_text_by_sentences
 
-from .ban_substrings import BanSubstrings
-from .ban_substrings import MatchType as BanSubstringsMatchType
+from .ban_substrings import BanSubstrings, MatchType as BanSubstringsMatchType
 from .base import Scanner
 
 LOGGER = get_logger()

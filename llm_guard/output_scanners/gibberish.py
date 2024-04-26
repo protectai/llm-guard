@@ -1,7 +1,6 @@
 from typing import Optional, Union
 
-from llm_guard.input_scanners.gibberish import Gibberish as InputGibberish
-from llm_guard.input_scanners.gibberish import MatchType
+from llm_guard.input_scanners.gibberish import Gibberish as InputGibberish, MatchType
 from llm_guard.model import Model
 
 from .base import Scanner
