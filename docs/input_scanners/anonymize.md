@@ -18,33 +18,33 @@ Some model providers may train their models on your requests, which can be a pri
 ## PII entities
 
 - **Credit Cards**: Formats mentioned in [Wikipedia](https://en.wikipedia.org/wiki/Payment_card_number).
-  - `4111111111111111`
-  - `378282246310005` (American Express)
-  - `30569309025904` (Diners Club)
+    - `4111111111111111`
+    - `378282246310005` (American Express)
+    - `30569309025904` (Diners Club)
 - **Person**: A full person name, which can include first names, middle names or initials, and last names.
-  - `John Doe`
+    - `John Doe`
 - **PHONE_NUMBER**:
-  - `5555551234`
+    - `5555551234`
 - **URL**: A URL (Uniform Resource Locator), unique identifier used to locate a resource on the Internet.
-  - `https://protectai.com/`
+    - `https://protectai.com/`
 - **E-mail Addresses**: Standard email formats.
-  - `john.doe@protectai.com`
-  - `john.doe[AT]protectai[DOT]com`
-  - `john.doe[AT]protectai.com`
-  - `john.doe@protectai[DOT]com`
+    - `john.doe@protectai.com`
+    - `john.doe[AT]protectai[DOT]com`
+    - `john.doe[AT]protectai.com`
+    - `john.doe@protectai[DOT]com`
 - **IPs**: An Internet Protocol (IP) address (either IPv4 or IPv6).
-  - `192.168.1.1` (IPv4)
-  - `2001:db8:3333:4444:5555:6666:7777:8888` (IPv6)
+    - `192.168.1.1` (IPv4)
+    - `2001:db8:3333:4444:5555:6666:7777:8888` (IPv6)
 - **UUID**:
-  - `550e8400-e29b-41d4-a716-446655440000`
+    - `550e8400-e29b-41d4-a716-446655440000`
 - **US Social Security Number (SSN)**:
-  - `111-22-3333`
+    - `111-22-3333`
 - **Crypto wallet number**: Currently only Bitcoin address is supported.
-  - `1Lbcfr7sAHTD9CgdQo3HTMTkV8LK4ZnX71`
+    - `1Lbcfr7sAHTD9CgdQo3HTMTkV8LK4ZnX71`
 - **IBAN Code**: The International Bank Account Number (IBAN) is an internationally agreed system of identifying bank
   accounts across national borders to facilitate the communication and processing of cross border transactions with a
   reduced risk of transcription errors.
-  - `DE89370400440532013000`
+    - `DE89370400440532013000`
 
 ## Features
 
@@ -53,19 +53,19 @@ Some model providers may train their models on your requests, which can be a pri
 - **Enhanced Detection**: Beyond Presidio Analyzer's capabilities, the scanner recognizes specific patterns like Email,
   US SSN, UUID, and more.
 - **Entities support**:
-  - Peek at
+    - Peek at
     our [default entities](https://github.com/protectai/llm-guard/blob/main/llm_guard/input_scanners/anonymize.py#L26-L40).
-  - View
+    - View
     the [Presidio's supported entities](https://microsoft.github.io/presidio/supported_entities/#list-of-supported-entities).
-  - And, we've
+    - And, we've
     got [custom regex patterns](https://github.com/protectai/llm-guard/blob/main/llm_guard/resources/sensisitive_patterns.json)
     too!
 - **Tailored recognizers**:
-  - Balance speed vs. accuracy of the recognizers.
-  - **Top Pick: [dslim/bert-base-NER](https://huggingface.co/dslim/bert-base-NER)**
-  - Alternative with more parameters: [dslim/bert-large-NER](https://huggingface.co/dslim/bert-large-NER).
-  - Chinese recognizer: [gyr66/bert-base-chinese-finetuned-ner](https://huggingface.co/gyr66/bert-base-chinese-finetuned-ner).
-  - Good models from AI4Privacy: [Isotonic/distilbert_finetuned_ai4privacy_v2](https://huggingface.co/Isotonic/distilbert_finetuned_ai4privacy_v2) and [Isotonic/deberta-v3-base_finetuned_ai4privacy_v2](https://huggingface.co/Isotonic/deberta-v3-base_finetuned_ai4privacy_v2).
+    - Balance speed vs. accuracy of the recognizers.
+    - **Top Pick: [dslim/bert-base-NER](https://huggingface.co/dslim/bert-base-NER)**
+    - Alternative with more parameters: [dslim/bert-large-NER](https://huggingface.co/dslim/bert-large-NER).
+    - Chinese recognizer: [gyr66/bert-base-chinese-finetuned-ner](https://huggingface.co/gyr66/bert-base-chinese-finetuned-ner).
+    - Good models from AI4Privacy: [Isotonic/distilbert_finetuned_ai4privacy_v2](https://huggingface.co/Isotonic/distilbert_finetuned_ai4privacy_v2) and [Isotonic/deberta-v3-base_finetuned_ai4privacy_v2](https://huggingface.co/Isotonic/deberta-v3-base_finetuned_ai4privacy_v2).
 - **Support of multiple languages**: The scanner can detect PII in English and Chinese.
 
 !!! info
