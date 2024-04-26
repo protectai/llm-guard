@@ -26,7 +26,7 @@ class MatchType(Enum):
             return substring in text
 
         if self == MatchType.WORD:
-            return re.search(r"\b" + substring + r"\b", text) is not None
+            return re.search(r"\b" + re.escape(substring) + r"\b", text) is not None
 
 
 class BanSubstrings(Scanner):

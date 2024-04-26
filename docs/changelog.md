@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -
 
 ### Fixed
--
+- `BanSubstrings` scanner to handle substrings with special characters.
 
 ### Changed
 -
