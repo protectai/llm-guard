@@ -29,7 +29,7 @@ from llm_guard.util import combine_json_results, read_json_file
             "My special characters are: !@#$%^&*()_+",
             True,
             0.0,
-        )
+        ),
     ],
 )
 def test_scan(prompt, redact, expected_prompt, expected_valid, expected_score):
