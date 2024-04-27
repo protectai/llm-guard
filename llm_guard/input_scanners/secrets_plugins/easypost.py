@@ -10,11 +10,15 @@ from detect_secrets.plugins.base import RegexBasedDetector
 class EasyPostDetector(RegexBasedDetector):
     """Scans for various EasyPost Tokens."""
 
-    secret_type = "EasyPost Token"
+    @property
+    def secret_type(self) -> str:
+        return "EasyPost Token"
 
-    denylist = [
-        # EasyPost API token
-        re.compile(r"""(?i)\bEZAK[a-z0-9]{54}"""),
-        # EasyPost test API token
-        re.compile(r"""(?i)\bEZTK[a-z0-9]{54}"""),
-    ]
+    @property
+    def denylist(self) -> list[re.Pattern]:
+        return [
+            # EasyPost API token
+            re.compile(r"""(?i)\bEZAK[a-z0-9]{54}"""),
+            # EasyPost test API token
+            re.compile(r"""(?i)\bEZTK[a-z0-9]{54}"""),
+        ]

@@ -10,15 +10,19 @@ from detect_secrets.plugins.base import RegexBasedDetector
 class JFrogDetector(RegexBasedDetector):
     """Scans for JFrog-related secrets."""
 
-    secret_type = "JFrog Secrets"
+    @property
+    def secret_type(self) -> str:
+        return "JFrog Secrets"
 
-    denylist = [
-        # JFrog API Key
-        re.compile(
-            r"""(?i)(?:jfrog|artifactory|bintray|xray)(?:[0-9a-z\-_\t .]{0,20})(?:[\s|']|[\s|"]){0,3}(?:=|>|:{1,3}=|\|\|:|<=|=>|:|\?=)(?:'|\"|\s|=|\x60){0,5}([a-z0-9]{73})(?:['|\"|\n|\r|\s|\x60|;]|$)"""
-        ),
-        # JFrog Identity Token
-        re.compile(
-            r"""(?i)(?:jfrog|artifactory|bintray|xray)(?:[0-9a-z\-_\t .]{0,20})(?:[\s|']|[\s|"]){0,3}(?:=|>|:{1,3}=|\|\|:|<=|=>|:|\?=)(?:'|\"|\s|=|\x60){0,5}([a-z0-9]{64})(?:['|\"|\n|\r|\s|\x60|;]|$)"""
-        ),
-    ]
+    @property
+    def denylist(self) -> list[re.Pattern]:
+        return [
+            # JFrog API Key
+            re.compile(
+                r"""(?i)(?:jfrog|artifactory|bintray|xray)(?:[0-9a-z\-_\t .]{0,20})(?:[\s|']|[\s|"]){0,3}(?:=|>|:{1,3}=|\|\|:|<=|=>|:|\?=)(?:'|\"|\s|=|\x60){0,5}([a-z0-9]{73})(?:['|\"|\n|\r|\s|\x60|;]|$)"""
+            ),
+            # JFrog Identity Token
+            re.compile(
+                r"""(?i)(?:jfrog|artifactory|bintray|xray)(?:[0-9a-z\-_\t .]{0,20})(?:[\s|']|[\s|"]){0,3}(?:=|>|:{1,3}=|\|\|:|<=|=>|:|\?=)(?:'|\"|\s|=|\x60){0,5}([a-z0-9]{64})(?:['|\"|\n|\r|\s|\x60|;]|$)"""
+            ),
+        ]

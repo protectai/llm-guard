@@ -10,9 +10,13 @@ from detect_secrets.plugins.base import RegexBasedDetector
 class GCPApiKeyDetector(RegexBasedDetector):
     """Scans for GCP API keys."""
 
-    secret_type = "GCP API Key"
+    @property
+    def secret_type(self) -> str:
+        return "GCP API Key"
 
-    denylist = [
-        # GCP API Key
-        re.compile(r"""(?i)\b(AIza[0-9A-Za-z\\-_]{35})(?:['|\"|\n|\r|\s|\x60|;]|$)"""),
-    ]
+    @property
+    def denylist(self) -> list[re.Pattern]:
+        return [
+            # GCP API Key
+            re.compile(r"""(?i)\b(AIza[0-9A-Za-z\\-_]{35})(?:['|\"|\n|\r|\s|\x60|;]|$)"""),
+        ]

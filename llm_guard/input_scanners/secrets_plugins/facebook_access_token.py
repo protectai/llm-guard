@@ -10,11 +10,15 @@ from detect_secrets.plugins.base import RegexBasedDetector
 class FacebookAccessTokenDetector(RegexBasedDetector):
     """Scans for Facebook Access Tokens."""
 
-    secret_type = "Facebook Access Token"
+    @property
+    def secret_type(self) -> str:
+        return "Facebook Access Token"
 
-    denylist = [
-        # Facebook Access Token
-        re.compile(
-            r"""(?i)(?:facebook)(?:[0-9a-z\-_\t .]{0,20})(?:[\s|']|[\s|"]){0,3}(?:=|>|:{1,3}=|\|\|:|<=|=>|:|\?=)(?:'|\"|\s|=|\x60){0,5}([a-f0-9]{32})(?:['|\"|\n|\r|\s|\x60|;]|$)"""
-        ),
-    ]
+    @property
+    def denylist(self) -> list[re.Pattern]:
+        return [
+            # Facebook Access Token
+            re.compile(
+                r"""(?i)(?:facebook)(?:[0-9a-z\-_\t .]{0,20})(?:[\s|']|[\s|"]){0,3}(?:=|>|:{1,3}=|\|\|:|<=|=>|:|\?=)(?:'|\"|\s|=|\x60){0,5}([a-f0-9]{32})(?:['|\"|\n|\r|\s|\x60|;]|$)"""
+            ),
+        ]

@@ -10,9 +10,13 @@ from detect_secrets.plugins.base import RegexBasedDetector
 class DopplerApiTokenDetector(RegexBasedDetector):
     """Scans for Doppler API Tokens."""
 
-    secret_type = "Doppler API Token"
+    @property
+    def secret_type(self) -> str:
+        return "Doppler API Token"
 
-    denylist = [
-        # Doppler API token
-        re.compile(r"""(?i)dp\.pt\.[a-z0-9]{43}"""),
-    ]
+    @property
+    def denylist(self) -> list[re.Pattern]:
+        return [
+            # Doppler API token
+            re.compile(r"""(?i)dp\.pt\.[a-z0-9]{43}"""),
+        ]

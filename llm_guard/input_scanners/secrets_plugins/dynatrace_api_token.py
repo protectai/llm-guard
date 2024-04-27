@@ -10,9 +10,13 @@ from detect_secrets.plugins.base import RegexBasedDetector
 class DynatraceApiTokenDetector(RegexBasedDetector):
     """Scans for Dynatrace API Tokens."""
 
-    secret_type = "Dynatrace API Token"
+    @property
+    def secret_type(self) -> str:
+        return "Dynatrace API Token"
 
-    denylist = [
-        # Dynatrace API Token
-        re.compile(r"""(?i)dt0c01\.[a-z0-9]{24}\.[a-z0-9]{64}"""),
-    ]
+    @property
+    def denylist(self) -> list[re.Pattern]:
+        return [
+            # Dynatrace API Token
+            re.compile(r"""(?i)dt0c01\.[a-z0-9]{24}\.[a-z0-9]{64}"""),
+        ]

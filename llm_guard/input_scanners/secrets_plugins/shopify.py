@@ -13,15 +13,19 @@ class ShopifyDetector(RegexBasedDetector):
     and Shared Secrets.
     """
 
-    secret_type = "Shopify Secret"
+    @property
+    def secret_type(self) -> str:
+        return "Shopify Secret"
 
-    denylist = [
-        # Shopify access token
-        re.compile(r"""shpat_[a-fA-F0-9]{32}"""),
-        # Shopify custom access token
-        re.compile(r"""shpca_[a-fA-F0-9]{32}"""),
-        # Shopify private app access token
-        re.compile(r"""shppa_[a-fA-F0-9]{32}"""),
-        # Shopify shared secret
-        re.compile(r"""shpss_[a-fA-F0-9]{32}"""),
-    ]
+    @property
+    def denylist(self) -> list[re.Pattern]:
+        return [
+            # Shopify access token
+            re.compile(r"""shpat_[a-fA-F0-9]{32}"""),
+            # Shopify custom access token
+            re.compile(r"""shpca_[a-fA-F0-9]{32}"""),
+            # Shopify private app access token
+            re.compile(r"""shppa_[a-fA-F0-9]{32}"""),
+            # Shopify shared secret
+            re.compile(r"""shpss_[a-fA-F0-9]{32}"""),
+        ]
