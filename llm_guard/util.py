@@ -4,7 +4,7 @@ import logging
 import re
 import sys
 from functools import lru_cache
-from typing import Any, Dict, List, Literal, Optional
+from typing import Any, Dict, List, Literal, NamedTuple, Optional
 
 import structlog
 
@@ -20,6 +20,7 @@ EXTERNAL_LOGGERS = {
     "transformers",
     "presidio-analyzer",
 }
+CHUNK = NamedTuple("CHUNKS", [("start", int), ("end", int)])
 
 
 def configure_logger(log_level: LOG_LEVELS = "INFO"):
@@ -190,7 +191,7 @@ def split_text_by_sentences(text: str) -> List[str]:
 
 def split_text_to_word_chunks(
     input_length: int, chunk_length: int, overlap_length: int
-) -> List[List]:
+) -> list[CHUNK]:
     """The function calculates chunks of text with size chunk_length. Each chunk has overlap_length number of
     words to create context and continuity for the model
 
@@ -205,14 +206,14 @@ def split_text_to_word_chunks(
     :rtype: List[List]
     """
     if input_length < chunk_length:
-        return [[0, input_length]]
+        return [CHUNK(0, input_length)]
     if chunk_length <= overlap_length:
         LOGGER.warning(
             "overlap_length should be shorter than chunk_length, setting overlap_length to by half of chunk_length"
         )
         overlap_length = chunk_length // 2
     return [
-        [i, min([i + chunk_length, input_length])]
+        CHUNK(i, min([i + chunk_length, input_length]))
         for i in range(0, input_length - overlap_length, chunk_length - overlap_length)
     ]
 
