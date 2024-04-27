@@ -1,11 +1,10 @@
 import re
-from typing import List
 
 from presidio_analyzer import Pattern, PatternRecognizer
 
 
 class CustomPatternRecognizer(PatternRecognizer):
-    def _deny_list_to_regex(self, deny_list: List[str]) -> Pattern:
+    def _deny_list_to_regex(self, deny_list: list[str]) -> Pattern:
         """
         Convert a list of characters to a matching regex.
 

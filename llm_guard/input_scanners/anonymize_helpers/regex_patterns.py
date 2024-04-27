@@ -1,10 +1,37 @@
-from typing import Dict, List, Optional
+from __future__ import annotations
+
+from typing import TypedDict
 
 from llm_guard.util import get_logger
 
 LOGGER = get_logger()
 
-DEFAULT_REGEX_PATTERNS = [
+
+class DefaultRegexPatterns(TypedDict):
+    name: str
+    expressions: list[str]
+    examples: list[str]
+    context: list[str]
+    score: float
+    languages: list[str]
+
+
+class RegexPatternsReuse(TypedDict):
+    name: str
+    languages: list[str]
+    reuse: dict[str, str]
+
+
+class RegexPattern(TypedDict):
+    name: str
+    expressions: list[str]
+    context: list[str]
+    score: float
+    languages: list[str]
+    reuse: dict[str, str] | None
+
+
+DEFAULT_REGEX_PATTERNS: list[DefaultRegexPatterns | RegexPatternsReuse] = [
     {
         "expressions": [
             r"(?:(4\d{3}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4})|(3[47]\d{2}[-\s]?\d{6}[-\s]?\d{5})|(3(?:0[0-5]|[68]\d)\d{11}))"
@@ -166,11 +193,13 @@ DEFAULT_REGEX_PATTERNS = [
 ]
 
 
-def get_regex_patterns(regex_patterns: Optional[List[Dict]] = None) -> List[Dict]:
+def get_regex_patterns(
+    regex_patterns: list[DefaultRegexPatterns | RegexPatternsReuse] | None = None,
+) -> list[RegexPattern]:
     if not regex_patterns:
         regex_patterns = DEFAULT_REGEX_PATTERNS
 
-    result = []
+    result: list[RegexPattern] = []
     for group in regex_patterns:
         result.append(
             {
@@ -179,7 +208,7 @@ def get_regex_patterns(regex_patterns: Optional[List[Dict]] = None) -> List[Dict
                 "context": group.get("context", []),
                 "score": group.get("score", 0.75),
                 "languages": group.get("languages", ["en"]),
-                "reuse": group.get("reuse", False),
+                "reuse": group.get("reuse", None),
             }
         )
         LOGGER.debug("Loaded regex pattern", group_name=group["name"])

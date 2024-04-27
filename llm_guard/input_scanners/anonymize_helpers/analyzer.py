@@ -1,5 +1,4 @@
 import copy
-from typing import Dict, List, Sequence
 
 import spacy
 from presidio_analyzer import (
@@ -11,17 +10,20 @@ from presidio_analyzer import (
 )
 from presidio_analyzer.context_aware_enhancers import LemmaContextAwareEnhancer
 from presidio_analyzer.nlp_engine import NlpEngine, NlpEngineProvider
+from spacy.cli import download  # type: ignore
 
+from .ner_mapping import NERConfig
 from .predefined_recognizers import _get_predefined_recognizers
 from .predefined_recognizers.zh import CustomPatternRecognizer
+from .regex_patterns import RegexPattern
 from .transformers_recognizer import TransformersRecognizer
 
 
 def _add_recognizers(
     registry: RecognizerRegistry,
-    regex_groups,
-    custom_names,
-    supported_languages: List[str] = ["en"],
+    regex_groups: list[RegexPattern],
+    custom_names: list[str],
+    supported_languages: list[str] = ["en"],
 ) -> RecognizerRegistry:
     """
     Create a RecognizerRegistry and populate it with regex patterns and custom names.
@@ -37,13 +39,13 @@ def _add_recognizers(
     for language in supported_languages:
         # custom recognizer per language
         if len(custom_names) > 0:
-            custom_recognier = PatternRecognizer
+            custom_recognizer = PatternRecognizer
 
             if language == "zh":
-                custom_recognier = CustomPatternRecognizer
+                custom_recognizer = CustomPatternRecognizer
 
             registry.add_recognizer(
-                custom_recognier(
+                custom_recognizer(
                     supported_entity="CUSTOM",
                     supported_language=language,
                     deny_list=custom_names,
@@ -56,20 +58,21 @@ def _add_recognizers(
 
     for pattern_data in regex_groups:
         languages = pattern_data["languages"] or ["en"]
-
         label = pattern_data["name"]
         reuse = pattern_data.get("reuse", False)
 
-        patterns = map(
-            lambda exp: Pattern(name=label, regex=exp, score=pattern_data["score"]),
-            pattern_data.get("expressions", []) or [],
+        patterns: list[Pattern] = list(
+            map(
+                lambda exp: Pattern(name=label, regex=exp, score=pattern_data["score"]),
+                pattern_data.get("expressions", []) or [],
+            )
         )
 
         for language in languages:
             if language not in supported_languages:
                 continue
 
-            if reuse:
+            if isinstance(reuse, dict):
                 new_recognizer = copy.deepcopy(
                     registry.get_recognizers(language=reuse["language"], entities=[reuse["name"]])[
                         0
@@ -90,13 +93,13 @@ def _add_recognizers(
     return registry
 
 
-def _get_nlp_engine(languages: List[str] = ["en"]) -> NlpEngine:
+def _get_nlp_engine(languages: list[str] = ["en"]) -> NlpEngine:
     models = []
 
     for language in languages:
         if not spacy.util.is_package(f"{language}_core_web_sm"):
             # Use small spacy model, for faster inference.
-            spacy.cli.download(f"{language}_core_web_sm")
+            download(f"{language}_core_web_sm")
         models.append({"lang_code": language, "model_name": f"{language}_core_web_sm"})
 
     configuration = {"nlp_engine_name": "spacy", "models": models}
@@ -106,7 +109,7 @@ def _get_nlp_engine(languages: List[str] = ["en"]) -> NlpEngine:
 
 def get_transformers_recognizer(
     *,
-    recognizer_conf: Dict,
+    recognizer_conf: NERConfig,
     use_onnx: bool = False,
     supported_language: str = "en",
 ) -> EntityRecognizer:
@@ -114,9 +117,9 @@ def get_transformers_recognizer(
     This function loads a transformers recognizer given a recognizer configuration.
 
     Args:
-        recognizer_conf (Dict): Configuration to recognize PII data.
-        use_onnx (bool): Whether to use the ONNX version of the model. Default is False.
-        supported_language (str): The language to use for the recognizer. Default is "en".
+        recognizer_conf: Configuration to recognize PII data.
+        use_onnx: Whether to use the ONNX version of the model. Default is False.
+        supported_language: The language to use for the recognizer. Default is "en".
     """
     model = recognizer_conf.get("DEFAULT_MODEL")
     supported_entities = recognizer_conf.get("PRESIDIO_SUPPORTED_ENTITIES")
@@ -134,9 +137,9 @@ def get_transformers_recognizer(
 
 def get_analyzer(
     recognizer: EntityRecognizer,
-    regex_groups,
-    custom_names: Sequence[str],
-    supported_languages: List[str] = ["en"],
+    regex_groups: list[RegexPattern],
+    custom_names: list[str],
+    supported_languages: list[str] = ["en"],
 ) -> AnalyzerEngine:
     nlp_engine = _get_nlp_engine(languages=supported_languages)
 
