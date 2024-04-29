@@ -20,7 +20,7 @@ classifiers = [
 requires-python = ">=3.9,<3.12"
 
 dependencies = [
-  "bc-detect-secrets==1.5.7",
+  "bc-detect-secrets==1.5.9",
   "faker>=22,<25",
   "fuzzysearch>=0.7,<0.9",
   "json-repair>=0.15,<0.16",
