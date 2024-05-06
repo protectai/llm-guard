@@ -20,7 +20,7 @@ from llm_guard.input_scanners.secrets import Secrets
         ),  # Prompt with key
         (
             "My github token is: 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",  # gitleaks:allow
-            "My github token is: ******",
+            "My github token is: ************",
             False,
             1.0,
         ),  # Prompt with Github token
