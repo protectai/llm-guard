@@ -1,10 +1,12 @@
+from __future__ import annotations
+
 import importlib
 import json
 import logging
 import re
 import sys
 from functools import lru_cache
-from typing import Any, Dict, List, Literal, Optional
+from typing import Any, Literal, NamedTuple
 
 import structlog
 
@@ -20,6 +22,7 @@ EXTERNAL_LOGGERS = {
     "transformers",
     "presidio-analyzer",
 }
+CHUNK = NamedTuple("CHUNKS", [("start", int), ("end", int)])
 
 
 def configure_logger(log_level: LOG_LEVELS = "INFO"):
@@ -44,7 +47,7 @@ def _get_library_name() -> str:
     return __name__.split(".")[0]
 
 
-def get_logger(name: Optional[str] = None) -> Any:
+def get_logger(name: str | None = None) -> Any:
     """
     Return a logger with the specified name.
     """
@@ -67,7 +70,7 @@ def device():
     return torch.device("cpu")
 
 
-def read_json_file(json_path: str) -> Dict[str, List[str]]:
+def read_json_file(json_path: str) -> dict[str, list[str]]:
     """
     Reads a JSON file and returns its contents as a Python dictionary.
 
@@ -95,7 +98,7 @@ def read_json_file(json_path: str) -> Dict[str, List[str]]:
     return result
 
 
-def combine_json_results(results: Dict[str, List[str]]) -> List[str]:
+def combine_json_results(results: dict[str, list[str]]) -> list[str]:
     """
     Combines values from a dictionary with list values into a single list.
 
@@ -112,7 +115,7 @@ def combine_json_results(results: Dict[str, List[str]]) -> List[str]:
     return all_items
 
 
-def lazy_load_dep(import_name: str, package_name: Optional[str] = None):
+def lazy_load_dep(import_name: str, package_name: str | None = None):
     """Helper function to lazily load optional dependencies. If the dependency is not
     present, the function will raise an error _when used_.
 
@@ -141,12 +144,12 @@ def calculate_risk_score(score: float, threshold: float) -> float:
     return min(max(risk_score, 0), 1)
 
 
-def chunk_text(text: str, chunk_size: int) -> List[str]:
+def chunk_text(text: str, chunk_size: int) -> list[str]:
     text = text.strip()
     return [text[i : i + chunk_size] for i in range(0, len(text), chunk_size)]
 
 
-def chunk_text_by_sentences(text: str, max_chunk_size: int) -> List[str]:
+def chunk_text_by_sentences(text: str, max_chunk_size: int) -> list[str]:
     nltk = lazy_load_dep("nltk")
 
     try:
@@ -177,7 +180,7 @@ def chunk_text_by_sentences(text: str, max_chunk_size: int) -> List[str]:
     return [chunk for chunk in chunks if chunk.strip()]
 
 
-def split_text_by_sentences(text: str) -> List[str]:
+def split_text_by_sentences(text: str) -> list[str]:
     nltk = lazy_load_dep("nltk")
 
     try:
@@ -190,7 +193,7 @@ def split_text_by_sentences(text: str) -> List[str]:
 
 def split_text_to_word_chunks(
     input_length: int, chunk_length: int, overlap_length: int
-) -> List[List]:
+) -> list[CHUNK]:
     """The function calculates chunks of text with size chunk_length. Each chunk has overlap_length number of
     words to create context and continuity for the model
 
@@ -202,17 +205,17 @@ def split_text_to_word_chunks(
     :param overlap_length: Number of overlapping words in each chunk
     :type overlap_length: int
     :return: List of start and end positions for individual text chunks
-    :rtype: List[List]
+    :rtype: list[List]
     """
     if input_length < chunk_length:
-        return [[0, input_length]]
+        return [CHUNK(0, input_length)]
     if chunk_length <= overlap_length:
         LOGGER.warning(
             "overlap_length should be shorter than chunk_length, setting overlap_length to by half of chunk_length"
         )
         overlap_length = chunk_length // 2
     return [
-        [i, min([i + chunk_length, input_length])]
+        CHUNK(i, min([i + chunk_length, input_length]))
         for i in range(0, input_length - overlap_length, chunk_length - overlap_length)
     ]
 
@@ -230,7 +233,7 @@ url_pattern = re.compile(
 )
 
 
-def extract_urls(text: str) -> List[str]:
+def extract_urls(text: str) -> list[str]:
     """
     Extracts URLs from the given text.
     """

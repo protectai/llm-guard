@@ -10,9 +10,13 @@ from detect_secrets.plugins.base import RegexBasedDetector
 class FrameIoApiTokenDetector(RegexBasedDetector):
     """Scans for Frame.io API Tokens."""
 
-    secret_type = "Frame.io API Token"
+    @property
+    def secret_type(self) -> str:
+        return "Frame.io API Token"
 
-    denylist = [
-        # Frame.io API token
-        re.compile(r"""(?i)fio-u-[a-z0-9\-_=]{64}"""),
-    ]
+    @property
+    def denylist(self) -> list[re.Pattern]:
+        return [
+            # Frame.io API token
+            re.compile(r"""(?i)fio-u-[a-z0-9\-_=]{64}"""),
+        ]

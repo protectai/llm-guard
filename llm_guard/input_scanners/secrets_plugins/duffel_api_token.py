@@ -10,9 +10,13 @@ from detect_secrets.plugins.base import RegexBasedDetector
 class DuffelApiTokenDetector(RegexBasedDetector):
     """Scans for Duffel API Tokens."""
 
-    secret_type = "Duffel API Token"
+    @property
+    def secret_type(self) -> str:
+        return "Duffel API Token"
 
-    denylist = [
-        # Duffel API Token
-        re.compile(r"""(?i)duffel_(test|live)_[a-z0-9_\-=]{43}"""),
-    ]
+    @property
+    def denylist(self) -> list[re.Pattern]:
+        return [
+            # Duffel API Token
+            re.compile(r"""(?i)duffel_(test|live)_[a-z0-9_\-=]{43}"""),
+        ]

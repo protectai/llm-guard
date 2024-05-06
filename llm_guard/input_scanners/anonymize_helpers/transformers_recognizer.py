@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 import copy
-from typing import List, Optional
+from typing import TYPE_CHECKING, Any, cast
 
 from presidio_analyzer import AnalysisExplanation, EntityRecognizer, RecognizerResult
 from presidio_analyzer.nlp_engine import NlpArtifacts
@@ -12,6 +14,9 @@ from llm_guard.util import get_logger, lazy_load_dep, split_text_to_word_chunks
 from .ner_mapping import BERT_BASE_NER_CONF
 
 LOGGER = get_logger()
+
+if TYPE_CHECKING:
+    import transformers
 
 
 class TransformersRecognizer(EntityRecognizer):
@@ -48,14 +53,24 @@ class TransformersRecognizer(EntityRecognizer):
     >    print(result,'----', sample[result.start:result.end])
     """
 
+    ignore_labels: list[str]
+    model_to_presidio_mapping: dict[str, str]
+    entity_mapping: dict[str, str]
+    default_explanation: str
+    text_overlap_length: int
+    chunk_length: int
+    id_entity_name: str
+    id_score_reduction: float
+    pipeline: transformers.Pipeline | None
+
     def load(self) -> None:
         pass
 
     def __init__(
         self,
         model: Model,
-        pipeline: Optional[TokenClassificationPipeline] = None,
-        supported_entities: Optional[List[str]] = None,
+        pipeline: TokenClassificationPipeline | None = None,
+        supported_entities: list[str] | None = None,
         supported_language: str = "en",
     ):
         if not supported_entities:
@@ -68,15 +83,6 @@ class TransformersRecognizer(EntityRecognizer):
         self.model = model
         self.pipeline = pipeline
         self.is_loaded = False
-
-        self.ignore_labels = None
-        self.model_to_presidio_mapping = None
-        self.entity_mapping = None
-        self.default_explanation = None
-        self.text_overlap_length = None
-        self.chunk_length = None
-        self.id_entity_name = None
-        self.id_score_reduction = None
         self.supported_language = supported_language
 
     def load_transformer(
@@ -104,7 +110,7 @@ class TransformersRecognizer(EntityRecognizer):
         self.entity_mapping = kwargs.get("DATASET_TO_PRESIDIO_MAPPING", {})
         self.model_to_presidio_mapping = kwargs.get("MODEL_TO_PRESIDIO_MAPPING", {})
         self.ignore_labels = kwargs.get("LABELS_TO_IGNORE", ["O"])
-        self.default_explanation = kwargs.get("DEFAULT_EXPLANATION", None)
+        self.default_explanation = kwargs.get("DEFAULT_EXPLANATION", "")
         self.text_overlap_length = kwargs.get("CHUNK_OVERLAP_SIZE", 40)
         self.chunk_length = kwargs.get("CHUNK_SIZE", 600)
         self.id_entity_name = kwargs.get("ID_ENTITY_NAME", "ID")
@@ -131,7 +137,7 @@ class TransformersRecognizer(EntityRecognizer):
         use_onnx: bool = False,
     ) -> None:
         """Initialize NER transformers_rec pipeline using the model_path provided"""
-        transformers = lazy_load_dep("transformers")
+        transformers = cast("transformers", lazy_load_dep("transformers"))
         tf_tokenizer = get_tokenizer(self.model)
 
         if use_onnx and is_onnx_supported() is False:
@@ -176,7 +182,7 @@ class TransformersRecognizer(EntityRecognizer):
 
         self.is_loaded = True
 
-    def get_supported_entities(self) -> List[str]:
+    def get_supported_entities(self) -> list[str]:
         """
         Return supported entities by this model.
         :return: List of the supported entities.
@@ -185,8 +191,8 @@ class TransformersRecognizer(EntityRecognizer):
 
     # Class to use transformers_rec with Presidio as an external recognizer.
     def analyze(
-        self, text: str, entities: List[str], nlp_artifacts: NlpArtifacts = None
-    ) -> List[RecognizerResult]:
+        self, text: str, entities: list[str], nlp_artifacts: NlpArtifacts | None = None
+    ) -> list[RecognizerResult]:
         """
         Analyze text using transformers_rec model to produce NER tagging.
         :param text : The text for analysis.
@@ -229,7 +235,7 @@ class TransformersRecognizer(EntityRecognizer):
 
         return results
 
-    def _get_ner_results_for_text(self, text: str) -> List[dict]:
+    def _get_ner_results_for_text(self, text: str) -> list[dict]:
         """The function runs model inference on the provided text.
         The text is split into chunks with n overlapping characters.
         The results are then aggregated and duplications are removed.
@@ -239,34 +245,39 @@ class TransformersRecognizer(EntityRecognizer):
         :return: List of entity predictions on the word level
         :rtype: List[dict]
         """
+        assert self.pipeline is not None
+        assert self.pipeline.tokenizer is not None
+
         model_max_length = self.pipeline.tokenizer.model_max_length
         # calculate inputs based on the text
         text_length = len(text)
         # split text into chunks
         if text_length <= model_max_length:
-            predictions = self.pipeline(text)
+            predictions = self.pipeline(text)  # type: ignore
         else:
             LOGGER.info(
                 "splitting the text into chunks",
                 length=text_length,
                 model_max_length=model_max_length,
             )
-            predictions = list()
+            predictions: list[dict[str, Any]] = []
             chunk_indexes = split_text_to_word_chunks(
                 text_length, self.chunk_length, self.text_overlap_length
             )
 
             # iterate over text chunks and run inference
-            for chunk_start, chunk_end in chunk_indexes:
-                chunk_text = text[chunk_start:chunk_end]
+            for chunk in chunk_indexes:
+                chunk_text = text[chunk.start : chunk.end]
                 chunk_preds = self.pipeline(chunk_text)
 
+                assert isinstance(chunk_preds, list)
+
                 # align indexes to match the original text - add to each position the value of chunk_start
-                aligned_predictions = list()
+                aligned_predictions: list[dict[str, Any]] = []
                 for prediction in chunk_preds:
-                    prediction_tmp = copy.deepcopy(prediction)
-                    prediction_tmp["start"] += chunk_start
-                    prediction_tmp["end"] += chunk_start
+                    prediction_tmp: dict[str, Any] = copy.deepcopy(prediction)
+                    prediction_tmp["start"] += chunk.start
+                    prediction_tmp["end"] += chunk.start
                     aligned_predictions.append(prediction_tmp)
 
                 predictions.extend(aligned_predictions)
@@ -313,15 +324,14 @@ class TransformersRecognizer(EntityRecognizer):
         :return Structured explanation and scores of a NER model prediction
         :rtype: AnalysisExplanation
         """
-        explanation = AnalysisExplanation(
+        return AnalysisExplanation(
             recognizer=self.__class__.__name__,
             original_score=float(original_score),
             textual_explanation=explanation,
             pattern=pattern,
         )
-        return explanation
 
-    def __check_label_transformer(self, label: str) -> Optional[str]:
+    def __check_label_transformer(self, label: str) -> str | None:
         """The function validates the predicted label is identified by Presidio
         and maps the string into a Presidio representation
         :param label: Predicted label by the model

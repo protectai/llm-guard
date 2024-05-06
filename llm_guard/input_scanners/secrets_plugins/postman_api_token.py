@@ -10,8 +10,12 @@ from detect_secrets.plugins.base import RegexBasedDetector
 class PostmanApiTokenDetector(RegexBasedDetector):
     """Scans for Postman API Tokens."""
 
-    secret_type = "Postman API Token"
+    @property
+    def secret_type(self) -> str:
+        return "Postman API Token"
 
-    denylist = [
-        re.compile(r"""(?i)\b(PMAK-[a-f0-9]{24}-[a-f0-9]{34})(?:['|\"|\n|\r|\s|\x60|;]|$)""")
-    ]
+    @property
+    def denylist(self) -> list[re.Pattern]:
+        return [
+            re.compile(r"""(?i)\b(PMAK-[a-f0-9]{24}-[a-f0-9]{34})(?:['|\"|\n|\r|\s|\x60|;]|$)""")
+        ]

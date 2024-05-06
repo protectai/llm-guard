@@ -1,9 +1,9 @@
-from typing import List
+from typing import Callable
 
 from presidio_analyzer import EntityRecognizer
 
 
-def _get_predefined_recognizers(language: str) -> List[EntityRecognizer]:
+def _get_predefined_recognizers(language: str) -> list[Callable[..., EntityRecognizer]]:
     if language == "zh":
         from .zh import CryptoRecognizer, EmailRecognizer, IpRecognizer, PhoneRecognizer
 

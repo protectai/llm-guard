@@ -10,6 +10,10 @@ from detect_secrets.plugins.base import RegexBasedDetector
 class ReadmeApiTokenDetector(RegexBasedDetector):
     """Scans for Readme API Tokens."""
 
-    secret_type = "Readme API Token"
+    @property
+    def secret_type(self) -> str:
+        return "Readme API Token"
 
-    denylist = [re.compile(r"""(?i)\b(rdme_[a-z0-9]{70})(?:['|\"|\n|\r|\s|\x60|;]|$)""")]
+    @property
+    def denylist(self) -> list[re.Pattern]:
+        return [re.compile(r"""(?i)\b(rdme_[a-z0-9]{70})(?:['|\"|\n|\r|\s|\x60|;]|$)""")]

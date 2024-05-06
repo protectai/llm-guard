@@ -10,10 +10,14 @@ from detect_secrets.plugins.base import RegexBasedDetector
 class OpenAIApiKeyDetector(RegexBasedDetector):
     """Scans for OpenAI API Keys."""
 
-    secret_type = "OpenAI API Key"
+    @property
+    def secret_type(self) -> str:
+        return "OpenAI API Key"
 
-    denylist = [
-        re.compile(
-            r"""(?i)\b(sk-[a-zA-Z0-9]{20}T3BlbkFJ[a-zA-Z0-9]{20})(?:['|\"|\n|\r|\s|\x60|;]|$)"""
-        )
-    ]
+    @property
+    def denylist(self) -> list[re.Pattern]:
+        return [
+            re.compile(
+                r"""(?i)\b(sk-[a-zA-Z0-9]{20}T3BlbkFJ[a-zA-Z0-9]{20})(?:['|\"|\n|\r|\s|\x60|;]|$)"""
+            )
+        ]
