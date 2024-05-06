@@ -22,6 +22,8 @@ DEFAULT_MODEL = Model(
     },
 )
 
+_gibberish_labels = ["word salad", "noise", "mild gibberish"]
+
 
 class MatchType(Enum):
     SENTENCE = "sentence"
@@ -43,7 +45,7 @@ class Gibberish(Scanner):
         self,
         *,
         model: Optional[Model] = None,
-        threshold: float = 0.7,
+        threshold: float = 0.97,
         match_type: Union[MatchType, str] = MatchType.FULL,
         use_onnx: bool = False,
     ):
@@ -86,17 +88,19 @@ class Gibberish(Scanner):
         LOGGER.debug("Gibberish detection finished", results=results_all)
         for result in results_all:
             score = round(
-                1 - result["score"] if result["label"] == "clean" else result["score"],
+                result["score"] if result["label"] in _gibberish_labels else 1 - result["score"],
                 2,
             )
 
             if score > highest_score:
                 highest_score = score
 
-            if score > self._threshold:
-                LOGGER.warning("Detected gibberish text", score=score, threshold=self._threshold)
+        if highest_score > self._threshold:
+            LOGGER.warning(
+                "Detected gibberish text", score=highest_score, threshold=self._threshold
+            )
 
-                return prompt, False, calculate_risk_score(score, self._threshold)
+            return prompt, False, calculate_risk_score(highest_score, self._threshold)
 
         LOGGER.debug(
             "No gibberish in the text", highest_score=highest_score, threshold=self._threshold
