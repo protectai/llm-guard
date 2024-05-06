@@ -60,6 +60,10 @@ sanitized_prompt, is_valid, risk_score = scanner.scan(prompt)
 
     Switching the match type might help with improving the accuracy, especially for longer prompts.
 
+!!! warning
+
+    We don't recommend using this scanner for system prompts. It's designed to work with user inputs.
+
 ## Optimization Strategies
 
 [Read more](../tutorials/optimization.md)
