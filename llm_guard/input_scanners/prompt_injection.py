@@ -76,9 +76,7 @@ class MatchType(Enum):
 
         if self == MatchType.TRUNCATE_TOKEN_HEAD_TAIL and self._tokenizer is not None:
             tokenized_input = self._tokenizer.tokenize(prompt)
-            print(
-                self._tokenizer.convert_tokens_to_string(truncate_tokens_head_tail(tokenized_input))
-            )
+
             return [
                 self._tokenizer.convert_tokens_to_string(truncate_tokens_head_tail(tokenized_input))
             ]

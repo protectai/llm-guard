@@ -16,6 +16,10 @@ By effectively identifying and excluding gibberish, the scanner helps maintain t
 
 Utilizing the model [madhurjindal/autonlp-Gibberish-Detector-492513457](https://huggingface.co/madhurjindal/autonlp-Gibberish-Detector-492513457), this scanner is capable of distinguishing between meaningful English text and gibberish. This functionality is critical for enhancing the performance and reliability of systems that depend on accurate and coherent user inputs.
 
+!!! warning
+
+    This model sometimes overtriggers on valid text with `mild gibberish` label. In that case, you can increase the threshold or patch the `_gibberish_labels` parameter.
+
 ## Usage
 
 ```python
