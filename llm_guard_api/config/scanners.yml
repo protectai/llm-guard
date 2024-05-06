@@ -61,7 +61,7 @@ input_scanners:
 #      is_blocked: true
   - type: Gibberish
     params:
-      threshold: 0.9
+      threshold: 0.97
   - type: InvisibleText
     params: { }
   - type: Language
@@ -127,7 +127,7 @@ output_scanners:
       minimum_score: 0.75
   - type: Gibberish
     params:
-      threshold: 0.9
+      threshold: 0.97
   - type: JSON
     params:
       required_elements: 0

@@ -13,6 +13,12 @@ from llm_guard.input_scanners.gibberish import Gibberish
             False,
             1.0,
         ),  # Random gibberish
+        (
+            "What does Protect AI do",
+            "What does Protect AI do",
+            True,
+            0.0,
+        ),
     ],
 )
 def test_scan(prompt, expected_prompt, expected_valid, expected_score):

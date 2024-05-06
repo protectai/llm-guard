@@ -67,13 +67,15 @@ class BanCode(Scanner):
         if prompt.strip() == "":
             return prompt, True, 0.0
 
-        # Hack: Remove markdown from the prompt and remove numbers to improve the accuracy
-        new_prompt = remove_markdown(prompt)
-        new_prompt = re.sub(r"\d+", "", new_prompt)
+        # Hack: Improve accuracy
+        new_prompt = remove_markdown(prompt)  # Remove markdown
+        new_prompt = re.sub(r"\d+\.\s+|[-*•]\s+", "", new_prompt)  # Remove list markers
+        new_prompt = re.sub(r"\d+", "", new_prompt)  # Remove numbers
+        new_prompt = re.sub(r'\.(?!\d)(?=[\s\'"“”‘’)\]}]|$)', "", new_prompt)  # Remove periods
 
         result = self._classifier(new_prompt)[0]
         score = round(
-            result["score"] if result["label"] == "CODE" else 1 - result["score"],
+            result["score"] if result["label"] in "CODE" else 1 - result["score"],
             2,
         )
 
