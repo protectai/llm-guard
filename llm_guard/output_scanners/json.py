@@ -70,7 +70,7 @@ class JSON(Scanner):
         return repaired_json
 
     def scan(self, prompt: str, output: str) -> (str, bool, float):
-        if prompt.strip() == "":
+        if output.strip() == "":
             return output, True, 0.0
 
         # Find JSON object and array candidates using regular expressions
