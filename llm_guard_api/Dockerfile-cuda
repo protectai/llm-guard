@@ -48,6 +48,8 @@ COPY --chown=user:user entrypoint.sh ./entrypoint.sh
 
 RUN chmod +x ./entrypoint.sh
 
+ENV PYTHONPATH=$HOME/app
+
 EXPOSE 8000
 
 ENTRYPOINT ["./entrypoint.sh"]

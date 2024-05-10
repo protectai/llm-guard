@@ -1,11 +1,11 @@
 app:
   name: ${APP_NAME:LLM Guard API}
   log_level: ${LOG_LEVEL:INFO}
-  log_json: ${LOG_JSON:false}
+  log_json: ${LOG_JSON:true}
   scan_fail_fast: ${SCAN_FAIL_FAST:false}
   scan_prompt_timeout: ${SCAN_PROMPT_TIMEOUT:30}
   scan_output_timeout: ${SCAN_OUTPUT_TIMEOUT:30}
-  lazy_load: ${LAZY_LOAD:false}
+  lazy_load: ${LAZY_LOAD:true}
 
 cache:
   ttl: ${CACHE_TTL:3600}

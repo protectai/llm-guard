@@ -67,7 +67,7 @@ This will start the API on port 8000. You can now access the API at `http://loca
 If you want to use a custom configuration, you can mount a volume to `/home/user/app/config`:
 
 ```bash
-docker run -d -p 8000:8000 -e LOG_LEVEL='INFO' -v ./config:/home/user/app/config laiyer/llm-guard-api:latest
+docker run -d -p 8000:8000 -e APP_WORKERS=1 -e AUTH_TOKEN='my-token' -e LOG_LEVEL='DEBUG' -v ./entrypoint.sh:/home/user/app/entrypoint.sh -v ./config/scanners.yml:/home/user/app/config/scanners.yml laiyer/llm-guard-api:latest
 ```
 
 !!! warning
