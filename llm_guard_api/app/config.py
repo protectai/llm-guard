@@ -42,6 +42,7 @@ class MetricsConfig(BaseModel):
 class AppConfig(BaseModel):
     name: Optional[str] = Field(default="LLM Guard API")
     log_level: Optional[str] = Field(default="INFO")
+    log_json: Optional[bool] = Field(default=False)
     scan_fail_fast: Optional[bool] = Field(default=False)
     scan_prompt_timeout: Optional[int] = Field(default=10)
     scan_output_timeout: Optional[int] = Field(default=30)

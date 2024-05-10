@@ -1,8 +1,9 @@
 app:
   name: ${APP_NAME:LLM Guard API}
   log_level: ${LOG_LEVEL:INFO}
+  log_json: ${LOG_JSON:false}
   scan_fail_fast: ${SCAN_FAIL_FAST:false}
-  scan_prompt_timeout: ${SCAN_PROMPT_TIMEOUT:10}
+  scan_prompt_timeout: ${SCAN_PROMPT_TIMEOUT:30}
   scan_output_timeout: ${SCAN_OUTPUT_TIMEOUT:30}
   lazy_load: ${LAZY_LOAD:false}
 
@@ -11,7 +12,7 @@ cache:
   #max_size: ${CACHE_MAX_SIZE:1000}
 
 rate_limit:
-  enabled: ${RATE_LIMIT_ENABLED:true}
+  enabled: ${RATE_LIMIT_ENABLED:false}
   limit: ${RATE_LIMIT_LIMIT:100/minute}
 
 #auth:
@@ -30,12 +31,8 @@ metrics:
 input_scanners:
   - type: Anonymize
     params:
-      # allowed_names: []
-      # hidden_names: []
-      # entity_types: []
-      # preamble: ""
       use_faker: false
-      threshold: 0.6
+      threshold: 0.75
       # model_path: "./distilbert_finetuned_ai4privacy_v2"
   - type: BanCode
     params:
@@ -44,7 +41,7 @@ input_scanners:
   - type: BanCompetitors
     params:
       competitors: ["facebook"]
-      threshold: 0.5
+      threshold: 0.75
   - type: BanSubstrings
     params:
       substrings: ["test"]
@@ -55,7 +52,7 @@ input_scanners:
   - type: BanTopics
     params:
       topics: ["violence"]
-      threshold: 0.6
+      threshold: 0.8
       model_max_length: 256
 #  - type: Code
 #    params:
@@ -70,12 +67,11 @@ input_scanners:
   - type: Language
     params:
       valid_languages: [ "en" ]
-      max_length: 256
+      model_max_length: 256
   - type: PromptInjection
     params:
       threshold: 0.9
       match_type: truncate_head_tail
-      model_batch_size: 4
       model_max_length: 256
   - type: Regex
     params:
@@ -88,15 +84,14 @@ input_scanners:
       redact_mode: "all"
   - type: Sentiment
     params:
-      # lexicon: "vader_lexicon"
-      threshold: -0.5
+      threshold: 0.0
   - type: TokenLimit
     params:
       limit: 4096
       encoding_name: "cl100k_base"
   - type: Toxicity
     params:
-      threshold: 0.5
+      threshold: 0.9
       model_max_length: 256
 
 
@@ -108,7 +103,7 @@ output_scanners:
   - type: BanCompetitors
     params:
       competitors: ["facebook"]
-      threshold: 0.5
+      threshold: 0.75
   - type: BanSubstrings
     params:
       substrings: ["test"]
@@ -119,10 +114,10 @@ output_scanners:
   - type: BanTopics
     params:
       topics: ["violence"]
-      threshold: 0.6
+      threshold: 0.8
   - type: Bias
     params:
-      threshold: 0.9
+      threshold: 0.97
       model_max_length: 256
 #  - type: Code
 #    params:
@@ -133,14 +128,14 @@ output_scanners:
       matching_strategy: "exact"
   - type: FactualConsistency
     params:
-      minimum_score: 0.75
+      minimum_score: 0.5
   - type: Gibberish
     params:
       threshold: 0.97
-  - type: JSON
-    params:
-      required_elements: 0
-      repair: true
+#  - type: JSON
+#    params:
+#      required_elements: 0
+#      repair: true
   - type: Language
     params:
       valid_languages: [ "en" ]
@@ -153,7 +148,7 @@ output_scanners:
       threshold: 0.75
   - type: NoRefusal
     params:
-      threshold: 0.5
+      threshold: 0.9
   - type: ReadingTime
     params:
       max_time: 5
@@ -166,18 +161,17 @@ output_scanners:
       redact: true
   - type: Relevance
     params:
-      threshold: 0.5
+      threshold: 0.2
   - type: Sensitive
     params:
       redact: false
-      threshold: 0.6
+      threshold: 0.75
   - type: Sentiment
     params:
-      threshold: -0.5
-      # lexicon: "vader_lexicon"
+      threshold: 0.0
   - type: Toxicity
     params:
-      threshold: 0.5
+      threshold: 0.9
       model_max_length: 256
   - type: URLReachability
     params: {}
