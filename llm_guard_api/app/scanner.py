@@ -6,10 +6,10 @@ import structlog
 from opentelemetry import metrics
 
 from llm_guard import input_scanners, output_scanners
-from llm_guard.input_scanners.anonymize_helpers import DISTILBERT_AI4PRIVACY_v2_CONF
+from llm_guard.input_scanners.anonymize_helpers import DEBERTA_AI4PRIVACY_v2_CONF
 from llm_guard.input_scanners.ban_code import MODEL_SM as BAN_CODE_MODEL
 from llm_guard.input_scanners.ban_competitors import MODEL_SMALL as BAN_COMPETITORS_MODEL
-from llm_guard.input_scanners.ban_topics import MODEL_ROBERTA_BASE_C_V2 as BAN_TOPICS_MODEL
+from llm_guard.input_scanners.ban_topics import MODEL_DEBERTA_BASE_V2 as BAN_TOPICS_MODEL
 from llm_guard.input_scanners.base import Scanner as InputScanner
 from llm_guard.input_scanners.code import DEFAULT_MODEL as CODE_MODEL
 from llm_guard.input_scanners.gibberish import DEFAULT_MODEL as GIBBERISH_MODEL
@@ -74,14 +74,21 @@ def get_output_scanners(scanners: List[ScannerConfig], vault: Vault) -> List[Out
     return output_scanners_loaded
 
 
-def _use_local_model(model: Model, path: Optional[str]):
-    if path is None:
-        return
+def _configure_model(model: Model, scanner_config: Optional[Dict]):
+    if scanner_config is None:
+        scanner_config = {}
 
-    model.path = path
-    model.onnx_path = path
-    model.onnx_subfolder = ""
-    model.kwargs = {"local_files_only": True}
+    if "model_path" in scanner_config and scanner_config["model_path"] is not None:
+        model.path = scanner_config["model_path"]
+        model.onnx_path = scanner_config["model_path"]
+        model.onnx_subfolder = ""
+        model.kwargs = {"local_files_only": True}
+
+    if "model_batch_size" in scanner_config:
+        model.pipeline_kwargs["batch_size"] = scanner_config["model_batch_size"]
+
+    if "model_max_length" in scanner_config:
+        model.pipeline_kwargs["max_length"] = scanner_config["model_max_length"]
 
 
 def _get_input_scanner(
@@ -109,39 +116,41 @@ def _get_input_scanner(
         scanner_config["use_onnx"] = True
 
     if scanner_name == "Anonymize":
-        _use_local_model(DISTILBERT_AI4PRIVACY_v2_CONF, scanner_config.get("model_path"))
-        scanner_config["recognizer_conf"] = DISTILBERT_AI4PRIVACY_v2_CONF
+        _configure_model(
+            DEBERTA_AI4PRIVACY_v2_CONF["DEFAULT_MODEL"], scanner_config.get("model_path")
+        )
+        scanner_config["recognizer_conf"] = DEBERTA_AI4PRIVACY_v2_CONF
 
     if scanner_name == "BanCode":
-        _use_local_model(BAN_CODE_MODEL, scanner_config.get("model_path"))
+        _configure_model(BAN_CODE_MODEL, scanner_config.get("model_path"))
         scanner_config["model"] = BAN_CODE_MODEL
 
     if scanner_name == "BanTopics":
-        _use_local_model(BAN_TOPICS_MODEL, scanner_config.get("model_path"))
+        _configure_model(BAN_TOPICS_MODEL, scanner_config.get("model_path"))
         scanner_config["model"] = BAN_TOPICS_MODEL
 
     if scanner_name == "BanCompetitors":
-        _use_local_model(BAN_COMPETITORS_MODEL, scanner_config.get("model_path"))
+        _configure_model(BAN_COMPETITORS_MODEL, scanner_config.get("model_path"))
         scanner_config["model"] = BAN_COMPETITORS_MODEL
 
     if scanner_name == "Code":
-        _use_local_model(CODE_MODEL, scanner_config.get("model_path"))
+        _configure_model(CODE_MODEL, scanner_config.get("model_path"))
         scanner_config["model"] = CODE_MODEL
 
     if scanner_name == "Gibberish":
-        _use_local_model(GIBBERISH_MODEL, scanner_config.get("model_path"))
+        _configure_model(GIBBERISH_MODEL, scanner_config.get("model_path"))
         scanner_config["model"] = GIBBERISH_MODEL
 
     if scanner_name == "Language":
-        _use_local_model(LANGUAGE_MODEL, scanner_config.get("model_path"))
+        _configure_model(LANGUAGE_MODEL, scanner_config.get("model_path"))
         scanner_config["model"] = LANGUAGE_MODEL
 
     if scanner_name == "PromptInjection":
-        _use_local_model(PROMPT_INJECTION_MODEL, scanner_config.get("model_path"))
+        _configure_model(PROMPT_INJECTION_MODEL, scanner_config.get("model_path"))
         scanner_config["model"] = PROMPT_INJECTION_MODEL
 
     if scanner_name == "Toxicity":
-        _use_local_model(TOXICITY_MODEL, scanner_config.get("model_path"))
+        _configure_model(TOXICITY_MODEL, scanner_config.get("model_path"))
         scanner_config["model"] = TOXICITY_MODEL
 
     return input_scanners.get_scanner_by_name(scanner_name, scanner_config)
@@ -177,55 +186,57 @@ def _get_output_scanner(
         scanner_config["use_onnx"] = True
 
     if scanner_name == "BanCode":
-        _use_local_model(BAN_CODE_MODEL, scanner_config.get("model_path"))
+        _configure_model(BAN_CODE_MODEL, scanner_config.get("model_path"))
         scanner_config["model"] = BAN_CODE_MODEL
 
     if scanner_name == "BanCompetitors":
-        _use_local_model(BAN_COMPETITORS_MODEL, scanner_config.get("model_path"))
+        _configure_model(BAN_COMPETITORS_MODEL, scanner_config.get("model_path"))
         scanner_config["model"] = BAN_COMPETITORS_MODEL
 
     if scanner_name == "BanTopics" or scanner_name == "FactualConsistency":
-        _use_local_model(BAN_TOPICS_MODEL, scanner_config.get("model_path"))
+        _configure_model(BAN_TOPICS_MODEL, scanner_config.get("model_path"))
         scanner_config["model"] = BAN_TOPICS_MODEL
 
     if scanner_name == "Bias":
-        _use_local_model(BIAS_MODEL, scanner_config.get("model_path"))
+        _configure_model(BIAS_MODEL, scanner_config.get("model_path"))
         scanner_config["model"] = BIAS_MODEL
 
     if scanner_name == "Code":
-        _use_local_model(CODE_MODEL, scanner_config.get("model_path"))
+        _configure_model(CODE_MODEL, scanner_config.get("model_path"))
         scanner_config["model"] = CODE_MODEL
 
     if scanner_name == "Language":
-        _use_local_model(LANGUAGE_MODEL, scanner_config.get("model_path"))
+        _configure_model(LANGUAGE_MODEL, scanner_config.get("model_path"))
         scanner_config["model"] = LANGUAGE_MODEL
 
     if scanner_name == "LanguageSame":
-        _use_local_model(LANGUAGE_MODEL, scanner_config.get("model_path"))
+        _configure_model(LANGUAGE_MODEL, scanner_config.get("model_path"))
         scanner_config["model"] = LANGUAGE_MODEL
 
     if scanner_name == "MaliciousURLs":
-        _use_local_model(MALICIOUS_URLS_MODEL, scanner_config.get("model_path"))
+        _configure_model(MALICIOUS_URLS_MODEL, scanner_config.get("model_path"))
         scanner_config["model"] = MALICIOUS_URLS_MODEL
 
     if scanner_name == "NoRefusal":
-        _use_local_model(NO_REFUSAL_MODEL, scanner_config.get("model_path"))
+        _configure_model(NO_REFUSAL_MODEL, scanner_config.get("model_path"))
         scanner_config["model"] = NO_REFUSAL_MODEL
 
     if scanner_name == "Gibberish":
-        _use_local_model(GIBBERISH_MODEL, scanner_config.get("model_path"))
+        _configure_model(GIBBERISH_MODEL, scanner_config.get("model_path"))
         scanner_config["model"] = GIBBERISH_MODEL
 
     if scanner_name == "Relevance":
-        _use_local_model(RELEVANCE_MODEL, scanner_config.get("model_path"))
+        _configure_model(RELEVANCE_MODEL, scanner_config.get("model_path"))
         scanner_config["model"] = RELEVANCE_MODEL
 
     if scanner_name == "Sensitive":
-        _use_local_model(DISTILBERT_AI4PRIVACY_v2_CONF, scanner_config.get("model_path"))
-        scanner_config["recognizer_conf"] = DISTILBERT_AI4PRIVACY_v2_CONF
+        _configure_model(
+            DEBERTA_AI4PRIVACY_v2_CONF["DEFAULT_MODEL"], scanner_config.get("model_path")
+        )
+        scanner_config["recognizer_conf"] = DEBERTA_AI4PRIVACY_v2_CONF
 
     if scanner_name == "Toxicity":
-        _use_local_model(TOXICITY_MODEL, scanner_config.get("model_path"))
+        _configure_model(TOXICITY_MODEL, scanner_config.get("model_path"))
         scanner_config["model"] = TOXICITY_MODEL
 
     return output_scanners.get_scanner_by_name(scanner_name, scanner_config)

@@ -36,6 +36,7 @@ def build_input_scanner(scanner_name: str, use_onnx: bool) -> InputScanner:
         return input_scanners.BanCompetitors(
             competitors=["Google", "Bing", "Yahoo"],
             threshold=0.5,
+            use_onnx=use_onnx,
         )
 
     if scanner_name == "BanSubstrings":
@@ -88,6 +89,7 @@ def build_output_scanner(scanner_name: str, use_onnx: bool) -> OutputScanner:
         return output_scanners.BanCompetitors(
             competitors=["Google", "Bing", "Yahoo"],
             threshold=0.5,
+            use_onnx=use_onnx,
         )
 
     if scanner_name == "BanSubstrings":

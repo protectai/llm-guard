@@ -24,8 +24,7 @@ preference.
 
 Models:
 
-- [tomaarsen/span-marker-bert-small-orgs](https://huggingface.co/tomaarsen/span-marker-bert-small-orgs)
-- [tomaarsen/span-marker-bert-base-orgs](https://huggingface.co/tomaarsen/span-marker-bert-base-orgs)
+- [guishe/nuner-v1_orgs](https://huggingface.co/guishe/nuner-v1_orgs)
 
 ## Usage
 
@@ -55,7 +54,7 @@ sanitized_output, is_valid, risk_score = scanner.scan(prompt, output)
 
 ## Optimization Strategies
 
-ONNX support for this scanner is currently in development ([PR](https://github.com/tomaarsen/SpanMarkerNER/pull/43)).
+[Read more](../tutorials/optimization.md)
 
 ## Benchmark
 

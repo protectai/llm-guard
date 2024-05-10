@@ -1,15 +1,15 @@
 from __future__ import annotations
 
 import copy
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, Any
 
 from presidio_analyzer import AnalysisExplanation, EntityRecognizer, RecognizerResult
 from presidio_analyzer.nlp_engine import NlpArtifacts
 from transformers import TokenClassificationPipeline
 
 from llm_guard.model import Model
-from llm_guard.transformers_helpers import device, get_tokenizer, is_onnx_supported
-from llm_guard.util import get_logger, lazy_load_dep, split_text_to_word_chunks
+from llm_guard.transformers_helpers import get_tokenizer_and_model_for_ner
+from llm_guard.util import get_logger, split_text_to_word_chunks
 
 from .ner_mapping import BERT_BASE_NER_CONF
 
@@ -137,40 +137,7 @@ class TransformersRecognizer(EntityRecognizer):
         use_onnx: bool = False,
     ) -> None:
         """Initialize NER transformers_rec pipeline using the model_path provided"""
-        transformers = cast("transformers", lazy_load_dep("transformers"))
-        tf_tokenizer = get_tokenizer(self.model)
-
-        if use_onnx and is_onnx_supported() is False:
-            LOGGER.warning("ONNX is not supported on this machine. Using PyTorch instead of ONNX.")
-            use_onnx = False
-
-        if use_onnx:
-            optimum_onnxruntime = lazy_load_dep(
-                "optimum.onnxruntime",
-                "optimum[onnxruntime]" if device().type != "cuda" else "optimum[onnxruntime-gpu]",
-            )
-
-            tf_model = optimum_onnxruntime.ORTModelForTokenClassification.from_pretrained(
-                self.model.onnx_path,
-                export=False,
-                subfolder=self.model.onnx_subfolder,
-                provider=(
-                    "CUDAExecutionProvider" if device().type == "cuda" else "CPUExecutionProvider"
-                ),
-                revision=self.model.onnx_revision,
-                file_name=self.model.onnx_filename,
-                use_io_binding=True if device().type == "cuda" else False,
-                **self.model.kwargs,
-            )
-            LOGGER.debug("Initialized NER ONNX model", model=self.model, device=device())
-        else:
-            tf_model = transformers.AutoModelForTokenClassification.from_pretrained(
-                self.model.path,
-                subfolder=self.model.subfolder,
-                revision=self.model.revision,
-                **self.model.kwargs,
-            )
-            LOGGER.debug("Initialized NER model", model=self.model, device=device())
+        tf_tokenizer, tf_model = get_tokenizer_and_model_for_ner(self.model, use_onnx=use_onnx)
 
         self.model.pipeline_kwargs["ignore_labels"] = self.ignore_labels
         self.pipeline = transformers.pipeline(

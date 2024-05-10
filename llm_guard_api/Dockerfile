@@ -38,7 +38,10 @@ RUN pip install --no-cache-dir --upgrade pip && \
 RUN python -m spacy download en_core_web_sm
 
 COPY --chown=user:user ./config/scanners.yml ./config/scanners.yml
+COPY --chown=user:user entrypoint.sh ./entrypoint.sh
+
+RUN chmod +x ./entrypoint.sh
 
 EXPOSE 8000
 
-CMD ["llm_guard_api", "/home/user/app/config/scanners.yml"]
+ENTRYPOINT ["./entrypoint.sh"]
