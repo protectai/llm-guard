@@ -18,7 +18,7 @@ DEFAULT_MODEL = Model(
     onnx_subfolder="onnx",
     pipeline_kwargs={
         "return_token_type_ids": False,
-        "max_length": 512,
+        "max_length": 128,
         "truncation": True,
     },
 )

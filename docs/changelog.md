@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Gibberish` scanner has higher threshold to reduce false positives. In addition, it supports changing `labels` to remove overtriggering when `mild gibberish` is detected.
 - `BanCode` scanner was improved to trigger less false-positives.
 - Improved logging to support JSON format.
+- Optimizations in the `API` to reduce the latency.
 
 ### Removed
 -

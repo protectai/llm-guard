@@ -40,6 +40,7 @@ input_scanners:
   - type: BanCode
     params:
       threshold: 0.97
+      model_max_length: 256
   - type: BanCompetitors
     params:
       competitors: ["facebook"]
@@ -55,6 +56,7 @@ input_scanners:
     params:
       topics: ["violence"]
       threshold: 0.6
+      model_max_length: 256
 #  - type: Code
 #    params:
 #      languages: ["Python"]
@@ -62,15 +64,19 @@ input_scanners:
   - type: Gibberish
     params:
       threshold: 0.97
+      model_max_length: 256
   - type: InvisibleText
     params: { }
   - type: Language
     params:
       valid_languages: [ "en" ]
+      max_length: 256
   - type: PromptInjection
     params:
       threshold: 0.9
       match_type: truncate_head_tail
+      model_batch_size: 4
+      model_max_length: 256
   - type: Regex
     params:
       patterns: ["Bearer [A-Za-z0-9-._~+/]+"]
@@ -91,12 +97,14 @@ input_scanners:
   - type: Toxicity
     params:
       threshold: 0.5
+      model_max_length: 256
 
 
 output_scanners:
   - type: BanCode
     params:
       threshold: 0.97
+      model_max_length: 256
   - type: BanCompetitors
     params:
       competitors: ["facebook"]
@@ -115,6 +123,7 @@ output_scanners:
   - type: Bias
     params:
       threshold: 0.9
+      model_max_length: 256
 #  - type: Code
 #    params:
 #      languages: ["Python"]
@@ -135,8 +144,10 @@ output_scanners:
   - type: Language
     params:
       valid_languages: [ "en" ]
+      model_max_length: 256
   - type: LanguageSame
-    params: {}
+    params:
+      model_max_length: 256
   - type: MaliciousURLs
     params:
       threshold: 0.75
@@ -167,5 +178,6 @@ output_scanners:
   - type: Toxicity
     params:
       threshold: 0.5
+      model_max_length: 256
   - type: URLReachability
     params: {}

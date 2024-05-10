@@ -54,29 +54,27 @@ def configure_logger(
         "NOTSET": logging.NOTSET,
     }
 
-    processors = [
-        structlog.contextvars.merge_contextvars,
-        structlog.processors.add_log_level,
-        structlog.stdlib.PositionalArgumentsFormatter(),
-        structlog.processors.StackInfoRenderer(),
-        structlog.dev.set_exc_info,
-        structlog.processors.format_exc_info,
-        structlog.processors.UnicodeDecoder(),
-        structlog.processors.TimeStamper(fmt="iso"),
-        structlog.processors.dict_tracebacks,
-        structlog.dev.ConsoleRenderer(),
-    ]
-
+    render_processors = [structlog.dev.ConsoleRenderer()]
     if render_json:
-        processors = processors[:-1]
-        processors += [structlog.processors.JSONRenderer()]
+        render_processors = [structlog.processors.JSONRenderer()]
 
     structlog.configure(
         context_class=dict,
         wrapper_class=structlog.make_filtering_bound_logger(log_level_to_int[log_level]),
         logger_factory=structlog.PrintLoggerFactory(stream),
         cache_logger_on_first_use=False,
-        processors=processors,
+        processors=[
+            structlog.contextvars.merge_contextvars,
+            structlog.processors.add_log_level,
+            structlog.stdlib.PositionalArgumentsFormatter(),
+            structlog.processors.StackInfoRenderer(),
+            structlog.dev.set_exc_info,
+            structlog.processors.format_exc_info,
+            structlog.processors.UnicodeDecoder(),
+            structlog.processors.TimeStamper(fmt="iso"),
+            structlog.processors.dict_tracebacks,
+        ]
+        + render_processors,
     )
     for log_name in EXTERNAL_LOGGERS:
         logging.getLogger(log_name).setLevel(logging.WARNING)

@@ -15,7 +15,7 @@ DEFAULT_MODEL = Model(
     pipeline_kwargs={
         "top_k": None,
         "return_token_type_ids": False,
-        "max_length": 512,
+        "max_length": 128,
         "truncation": True,
     },
 )
