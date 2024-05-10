@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import copy
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, cast
 
 from presidio_analyzer import AnalysisExplanation, EntityRecognizer, RecognizerResult
 from presidio_analyzer.nlp_engine import NlpArtifacts
@@ -9,7 +9,7 @@ from transformers import TokenClassificationPipeline
 
 from llm_guard.model import Model
 from llm_guard.transformers_helpers import get_tokenizer_and_model_for_ner
-from llm_guard.util import get_logger, split_text_to_word_chunks
+from llm_guard.util import get_logger, lazy_load_dep, split_text_to_word_chunks
 
 from .ner_mapping import BERT_BASE_NER_CONF
 
@@ -140,6 +140,8 @@ class TransformersRecognizer(EntityRecognizer):
         tf_tokenizer, tf_model = get_tokenizer_and_model_for_ner(self.model, use_onnx=use_onnx)
 
         self.model.pipeline_kwargs["ignore_labels"] = self.ignore_labels
+
+        transformers = cast("transformers", lazy_load_dep("transformers"))
         self.pipeline = transformers.pipeline(
             "ner",
             model=tf_model,
