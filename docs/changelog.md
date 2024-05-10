@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `BanCode` scanner was improved to trigger less false-positives.
 - Improved logging to support JSON format.
 - Optimizations in the `API` to reduce the latency.
+- `BanCompetitors` scanner relies on the new model which also supports ONNX inference.
 
 ### Removed
 -

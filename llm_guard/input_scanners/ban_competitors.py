@@ -1,19 +1,24 @@
-from typing import Optional, Sequence
+from typing import Optional, Sequence, cast
 
 from presidio_anonymizer.core.text_replace_builder import TextReplaceBuilder
 
 from llm_guard.model import Model
-from llm_guard.util import device, get_logger, lazy_load_dep
+from llm_guard.transformers_helpers import get_tokenizer_and_model_for_ner
+from llm_guard.util import get_logger, lazy_load_dep
 
 from .base import Scanner
 
 LOGGER = get_logger()
 
-MODEL_BASE = Model(
-    "tomaarsen/span-marker-bert-base-orgs", revision="312bcdb7bc02c85ab9b8b8fe99849ca28714b29d"
-)
-MODEL_SMALL = Model(
-    "tomaarsen/span-marker-bert-small-orgs", revision="437bd92fcc2b4236b7d7402113d47920793bab46"
+MODEL_V1 = Model(
+    path="guishe/nuner-v1_orgs",
+    revision="2e95454e741e5bdcbfabd6eaed5fb03a266cf043",
+    onnx_path="protectai/guishe-nuner-v1_orgs-onnx",
+    onnx_revision="20c9739f45f6b4d10ba63c62e6fa92f214a12a52",
+    onnx_subfolder="",
+    pipeline_kwargs={
+        "aggregation_strategy": "simple",
+    },
 )
 
 
@@ -31,6 +36,7 @@ class BanCompetitors(Scanner):
         threshold: float = 0.5,
         redact: bool = True,
         model: Optional[Model] = None,
+        use_onnx: bool = False,
     ):
         """
         Initialize BanCompetitors object.
@@ -39,40 +45,44 @@ class BanCompetitors(Scanner):
             competitors (Sequence[str]): List of competitors to detect.
             threshold (float, optional): Threshold to determine if a competitor is present in the prompt. Default is 0.5.
             redact (bool, optional): Whether to redact the competitor name. Default is True.
-            model (Model, optional): Model to use for named-entity recognition. Default is BASE model.
+            model (Model, optional): Model to use for named-entity recognition. Default is V1 model.
+            use_onnx (bool, optional): Whether to use ONNX instead of PyTorch for inference. Default is False.
 
         Raises:
             ValueError: If no topics are provided.
         """
         if model is None:
-            model = MODEL_BASE
+            model = MODEL_V1
 
         self._competitors = competitors
         self._threshold = threshold
         self._redact = redact
 
-        span_marker = lazy_load_dep("span_marker", "span-marker")
-        self._ner_pipeline = span_marker.SpanMarkerModel.from_pretrained(
-            model.path, labels=["ORG"], **model.kwargs
+        tf_tokenizer, tf_model = get_tokenizer_and_model_for_ner(
+            model=model,
+            use_onnx=use_onnx,
         )
 
-        if device().type == "cuda":
-            self._ner_pipeline = self._ner_pipeline.cuda()
+        transformers = cast("transformers", lazy_load_dep("transformers"))
+        self._ner_pipeline = transformers.pipeline(
+            "ner", model=tf_model, tokenizer=tf_tokenizer, **model.pipeline_kwargs
+        )
 
     def scan(self, prompt: str) -> (str, bool, float):
         is_detected = False
         text_replace_builder = TextReplaceBuilder(original_text=prompt)
-        entities = self._ner_pipeline.predict(prompt)
-        entities = sorted(entities, key=lambda x: x["char_end_index"], reverse=True)
+        entities = self._ner_pipeline(prompt)
+        entities = sorted(entities, key=lambda x: x["end"], reverse=True)
         for entity in entities:
-            if entity["span"] not in self._competitors:
-                LOGGER.debug("Entity is not a specified competitor", entity=entity["span"])
+            entity["word"] = entity["word"].strip()
+            if entity["word"] not in self._competitors:
+                LOGGER.debug("Entity is not a specified competitor", entity=entity["word"])
                 continue
 
             if entity["score"] < self._threshold:
                 LOGGER.debug(
                     "Competitor detected but the score is below threshold",
-                    entity=entity["span"],
+                    entity=entity["word"],
                     score=entity["score"],
                 )
                 continue
@@ -82,12 +92,12 @@ class BanCompetitors(Scanner):
             if self._redact:
                 text_replace_builder.replace_text_get_insertion_index(
                     "[REDACTED]",
-                    entity["char_start_index"],
-                    entity["char_end_index"],
+                    entity["start"],
+                    entity["end"],
                 )
 
             LOGGER.warning(
-                "Competitor detected with score", entity=entity["span"], score=entity["score"]
+                "Competitor detected with score", entity=entity["word"], score=entity["score"]
             )
 
         if is_detected:
