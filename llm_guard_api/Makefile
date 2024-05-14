@@ -4,7 +4,7 @@
 
 # Docker config
 DOCKER_IMAGE_NAME=laiyer/llm-guard-api
-VERSION=0.3.12
+VERSION=0.3.13
 
 # Other config
 NO_COLOR=\033[0m
@@ -24,7 +24,7 @@ build-docker-cuda-multi:
 run-uvicorn: install
 	llm_guard_api ./config/scanners.yml
 
-run-gunicorn: install
+run-gunicorn:
 	@gunicorn --workers 1 --preload --worker-class uvicorn.workers.UvicornWorker 'app.app:create_app(config_file="./config/scanners.yml")'
 
 run-docker:

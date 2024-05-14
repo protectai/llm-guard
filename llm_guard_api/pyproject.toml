@@ -19,8 +19,8 @@ requires-python = ">=3.9,<3.12"
 
 dependencies = [
     "asyncio==3.4.3",
-    "fastapi>=0.110",
-    "llm-guard==0.3.12",
+    "fastapi<=0.110.3",
+    "llm-guard==0.3.13",
     "pydantic==1.10.15",
     "pyyaml==6.0.1",
     "uvicorn[standard]>=0.29",
@@ -34,14 +34,15 @@ dependencies = [
     "opentelemetry-sdk-extension-aws==2.0.1",
     "opentelemetry-propagator-aws-xray==1.0.1",
     "gunicorn>=22",
+    "psutil>=5.9",
 ]
 
 [project.optional-dependencies]
 cpu = [
-  "llm-guard[onnxruntime]==0.3.12",
+  "llm-guard[onnxruntime]==0.3.13",
 ]
 gpu = [
-  "llm-guard[onnxruntime-gpu]==0.3.12",
+  "llm-guard[onnxruntime-gpu]==0.3.13",
 ]
 
 [tool.setuptools]

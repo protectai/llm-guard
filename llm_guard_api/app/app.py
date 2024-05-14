@@ -58,7 +58,7 @@ def create_app(config_file: str) -> FastAPI:
     config = get_config(config_file)
     log_level = config.app.log_level
     is_debug = log_level == "DEBUG"
-    configure_logger(log_level)
+    configure_logger(log_level, config.app.log_json)
 
     configure_otel(config.app.name, config.tracing, config.metrics)
 
@@ -209,7 +209,11 @@ def register_routes(
         _: Annotated[bool, Depends(check_auth)],
         output_scanners: List[OutputScanner] = Depends(output_scanners_func),
     ) -> AnalyzeOutputResponse:
-        LOGGER.debug("Received analyze output request", request=request)
+        LOGGER.debug(
+            "Received analyze output request",
+            request_prompt=request.prompt,
+            request_output=request.output,
+        )
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
             loop = asyncio.get_event_loop()
@@ -262,7 +266,11 @@ def register_routes(
         _: Annotated[bool, Depends(check_auth)],
         output_scanners: List[OutputScanner] = Depends(output_scanners_func),
     ) -> ScanOutputResponse:
-        LOGGER.debug("Received scan output request", request=request)
+        LOGGER.debug(
+            "Received scan output request",
+            request_prompt=request.prompt,
+            request_output=request.output,
+        )
 
         result_is_valid = True
         results_score = {}
@@ -321,7 +329,7 @@ def register_routes(
         response: Response,
         input_scanners: List[InputScanner] = Depends(input_scanners_func),
     ) -> AnalyzePromptResponse:
-        LOGGER.debug("Received analyze prompt request", request=request)
+        LOGGER.debug("Received analyze prompt request", request_prompt=request.prompt)
 
         cached_result = cache.get(f"analyze|{request.prompt}")
         if cached_result:
@@ -386,7 +394,7 @@ def register_routes(
         response: Response,
         input_scanners: List[InputScanner] = Depends(input_scanners_func),
     ) -> ScanPromptResponse:
-        LOGGER.debug("Received scan prompt request", request=request)
+        LOGGER.debug("Received scan prompt request", request_prompt=request.prompt)
 
         cached_result = cache.get(f"scan|{request.prompt}")
         if cached_result:
