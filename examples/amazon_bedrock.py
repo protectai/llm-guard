@@ -1,14 +1,15 @@
 import boto3
+
 from llm_guard import scan_output, scan_prompt
 from llm_guard.input_scanners import Anonymize, PromptInjection, TokenLimit, Toxicity
 from llm_guard.output_scanners import Deanonymize, NoRefusal, Relevance, Sensitive
 from llm_guard.vault import Vault
 
 # Specify the AWS region, Bedrock agent ID, alias ID, and session ID
-region = ""
-agent_id = ""
-agent_alias_id = ""
-session_id = ""
+REGION = ""
+AGENT_ID = ""
+AGENT_ALIAS_ID = ""
+SESSION_ID = ""
 
 
 def invoke_agent(sanitized_prompt, region, agent_id, agent_alias_id, session_id):
@@ -33,7 +34,7 @@ def invoke_agent(sanitized_prompt, region, agent_id, agent_alias_id, session_id)
         agentId=agent_id,
         agentAliasId=agent_alias_id,
         sessionId=session_id,
-        inputText=prompt,
+        inputText=sanitized_prompt,
     )
 
     # Process the agent's response
@@ -45,27 +46,29 @@ def invoke_agent(sanitized_prompt, region, agent_id, agent_alias_id, session_id)
     return completion
 
 
-vault = Vault()
-input_scanners = [Anonymize(vault), Toxicity(), TokenLimit(), PromptInjection()]
-output_scanners = [Deanonymize(vault), NoRefusal(), Relevance(), Sensitive()]
+VAULT = Vault()
+INPUT_SCANNERS = [Anonymize(VAULT), Toxicity(), TokenLimit(), PromptInjection()]
+OUTPUT_SCANNERS = [Deanonymize(VAULT), NoRefusal(), Relevance(), Sensitive()]
 
-prompt = (
+PROMPT = (
     "Make an SQL insert statement to add a new user to our database. Name is John Doe. Email is test@test.com "
     "but also possible to contact him with hello@test.com email. Phone number is 555-123-4567 and "
     "the IP address is 192.168.1.100. And credit card number is 4567-8901-2345-6789. "
     "He works in Test LLC."
 )
 
-sanitized_prompt, results_valid, results_score = scan_prompt(input_scanners, prompt)
+sanitized_prompt, results_valid, results_score = scan_prompt(INPUT_SCANNERS, PROMPT)
 if any(results_valid.values()) is False:
-    print(f"Prompt {prompt} is not valid, scores: {results_score}")
+    print(f"Prompt {PROMPT} is not valid, scores: {results_score}")
     exit(1)
 
 print(f"Prompt: {sanitized_prompt}")
 
-response_text = invoke_agent(sanitized_prompt, region, agent_id, agent_alias_id, session_id)
+response_text = invoke_agent(
+    sanitized_prompt, REGION, AGENT_ID, AGENT_ALIAS_ID, SESSION_ID
+)
 sanitized_response_text, results_valid, results_score = scan_output(
-    output_scanners, sanitized_prompt, response_text
+    OUTPUT_SCANNERS, sanitized_prompt, response_text
 )
 if any(results_valid.values()) is False:
     print(f"Output {response_text} is not valid, scores: {results_score}")
