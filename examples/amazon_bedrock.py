@@ -64,9 +64,7 @@ if any(results_valid.values()) is False:
 
 print(f"Prompt: {sanitized_prompt}")
 
-response_text = invoke_agent(
-    sanitized_prompt, REGION, AGENT_ID, AGENT_ALIAS_ID, SESSION_ID
-)
+response_text = invoke_agent(sanitized_prompt, REGION, AGENT_ID, AGENT_ALIAS_ID, SESSION_ID)
 sanitized_response_text, results_valid, results_score = scan_output(
     OUTPUT_SCANNERS, sanitized_prompt, response_text
 )
