@@ -20,16 +20,16 @@ classifiers = [
 requires-python = ">=3.9,<3.12"
 
 dependencies = [
-  "bc-detect-secrets==1.5.9",
+  "bc-detect-secrets==1.5.10",
   "faker>=22,<25",
   "fuzzysearch>=0.7,<0.9",
-  "json-repair>=0.15,<0.18",
+  "json-repair>=0.15,<0.20",
   "nltk>=3.8,<4",
   "presidio-analyzer>=2.2,<3",
   "presidio-anonymizer>=2.2,<3",
   "regex==2024.4.28",
   "tiktoken>=0.5,<0.7",
-  "torch==2.2.2",
+  "torch>=2.0.1,<=2.3.0",
   "transformers==4.39.3",
   "structlog>=24"
 ]
