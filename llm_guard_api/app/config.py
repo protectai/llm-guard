@@ -17,11 +17,6 @@ class RateLimitConfig(BaseModel):
     limit: str = Field(default="100/minute")
 
 
-class CacheConfig(BaseModel):
-    ttl: int = Field(default=60)
-    max_size: Optional[int] = Field(default=None)
-
-
 class AuthConfig(BaseModel):
     type: Literal["http_bearer", "http_basic"] = Field()
     token: Optional[str] = Field(default=None)
@@ -58,7 +53,6 @@ class Config(BaseModel):
     input_scanners: List[ScannerConfig] = Field()
     output_scanners: List[ScannerConfig] = Field()
     rate_limit: RateLimitConfig = Field(default_factory=RateLimitConfig)
-    cache: CacheConfig = Field(default_factory=CacheConfig)
     auth: Optional[AuthConfig] = Field(default=None)
     app: AppConfig = Field(default_factory=AppConfig)
     tracing: Optional[TracingConfig] = Field(default=None)

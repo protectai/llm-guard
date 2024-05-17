@@ -7,10 +7,6 @@ app:
   scan_output_timeout: ${SCAN_OUTPUT_TIMEOUT:30}
   lazy_load: ${LAZY_LOAD:true}
 
-cache:
-  ttl: ${CACHE_TTL:3600}
-  #max_size: ${CACHE_MAX_SIZE:1000}
-
 rate_limit:
   enabled: ${RATE_LIMIT_ENABLED:false}
   limit: ${RATE_LIMIT_LIMIT:100/minute}

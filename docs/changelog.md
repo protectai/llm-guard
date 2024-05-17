@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -
 
 ### Removed
--
+- Caching is removed from the API deployment as it was causing issues when running multiple workers.
 
 ## [0.3.13] - 2024-05-10
 
