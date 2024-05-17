@@ -140,7 +140,6 @@ def get_tokenizer_and_model_for_ner(
         provider=("CUDAExecutionProvider" if device().type == "cuda" else "CPUExecutionProvider"),
         revision=model.onnx_revision,
         file_name=model.onnx_filename,
-        use_io_binding=True if device().type == "cuda" else False,
         **model.kwargs,
     )
     LOGGER.debug("Initialized NER ONNX model", model=model, device=device())

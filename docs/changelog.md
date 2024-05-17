@@ -14,10 +14,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -
 
 ### Changed
--
+- Allow custom `uvicorn` configuration in the API deployment.
 
 ### Removed
 - Caching is removed from the API deployment as it was causing issues when running multiple workers.
+- `use_io_binding` parameter is removed for the ONNX inference to allow the client to control it.
 
 ## [0.3.13] - 2024-05-10
 

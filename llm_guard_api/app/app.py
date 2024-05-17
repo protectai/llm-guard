@@ -1,5 +1,6 @@
 import asyncio
 import concurrent.futures
+import os
 import time
 from typing import Annotated, Callable, List
 
@@ -53,7 +54,11 @@ from .version import __version__
 LOGGER = structlog.getLogger(__name__)
 
 
-def create_app(config_file: str) -> FastAPI:
+def create_app() -> FastAPI:
+    config_file = os.getenv("CONFIG_FILE")
+    if not config_file:
+        raise ValueError("Config file is required")
+
     config = get_config(config_file)
     log_level = config.app.log_level
     is_debug = log_level == "DEBUG"
