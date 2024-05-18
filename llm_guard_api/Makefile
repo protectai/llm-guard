@@ -25,7 +25,7 @@ run-uvicorn: install
 	llm_guard_api ./config/scanners.yml
 
 run-gunicorn:
-	@gunicorn --workers 1 --preload --worker-class uvicorn.workers.UvicornWorker 'app.app:create_app(config_file="./config/scanners.yml")'
+	CONFIG_FILE="./config/scanners.yml" gunicorn --workers 1 --preload --worker-class uvicorn.workers.UvicornWorker 'app.app:create_app()'
 
 run-docker:
 	@docker run -p 8000:8000 -e DEBUG='true' -v ./config:/home/user/app/config $(DOCKER_IMAGE_NAME):$(VERSION)

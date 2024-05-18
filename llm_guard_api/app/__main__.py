@@ -1,4 +1,5 @@
 import argparse
+import os
 
 import uvicorn
 
@@ -12,8 +13,13 @@ def run_uvicorn():
     args = parser.parse_args()
     scanners_config_file = args.config
 
+    if not scanners_config_file:
+        raise ValueError("Scanners configuration file is required")
+
+    os.putenv("CONFIG_FILE", scanners_config_file)
+
     uvicorn.run(
-        create_app(scanners_config_file),
+        create_app(),
         host="0.0.0.0",
         port=args.port,
         server_header=False,

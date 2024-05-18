@@ -1,5 +1,6 @@
 import asyncio
 import concurrent.futures
+import os
 import time
 from typing import Annotated, Callable, List
 
@@ -27,7 +28,6 @@ from llm_guard.input_scanners.base import Scanner as InputScanner
 from llm_guard.output_scanners.base import Scanner as OutputScanner
 from llm_guard.vault import Vault
 
-from .cache import InMemoryCache
 from .config import AuthConfig, Config, get_config
 from .otel import configure_otel, instrument_app
 from .scanner import (
@@ -54,7 +54,11 @@ from .version import __version__
 LOGGER = structlog.getLogger(__name__)
 
 
-def create_app(config_file: str) -> FastAPI:
+def create_app() -> FastAPI:
+    config_file = os.getenv("CONFIG_FILE")
+    if not config_file:
+        raise ValueError("Config file is required")
+
     config = get_config(config_file)
     log_level = config.app.log_level
     is_debug = log_level == "DEBUG"
@@ -65,11 +69,6 @@ def create_app(config_file: str) -> FastAPI:
     vault = Vault()
     input_scanners_func = _get_input_scanners_function(config, vault)
     output_scanners_func = _get_output_scanners_function(config, vault)
-
-    cache = InMemoryCache(
-        max_size=config.cache.max_size,
-        expiration_time=config.cache.ttl,
-    )
 
     if config.app.scan_fail_fast:
         LOGGER.debug("Scan fail_fast mode is enabled")
@@ -82,7 +81,7 @@ def create_app(config_file: str) -> FastAPI:
         openapi_url="/openapi.json" if is_debug else None,  # hide docs in production
     )
 
-    register_routes(app, cache, config, input_scanners_func, output_scanners_func)
+    register_routes(app, config, input_scanners_func, output_scanners_func)
 
     instrument_app(app)
 
@@ -161,7 +160,6 @@ def _get_output_scanners_function(config: Config, vault: Vault) -> Callable:
 
 def register_routes(
     app: FastAPI,
-    cache: InMemoryCache,
     config: Config,
     input_scanners_func: Callable,
     output_scanners_func: Callable,
@@ -331,16 +329,6 @@ def register_routes(
     ) -> AnalyzePromptResponse:
         LOGGER.debug("Received analyze prompt request", request_prompt=request.prompt)
 
-        cached_result = cache.get(f"analyze|{request.prompt}")
-        if cached_result:
-            LOGGER.debug("Response was found in cache")
-
-            response.headers["X-Cache-Hit"] = "true"
-
-            return AnalyzePromptResponse(**cached_result)
-
-        response.headers["X-Cache-Hit"] = "false"
-
         with concurrent.futures.ThreadPoolExecutor() as executor:
             loop = asyncio.get_event_loop()
             try:
@@ -366,7 +354,6 @@ def register_routes(
                     is_valid=all(results_valid.values()),
                     scanners=results_score,
                 )
-                cache.set(request.prompt, response.dict())
 
                 elapsed_time = time.time() - start_time
                 LOGGER.debug(
@@ -395,15 +382,6 @@ def register_routes(
         input_scanners: List[InputScanner] = Depends(input_scanners_func),
     ) -> ScanPromptResponse:
         LOGGER.debug("Received scan prompt request", request_prompt=request.prompt)
-
-        cached_result = cache.get(f"scan|{request.prompt}")
-        if cached_result:
-            LOGGER.debug("Response was found in cache")
-            response.headers["X-Cache-Hit"] = "true"
-
-            return ScanPromptResponse(**cached_result)
-
-        response.headers["X-Cache-Hit"] = "false"
 
         result_is_valid = True
         results_score = {}
@@ -437,7 +415,6 @@ def register_routes(
             is_valid=result_is_valid,
             scanners=results_score,
         )
-        cache.set(request.prompt, response.dict())
 
         elapsed_time = time.time() - start_time
         LOGGER.debug(

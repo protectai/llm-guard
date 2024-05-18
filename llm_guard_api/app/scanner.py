@@ -3,6 +3,7 @@ import time
 from typing import Dict, List, Optional
 
 import structlog
+import torch
 from opentelemetry import metrics
 
 from llm_guard import input_scanners, output_scanners
@@ -26,6 +27,8 @@ from llm_guard.vault import Vault
 
 from .config import ScannerConfig
 from .util import get_resource_utilization
+
+torch.set_num_threads(1)
 
 LOGGER = structlog.getLogger(__name__)
 

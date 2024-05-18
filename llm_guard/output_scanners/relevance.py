@@ -86,7 +86,6 @@ class Relevance(Scanner):
                 provider=(
                     "CUDAExecutionProvider" if device().type == "cuda" else "CPUExecutionProvider"
                 ),
-                use_io_binding=True if device().type == "cuda" else False,
                 **model.kwargs,
             )
             LOGGER.debug("Initialized ONNX model", model=model, device=device())
