@@ -1,10 +1,15 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING, cast
+
 from llm_guard.util import get_logger, lazy_load_dep
 
 from .base import Scanner
 
 LOGGER = get_logger()
+
+if TYPE_CHECKING:
+    import tiktoken
 
 
 class TokenLimit(Scanner):
@@ -31,7 +36,7 @@ class TokenLimit(Scanner):
 
         self._limit = limit
 
-        tiktoken = lazy_load_dep("tiktoken")
+        tiktoken = cast("tiktoken", lazy_load_dep("tiktoken"))
         if not model_name:
             self._encoding = tiktoken.get_encoding(encoding_name)
         else:

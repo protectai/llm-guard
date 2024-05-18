@@ -1,4 +1,9 @@
-from typing import Optional
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, cast
+
+import numpy as np
+import torch
 
 from llm_guard.model import Model
 from llm_guard.transformers_helpers import get_tokenizer, is_onnx_supported
@@ -31,8 +36,9 @@ MODEL_EN_BGE_SMALL = Model(
     onnx_subfolder="onnx",
 )
 
-torch = lazy_load_dep("torch")
-np = lazy_load_dep("numpy")
+
+if TYPE_CHECKING:
+    import optimum.onnxruntime
 
 
 class Relevance(Scanner):
@@ -48,16 +54,16 @@ class Relevance(Scanner):
         self,
         *,
         threshold: float = 0.5,
-        model: Optional[Model] = None,
+        model: Model | None = None,
         use_onnx: bool = False,
-    ):
+    ) -> None:
         """
         Initializes an instance of the Relevance class.
 
         Parameters:
-            threshold (float): The minimum similarity score to compare prompt and output.
-            model (Model, optional): Model for calculating embeddings. Default is `BAAI/bge-base-en-v1.5`.
-            use_onnx (bool): Whether to use the ONNX version of the model. Defaults to False.
+            threshold: The minimum similarity score to compare prompt and output.
+            model: Model for calculating embeddings. Default is `BAAI/bge-base-en-v1.5`.
+            use_onnx: Whether to use the ONNX version of the model. Defaults to False.
         """
 
         self._threshold = threshold
@@ -73,10 +79,16 @@ class Relevance(Scanner):
             use_onnx = False
 
         if use_onnx:
-            optimum_onnxruntime = lazy_load_dep(
+            optimum_onnxruntime = cast(
                 "optimum.onnxruntime",
-                "optimum[onnxruntime-gpu]" if device().type == "cuda" else "optimum[onnxruntime]",
+                lazy_load_dep(
+                    "optimum.onnxruntime",
+                    "optimum[onnxruntime-gpu]"
+                    if device().type == "cuda"
+                    else "optimum[onnxruntime]",
+                ),
             )
+            assert model.onnx_path is not None
             self._model = optimum_onnxruntime.ORTModelForFeatureExtraction.from_pretrained(
                 model.onnx_path,
                 export=False,
@@ -99,13 +111,16 @@ class Relevance(Scanner):
 
         self._tokenizer = get_tokenizer(model)
 
-    def pooling(self, last_hidden_state: torch.Tensor, attention_mask: torch.Tensor = None):
+    def pooling(
+        self, last_hidden_state: torch.Tensor, attention_mask: torch.Tensor
+    ) -> torch.Tensor | None:
         if self.pooling_method == "cls":
             return last_hidden_state[:, 0]
         elif self.pooling_method == "mean":
             s = torch.sum(last_hidden_state * attention_mask.unsqueeze(-1).float(), dim=1)
             d = attention_mask.sum(dim=1, keepdim=True).float()
             return s / d
+        return None
 
     @torch.no_grad()
     def _encode(self, sentence: str, max_length: int = 512) -> np.ndarray:
@@ -121,6 +136,7 @@ class Relevance(Scanner):
         with torch.no_grad():
             last_hidden_state = self._model(**inputs, return_dict=True).last_hidden_state
             embeddings = self.pooling(last_hidden_state, inputs["attention_mask"])
+            assert embeddings is not None
             if self.normalize_embeddings:
                 embeddings = torch.nn.functional.normalize(embeddings, dim=-1)
 
@@ -128,13 +144,13 @@ class Relevance(Scanner):
 
         return embeddings[0]
 
-    def scan(self, prompt: str, output: str) -> (str, bool, float):
+    def scan(self, prompt: str, output: str) -> tuple[str, bool, float]:
         if output.strip() == "":
             return output, True, 0.0
 
         prompt_embedding = self._encode(prompt)
         output_embedding = self._encode(output)
-        similarity = prompt_embedding @ output_embedding.T
+        similarity = prompt_embedding.dot(output_embedding.T)
 
         if similarity < self._threshold:
             LOGGER.warning("Result is not similar to the prompt", similarity_score=similarity)

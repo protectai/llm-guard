@@ -1,4 +1,4 @@
-from typing import Optional, Union
+from __future__ import annotations
 
 from llm_guard.input_scanners.gibberish import Gibberish as InputGibberish, MatchType
 from llm_guard.model import Model
@@ -14,11 +14,11 @@ class Gibberish(Scanner):
     def __init__(
         self,
         *,
-        model: Optional[Model] = None,
+        model: Model | None = None,
         threshold: float = 0.7,
-        match_type: Union[MatchType, str] = MatchType.FULL,
+        match_type: MatchType | str = MatchType.FULL,
         use_onnx: bool = False,
-    ):
+    ) -> None:
         """
         Initializes the Gibberish scanner with a probability threshold for gibberish detection.
 
@@ -36,5 +36,5 @@ class Gibberish(Scanner):
             use_onnx=use_onnx,
         )
 
-    def scan(self, prompt: str, output: str) -> (str, bool, float):
+    def scan(self, prompt: str, output: str) -> tuple[str, bool, float]:
         return self._scanner.scan(output)

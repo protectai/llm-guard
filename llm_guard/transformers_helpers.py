@@ -35,7 +35,7 @@ def get_tokenizer(model: Model):
 
 @lru_cache(maxsize=None)  # Unbounded cache
 def is_onnx_supported() -> bool:
-    is_supported = importlib.util.find_spec("optimum.onnxruntime") is not None
+    is_supported = importlib.util.find_spec("optimum.onnxruntime") is not None  # type: ignore
     if not is_supported:
         LOGGER.warning(
             "ONNX Runtime is not available. "

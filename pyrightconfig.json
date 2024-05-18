@@ -1,0 +1,10 @@
+{
+  "exclude": [
+    "build"
+  ],
+  "include": [
+    "llm_guard",
+    "tests"
+  ],
+  "ignore": []
+}

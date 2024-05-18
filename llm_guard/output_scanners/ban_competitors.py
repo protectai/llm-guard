@@ -1,4 +1,4 @@
-from typing import Optional, Sequence
+from __future__ import annotations
 
 from llm_guard.input_scanners.ban_competitors import BanCompetitors as InputBanCompetitors
 from llm_guard.model import Model
@@ -15,22 +15,22 @@ class BanCompetitors(Scanner):
 
     def __init__(
         self,
-        competitors: Sequence[str],
+        competitors: list[str],
         *,
         threshold: float = 0.5,
         redact: bool = True,
-        model: Optional[Model] = None,
+        model: Model | None = None,
         use_onnx: bool = False,
-    ):
+    ) -> None:
         """
         Initializes BanCompetitors object.
 
         Parameters:
-            competitors (Sequence[str]): List of competitors to ban.
-            threshold (float, optional): Threshold to determine if an organization is present in the output. Default is 0.5.
-            redact (bool, optional): Whether to redact the organization name. Default is True.
-            model (Model, optional): Model to use for named-entity recognition. Default is BASE model.
-            use_onnx (bool, optional): Whether to use ONNX instead of PyTorch for inference. Default is False.
+            competitors: List of competitors to ban.
+            threshold: Threshold to determine if an organization is present in the output. Default is 0.5.
+            redact: Whether to redact the organization name. Default is True.
+            model: Model to use for named-entity recognition. Default is BASE model.
+            use_onnx: Whether to use ONNX instead of PyTorch for inference. Default is False.
 
         Raises:
             ValueError: If no competitors are provided.
@@ -43,5 +43,5 @@ class BanCompetitors(Scanner):
             use_onnx=use_onnx,
         )
 
-    def scan(self, prompt: str, output: str) -> (str, bool, float):
+    def scan(self, prompt: str, output: str) -> tuple[str, bool, float]:
         return self._scanner.scan(output)

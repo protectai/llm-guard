@@ -1,5 +1,6 @@
+from __future__ import annotations
+
 from enum import Enum
-from typing import List, Optional, Union
 
 from llm_guard.model import Model
 from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
@@ -26,7 +27,7 @@ class MatchType(Enum):
     SENTENCE = "sentence"
     FULL = "full"
 
-    def get_inputs(self, prompt: str) -> List[str]:
+    def get_inputs(self, prompt: str) -> list[str]:
         if self == MatchType.SENTENCE:
             return split_text_by_sentences(prompt)
 
@@ -41,11 +42,11 @@ class Bias(Scanner):
     def __init__(
         self,
         *,
-        model: Optional[Model] = None,
+        model: Model | None = None,
         threshold: float = 0.7,
-        match_type: Union[MatchType, str] = MatchType.FULL,
+        match_type: MatchType | str = MatchType.FULL,
         use_onnx: bool = False,
-    ):
+    ) -> None:
         """
         Initializes the Bias scanner with a probability threshold for bias detection.
 
@@ -76,7 +77,7 @@ class Bias(Scanner):
             **model.pipeline_kwargs,
         )
 
-    def scan(self, prompt: str, output: str) -> (str, bool, float):
+    def scan(self, prompt: str, output: str) -> tuple[str, bool, float]:
         if output.strip() == "":
             return output, True, 0.0
 
