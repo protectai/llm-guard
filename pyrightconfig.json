@@ -6,5 +6,9 @@
     "llm_guard",
     "tests"
   ],
-  "ignore": []
+  "ignore": [
+    "benchmarks",
+    "examples",
+    "llm_guard_api"
+  ]
 }
