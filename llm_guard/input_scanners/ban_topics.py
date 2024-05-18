@@ -1,4 +1,4 @@
-from typing import Optional, Sequence
+from __future__ import annotations
 
 from llm_guard.model import Model
 from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
@@ -99,12 +99,12 @@ class BanTopics(Scanner):
 
     def __init__(
         self,
-        topics: Sequence[str],
+        topics: list[str],
         *,
         threshold: float = 0.6,
-        model: Optional[Model] = None,
+        model: Model | None = None,
         use_onnx: bool = False,
-    ):
+    ) -> None:
         """
         Initialize BanTopics object.
 
@@ -135,7 +135,7 @@ class BanTopics(Scanner):
             **model.pipeline_kwargs,
         )
 
-    def scan(self, prompt: str) -> (str, bool, float):
+    def scan(self, prompt: str) -> tuple[str, bool, float]:
         if prompt.strip() == "":
             return prompt, True, 0.0
 

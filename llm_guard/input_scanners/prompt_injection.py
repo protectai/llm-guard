@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 from enum import Enum
-from typing import List, Optional, Union
+
+from transformers import PreTrainedTokenizer, PreTrainedTokenizerFast
 
 from llm_guard.model import Model
 from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
@@ -56,12 +59,12 @@ class MatchType(Enum):
     TRUNCATE_HEAD_TAIL = "truncate_head_tail"
     CHUNKS = "chunks"
 
-    _tokenizer: Optional = None
+    _tokenizer: PreTrainedTokenizer | PreTrainedTokenizerFast
 
     def set_tokenizer(self, tokenizer):
         self._tokenizer = tokenizer
 
-    def get_inputs(self, prompt: str) -> List[str]:
+    def get_inputs(self, prompt: str) -> list[str]:
         if self == MatchType.SENTENCE:
             return split_text_by_sentences(prompt)
 
@@ -101,11 +104,11 @@ class PromptInjection(Scanner):
     def __init__(
         self,
         *,
-        model: Optional[Model] = None,
+        model: Model | None = None,
         threshold: float = 0.9,
-        match_type: Union[MatchType, str] = MatchType.FULL,
+        match_type: MatchType | str = MatchType.FULL,
         use_onnx: bool = False,
-    ):
+    ) -> None:
         """
         Initializes PromptInjection with a threshold.
 
@@ -142,7 +145,7 @@ class PromptInjection(Scanner):
         match_type.set_tokenizer(tf_tokenizer)
         self._match_type = match_type
 
-    def scan(self, prompt: str) -> (str, bool, float):
+    def scan(self, prompt: str) -> tuple[str, bool, float]:
         if prompt.strip() == "":
             return prompt, True, 0.0
 

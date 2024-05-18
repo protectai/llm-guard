@@ -1,5 +1,6 @@
+from __future__ import annotations
+
 from enum import Enum
-from typing import List, Optional, Sequence, Union
 
 from llm_guard.model import Model
 from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
@@ -27,7 +28,7 @@ class MatchType(Enum):
     SENTENCE = "sentence"
     FULL = "full"
 
-    def get_inputs(self, prompt: str) -> List[str]:
+    def get_inputs(self, prompt: str) -> list[str]:
         if self == MatchType.SENTENCE:
             return split_text_by_sentences(prompt)
 
@@ -44,13 +45,13 @@ class Language(Scanner):
 
     def __init__(
         self,
-        valid_languages: Sequence[str],
+        valid_languages: list[str],
         *,
-        model: Optional[Model] = None,
+        model: Model | None = None,
         threshold: float = 0.6,
-        match_type: Union[MatchType, str] = MatchType.FULL,
+        match_type: MatchType | str = MatchType.FULL,
         use_onnx: bool = False,
-    ):
+    ) -> None:
         """
         Initializes the Language scanner with a list of valid languages.
 
@@ -83,7 +84,7 @@ class Language(Scanner):
             **model.pipeline_kwargs,
         )
 
-    def scan(self, prompt: str) -> (str, bool, float):
+    def scan(self, prompt: str) -> tuple[str, bool, float]:
         if prompt.strip() == "":
             return prompt, True, 0.0
 

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import hashlib
 import os
 import tempfile
@@ -431,7 +433,7 @@ class Secrets(Scanner):
         self,
         *,
         redact_mode: str = REDACT_ALL,
-    ):
+    ) -> None:
         """
         Initialize an instance of the Secrets scanner.
 
@@ -455,7 +457,7 @@ class Secrets(Scanner):
 
         return redacted_value
 
-    def scan(self, prompt: str) -> (str, bool, float):
+    def scan(self, prompt: str) -> tuple[str, bool, float]:
         risk_score = 0.0
         if prompt.strip() == "":
             return prompt, True, risk_score
@@ -471,6 +473,9 @@ class Secrets(Scanner):
         text_replace_builder = TextReplaceBuilder(original_text=prompt)
         for file in self._secrets.files:
             for found_secret in self._secrets[file]:
+                if found_secret.secret_value is None:
+                    continue
+
                 secret_types.append(found_secret.type)
 
                 character_start_index = prompt.find(found_secret.secret_value, None, None)

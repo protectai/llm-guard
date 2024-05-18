@@ -14,17 +14,17 @@ class InvisibleText(Scanner):
     This class uses the unicodedata library to detect invisible characters in the output of the language model.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes InvisibleText.
         """
         self._banned_categories = ["Cf", "Co", "Cn"]
 
     @staticmethod
-    def contains_unicode(text: str):
+    def contains_unicode(text: str) -> bool:
         return any(ord(char) > 127 for char in text)
 
-    def scan(self, prompt: str) -> (str, bool, float):
+    def scan(self, prompt: str) -> tuple[str, bool, float]:
         if not self.contains_unicode(prompt):
             return prompt, True, 0.0
 

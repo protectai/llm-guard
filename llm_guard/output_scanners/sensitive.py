@@ -2,7 +2,7 @@ from typing import Dict, List, Optional, Sequence
 
 from presidio_anonymizer import AnonymizerEngine
 
-from llm_guard.input_scanners.anonymize import Anonymize, default_entity_types
+from llm_guard.input_scanners.anonymize import DEFAULT_ENTITY_TYPES, Anonymize
 from llm_guard.input_scanners.anonymize_helpers import (
     DEBERTA_AI4PRIVACY_v2_CONF,
     get_analyzer,
@@ -48,9 +48,9 @@ class Sensitive(Scanner):
         """
         if not entity_types:
             LOGGER.debug(
-                "No entity types provided, using default", default_entity_types=default_entity_types
+                "No entity types provided, using default", default_entity_types=DEFAULT_ENTITY_TYPES
             )
-            entity_types = default_entity_types.copy()
+            entity_types = DEFAULT_ENTITY_TYPES.copy()
         entity_types.append("CUSTOM")
 
         self._entity_types = entity_types

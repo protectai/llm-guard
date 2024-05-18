@@ -1,4 +1,4 @@
-from typing import Dict, Optional
+from __future__ import annotations
 
 from .anonymize import Anonymize
 from .ban_code import BanCode
@@ -18,7 +18,7 @@ from .token_limit import TokenLimit
 from .toxicity import Toxicity
 
 
-def get_scanner_by_name(scanner_name: str, scanner_config: Optional[Dict] = None) -> Scanner:
+def get_scanner_by_name(scanner_name: str, scanner_config: dict | None = None) -> Scanner:
     """
     Returns a scanner by name.
 

@@ -12,7 +12,7 @@ class Sentiment(Scanner):
     has a sentiment score lower than the threshold, indicating a negative sentiment.
     """
 
-    def __init__(self, *, threshold: float = -0.1, lexicon: str = _lexicon):
+    def __init__(self, *, threshold: float = -0.1, lexicon: str = _lexicon) -> None:
         """
         Initializes Sentiment with a threshold and a chosen lexicon.
 
@@ -31,7 +31,7 @@ class Sentiment(Scanner):
         self._sentiment_analyzer = sentiment.SentimentIntensityAnalyzer()
         self._threshold = threshold
 
-    def scan(self, prompt: str) -> (str, bool, float):
+    def scan(self, prompt: str) -> tuple[str, bool, float]:
         sentiment_score = self._sentiment_analyzer.polarity_scores(prompt)
         sentiment_score_compound = sentiment_score["compound"]
         if sentiment_score_compound > self._threshold:

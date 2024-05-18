@@ -1,4 +1,4 @@
-from typing import List, Optional
+from __future__ import annotations
 
 from llm_guard.util import get_logger, lazy_load_dep
 
@@ -18,8 +18,8 @@ class TokenLimit(Scanner):
         *,
         limit: int = 4096,
         encoding_name: str = "cl100k_base",
-        model_name: Optional[str] = None,
-    ):
+        model_name: str | None = None,
+    ) -> None:
         """
         Initializes TokenLimit with a limit, encoding name, and model name.
 
@@ -37,9 +37,9 @@ class TokenLimit(Scanner):
         else:
             self._encoding = tiktoken.encoding_for_model(model_name)
 
-    def _split_text_on_tokens(self, text: str) -> (List[str], int):
+    def _split_text_on_tokens(self, text: str) -> tuple[list[str], int]:
         """Split incoming text and return chunks using tokenizer."""
-        splits: List[str] = []
+        splits: list[str] = []
         input_ids = self._encoding.encode(text)
         start_idx = 0
         cur_idx = min(start_idx + self._limit, len(input_ids))
@@ -53,7 +53,7 @@ class TokenLimit(Scanner):
 
         return splits, len(input_ids)
 
-    def scan(self, prompt: str) -> (str, bool, float):
+    def scan(self, prompt: str) -> tuple[str, bool, float]:
         if prompt.strip() == "":
             return prompt, True, 0.0
 

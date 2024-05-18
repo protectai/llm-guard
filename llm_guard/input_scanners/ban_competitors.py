@@ -1,4 +1,6 @@
-from typing import Optional, Sequence, cast
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, Sequence, cast
 
 from presidio_anonymizer.core.text_replace_builder import TextReplaceBuilder
 
@@ -7,6 +9,9 @@ from llm_guard.transformers_helpers import get_tokenizer_and_model_for_ner
 from llm_guard.util import get_logger, lazy_load_dep
 
 from .base import Scanner
+
+if TYPE_CHECKING:
+    import transformers
 
 LOGGER = get_logger()
 
@@ -35,9 +40,9 @@ class BanCompetitors(Scanner):
         *,
         threshold: float = 0.5,
         redact: bool = True,
-        model: Optional[Model] = None,
+        model: Model | None = None,
         use_onnx: bool = False,
-    ):
+    ) -> None:
         """
         Initialize BanCompetitors object.
 
@@ -68,11 +73,13 @@ class BanCompetitors(Scanner):
             "ner", model=tf_model, tokenizer=tf_tokenizer, **model.pipeline_kwargs
         )
 
-    def scan(self, prompt: str) -> (str, bool, float):
+    def scan(self, prompt: str) -> tuple[str, bool, float]:
         is_detected = False
         text_replace_builder = TextReplaceBuilder(original_text=prompt)
         entities = self._ner_pipeline(prompt)
+        assert isinstance(entities, list)
         entities = sorted(entities, key=lambda x: x["end"], reverse=True)
+
         for entity in entities:
             entity["word"] = entity["word"].strip()
             if entity["word"] not in self._competitors:
