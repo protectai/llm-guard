@@ -12,7 +12,7 @@ class ReadingTime(Scanner):
     If the output exceeds the maximum time, the output will be truncated to fit within the time limit.
     """
 
-    def __init__(self, max_time: float, *, truncate: bool = False):
+    def __init__(self, max_time: float, *, truncate: bool = False) -> None:
         """
         Parameters:
             max_time: Maximum time in minutes that the user should spend reading the output.
@@ -22,7 +22,7 @@ class ReadingTime(Scanner):
         self._truncate = truncate
         self._words_per_minute = 200  # Average reading speed
 
-    def scan(self, prompt: str, output: str) -> (str, bool, float):
+    def scan(self, prompt: str, output: str) -> tuple[str, bool, float]:
         words = output.split()
         word_count = len(words)
         reading_time_minutes = word_count / self._words_per_minute

@@ -1,5 +1,6 @@
+from __future__ import annotations
+
 import re
-from typing import Optional
 
 from llm_guard.model import Model
 from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
@@ -34,10 +35,10 @@ class BanCode(Scanner):
     def __init__(
         self,
         *,
-        model: Optional[Model] = None,
+        model: Model | None = None,
         threshold: float = 0.97,
         use_onnx: bool = False,
-    ):
+    ) -> None:
         """
         Initializes the BanCode scanner.
 
@@ -63,7 +64,7 @@ class BanCode(Scanner):
             **model.pipeline_kwargs,
         )
 
-    def scan(self, prompt: str) -> (str, bool, float):
+    def scan(self, prompt: str) -> tuple[str, bool, float]:
         if prompt.strip() == "":
             return prompt, True, 0.0
 

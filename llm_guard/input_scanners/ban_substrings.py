@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 import os
 import re
 from enum import Enum
-from typing import Sequence, Union
 
 from llm_guard.util import get_logger
 
@@ -28,6 +29,8 @@ class MatchType(Enum):
         if self == MatchType.WORD:
             return re.search(r"\b" + re.escape(substring) + r"\b", text) is not None
 
+        return False
+
 
 class BanSubstrings(Scanner):
     """
@@ -38,22 +41,22 @@ class BanSubstrings(Scanner):
 
     def __init__(
         self,
-        substrings: Sequence[str],
+        substrings: list[str],
         *,
-        match_type: Union[MatchType, str] = MatchType.STR,
+        match_type: MatchType | str = MatchType.STR,
         case_sensitive: bool = False,
         redact: bool = False,
         contains_all: bool = False,  # contains any
-    ):
+    ) -> None:
         """
         Initialize BanSubstrings object.
 
         Parameters:
-            substrings (Sequence[str]): List of substrings to ban.
-            match_type (MatchType): Type of match to perform. Can be either 'str' or 'word'. Default is 'str'.
-            case_sensitive (bool, optional): Flag to indicate if the match should be case-sensitive. Default is False.
-            redact (bool, optional): Flag to indicate if the banned substrings should be redacted. Default is False.
-            contains_all (bool): Flag to indicate if need to match all substrings instead of any of them. Default is contains any.
+            substrings: List of substrings to ban.
+            match_type: Type of match to perform. Can be either 'str' or 'word'. Default is 'str'.
+            case_sensitive: Flag to indicate if the match should be case-sensitive. Default is False.
+            redact: Flag to indicate if the banned substrings should be redacted. Default is False.
+            contains_all: Flag to indicate if need to match all substrings instead of any of them. Default is contains any.
 
         Raises:
             ValueError: If no substrings are provided or match_type is not 'str' or 'word'.
@@ -68,13 +71,13 @@ class BanSubstrings(Scanner):
         self._contains_all = contains_all
 
     @staticmethod
-    def _redact_text(text: str, substrings: Sequence[str]) -> str:
+    def _redact_text(text: str, substrings: list[str]) -> str:
         redacted_text = text
         for s in substrings:
             redacted_text = redacted_text.replace(s, "[REDACTED]")
         return redacted_text
 
-    def scan(self, prompt: str) -> (str, bool, float):
+    def scan(self, prompt: str) -> tuple[str, bool, float]:
         sanitized_prompt = prompt
         matched_substrings = []
         missing_substrings = []

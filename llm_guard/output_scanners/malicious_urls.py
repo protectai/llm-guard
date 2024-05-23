@@ -1,4 +1,4 @@
-from typing import Optional
+from __future__ import annotations
 
 from llm_guard.model import Model
 from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
@@ -39,10 +39,10 @@ class MaliciousURLs(Scanner):
     def __init__(
         self,
         *,
-        model: Optional[Model] = None,
+        model: Model | None = None,
         threshold=0.5,
         use_onnx: bool = False,
-    ):
+    ) -> None:
         """
         Initializes an instance of the MaliciousURLs class.
 
@@ -69,7 +69,7 @@ class MaliciousURLs(Scanner):
             **model.pipeline_kwargs,
         )
 
-    def scan(self, prompt: str, output: str) -> (str, bool, float):
+    def scan(self, prompt: str, output: str) -> tuple[str, bool, float]:
         if output.strip() == "":
             return output, True, 0.0
 

@@ -1,4 +1,4 @@
-from typing import Optional
+from __future__ import annotations
 
 from llm_guard.input_scanners.language import DEFAULT_MODEL
 from llm_guard.model import Model
@@ -18,10 +18,10 @@ class LanguageSame(Scanner):
     def __init__(
         self,
         *,
-        model: Optional[Model] = None,
+        model: Model | None = None,
         threshold: float = 0.1,
         use_onnx: bool = False,
-    ):
+    ) -> None:
         """
         Initializes the LanguageSame scanner.
 
@@ -48,7 +48,7 @@ class LanguageSame(Scanner):
             **model.pipeline_kwargs,
         )
 
-    def scan(self, prompt: str, output: str) -> (str, bool, float):
+    def scan(self, prompt: str, output: str) -> tuple[str, bool, float]:
         if prompt.strip() == "" or output.strip() == "":
             return prompt, True, 0.0
 
