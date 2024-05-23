@@ -1,5 +1,6 @@
+from __future__ import annotations
+
 import re
-from typing import List, Optional, Sequence
 
 from llm_guard.exception import LLMGuardValidationError
 from llm_guard.model import Model
@@ -64,22 +65,22 @@ class Code(Scanner):
 
     def __init__(
         self,
-        languages: Sequence[str],
+        languages: list[str],
         *,
-        model: Optional[Model] = None,
+        model: Model | None = None,
         is_blocked: bool = True,
         threshold: float = 0.5,
         use_onnx: bool = False,
-    ):
+    ) -> None:
         """
         Initializes Code with the allowed and denied languages.
 
         Parameters:
-            model (Model, optional): The model to use for language detection.
-            languages (Sequence[str]): The list of programming languages to allow or deny.
-            is_blocked (bool): Whether the languages are blocked or allowed. Default is True.
-            threshold (float): The threshold for the risk score. Default is 0.5.
-            use_onnx (bool): Whether to use ONNX for inference. Default is False.
+            model: The model to use for language detection.
+            languages: The list of programming languages to allow or deny.
+            is_blocked: Whether the languages are blocked or allowed. Default is True.
+            threshold: The threshold for the risk score. Default is 0.5.
+            use_onnx: Whether to use ONNX for inference. Default is False.
 
         Raises:
             LLMGuardValidationError: If the languages are not a subset of SUPPORTED_LANGUAGES.
@@ -109,7 +110,7 @@ class Code(Scanner):
         self._fenced_code_regex = re.compile(r"```(?:[a-zA-Z0-9]*\n)?(.*?)```", re.DOTALL)
         self._inline_code_regex = re.compile(r"`(.*?)`")
 
-    def _extract_code_blocks(self, markdown: str) -> List[str]:
+    def _extract_code_blocks(self, markdown: str) -> list[str]:
         # Extract fenced code blocks (between triple backticks)
         fenced_code_blocks = [
             block.strip() for block in self._fenced_code_regex.findall(markdown) if block.strip()
@@ -124,7 +125,7 @@ class Code(Scanner):
 
         return fenced_code_blocks + inline_code
 
-    def scan(self, prompt: str) -> (str, bool, float):
+    def scan(self, prompt: str) -> tuple[str, bool, float]:
         if prompt.strip() == "":
             return prompt, True, 0.0
 

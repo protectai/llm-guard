@@ -1,3 +1,4 @@
+import abc
 from typing import Protocol
 
 
@@ -8,7 +9,8 @@ class Scanner(Protocol):
     This is used to ensure that the scanners implement a common interface and can be used interchangeably.
     """
 
-    def scan(self, prompt: str) -> (str, bool, float):
+    @abc.abstractmethod
+    def scan(self, prompt: str) -> tuple[str, bool, float]:
         """
         Process and sanitize the input prompt according to the specific scanner's implementation.
 

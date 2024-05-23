@@ -1,5 +1,6 @@
+from __future__ import annotations
+
 import time
-from typing import Dict, List, Optional
 
 from .input_scanners.base import Scanner as InputScanner
 from .output_scanners.base import Scanner as OutputScanner
@@ -20,8 +21,8 @@ LOGGER = get_logger()
 
 
 def scan_prompt(
-    scanners: List[InputScanner], prompt: str, fail_fast: Optional[bool] = False
-) -> (str, Dict[str, bool], Dict[str, float]):
+    scanners: list[InputScanner], prompt: str, fail_fast: bool = False
+) -> tuple[str, dict[str, bool], dict[str, float]]:
     """
     Scans a given prompt using the provided scanners.
 
@@ -69,8 +70,8 @@ def scan_prompt(
 
 
 def scan_output(
-    scanners: List[OutputScanner], prompt: str, output: str, fail_fast: Optional[bool] = False
-) -> (str, Dict[str, bool], Dict[str, float]):
+    scanners: list[OutputScanner], prompt: str, output: str, fail_fast: bool = False
+) -> tuple[str, dict[str, bool], dict[str, float]]:
     """
     Scans a given output of a large language model using the provided scanners.
 

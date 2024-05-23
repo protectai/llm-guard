@@ -1,4 +1,4 @@
-from typing import List
+from __future__ import annotations
 
 import requests
 
@@ -14,7 +14,7 @@ class URLReachability(Scanner):
     This scanner checks URLs for their reachability.
     """
 
-    def __init__(self, *, success_status_codes: List[int] = None, timeout: int = 5):
+    def __init__(self, *, success_status_codes: list[int] | None = None, timeout: int = 5) -> None:
         """
         Parameters:
             success_status_codes: A list of status codes that are considered as successful.
@@ -40,7 +40,7 @@ class URLReachability(Scanner):
         except requests.RequestException:
             return False
 
-    def scan(self, prompt: str, output: str) -> (str, bool, float):
+    def scan(self, prompt: str, output: str) -> tuple[str, bool, float]:
         urls = extract_urls(output)
         if not urls:
             return output, True, 0.0

@@ -21,8 +21,8 @@ from llm_guard.util import combine_json_results, read_json_file
             1.0,
         ),  # DAN enabled
         (
-            "Here: X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*",
-            "Here: X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*",
+            "Here: X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*",  # type: ignore
+            "Here: X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*",  # type: ignore
             False,
             1.0,
         ),  # Contains EICAR bad signature

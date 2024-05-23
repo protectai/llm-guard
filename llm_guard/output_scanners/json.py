@@ -19,7 +19,7 @@ class JSON(Scanner):
     then to validate them to ensure their correctness and finally to repair them if necessary.
     """
 
-    def __init__(self, *, required_elements: int = 0, repair: bool = True):
+    def __init__(self, *, required_elements: int = 0, repair: bool = True) -> None:
         """Initialize the JSON scanner.
 
         Parameters:
@@ -69,7 +69,7 @@ class JSON(Scanner):
 
         return repaired_json
 
-    def scan(self, prompt: str, output: str) -> (str, bool, float):
+    def scan(self, prompt: str, output: str) -> tuple[str, bool, float]:
         if output.strip() == "":
             return output, True, 0.0
 

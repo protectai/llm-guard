@@ -1,9 +1,13 @@
+from __future__ import annotations
+
 import os
 import re
-from typing import Dict, List, Optional, Sequence
+from typing import Final
 
+from presidio_analyzer import RecognizerResult
 from presidio_anonymizer.core.text_replace_builder import TextReplaceBuilder
-from presidio_anonymizer.entities import PIIEntity, RecognizerResult
+
+from llm_guard.input_scanners.anonymize_helpers.ner_mapping import NERConfig
 
 from ..exception import LLMGuardValidationError
 from ..util import calculate_risk_score, get_logger
@@ -15,11 +19,12 @@ from .anonymize_helpers import (
     get_regex_patterns,
     get_transformers_recognizer,
 )
+from .anonymize_helpers.regex_patterns import DefaultRegexPatterns, RegexPatternsReuse
 from .base import Scanner
 
 LOGGER = get_logger()
 
-default_entity_types = [
+DEFAULT_ENTITY_TYPES: Final[list[str]] = [
     "CREDIT_CARD",
     "CRYPTO",
     "EMAIL_ADDRESS",
@@ -35,7 +40,7 @@ default_entity_types = [
     "US_SSN_RE",
 ]
 
-ALL_SUPPORTED_LANGUAGES = ["en", "zh"]
+ALL_SUPPORTED_LANGUAGES: Final[list[str]] = ["en", "zh"]
 
 
 class Anonymize(Scanner):
@@ -50,32 +55,32 @@ class Anonymize(Scanner):
         self,
         vault: Vault,
         *,
-        hidden_names: Optional[Sequence[str]] = None,
-        allowed_names: Optional[Sequence[str]] = None,
-        entity_types: Optional[Sequence[str]] = None,
+        hidden_names: list[str] | None = None,
+        allowed_names: list[str] | None = None,
+        entity_types: list[str] | None = None,
         preamble: str = "",
-        regex_patterns: Optional[List[Dict]] = None,
+        regex_patterns: list[DefaultRegexPatterns | RegexPatternsReuse] | None = None,
         use_faker: bool = False,
-        recognizer_conf: Optional[Dict] = None,
+        recognizer_conf: NERConfig | None = None,
         threshold: float = 0.5,
         use_onnx: bool = False,
         language: str = "en",
-    ):
+    ) -> None:
         """
         Initialize an instance of Anonymize class.
 
         Parameters:
-            vault (Vault): A vault instance to store the anonymized data.
-            hidden_names (Optional[Sequence[str]]): List of names to be anonymized e.g. [REDACTED_CUSTOM_1].
-            allowed_names (Optional[Sequence[str]]): List of names allowed in the text without anonymizing.
-            entity_types (Optional[Sequence[str]]): List of entity types to be detected. If not provided, defaults to all.
-            preamble (str): Text to prepend to sanitized prompt. If not provided, defaults to an empty string.
-            regex_patterns (Optional[List[Dict]]): List of regex patterns to be used for detection. If not provided, defaults to predefined list.
-            use_faker (bool): Whether to use faker instead of placeholders in applicable cases. If not provided, defaults to False, replaces with placeholders [REDACTED_PERSON_1].
-            recognizer_conf (Optional[Dict]): Configuration to recognize PII data. Default is Ai4Privacy DeBERTa model.
-            threshold (float): Acceptance threshold. Default is 0.
-            use_onnx (bool): Whether to use ONNX runtime for inference. Default is False.
-            language (str): Language of the anonymize detect. Default is "en".
+            vault: A vault instance to store the anonymized data.
+            hidden_names: List of names to be anonymized e.g. [REDACTED_CUSTOM_1].
+            allowed_names: List of names allowed in the text without anonymizing.
+            entity_types: List of entity types to be detected. If not provided, defaults to all.
+            preamble: Text to prepend to sanitized prompt. If not provided, defaults to an empty string.
+            regex_patterns: List of regex patterns to be used for detection. If not provided, defaults to predefined list.
+            use_faker: Whether to use faker instead of placeholders in applicable cases. If not provided, defaults to False, replaces with placeholders [REDACTED_PERSON_1].
+            recognizer_conf: Configuration to recognize PII data. Default is Ai4Privacy DeBERTa model.
+            threshold: Acceptance threshold. Default is 0.
+            use_onnx: Whether to use ONNX runtime for inference. Default is False.
+            language: Language of the anonymize detect. Default is "en".
         """
 
         if language not in ALL_SUPPORTED_LANGUAGES:
@@ -87,9 +92,9 @@ class Anonymize(Scanner):
 
         if not entity_types:
             LOGGER.debug(
-                "No entity types provided, using default", default_entities=default_entity_types
+                "No entity types provided, using default", default_entities=DEFAULT_ENTITY_TYPES
             )
-            entity_types = default_entity_types.copy()
+            entity_types = DEFAULT_ENTITY_TYPES.copy()
 
         entity_types.append("CUSTOM")
 
@@ -121,15 +126,15 @@ class Anonymize(Scanner):
         )
 
     def _remove_conflicts_and_get_text_manipulation_data(
-        self, analyzer_results: List[RecognizerResult]
-    ) -> List[RecognizerResult]:
+        self, analyzer_results: list[RecognizerResult]
+    ) -> list[RecognizerResult]:
         """
         Iterate the list and create a sorted unique results list from it.
 
         Only insert results which are:
         1. Indices are not contained in other result.
         2. Have the same indices as other results but with larger score.
-        :return: List
+        :return: list
         """
         tmp_analyzer_results = []
         # This list contains all elements which we need to check a single result
@@ -174,7 +179,7 @@ class Anonymize(Scanner):
                 LOGGER.debug(f"removing element {result} from results list due to conflict")
 
         # This further improves the quality of handling the conflict between the
-        # various entities overlapping. This will not drop the results insted
+        # various entities overlapping. This will not drop the results instead
         # it adjust the start and end positions of overlapping results and removes
         # All types of conflicts among entities as well as text.
         unique_text_metadata_elements.sort(key=lambda element: element.start)
@@ -205,8 +210,8 @@ class Anonymize(Scanner):
 
     @staticmethod
     def _merge_entities_with_whitespace_between(
-        text: str, analyzer_results: List[RecognizerResult]
-    ) -> List[RecognizerResult]:
+        text: str, analyzer_results: list[RecognizerResult]
+    ) -> list[RecognizerResult]:
         """
         Merge adjacent entities of the same type separated by whitespace.
         """
@@ -232,20 +237,20 @@ class Anonymize(Scanner):
 
     @staticmethod
     def _anonymize(
-        prompt: str, pii_entities: List[PIIEntity], vault: Vault, use_faker: bool
-    ) -> (str, List[tuple]):
+        prompt: str, pii_entities: list[RecognizerResult], vault: Vault, use_faker: bool
+    ) -> tuple[str, list[tuple[str, str]]]:
         """
         Replace detected entities in the prompt with anonymized placeholders.
 
         Parameters:
-            prompt (str): Original text prompt.
-            pii_entities (List[PIIEntity]): List of entities detected in the prompt.
-            vault (Vault): A vault instance with the anonymized data stored.
-            use_faker (bool): Whether to use faker to generate fake data.
+            prompt: Original text prompt.
+            pii_entities: List of entities detected in the prompt.
+            vault: A vault instance with the anonymized data stored.
+            use_faker: Whether to use faker to generate fake data.
 
         Returns:
             str: Sanitized text.
-            List[tuple]: List of tuples representing the replaced entities and their corresponding placeholders.
+            list[tuple]: list of tuples representing the replaced entities and their corresponding placeholders.
         """
         text_replace_builder = TextReplaceBuilder(original_text=prompt)
 
@@ -304,7 +309,7 @@ class Anonymize(Scanner):
         text_without_single_quotes = text.replace("'", " ")
         return text_without_single_quotes
 
-    def scan(self, prompt: str) -> (str, bool, float):
+    def scan(self, prompt: str) -> tuple[str, bool, float]:
         risk_score = 0.0
         if prompt.strip() == "":
             return prompt, True, risk_score

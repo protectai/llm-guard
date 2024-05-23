@@ -1,16 +1,21 @@
-from typing import Dict, List, Optional, Sequence
+from __future__ import annotations
 
 from presidio_anonymizer import AnonymizerEngine
 
-from llm_guard.input_scanners.anonymize import Anonymize, default_entity_types
+from llm_guard.input_scanners.anonymize import DEFAULT_ENTITY_TYPES, Anonymize
 from llm_guard.input_scanners.anonymize_helpers import (
     DEBERTA_AI4PRIVACY_v2_CONF,
     get_analyzer,
     get_regex_patterns,
     get_transformers_recognizer,
 )
+from llm_guard.input_scanners.anonymize_helpers.ner_mapping import NERConfig
 from llm_guard.util import calculate_risk_score, get_logger
 
+from ..input_scanners.anonymize_helpers.regex_patterns import (
+    DefaultRegexPatterns,
+    RegexPatternsReuse,
+)
 from .base import Scanner
 
 LOGGER = get_logger()
@@ -27,13 +32,13 @@ class Sensitive(Scanner):
     def __init__(
         self,
         *,
-        entity_types: Optional[Sequence[str]] = None,
-        regex_patterns: Optional[List[Dict]] = None,
+        entity_types: list[str] | None = None,
+        regex_patterns: list[DefaultRegexPatterns | RegexPatternsReuse] | None = None,
         redact: bool = False,
-        recognizer_conf: Optional[Dict] = None,
+        recognizer_conf: NERConfig | None = None,
         threshold: float = 0.5,
         use_onnx: bool = False,
-    ):
+    ) -> None:
         """
         Initializes an instance of the Sensitive class.
 
@@ -48,9 +53,9 @@ class Sensitive(Scanner):
         """
         if not entity_types:
             LOGGER.debug(
-                "No entity types provided, using default", default_entity_types=default_entity_types
+                "No entity types provided, using default", default_entity_types=DEFAULT_ENTITY_TYPES
             )
-            entity_types = default_entity_types.copy()
+            entity_types = DEFAULT_ENTITY_TYPES.copy()
         entity_types.append("CUSTOM")
 
         self._entity_types = entity_types
@@ -69,7 +74,7 @@ class Sensitive(Scanner):
         )
         self._anonymizer = AnonymizerEngine()
 
-    def scan(self, prompt: str, output: str) -> (str, bool, float):
+    def scan(self, prompt: str, output: str) -> tuple[str, bool, float]:
         if output.strip() == "":
             return prompt, True, 0.0
 
@@ -83,7 +88,7 @@ class Sensitive(Scanner):
         if analyzer_results:
             if self._redact:
                 LOGGER.debug("Redacting sensitive entities")
-                result = self._anonymizer.anonymize(text=output, analyzer_results=analyzer_results)
+                result = self._anonymizer.anonymize(text=output, analyzer_results=analyzer_results)  # type: ignore
                 output = result.text
 
             risk_score = round(

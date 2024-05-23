@@ -1,4 +1,4 @@
-from typing import Optional
+from __future__ import annotations
 
 from llm_guard.input_scanners.ban_code import BanCode as InputBanCode
 from llm_guard.model import Model
@@ -14,17 +14,17 @@ class BanCode(Scanner):
     def __init__(
         self,
         *,
-        model: Optional[Model] = None,
+        model: Model | None = None,
         threshold: float = 0.9,
         use_onnx: bool = False,
-    ):
+    ) -> None:
         """
         Initialize a new BanCode scanner.
 
         Parameters:
-            model (Model, optional): The model to use for scanning.
-            threshold (float): The threshold for the model output to consider a code snippet.
-            use_onnx (bool): Whether to use the ONNX model for scanning.
+            model: The model to use for scanning.
+            threshold: The threshold for the model output to consider a code snippet.
+            use_onnx: Whether to use the ONNX model for scanning.
         """
 
         self._scanner = InputBanCode(
@@ -33,5 +33,5 @@ class BanCode(Scanner):
             use_onnx=use_onnx,
         )
 
-    def scan(self, prompt: str, output: str) -> (str, bool, float):
+    def scan(self, prompt: str, output: str) -> tuple[str, bool, float]:
         return self._scanner.scan(output)

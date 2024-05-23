@@ -6,11 +6,14 @@ import logging
 import re
 import sys
 from functools import lru_cache
-from typing import Any, Literal, NamedTuple, TextIO
+from typing import TYPE_CHECKING, Any, Literal, NamedTuple, TextIO, cast
 
 import structlog
 
 LOGGER = structlog.getLogger(__name__)
+
+if TYPE_CHECKING:
+    import torch
 
 """
 This file contains utility functions.
@@ -98,7 +101,7 @@ def get_logger(name: str | None = None) -> Any:
 # Detect pytorch device
 @lru_cache(maxsize=None)  # Unbounded cache
 def device():
-    torch = lazy_load_dep("torch")
+    torch = cast("torch", lazy_load_dep("torch"))
     if torch.cuda.is_available():
         return torch.device("cuda:0")
     elif torch.backends.mps.is_available():
@@ -162,7 +165,7 @@ def lazy_load_dep(import_name: str, package_name: str | None = None):
     if package_name is None:
         package_name = import_name
 
-    spec = importlib.util.find_spec(import_name)
+    spec = importlib.util.find_spec(import_name)  # type: ignore
     if spec is None:
         LOGGER.warning(
             f"Optional feature dependent on missing package: {import_name} was initialized.\n"

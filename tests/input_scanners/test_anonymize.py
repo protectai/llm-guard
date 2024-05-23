@@ -5,8 +5,8 @@ import pytest
 from llm_guard.exception import LLMGuardValidationError
 from llm_guard.input_scanners.anonymize import (
     ALL_SUPPORTED_LANGUAGES,
+    DEFAULT_ENTITY_TYPES,
     Anonymize,
-    default_entity_types,
 )
 from llm_guard.input_scanners.anonymize_helpers import (
     BERT_BASE_NER_CONF,
@@ -255,7 +255,7 @@ _zh_preamble = "在接下来的提示中，我将删除某些信息，并且使�
         (
             {
                 "preamble": _zh_preamble,
-                "entity_types": default_entity_types
+                "entity_types": DEFAULT_ENTITY_TYPES
                 + ["PHONE_NUMBER_ZH", "ORGANIZATION", "LOCATION"],
                 "recognizer_conf": BERT_ZH_NER_CONF,
             },

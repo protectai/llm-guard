@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 import importlib
 from functools import lru_cache
-from typing import Literal, Union, get_args
+from typing import Literal, get_args
 
 from transformers import (
     PreTrainedModel,
@@ -33,7 +35,7 @@ def get_tokenizer(model: Model):
 
 @lru_cache(maxsize=None)  # Unbounded cache
 def is_onnx_supported() -> bool:
-    is_supported = importlib.util.find_spec("optimum.onnxruntime") is not None
+    is_supported = importlib.util.find_spec("optimum.onnxruntime") is not None  # type: ignore
     if not is_supported:
         LOGGER.warning(
             "ONNX Runtime is not available. "
@@ -54,8 +56,9 @@ def _ort_model_for_sequence_classification(
         package_name = "optimum[onnxruntime-gpu]"
         provider = "CUDAExecutionProvider"
 
-    optimum_onnxruntime = lazy_load_dep("optimum.onnxruntime", package_name)
-    tf_model = optimum_onnxruntime.ORTModelForSequenceClassification.from_pretrained(
+    onnxruntime = lazy_load_dep("optimum.onnxruntime", package_name)
+
+    tf_model = onnxruntime.ORTModelForSequenceClassification.from_pretrained(
         model.onnx_path or model.path,
         export=model.onnx_path is None,
         file_name=model.onnx_filename,
@@ -152,8 +155,8 @@ ClassificationTask = Literal["text-classification", "zero-shot-classification"]
 
 def pipeline(
     task: str,
-    model: Union[PreTrainedModel, TFPreTrainedModel],
-    tokenizer: Union[PreTrainedTokenizer, PreTrainedTokenizerFast],
+    model: PreTrainedModel | TFPreTrainedModel,
+    tokenizer: PreTrainedTokenizer | PreTrainedTokenizerFast,
     **kwargs,
 ):
     if task not in get_args(ClassificationTask):

@@ -56,7 +56,8 @@ dev = [
   "pytest>=7.4,<9",
   "pytest-cov>=4.1,<6",
   "pre-commit>=3.6,<4",
-  "ruff~=0.4.1"
+  "pyright~=1.1.363",
+  "ruff~=0.4.1",
 ]
 
 [project.urls]
