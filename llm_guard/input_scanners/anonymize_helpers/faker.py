@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import string
-from typing import Callable, cast
+from typing import Any, Callable, cast
 
 from faker import Faker
 
@@ -9,7 +9,7 @@ fake = Faker()
 fake.seed_instance(100)
 
 
-_entity_faker_map: dict[str, Callable[[], str]] = {
+_entity_faker_map: dict[str, Callable[[], Any]] = {
     # Global entities
     "CREDIT_CARD": fake.credit_card_number,
     "EMAIL_ADDRESS": fake.email,
