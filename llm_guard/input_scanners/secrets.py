@@ -35,8 +35,6 @@ _default_detect_secrets_config = {
         {"name": "SquareOAuthDetector"},
         {"name": "PrivateKeyDetector"},
         {"name": "TwilioKeyDetector"},
-        {"name": "Base64HighEntropyString", "limit": 4.5},
-        {"name": "HexHighEntropyString", "limit": 3.0},
         {
             "name": "AdafruitKeyDetector",
             "path": _custom_plugins_path + "/adafruit.py",
@@ -413,6 +411,8 @@ _default_detect_secrets_config = {
             "name": "ZendeskSecretKeyDetector",
             "path": _custom_plugins_path + "/zendesk_secret_key.py",
         },
+        {"name": "Base64HighEntropyString", "limit": 4.5},
+        {"name": "HexHighEntropyString", "limit": 3.0},
     ]
 }
 
@@ -442,7 +442,6 @@ class Secrets(Scanner):
         """
         self._detect_secrets_config = _default_detect_secrets_config
         self._redact_mode = redact_mode
-        self._secrets = SecretsCollection()
 
     @staticmethod
     def redact_value(value: str, mode: str) -> str:
@@ -458,6 +457,8 @@ class Secrets(Scanner):
         return redacted_value
 
     def scan(self, prompt: str) -> tuple[str, bool, float]:
+        secrets = SecretsCollection()
+
         risk_score = 0.0
         if prompt.strip() == "":
             return prompt, True, risk_score
@@ -467,12 +468,12 @@ class Secrets(Scanner):
         temp_file.close()
 
         with transient_settings(self._detect_secrets_config):
-            self._secrets.scan_file(str(temp_file.name))
+            secrets.scan_file(str(temp_file.name))
 
         secret_types = []
         text_replace_builder = TextReplaceBuilder(original_text=prompt)
-        for file in self._secrets.files:
-            for found_secret in self._secrets[file]:
+        for file in secrets.files:
+            for found_secret in secrets[file]:
                 if found_secret.secret_value is None:
                     continue
 
