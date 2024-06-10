@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Allow custom `uvicorn` configuration in the API deployment.
+- Add support of Python v3.12
 
 ### Removed
 - Caching is removed from the API deployment as it was causing issues when running multiple workers.
