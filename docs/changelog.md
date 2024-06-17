@@ -5,13 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] - 0.3.14
+## [Unreleased] - 0.3.15
 
 ### Added
-- In API, suppress specific scanners when running the analysis.
+-
 
 ### Fixed
 -
+
+### Changed
+-
+
+### Removed
+-
+
+## [0.3.14] - 2024-06-17
+
+### Added
+- In API, suppress specific scanners when running the analysis.
 
 ### Changed
 - Allow custom `uvicorn` configuration in the API deployment.
@@ -389,6 +400,7 @@ _0.3.5 and 0.3.6 were skipped due to build issues._
     - [Toxicity](./output_scanners/toxicity.md)
 
 [Unreleased]: https://github.com/protectai/llm-guard/commits/main
+[0.3.14]: https://github.com/protectai/llm-guard/releases/tag/v0.3.14
 [0.3.13]: https://github.com/protectai/llm-guard/releases/tag/v0.3.13
 [0.3.12]: https://github.com/protectai/llm-guard/releases/tag/v0.3.12
 [0.3.10]: https://github.com/protectai/llm-guard/releases/tag/v0.3.10
