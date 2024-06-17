@@ -1,10 +1,11 @@
-from typing import Dict
+from typing import Dict, List
 
 from pydantic import BaseModel, Field
 
 
 class ScanPromptRequest(BaseModel):
     prompt: str = Field(title="Prompt")
+    scanners_suppress: List[str] = Field(title="Scanners to suppress", default=[])
 
 
 class ScanPromptResponse(BaseModel):
@@ -23,6 +24,7 @@ class AnalyzePromptResponse(ScanPromptResponse):
 class ScanOutputRequest(BaseModel):
     prompt: str = Field(title="Prompt")
     output: str = Field(title="Model output")
+    scanners_suppress: List[str] = Field(title="Scanners to suppress", default=[])
 
 
 class ScanOutputResponse(BaseModel):

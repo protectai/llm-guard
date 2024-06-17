@@ -213,6 +213,14 @@ def register_routes(
             request_output=request.output,
         )
 
+        if request.scanners_suppress is not None and len(request.scanners_suppress) > 0:
+            LOGGER.debug("Suppressing scanners", scanners=request.scanners_suppress)
+            output_scanners = [
+                scanner
+                for scanner in output_scanners
+                if type(scanner).__name__ not in request.scanners_suppress
+            ]
+
         with concurrent.futures.ThreadPoolExecutor() as executor:
             loop = asyncio.get_event_loop()
             try:
@@ -269,6 +277,14 @@ def register_routes(
             request_prompt=request.prompt,
             request_output=request.output,
         )
+
+        if request.scanners_suppress is not None and len(request.scanners_suppress) > 0:
+            LOGGER.debug("Suppressing scanners", scanners=request.scanners_suppress)
+            output_scanners = [
+                scanner
+                for scanner in output_scanners
+                if type(scanner).__name__ not in request.scanners_suppress
+            ]
 
         result_is_valid = True
         results_score = {}
@@ -329,6 +345,14 @@ def register_routes(
     ) -> AnalyzePromptResponse:
         LOGGER.debug("Received analyze prompt request", request_prompt=request.prompt)
 
+        if request.scanners_suppress is not None and len(request.scanners_suppress) > 0:
+            LOGGER.debug("Suppressing scanners", scanners=request.scanners_suppress)
+            input_scanners = [
+                scanner
+                for scanner in input_scanners
+                if type(scanner).__name__ not in request.scanners_suppress
+            ]
+
         with concurrent.futures.ThreadPoolExecutor() as executor:
             loop = asyncio.get_event_loop()
             try:
@@ -378,10 +402,17 @@ def register_routes(
     async def submit_scan_prompt(
         request: ScanPromptRequest,
         _: Annotated[bool, Depends(check_auth)],
-        response: Response,
         input_scanners: List[InputScanner] = Depends(input_scanners_func),
     ) -> ScanPromptResponse:
         LOGGER.debug("Received scan prompt request", request_prompt=request.prompt)
+
+        if request.scanners_suppress is not None and len(request.scanners_suppress) > 0:
+            LOGGER.debug("Suppressing scanners", scanners=request.scanners_suppress)
+            input_scanners = [
+                scanner
+                for scanner in input_scanners
+                if type(scanner).__name__ not in request.scanners_suppress
+            ]
 
         result_is_valid = True
         results_score = {}

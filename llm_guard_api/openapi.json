@@ -3,7 +3,7 @@
   "info": {
     "title": "LLM Guard API",
     "description": "API to run LLM Guard scanners.",
-    "version": "0.0.8"
+    "version": "0.0.10"
   },
   "paths": {
     "/": {
@@ -262,6 +262,14 @@
           "output": {
             "type": "string",
             "title": "Model output"
+          },
+          "scanners_suppress": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Scanners to suppress",
+            "default": []
           }
         },
         "type": "object",
@@ -302,6 +310,14 @@
           "prompt": {
             "type": "string",
             "title": "Prompt"
+          },
+          "scanners_suppress": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Scanners to suppress",
+            "default": []
           }
         },
         "type": "object",
@@ -358,6 +374,14 @@
           "output": {
             "type": "string",
             "title": "Model output"
+          },
+          "scanners_suppress": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Scanners to suppress",
+            "default": []
           }
         },
         "type": "object",
@@ -393,6 +417,14 @@
           "prompt": {
             "type": "string",
             "title": "Prompt"
+          },
+          "scanners_suppress": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Scanners to suppress",
+            "default": []
           }
         },
         "type": "object",
