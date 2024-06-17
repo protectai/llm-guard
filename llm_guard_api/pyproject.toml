@@ -34,6 +34,7 @@ dependencies = [
     "opentelemetry-sdk-extension-aws==2.0.1",
     "opentelemetry-propagator-aws-xray==1.0.1",
     "psutil>=5.9",
+    "oldest-supported-numpy"
 ]
 
 [project.optional-dependencies]
