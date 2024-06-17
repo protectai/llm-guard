@@ -40,7 +40,7 @@ jobs:
       - name: Install deps
         run: |
           python -m pip install --upgrade pip
-          python -m pip install ".[dev, onnxruntime]"
+          python -m pip install ".[dev]"
       - name: Test with pytest
         run: |
           python -m pytest --exitfirst --verbose --failed-first --cov=.
