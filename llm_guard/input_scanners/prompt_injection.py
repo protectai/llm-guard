@@ -49,6 +49,22 @@ V2_MODEL = Model(
     },
 )
 
+# This is gated model, which requires our approval.
+V2_SMALL_MODEL = Model(
+    path="protectai/deberta-v3-small-prompt-injection-v2",
+    revision="3897fe66d47d2e1649e669c3470bf2ba3ddecc22",
+    onnx_path="protectai/deberta-v3-small-prompt-injection-v2",
+    onnx_revision="3897fe66d47d2e1649e669c3470bf2ba3ddecc22",
+    onnx_subfolder="onnx",
+    onnx_filename="model.onnx",
+    pipeline_kwargs={
+        "return_token_type_ids": False,
+        "max_length": 512,
+        "truncation": True,
+    },
+    kwargs={"token": True},  # You can also configure with your token.
+)
+
 
 class MatchType(Enum):
     SENTENCE = "sentence"

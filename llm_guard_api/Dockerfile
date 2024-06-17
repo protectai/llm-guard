@@ -1,5 +1,5 @@
-# Use the Python 3.11 slim image
-FROM python:3.11-slim
+# Use the Python 3.12 slim image
+FROM python:3.12-slim
 
 LABEL org.opencontainers.image.source=https://github.com/protectai/llm-guard
 LABEL org.opencontainers.image.description="LLM Guard API"

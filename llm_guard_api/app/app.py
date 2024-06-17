@@ -55,7 +55,7 @@ LOGGER = structlog.getLogger(__name__)
 
 
 def create_app() -> FastAPI:
-    config_file = os.getenv("CONFIG_FILE")
+    config_file = os.getenv("CONFIG_FILE", "./config/scanners.yml")
     if not config_file:
         raise ValueError("Config file is required")
 

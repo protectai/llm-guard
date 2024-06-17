@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Allow custom `uvicorn` configuration in the API deployment.
 - Add support of Python v3.12
+- In API, removed `gunicorn` support as `uvicorn` [supports workers](https://fastapiexpert.com/blog/2024/05/28/uvicorn-0300-release/).
 
 ### Removed
 - Caching is removed from the API deployment as it was causing issues when running multiple workers.
