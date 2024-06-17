@@ -31,7 +31,8 @@ dependencies = [
   "tiktoken>=0.5,<0.8",
   "torch>=2.0.1,<=2.3.1",
   "transformers==4.41.2",
-  "structlog>=24"
+  "structlog>=24",
+  "numpy>=1.26"
 ]
 
 [project.optional-dependencies]
