@@ -43,4 +43,4 @@ jobs:
           python -m pip install ".[dev]"
       - name: Test with pytest
         run: |
-          python -m pytest --exitfirst --verbose --failed-first --cov=.
+          python -m pytest --exitfirst --verbose --failed-first --cov=. --color=yes --code-highlight=yes
