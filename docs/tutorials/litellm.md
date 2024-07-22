@@ -13,9 +13,9 @@ Let's add LLM Guard content mod for Anthropic API calls
 
 Set the LLM Guard API Base in your environment 
 
-```env
-LLM_GUARD_API_BASE = "http://0.0.0.0:8192" # deployed llm guard api
-ANTHROPIC_API_KEY = "sk-..." # anthropic api key
+```bash
+export LLM_GUARD_API_BASE="http://0.0.0.0:8192" # deployed llm guard api
+export ANTHROPIC_API_KEY="sk-..." # anthropic api key
 ```
 
 Add `llmguard_moderations` as a callback 
@@ -42,7 +42,7 @@ Expected results:
 ```
 LLM Guard: Received response - {"sanitized_prompt": "hello world", "is_valid": true, "scanners": { "Regex": 0.0 }}
 ```
-#### Turn on/off per key
+### Turn on/off per key
 
 
 **1. Update config**
@@ -92,7 +92,7 @@ curl --location 'http://0.0.0.0:4000/v1/chat/completions' \
     }'
 ```
 
-#### Turn on/off per request
+### Turn on/off per request
 
 **1. Update config**
 ```yaml
