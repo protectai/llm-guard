@@ -55,7 +55,6 @@ class TransformersRecognizer(EntityRecognizer):
 
     ignore_labels: list[str]
     model_to_presidio_mapping: dict[str, str]
-    entity_mapping: dict[str, str]
     default_explanation: str
     text_overlap_length: int
     chunk_length: int
@@ -95,7 +94,6 @@ class TransformersRecognizer(EntityRecognizer):
         :param use_onnx: flag to use ONNX optimized model
         :type use_onnx: bool, optional
         :param kwargs: define default values for class attributes and modify pipeline behavior
-        **DATASET_TO_PRESIDIO_MAPPING (dict) - defines mapping entity strings from dataset format to Presidio format
         **MODEL_TO_PRESIDIO_MAPPING (dict) -  defines mapping entity strings from chosen model format to Presidio format
         **CHUNK_OVERLAP_SIZE (int) - number of overlapping characters in each text chunk
         when splitting a single text into multiple inferences
@@ -107,7 +105,6 @@ class TransformersRecognizer(EntityRecognizer):
         **use_onnx (bool) - flag to use ONNX optimized model
         """
 
-        self.entity_mapping = kwargs.get("DATASET_TO_PRESIDIO_MAPPING", {})
         self.model_to_presidio_mapping = kwargs.get("MODEL_TO_PRESIDIO_MAPPING", {})
         self.ignore_labels = kwargs.get("LABELS_TO_IGNORE", ["O"])
         self.default_explanation = kwargs.get("DEFAULT_EXPLANATION", "")
@@ -177,11 +174,7 @@ class TransformersRecognizer(EntityRecognizer):
 
         for res in ner_results:
             res["entity_group"] = self.__check_label_transformer(res["entity_group"])
-            if not res["entity_group"]:
-                continue
-
-            if res["entity_group"] not in entities:
-                LOGGER.debug("Ignoring entity", entity_group=res["entity_group"])
+            if not res["entity_group"] or res["entity_group"] not in entities:
                 continue
 
             if res["entity_group"] == self.id_entity_name:

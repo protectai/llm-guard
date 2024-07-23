@@ -36,6 +36,12 @@ from llm_guard.input_scanners.secrets import Secrets
             False,
             1.0,
         ),  # Prompt with HTTP basic auth
+        (
+            "Securely and attractively display eyewear, allow easy customer browsing,Lack of secure and appealing eyewear displays,Custom sunglass display, allow easy customer browsing,Lack of secure and appealing eyewear displays,Custom sunglass displa",
+            "Securely and attractively display eyewear, allow easy customer browsing,Lack of secure and appealing eyewear displays,Custom sunglass display, allow easy customer browsing,Lack of secure and appealing eyewear displays,Custom sunglass displa",
+            True,
+            0.0,
+        ),  # False-positive
     ],
 )
 def test_scan(prompt, expected_prompt, expected_valid, expected_score):

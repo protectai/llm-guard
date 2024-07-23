@@ -139,7 +139,7 @@ def get_analyzer(
     recognizer: EntityRecognizer,
     regex_groups: list[RegexPattern],
     custom_names: list[str],
-    supported_languages: list[str] = ["en"],
+    supported_languages: list[str],
 ) -> AnalyzerEngine:
     nlp_engine = _get_nlp_engine(languages=supported_languages)
 

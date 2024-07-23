@@ -122,7 +122,7 @@ class Anonymize(Scanner):
             recognizer=transformers_recognizer,
             regex_groups=get_regex_patterns(regex_patterns),
             custom_names=hidden_names,
-            supported_languages=list(set(["en", language])),
+            supported_languages=ALL_SUPPORTED_LANGUAGES,
         )
 
     def _remove_conflicts_and_get_text_manipulation_data(
