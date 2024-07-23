@@ -39,7 +39,7 @@ Now you can easily test it
 
 Expected results: 
 
-```
+```bash
 LLM Guard: Received response - {"sanitized_prompt": "hello world", "is_valid": true, "scanners": { "Regex": 0.0 }}
 ```
 ### Turn on/off per key
