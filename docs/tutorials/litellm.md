@@ -25,7 +25,7 @@ export LLM_GUARD_API_BASE="http://0.0.0.0:8192" # deployed llm guard api
 export ANTHROPIC_API_KEY="sk-..." # anthropic api key
 ```
 
-Add `llmguard_moderations` as a callback in a config.yaml 
+Add `llmguard_moderations` as a callback in a config.yaml
 
 ```yaml
 model_list:
@@ -39,10 +39,10 @@ litellm_settings:
     callbacks: ["llmguard_moderations"]
 ```
 
-Now you can easily test it: 
+Now you can easily test it:
 
 ```bash
-litellm --config /path/to/config.yaml 
+litellm --config /path/to/config.yaml
 ```
 
 - Make a regular /chat/completion call
