@@ -3,22 +3,22 @@
 Use LLM Guard with LiteLLM Proxy to moderate calls across Anthropic/Bedrock/Gemini/etc. LLMs with [LiteLLM](https://github.com/BerriAI/litellm)
 
 
-LiteLLM currently supports requests in: 
-- [The OpenAI format](https://docs.litellm.ai/docs/completion/input) - `/chat/completion`, `/embedding`, `completion`, `/audio/transcription`, etc. 
+LiteLLM currently supports requests in:
+- [The OpenAI format](https://docs.litellm.ai/docs/completion/input) - `/chat/completion`, `/embedding`, `completion`, `/audio/transcription`, etc.
 - [The Anthropic format](https://docs.litellm.ai/docs/anthropic_completion) - `/messages`
 
-## Quick Start 
+## Quick Start
 
 Let's add LLM Guard content mod for Anthropic API calls
 
-Set the LLM Guard API Base in your environment 
+Set the LLM Guard API Base in your environment
 
 ```bash
 export LLM_GUARD_API_BASE="http://0.0.0.0:8192" # deployed llm guard api
 export ANTHROPIC_API_KEY="sk-..." # anthropic api key
 ```
 
-Add `llmguard_moderations` as a callback 
+Add `llmguard_moderations` as a callback
 
 ```yaml
 model_list:
@@ -34,11 +34,11 @@ litellm_settings:
 
 Now you can easily test it
 
-- Make a regular /chat/completion call 
+- Make a regular /chat/completion call
 
 - Check your proxy logs for any statement with `LLM Guard:`
 
-Expected results: 
+Expected results:
 
 ```bash
 LLM Guard: Received response - {"sanitized_prompt": "hello world", "is_valid": true, "scanners": { "Regex": 0.0 }}
@@ -60,8 +60,8 @@ litellm_settings:
     llm_guard_mode: "key-specific"
 
 general_settings:
-    database_url: "postgres://.." # postgres db url 
-    master_key: "sk-1234" 
+    database_url: "postgres://.." # postgres db url
+    master_key: "sk-1234"
 ```
 
 **2. Create new key**
