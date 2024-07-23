@@ -27,6 +27,7 @@ model_list:
       model: anthropic/claude-3-5-sonnet-20240620 ### MODEL NAME sent to `litellm.completion()` ###
       api_key: os.environ/ANTHROPIC_API_KEY
 
+
 litellm_settings:
     callbacks: ["llmguard_moderations"]
 ```
