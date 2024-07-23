@@ -2,7 +2,11 @@ from __future__ import annotations
 
 from presidio_anonymizer import AnonymizerEngine
 
-from llm_guard.input_scanners.anonymize import DEFAULT_ENTITY_TYPES, Anonymize
+from llm_guard.input_scanners.anonymize import (
+    ALL_SUPPORTED_LANGUAGES,
+    DEFAULT_ENTITY_TYPES,
+    Anonymize,
+)
 from llm_guard.input_scanners.anonymize_helpers import (
     DEBERTA_AI4PRIVACY_v2_CONF,
     get_analyzer,
@@ -70,7 +74,7 @@ class Sensitive(Scanner):
             use_onnx=use_onnx,
         )
         self._analyzer = get_analyzer(
-            transformers_recognizer, get_regex_patterns(regex_patterns), []
+            transformers_recognizer, get_regex_patterns(regex_patterns), [], ALL_SUPPORTED_LANGUAGES
         )
         self._anonymizer = AnonymizerEngine()
 
