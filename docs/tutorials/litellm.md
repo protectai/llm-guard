@@ -7,6 +7,13 @@ LiteLLM currently supports requests in:
 - [The OpenAI format](https://docs.litellm.ai/docs/completion/input) - `/chat/completion`, `/embedding`, `completion`, `/audio/transcription`, etc.
 - [The Anthropic format](https://docs.litellm.ai/docs/anthropic_completion) - `/messages`
 
+
+[**Detailed Docs**](https://docs.litellm.ai/docs/proxy/quick_start)
+
+## Pre-Requisites
+- Install litellm proxy - `pip install 'litellm[proxy]'`
+- Setup [LLM Guard Docker](https://llm-guard.com/api/deployment/#from-docker)
+
 ## Quick Start
 
 Let's add LLM Guard content mod for Anthropic API calls
@@ -18,7 +25,7 @@ export LLM_GUARD_API_BASE="http://0.0.0.0:8192" # deployed llm guard api
 export ANTHROPIC_API_KEY="sk-..." # anthropic api key
 ```
 
-Add `llmguard_moderations` as a callback
+Add `llmguard_moderations` as a callback in a config.yaml
 
 ```yaml
 model_list:
@@ -32,7 +39,11 @@ litellm_settings:
     callbacks: ["llmguard_moderations"]
 ```
 
-Now you can easily test it
+Now you can easily test it:
+
+```bash
+litellm --config /path/to/config.yaml
+```
 
 - Make a regular /chat/completion call
 
