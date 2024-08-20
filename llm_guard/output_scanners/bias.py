@@ -82,7 +82,7 @@ class Bias(Scanner):
             return output, True, 0.0
 
         highest_score = 0.0
-        results_all = self._classifier(self._match_type.get_inputs(output))
+        results_all = self._classifier(self._match_type.get_inputs(prompt + "\n" + output))
         for result in results_all:
             score = round(
                 result["score"] if result["label"] == "BIASED" else 1 - result["score"],

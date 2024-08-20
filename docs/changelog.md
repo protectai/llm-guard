@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Upgrade dependencies to the latest versions.
+- `Bias` scanner uses the prompt to increase the accuracy.
 
 ### Removed
 -
