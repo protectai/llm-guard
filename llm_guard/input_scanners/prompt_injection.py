@@ -62,6 +62,10 @@ V2_SMALL_MODEL = Model(
         "max_length": 512,
         "truncation": True,
     },
+    tokenizer_kwargs={
+        "use_fast": False,
+        "token": True,
+    },
     kwargs={"token": True},  # You can also configure with your token.
 )
 
@@ -121,7 +125,7 @@ class PromptInjection(Scanner):
         self,
         *,
         model: Model | None = None,
-        threshold: float = 0.9,
+        threshold: float = 0.92,
         match_type: MatchType | str = MatchType.FULL,
         use_onnx: bool = False,
     ) -> None:

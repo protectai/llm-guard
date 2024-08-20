@@ -10,7 +10,6 @@ exclude = ["examples/google_gemini.py"]
 ignore = [
     'RUF001' # String contains ambiguous `，`
 ]
-ignore-init-module-imports = true
 select = [
     'A',  # flake8-builtins
     'ASYNC',  # flake8-async

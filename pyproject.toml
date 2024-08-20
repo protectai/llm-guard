@@ -21,10 +21,10 @@ requires-python = ">=3.9,<3.13"
 
 dependencies = [
   "bc-detect-secrets==1.5.15",
-  "faker>=26.0.0,<27",
+  "faker>=26.0.0,<28",
   "fuzzysearch>=0.7,<0.9",
-  "json-repair>=0.25.2,<0.27",
-  "nltk>=3.8,<4",
+  "json-repair>=0.25.2,<0.29",
+  "nltk>=3.9.1,<4",
   "presidio-analyzer==2.2.354",
   "presidio-anonymizer==2.2.354",
   "regex==2024.7.24",
@@ -37,14 +37,14 @@ dependencies = [
 
 [project.optional-dependencies]
 onnxruntime = [
-  "optimum[onnxruntime]>=1.20",
+  "optimum[onnxruntime]>=1.21",
 ]
 onnxruntime-gpu = [
-  "optimum[onnxruntime-gpu]>=1.20",
+  "optimum[onnxruntime-gpu]>=1.21",
 ]
 docs-dev = [
-  "mkdocs>=1.5,<2",
-  "mkdocs-autorefs==1.0.1",
+  "mkdocs>=1.6,<2",
+  "mkdocs-autorefs==1.1.0",
   "mkdocs-git-revision-date-localized-plugin>=1.2",
   "mkdocs-jupyter>=0.24",
   "mkdocs-material>=9.5",
@@ -54,11 +54,11 @@ docs-dev = [
 dev = [
   "llm_guard[docs-dev]",
   "autoflake>=2,<3",
-  "pytest>=7.4,<9",
-  "pytest-cov>=4.1,<6",
-  "pre-commit>=3.6,<4",
-  "pyright~=1.1.363",
-  "ruff>=0.4.1,<0.6.0",
+  "pytest>=8.0.0,<9",
+  "pytest-cov>=5.0.0,<6",
+  "pre-commit>=3.8,<4",
+  "pyright~=1.1.376",
+  "ruff>=0.6.1,<0.7.0",
 ]
 
 [project.urls]
