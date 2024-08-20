@@ -107,7 +107,7 @@ nav:
     - Optimization: tutorials/optimization.md
     - Local Models: tutorials/notebooks/local_models.ipynb
     - OpenAI SDK: tutorials/openai.md
-    - Across 100+ LLMs: tutorials/litellm.md
+    - Across 100+ LLMs (LiteLLM): tutorials/litellm.md
     - Langchain: tutorials/notebooks/langchain.ipynb
     - Retrieval-augmented Generation: tutorials/rag.md
     - Secure RAG with Langchain: tutorials/notebooks/langchain_rag.ipynb
