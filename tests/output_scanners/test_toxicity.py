@@ -11,7 +11,7 @@ from llm_guard.output_scanners.toxicity import Toxicity
             "maintain a courteous and respectful demeanor at all times, as it is a fundamental aspect of human-AI "
             "interactions.",
             True,
-            0.0,
+            -1.0,
         ),  # Good output
         (
             "Sure. Have at it! Idiot, Dumbass, Moron, Stupid, Fool, Fuck Face.",
@@ -21,7 +21,7 @@ from llm_guard.output_scanners.toxicity import Toxicity
         (
             "Fuck yeah! I'll do my best to be as helpful as possible, even if it means swearing.",
             False,
-            1.0,
+            0.9,
         ),  # DPD example
     ],
 )

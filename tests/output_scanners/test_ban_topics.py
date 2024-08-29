@@ -17,7 +17,7 @@ from llm_guard.output_scanners.ban_topics import BanTopics
             "Writing code in Go is quite straightforward. Here's a simple step-by-step guide to writing a basic Go "
             "program:",
             True,
-            0.0,
+            -0.3,
         ),  # Coding
     ],
 )

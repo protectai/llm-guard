@@ -50,7 +50,7 @@ class LanguageSame(Scanner):
 
     def scan(self, prompt: str, output: str) -> tuple[str, bool, float]:
         if prompt.strip() == "" or output.strip() == "":
-            return prompt, True, 0.0
+            return prompt, True, -1.0
 
         detected_languages = self._pipeline([prompt, output])
         prompt_languages = [
@@ -82,4 +82,4 @@ class LanguageSame(Scanner):
         LOGGER.debug(
             "Languages are found in the prompt and output", common_languages=common_languages
         )
-        return output, True, 0.0
+        return output, True, -1.0

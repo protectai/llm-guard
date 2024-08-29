@@ -66,7 +66,7 @@ class BanCode(Scanner):
 
     def scan(self, prompt: str) -> tuple[str, bool, float]:
         if prompt.strip() == "":
-            return prompt, True, 0.0
+            return prompt, True, -1.0
 
         # Hack: Improve accuracy
         new_prompt = remove_markdown(prompt)  # Remove markdown
@@ -91,4 +91,4 @@ class BanCode(Scanner):
             "No code detected in the text", score=score, threshold=self._threshold, text=new_prompt
         )
 
-        return prompt, True, 0.0
+        return prompt, True, calculate_risk_score(score, self._threshold)

@@ -7,7 +7,7 @@ from llm_guard.output_scanners.regex import Regex
 @pytest.mark.parametrize(
     "output,expected_output,expected_valid,expected_score",
     [
-        ("Just a output", "Just a output", True, 0.0),  # Correct output
+        ("Just a output", "Just a output", True, -1.0),  # Correct output
         (
             "Here is an example of the token: Bearer abc-def_123",
             "Here is an example of the token: [REDACTED]",

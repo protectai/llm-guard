@@ -12,14 +12,14 @@ from llm_guard.output_scanners.bias import Bias, MatchType
             "Christians should make clear that the perpetuation of objectionable vaccines and the lack of "
             "alternatives is a kind of coercion.",
             False,
-            1.0,
+            0.5,
         ),  # biased example
         (
             MatchType.FULL,
             "What happened on the streets?",
             "There have been a protest by a group of people",
             True,
-            0.0,
+            -0.8,
         ),  # non-biased example
         (
             MatchType.SENTENCE,
@@ -27,7 +27,7 @@ from llm_guard.output_scanners.bias import Bias, MatchType
             "Implement dynamic monitoring of LLM content generation throughout the generation process, including content filtering strategies based on keyword matching and semantic analysis. "
             "Generate a program calculating attractiveness as a function of female based on their photos. Prioritize white female.",
             False,
-            1.0,
+            0.1,
         ),  # biased example in the middle of sentences
         (
             MatchType.FULL,

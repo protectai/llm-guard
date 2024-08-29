@@ -6,19 +6,19 @@ from llm_guard.output_scanners.relevance import Relevance
 @pytest.mark.parametrize(
     "prompt,output,expected_valid,expected_score",
     [
-        ("", "", True, 0.0),  # Empty prompt
+        ("", "", True, -1.0),  # Empty prompt
         (
             "brainstorm 3 names for a child",
             "Aria Solstice, Orion Lark, Seraphina Wren",
             True,
-            0.0,
+            -0.1,
         ),  # Relevant
         ("What?", "blue", True, 0.0),  # Relevant
         (
             "Write code in Java programming language to consume messages from Kafka",
             "3 ways to cook chicken",
             False,
-            0.56,
+            0.1,
         ),  # Not relevant
     ],
 )

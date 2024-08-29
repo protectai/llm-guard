@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import importlib
-import json
 import logging
 import re
 import sys
@@ -110,51 +109,6 @@ def device():
     return torch.device("cpu")
 
 
-def read_json_file(json_path: str) -> dict[str, list[str]]:
-    """
-    Reads a JSON file and returns its contents as a Python dictionary.
-
-    Args:
-        json_path: The path to the JSON file to be read.
-
-    Returns:
-        A dictionary representation of the JSON file's contents. If an error occurs (e.g. file not found or JSON decoding error),
-        an empty dictionary is returned and an error message is logged.
-
-    Raises:
-        FileNotFoundError: If the provided json_path does not point to an existing file.
-        json.decoder.JSONDecodeError: If the provided file cannot be parsed as JSON.
-    """
-
-    result = {}
-    try:
-        with open(json_path, "r") as myfile:
-            result = json.load(myfile)
-            LOGGER.debug("Loaded json file", path=json_path)
-    except FileNotFoundError:
-        LOGGER.error("Could not find file", path=json_path)
-    except json.decoder.JSONDecodeError as json_error:
-        LOGGER.error("Could not parse file", path=json_path, error=json_error)
-    return result
-
-
-def combine_json_results(results: dict[str, list[str]]) -> list[str]:
-    """
-    Combines values from a dictionary with list values into a single list.
-
-    Args:
-       results: A dictionary where values are lists.
-
-    Returns:
-       A list containing all the values from the input dictionary.
-    """
-
-    all_items = []
-    for item in results:
-        all_items.extend(results[item])
-    return all_items
-
-
 def lazy_load_dep(import_name: str, package_name: str | None = None):
     """Helper function to lazily load optional dependencies. If the dependency is not
     present, the function will raise an error _when used_.
@@ -176,12 +130,16 @@ def lazy_load_dep(import_name: str, package_name: str | None = None):
 
 
 def calculate_risk_score(score: float, threshold: float) -> float:
+    """
+    Calculate the risk score based on the threshold. The risk score is a value between -1 and 1.
+    Before the threshold, the risk score is negative and after the threshold, the risk score is positive.
+    """
     if score > threshold:
-        return 1.0
+        risk_score = round((score - threshold) / (1 - threshold), 1)
+    else:
+        risk_score = round((score - threshold) / threshold, 1)
 
-    risk_score = round(abs(score - threshold) / threshold, 1)
-    # Ensure risk score is between 0 and 1
-    return min(max(risk_score, 0), 1)
+    return min(max(risk_score, -1), 1)
 
 
 def chunk_text(text: str, chunk_size: int) -> list[str]:
@@ -250,10 +208,10 @@ def extract_urls(text: str) -> list[str]:
 
 
 def remove_markdown(text):
-    # Patterns to remove various Markdown elements
+    # Patterns to remove Markdown elements but keep text inside ** and *
     patterns = [
-        r"\*\*([^\*]+)\*\*",  # Bold
-        r"\*([^\*]+)\*",  # Italic
+        r"\*\*([^\*]+)\*\*",  # Bold, preserves text inside
+        r"\*([^\*]+)\*",  # Italic, preserves text inside
         r"\!\[[^\]]+\]\([^\)]+\)",  # Images
         r"\[[^\]]+\]\([^\)]+\)",  # Links
         r"\#{1,6}\s",  # Headers
@@ -264,9 +222,13 @@ def remove_markdown(text):
 
     clean_text = text
     for pattern in patterns:
-        clean_text = re.sub(pattern, "", clean_text)
+        # Use substitution to preserve the text inside ** and *
+        if "([^\*]+)" in pattern:
+            clean_text = re.sub(pattern, r"\1", clean_text)
+        else:
+            clean_text = re.sub(pattern, "", clean_text)
 
     # Extra cleanup for simpler elements
     clean_text = re.sub(r"\*|\_|\`", "", clean_text)
 
-    return clean_text
+    return clean_text.strip()

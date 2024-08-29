@@ -80,7 +80,7 @@ class Sensitive(Scanner):
 
     def scan(self, prompt: str, output: str) -> tuple[str, bool, float]:
         if output.strip() == "":
-            return prompt, True, 0.0
+            return prompt, True, -1.0
 
         analyzer_results = self._analyzer.analyze(
             text=Anonymize.remove_single_quotes(output),
@@ -102,4 +102,4 @@ class Sensitive(Scanner):
             return output, False, calculate_risk_score(risk_score, self._threshold)
 
         LOGGER.debug("No sensitive data found in the output")
-        return output, True, 0.0
+        return output, True, -1.0

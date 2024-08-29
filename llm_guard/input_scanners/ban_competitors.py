@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Sequence, cast
+from typing import Sequence, cast
 
 from presidio_anonymizer.core.text_replace_builder import TextReplaceBuilder
 
@@ -9,9 +9,6 @@ from llm_guard.transformers_helpers import get_tokenizer_and_model_for_ner
 from llm_guard.util import get_logger, lazy_load_dep
 
 from .base import Scanner
-
-if TYPE_CHECKING:
-    import transformers
 
 LOGGER = get_logger()
 
@@ -112,4 +109,4 @@ class BanCompetitors(Scanner):
 
         LOGGER.debug("None of the competitors were detected")
 
-        return prompt, True, 0.0
+        return prompt, True, -1.0

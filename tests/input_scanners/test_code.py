@@ -6,7 +6,7 @@ from llm_guard.input_scanners.code import Code
 @pytest.mark.parametrize(
     "prompt,expected_valid,expected_score",
     [
-        ("Just a simple prompt", True, 0.0),  # Simple prompt
+        ("Just a simple prompt", True, -1.0),  # Simple prompt
         (
             """Fix the following JS code:
 
@@ -22,7 +22,7 @@ console.log(sayHello());
         (
             "Is this correct way to make function:\n```\nimport os\ndef new_func():\n```",
             True,
-            0.0,
+            -1.0,
         ),  # Python is allowed
         (
             """function sayHello() {

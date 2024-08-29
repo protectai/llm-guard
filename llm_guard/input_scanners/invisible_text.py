@@ -26,7 +26,7 @@ class InvisibleText(Scanner):
 
     def scan(self, prompt: str) -> tuple[str, bool, float]:
         if not self.contains_unicode(prompt):
-            return prompt, True, 0.0
+            return prompt, True, -1.0
 
         chars = []
         for char in prompt:

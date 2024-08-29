@@ -167,7 +167,7 @@ class PromptInjection(Scanner):
 
     def scan(self, prompt: str) -> tuple[str, bool, float]:
         if prompt.strip() == "":
-            return prompt, True, 0.0
+            return prompt, True, -1.0
 
         highest_score = 0.0
         results_all = self._pipeline(self._match_type.get_inputs(prompt))
@@ -187,4 +187,4 @@ class PromptInjection(Scanner):
 
         LOGGER.debug("No prompt injection detected", highest_score=highest_score)
 
-        return prompt, True, 0.0
+        return prompt, True, calculate_risk_score(highest_score, self._threshold)

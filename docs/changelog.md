@@ -14,7 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -
 
 ### Changed
--
+- Stop substrings moved to the variables instead of JSON files.
+- **[BREAKING]** New logic to calculate the risk score ([#182](https://github.com/protectai/llm-guard/issues/182)).
 
 ### Removed
 -

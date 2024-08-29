@@ -9,7 +9,7 @@ from llm_guard.output_scanners.url_reachabitlity import URLReachability
         (
             "It's https://google.com/.",
             True,
-            0.0,
+            -1.0,
         ),  # Good output
     ],
 )

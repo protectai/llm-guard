@@ -18,7 +18,7 @@ from llm_guard.output_scanners.reading_time import ReadingTime
             "Birds cannot fly.",
             "Birds cannot fly.",
             True,
-            0.0,
+            -1.0,
         ),  # Short
     ],
 )

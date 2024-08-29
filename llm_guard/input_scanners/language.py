@@ -86,7 +86,7 @@ class Language(Scanner):
 
     def scan(self, prompt: str) -> tuple[str, bool, float]:
         if prompt.strip() == "":
-            return prompt, True, 0.0
+            return prompt, True, -1.0
 
         results_all = self._pipeline(self._match_type.get_inputs(prompt))
         for result_chunk in results_all:
@@ -106,4 +106,4 @@ class Language(Scanner):
 
         LOGGER.debug("Only valid languages are found in the text.")
 
-        return prompt, True, 0.0
+        return prompt, True, -1.0

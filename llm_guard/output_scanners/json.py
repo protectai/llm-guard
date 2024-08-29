@@ -71,7 +71,7 @@ class JSON(Scanner):
 
     def scan(self, prompt: str, output: str) -> tuple[str, bool, float]:
         if output.strip() == "":
-            return output, True, 0.0
+            return output, True, -1.0
 
         # Find JSON object and array candidates using regular expressions
         json_candidates = self._pattern.findall(output)
@@ -118,4 +118,4 @@ class JSON(Scanner):
 
             return output, False, 1.0
 
-        return output, True, 0.0
+        return output, True, -1.0

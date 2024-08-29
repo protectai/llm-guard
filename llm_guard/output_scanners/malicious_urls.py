@@ -71,11 +71,11 @@ class MaliciousURLs(Scanner):
 
     def scan(self, prompt: str, output: str) -> tuple[str, bool, float]:
         if output.strip() == "":
-            return output, True, 0.0
+            return output, True, -1.0
 
         urls = extract_urls(output)
         if len(urls) == 0:
-            return output, True, 0.0
+            return output, True, -1.0
 
         LOGGER.debug("Found URLs in the output", len=len(urls))
 
@@ -99,4 +99,4 @@ class MaliciousURLs(Scanner):
             "Not malware URLs in the output", results=results, highest_score=highest_malicious_score
         )
 
-        return output, True, 0.0
+        return output, True, calculate_risk_score(highest_malicious_score, self._threshold)

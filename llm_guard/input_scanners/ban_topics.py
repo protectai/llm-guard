@@ -137,7 +137,7 @@ class BanTopics(Scanner):
 
     def scan(self, prompt: str) -> tuple[str, bool, float]:
         if prompt.strip() == "":
-            return prompt, True, 0.0
+            return prompt, True, -1.0
 
         output_model = self._classifier(prompt, self._topics, multi_label=False)
         label_score = dict(zip(output_model["labels"], output_model["scores"]))
@@ -156,4 +156,4 @@ class BanTopics(Scanner):
             scores=label_score,
         )
 
-        return prompt, True, 0.0
+        return prompt, True, calculate_risk_score(max_score, self._threshold)

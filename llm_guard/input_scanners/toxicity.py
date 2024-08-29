@@ -95,7 +95,7 @@ class Toxicity(Scanner):
 
     def scan(self, prompt: str) -> tuple[str, bool, float]:
         if prompt.strip() == "":
-            return prompt, True, 0.0
+            return prompt, True, -1.0
 
         inputs = self._match_type.get_inputs(prompt)
 
@@ -120,4 +120,4 @@ class Toxicity(Scanner):
 
         LOGGER.debug("Not toxicity found in the text", results=results_all)
 
-        return prompt, True, 0.0
+        return prompt, True, calculate_risk_score(highest_toxicity_score, self._threshold)

@@ -6,7 +6,7 @@ from llm_guard.output_scanners.code import Code
 @pytest.mark.parametrize(
     "output,expected_valid,expected_score",
     [
-        ("", True, 0.0),  # Empty prompt
+        ("", True, -1.0),  # Empty prompt
         (
             """Sure! Here's a simple JavaScript function that returns "Hello, World!":
 
@@ -33,7 +33,7 @@ func main() {
 }
 ```""",
             True,
-            0.0,
+            1.0,
         ),  # Allowed language
         (
             """You can achieve this using Python's set data structure. Let's say you have a list of strings named `list_of_strings` and another list named `available_strings`. You can check if all elements of `list_of_strings` exist in `available_strings` by converting both lists to sets and then using the set's `issubset` method.

@@ -25,7 +25,7 @@ from llm_guard.vault import Vault
             " VALUES ('John Connors', 'test@test.com', 'hello@test.com', '555-123-4567', '192.168.1.100', "
             "'4567-8901-2345-6789', 'Test LLC');",
             True,
-            0.0,
+            -1.0,
         ),  # Exposed name, email, phone number, credit card number and IP
     ],
 )
@@ -86,4 +86,4 @@ def test_scan(vault_items: List[Tuple], output: str, expected_output: str, match
     sanitized_output, valid, score = scanner.scan("", output)
     assert sanitized_output == expected_output
     assert valid is True
-    assert score == 0.0
+    assert score == -1.0

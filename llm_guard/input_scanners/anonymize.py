@@ -310,7 +310,7 @@ class Anonymize(Scanner):
         return text_without_single_quotes
 
     def scan(self, prompt: str) -> tuple[str, bool, float]:
-        risk_score = 0.0
+        risk_score = -1.0
         if prompt.strip() == "":
             return prompt, True, risk_score
 
@@ -354,4 +354,4 @@ class Anonymize(Scanner):
 
         LOGGER.debug("Prompt does not have sensitive data to replace", risk_score=risk_score)
 
-        return prompt, True, 0.0
+        return prompt, True, -1.0

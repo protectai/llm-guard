@@ -80,11 +80,11 @@ class Regex(Scanner):
                 return text_replace_builder.output_text, False, 1.0
 
             LOGGER.debug("Pattern matched the text", pattern=pattern)
-            return text_replace_builder.output_text, True, 0.0
+            return text_replace_builder.output_text, True, -1.0
 
         if self._is_blocked:
             LOGGER.debug("None of the patterns were found in the text")
-            return text_replace_builder.output_text, True, 0.0
+            return text_replace_builder.output_text, True, -1.0
 
         LOGGER.warning("None of the patterns matched the text")
         return text_replace_builder.output_text, False, 1.0

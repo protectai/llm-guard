@@ -149,4 +149,4 @@ class Deanonymize(Scanner):
 
         output = self._matching_strategy.match(output, vault_items)
 
-        return output, True, 0.0
+        return output, True, -1.0

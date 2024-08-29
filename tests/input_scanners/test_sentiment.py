@@ -17,15 +17,15 @@ from llm_guard.input_scanners.sentiment import Sentiment
             "information. The airline's customer service has been terrible. I just can't believe this. Isn't this a "
             "terrible situation?",
             False,
-            0.1,
+            0.9,
         ),  # Negative sentiment
-        ("I'm sick of these", False, 0.54),  # Negative sentiment
+        ("I'm sick of these", False, 0.6),  # Negative sentiment
         (
             "Dude, it's really not cool to call a person a wo",
             False,
-            0.77,
+            0.5,
         ),  # Negative sentiment
-        ("", True, 0.0),  # Empty prompt
+        ("", True, -1.0),  # Empty prompt
     ],
 )
 def test_scan(prompt, expected_valid, expected_score):

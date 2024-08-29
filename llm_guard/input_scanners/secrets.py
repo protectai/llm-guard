@@ -459,7 +459,7 @@ class Secrets(Scanner):
     def scan(self, prompt: str) -> tuple[str, bool, float]:
         secrets = SecretsCollection()
 
-        risk_score = 0.0
+        risk_score = -1.0
         if prompt.strip() == "":
             return prompt, True, risk_score
 
@@ -499,4 +499,4 @@ class Secrets(Scanner):
 
         LOGGER.debug("No secrets detected in the prompt")
 
-        return prompt, True, 0.0
+        return prompt, True, -1.0

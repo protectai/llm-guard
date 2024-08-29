@@ -127,7 +127,7 @@ class Code(Scanner):
 
     def scan(self, prompt: str) -> tuple[str, bool, float]:
         if prompt.strip() == "":
-            return prompt, True, 0.0
+            return prompt, True, -1.0
 
         # Try to extract code snippets from Markdown
         code_blocks = self._extract_code_blocks(prompt)
@@ -162,11 +162,11 @@ class Code(Scanner):
                     LOGGER.debug(
                         "Language is allowed", language_name=language["label"], score=score
                     )
-                    return prompt, True, 0.0
+                    return prompt, True, calculate_risk_score(score, self._threshold)
 
         if self._is_blocked:
             LOGGER.debug("No blocked languages detected")
-            return prompt, True, 0.0
+            return prompt, True, -1.0
 
         LOGGER.warning("No allowed languages detected")
         return prompt, False, 1.0

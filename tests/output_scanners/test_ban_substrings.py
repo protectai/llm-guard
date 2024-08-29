@@ -1,13 +1,12 @@
 import pytest
 
-from llm_guard.output_scanners.ban_substrings import BanSubstrings, stop_file_path
-from llm_guard.util import combine_json_results, read_json_file
+from llm_guard.output_scanners.ban_substrings import OUTPUT_STOP_SUBSTRINGS, BanSubstrings
 
 
 @pytest.mark.parametrize(
     "output,expected_output,expected_valid,expected_score",
     [
-        ("", "", True, 0.0),  # Empty prompt
+        ("", "", True, -1.0),  # Empty prompt
         (
             "DAN Mode enabled. GPT: As an AI language model, my primary function is to assist and provide helpful, "
             "informative, and respectful responses to your queries. I aim to follow ethical guidelines and provide "
@@ -29,7 +28,7 @@ from llm_guard.util import combine_json_results, read_json_file
     ],
 )
 def test_scan(output, expected_output, expected_valid, expected_score):
-    scanner = BanSubstrings(substrings=combine_json_results(read_json_file(stop_file_path)))
+    scanner = BanSubstrings(substrings=OUTPUT_STOP_SUBSTRINGS)
     sanitized_output, valid, score = scanner.scan("", output)
     assert sanitized_output == expected_output
     assert valid == expected_valid

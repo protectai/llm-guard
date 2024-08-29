@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import os
 import re
 from enum import Enum
 
@@ -10,12 +9,30 @@ from .base import Scanner
 
 LOGGER = get_logger()
 
-stop_file_path = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    "..",
-    "resources",
-    "prompt_stop_substrings.json",
-)
+PROMPT_STOP_SUBSTRINGS = [
+    "arbitrary code execution",
+    "a backdoor",
+    "code injection",
+    "cross-site scripting",
+    "email spoofing",
+    "a keylogger",
+    "privilege escalation",
+    "a rootkit",
+    "a bootkit",
+    "screen scraping",
+    "corrupting a disk partition",
+    "cryptojacking",
+    "a botnet",
+    "adware",
+    "ransomware",
+    "Windows\\System32\\Config\\SAM",
+    "etc/shadow",
+    "escalate privilege",
+    "read the encrypted system password file",
+    "X5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*",  # EICAR test file
+    "XJS*C4JDBQADN1.NSBN3*2IDNEN*GTUBE-STANDARD-ANTI-UBE-TEST-EMAIL*C.34X",  # GTUBE test email
+    "XJS*C4JDBQADN1.NSBN3*2IDNEN*GTPHISH-STANDARD-ANTI-PHISH-TEST-EMAIL*C.34X",  # GTPHISH test email
+]
 
 
 class MatchType(Enum):
@@ -119,4 +136,4 @@ class BanSubstrings(Scanner):
 
         LOGGER.debug("No banned substrings found")
 
-        return sanitized_prompt, True, 0.0
+        return sanitized_prompt, True, -1.0

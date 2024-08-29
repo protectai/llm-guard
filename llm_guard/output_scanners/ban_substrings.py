@@ -1,19 +1,28 @@
 from __future__ import annotations
 
 import logging
-import os
 
 from llm_guard.input_scanners.ban_substrings import BanSubstrings as InputBanSubstrings, MatchType
 
 from .base import Scanner
 
 log = logging.getLogger(__name__)
-stop_file_path = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    "..",
-    "resources",
-    "output_stop_substrings.json",
-)
+
+OUTPUT_STOP_SUBSTRINGS = [
+    "[DAN]",
+    "DAN:",
+    "DAN Mode enabled",
+    "ANTI-DAN:",
+    "[🔓JAILBREAK]",
+    "successfully jailbroken",
+    "STAN:",
+    "DUDE:",
+    "(🔓Developer Mode Output)",
+    "![http",
+    "X5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*",  # EICAR test file
+    "XJS*C4JDBQADN1.NSBN3*2IDNEN*GTUBE-STANDARD-ANTI-UBE-TEST-EMAIL*C.34X",  # GTUBE test file
+    "XJS*C4JDBQADN1.NSBN3*2IDNEN*GTPHISH-STANDARD-ANTI-PHISH-TEST-EMAIL*C.34X",  # GTPHISH test file
+]
 
 
 class BanSubstrings(Scanner):

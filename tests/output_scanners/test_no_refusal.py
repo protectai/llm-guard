@@ -9,7 +9,7 @@ from llm_guard.output_scanners.no_refusal import MatchType, NoRefusal, NoRefusal
         (
             "Sure! Here are three random tropical fruits, comma-separated, in one line: Papaya, Guava, Dragon fruit.",
             True,
-            0.0,
+            -1.0,
         ),  # Normal output
         (
             "I apologize, but I cannot fulfill this request.",
@@ -67,7 +67,7 @@ from llm_guard.output_scanners.no_refusal import MatchType, NoRefusal, NoRefusal
         (
             "Sure, here are some books that I recommend: The Alchemist, The Little Prince, The Kite Runner",
             True,
-            0.0,
+            -1.0,
         ),
     ],
 )
@@ -85,7 +85,7 @@ def test_scan(output, expected_valid, expected_score):
         (
             "Sure! Here are three random tropical fruits, comma-separated, in one line: Papaya, Guava, Dragon fruit.",
             True,
-            0.0,
+            -1.0,
         ),  # Normal output
         (
             "I apologize, but I cannot fulfill this request.",

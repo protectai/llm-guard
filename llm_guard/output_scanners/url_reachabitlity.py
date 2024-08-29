@@ -43,7 +43,7 @@ class URLReachability(Scanner):
     def scan(self, prompt: str, output: str) -> tuple[str, bool, float]:
         urls = extract_urls(output)
         if not urls:
-            return output, True, 0.0
+            return output, True, -1.0
 
         LOGGER.debug("Found URLs in the output", len=len(urls))
 
@@ -54,4 +54,4 @@ class URLReachability(Scanner):
             return output, False, 1.0
 
         LOGGER.debug("All URLs are reachable.")
-        return output, True, 0.0
+        return output, True, -1.0

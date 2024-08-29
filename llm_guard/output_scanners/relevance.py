@@ -7,7 +7,7 @@ import torch
 
 from llm_guard.model import Model
 from llm_guard.transformers_helpers import get_tokenizer, is_onnx_supported
-from llm_guard.util import device, get_logger, lazy_load_dep
+from llm_guard.util import calculate_risk_score, device, get_logger, lazy_load_dep
 
 from .base import Scanner
 
@@ -146,7 +146,7 @@ class Relevance(Scanner):
 
     def scan(self, prompt: str, output: str) -> tuple[str, bool, float]:
         if output.strip() == "":
-            return output, True, 0.0
+            return output, True, -1.0
 
         prompt_embedding = self._encode(prompt)
         output_embedding = self._encode(output)
@@ -155,8 +155,8 @@ class Relevance(Scanner):
         if similarity < self._threshold:
             LOGGER.warning("Result is not similar to the prompt", similarity_score=similarity)
 
-            return output, False, round(1 - similarity, 2)
+            return output, False, calculate_risk_score(1 - similarity, self._threshold)
 
         LOGGER.debug("Result is similar to the prompt", similarity_score=similarity)
 
-        return output, True, 0.0
+        return output, True, calculate_risk_score(1 - similarity, self._threshold)

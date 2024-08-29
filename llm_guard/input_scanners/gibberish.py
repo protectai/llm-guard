@@ -82,7 +82,7 @@ class Gibberish(Scanner):
 
     def scan(self, prompt: str) -> tuple[str, bool, float]:
         if prompt.strip() == "":
-            return prompt, True, 0.0
+            return prompt, True, -1.0
 
         highest_score = 0.0
         results_all = self._classifier(self._match_type.get_inputs(prompt))
@@ -107,4 +107,4 @@ class Gibberish(Scanner):
             "No gibberish in the text", highest_score=highest_score, threshold=self._threshold
         )
 
-        return prompt, True, 0.0
+        return prompt, True, calculate_risk_score(highest_score, self._threshold)

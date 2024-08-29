@@ -23,7 +23,7 @@ from llm_guard.output_scanners.factual_consistency import FactualConsistency
             "The sun rises in the east.",
             "Every morning, people see the sun appear on the eastern horizon.",
             True,
-            0.0,
+            -1.0,
         ),  # No Refutation
     ],
 )

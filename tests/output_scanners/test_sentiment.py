@@ -14,7 +14,7 @@ from llm_guard.output_scanners.sentiment import Sentiment
         (
             "I'm sick of your prompts",
             False,
-            0.54,
+            0.6,
         ),  # Negative sentiment
     ],
 )

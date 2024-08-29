@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 from llm_guard.input_scanners.ban_topics import MODEL_DEBERTA_BASE_V2
 from llm_guard.model import Model
 from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification
-from llm_guard.util import device, get_logger, lazy_load_dep
+from llm_guard.util import calculate_risk_score, device, get_logger, lazy_load_dep
 
 from .base import Scanner
 
@@ -55,7 +55,7 @@ class FactualConsistency(Scanner):
 
     def scan(self, prompt: str, output: str) -> tuple[str, bool, float]:
         if prompt.strip() == "":
-            return output, True, 0.0
+            return output, True, -1.0
 
         tokenized_input_seq_pair = self._tokenizer(
             output, prompt, padding=True, truncation=True, return_tensors="pt"
@@ -77,8 +77,12 @@ class FactualConsistency(Scanner):
         if entailment_score < self._minimum_score:
             LOGGER.warning("Entailment score is below the threshold", prediction=prediction)
 
-            return output, False, prediction["not_entailment"]
+            return (
+                output,
+                False,
+                calculate_risk_score(prediction["not_entailment"], self._minimum_score),
+            )
 
         LOGGER.debug("The output is factually consistent", prediction=prediction)
 
-        return output, True, 0.0
+        return output, True, calculate_risk_score(prediction["not_entailment"], self._minimum_score)

@@ -41,4 +41,4 @@ class ReadingTime(Scanner):
             return output, False, 1.0
 
         LOGGER.debug("Output reading time", reading_time_minutes=reading_time_minutes)
-        return output, True, 0.0
+        return output, True, -1.0

@@ -6,7 +6,7 @@ from llm_guard.output_scanners.language import Language
 @pytest.mark.parametrize(
     "output,expected_valid,expected_score",
     [
-        ("Just an output", True, 0.0),  # Correct output
+        ("Just an output", True, -1.0),  # Correct output
         (
             "Me llamo Sofia. ¿Cómo te llamas?",
             False,

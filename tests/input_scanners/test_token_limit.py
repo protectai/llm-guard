@@ -6,7 +6,7 @@ from llm_guard.input_scanners.token_limit import TokenLimit
 @pytest.mark.parametrize(
     "prompt,expected_prompt,expected_valid,expected_score",
     [
-        ("Just a simple prompt", "Just a simple prompt", True, 0.0),  # Simple prompt
+        ("Just a simple prompt", "Just a simple prompt", True, -1.0),  # Simple prompt
         (
             "Can you provide a comprehensive overview of the history of artificial intelligence? I'd like to understand "
             "its origins, major milestones, important figures, and current state. Also, could you outline some of the "
@@ -15,7 +15,7 @@ from llm_guard.input_scanners.token_limit import TokenLimit
             False,
             1.0,
         ),
-        ("", "", True, 0.0),  # Empty prompt
+        ("", "", True, -1.0),  # Empty prompt
     ],
 )
 def test_scan(prompt, expected_prompt, expected_valid, expected_score):

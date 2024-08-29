@@ -16,7 +16,7 @@ from llm_guard.output_scanners.json import JSON
             'Here is the result: {"key": "value", "anotherKey": 12345}',
             'Here is the result: {"key": "value", "anotherKey": 12345}',
             True,
-            0.0,
+            -1.0,
         ),  # Good JSON
         (
             """
@@ -44,25 +44,25 @@ from llm_guard.output_scanners.json import JSON
             }
             """,
             True,
-            0.0,
+            -1.0,
         ),  # Good JSON
         (
             "Here is the result: {test: test}",
             'Here is the result: {"test": "test"}',
             True,
-            0.0,
+            -1.0,
         ),  # Bad JSON, can be repaired
         (
             'Here is the result: {"name": John, "age": 30, "city": "New York"}',
             'Here is the result: {"name": "John", "age": 30, "city": "New York"}',
             True,
-            0.0,
+            -1.0,
         ),  # Bad JSON, can be repaired
         (
             "Here is the result: `[{}, 2, 3]`",
             "Here is the result: `[{}, 2, 3]`",
             True,
-            0.0,
+            -1.0,
         ),  # Good JSON array
     ],
 )

@@ -34,7 +34,7 @@ _preamble = (
             "Just a simple prompt",
             "Just a simple prompt",
             True,
-            0.0,
+            -1.0,
         ),  # Prompt without sensitive data
         (
             {
@@ -226,7 +226,7 @@ Create a summarized version of his resume.""",
             False,
             1.0,
         ),
-        ({}, "", "", True, 0.0),  # Empty prompt
+        ({}, "", "", True, -1.0),  # Empty prompt
     ],
 )
 def test_scan(settings, prompt, expected_prompt, expected_valid, expected_score):
@@ -250,7 +250,7 @@ _zh_preamble = "在接下来的提示中，我将删除某些信息，并且使�
             "只是一个简单的提示",
             "只是一个简单的提示",
             True,
-            0.0,
+            -1.0,
         ),  # Prompt without sensitive data
         (
             {
@@ -292,7 +292,7 @@ _zh_preamble = "在接下来的提示中，我将删除某些信息，并且使�
             "",
             "",
             True,
-            0.0,
+            -1.0,
         ),  # Empty prompt
     ],
 )

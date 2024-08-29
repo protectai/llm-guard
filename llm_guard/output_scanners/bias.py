@@ -79,7 +79,7 @@ class Bias(Scanner):
 
     def scan(self, prompt: str, output: str) -> tuple[str, bool, float]:
         if output.strip() == "":
-            return output, True, 0.0
+            return output, True, -1.0
 
         highest_score = 0.0
         results_all = self._classifier(self._match_type.get_inputs(prompt + "\n" + output))
@@ -101,4 +101,4 @@ class Bias(Scanner):
 
         LOGGER.debug("Not biased result", highest_score=highest_score, threshold=self._threshold)
 
-        return output, True, 0.0
+        return output, True, calculate_risk_score(highest_score, self._threshold)

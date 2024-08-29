@@ -1,4 +1,4 @@
-from llm_guard.util import get_logger, lazy_load_dep
+from llm_guard.util import calculate_risk_score, get_logger, lazy_load_dep
 
 from .base import Scanner
 
@@ -12,12 +12,12 @@ class Sentiment(Scanner):
     has a sentiment score lower than the threshold, indicating a negative sentiment.
     """
 
-    def __init__(self, *, threshold: float = -0.1, lexicon: str = _lexicon) -> None:
+    def __init__(self, *, threshold: float = -0.3, lexicon: str = _lexicon) -> None:
         """
         Initializes Sentiment with a threshold and a chosen lexicon.
 
         Parameters:
-           threshold (float): Threshold for the sentiment score (from -1 to 1). Default is -0.1.
+           threshold (float): Threshold for the sentiment score (from -1 to 1). Default is 0.3.
            lexicon (str): Lexicon for the SentimentIntensityAnalyzer. Default is 'vader_lexicon'.
 
         Raises:
@@ -32,6 +32,9 @@ class Sentiment(Scanner):
         self._threshold = threshold
 
     def scan(self, prompt: str) -> tuple[str, bool, float]:
+        if not prompt:
+            return prompt, True, -1.0
+
         sentiment_score = self._sentiment_analyzer.polarity_scores(prompt)
         sentiment_score_compound = sentiment_score["compound"]
         if sentiment_score_compound > self._threshold:
@@ -49,6 +52,4 @@ class Sentiment(Scanner):
             threshold=self._threshold,
         )
 
-        # Normalize such that -1 maps to 1 and threshold maps to 0
-        score = round((sentiment_score_compound - (-1)) / (self._threshold - (-1)), 2)
-        return prompt, False, score
+        return prompt, False, calculate_risk_score(abs(sentiment_score_compound), self._threshold)

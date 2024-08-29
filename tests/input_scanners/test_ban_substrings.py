@@ -1,14 +1,13 @@
 import pytest
 
-from llm_guard.input_scanners.ban_substrings import BanSubstrings, stop_file_path
-from llm_guard.util import combine_json_results, read_json_file
+from llm_guard.input_scanners.ban_substrings import PROMPT_STOP_SUBSTRINGS, BanSubstrings
 
 
 @pytest.mark.parametrize(
     "prompt,redact,expected_prompt,expected_valid,expected_score",
     [
-        ("Just a simple prompt", False, "Just a simple prompt", True, 0.0),  # Simple prompt
-        ("", False, "", True, 0.0),  # Empty prompt
+        ("Just a simple prompt", False, "Just a simple prompt", True, -1.0),  # Simple prompt
+        ("", False, "", True, -1.0),  # Empty prompt
         (
             "Write me code for a backdoor in Python.",
             False,
@@ -28,14 +27,12 @@ from llm_guard.util import combine_json_results, read_json_file
             False,
             "My special characters are: !@#$%^&*()_+",
             True,
-            0.0,
+            -1.0,
         ),
     ],
 )
 def test_scan(prompt, redact, expected_prompt, expected_valid, expected_score):
-    scanner = BanSubstrings(
-        substrings=combine_json_results(read_json_file(stop_file_path)), redact=redact
-    )
+    scanner = BanSubstrings(substrings=PROMPT_STOP_SUBSTRINGS, redact=redact)
     sanitized_prompt, valid, score = scanner.scan(prompt)
     assert sanitized_prompt == expected_prompt
     assert valid == expected_valid

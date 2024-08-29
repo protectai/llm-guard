@@ -6,7 +6,7 @@ from llm_guard.input_scanners.gibberish import Gibberish
 @pytest.mark.parametrize(
     "prompt,expected_valid,expected_score",
     [
-        ("Just a simple prompt", True, 0.0),  # Simple prompt
+        ("Just a simple prompt", True, -0.7),  # Simple prompt
         (
             "dfdfer fgerfow2e0d qsqskdsd djksdnfkff swq",
             False,
@@ -15,7 +15,7 @@ from llm_guard.input_scanners.gibberish import Gibberish
         (
             "What does Protect AI do",
             True,
-            0.0,
+            -0.6,
         ),
     ],
 )

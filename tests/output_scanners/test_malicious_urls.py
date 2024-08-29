@@ -9,17 +9,17 @@ from llm_guard.output_scanners.malicious_urls import MaliciousURLs
         (
             "It's https://google.com/.",
             True,
-            0.0,
+            -0.5,
         ),  # Good output
         (
             "It's http://socialsocietyedu.com/components/com_wa/config.bin and http://facebuk.co/signup.html",
             False,
-            1.0,
+            0.5,
         ),  # Bad output
         (
             "It's https://google.com/ and https://facebook.com/.",
             True,
-            0.0,
+            -0.6,
         ),  # Good output with multiple URLs
     ],
 )

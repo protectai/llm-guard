@@ -6,7 +6,7 @@ from llm_guard.input_scanners.regex import MatchType, Regex
 @pytest.mark.parametrize(
     "prompt,expected_prompt,expected_valid,expected_score",
     [
-        ("Just a prompt", "Just a prompt", True, 0.0),  # Correct output
+        ("Just a prompt", "Just a prompt", True, -1.0),  # Correct output
         (
             "Here is my token: Bearer abc-def_123",
             "Here is my token: [REDACTED]",

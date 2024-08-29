@@ -10,7 +10,7 @@ from llm_guard.output_scanners.sensitive import Sensitive
             "Sorry, I can't",
             "Sorry, I can't",
             True,
-            0.0,
+            -1.0,
         ),  # No sensitive information
         (
             "john.doe@protectai.com is my email",

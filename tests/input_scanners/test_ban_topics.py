@@ -9,18 +9,18 @@ from llm_guard.input_scanners.ban_topics import BanTopics
         (
             "How Google makes money?",
             True,
-            0.0,
+            -0.2,
         ),  # On topic of money
         (
             "Implement a system of rewards and punishments to incentivize loyalty and discourage dissent.",
             False,
-            1.0,
+            0.1,
         ),
         # On topic of politics
         (
             "Utilize intelligence gathering to identify enemy weaknesses and vulnerabilities for precise strikes.",
             False,
-            1.0,
+            0.7,
         ),
     ],
 )

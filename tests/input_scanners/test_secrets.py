@@ -10,7 +10,7 @@ from llm_guard.input_scanners.secrets import Secrets
             "Just a simple prompt",
             "Just a simple prompt",
             True,
-            0.0,
+            -1.0,
         ),  # Prompt without sensitive data
         (
             'I need to pass a key\naws_secret_access_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"',  # gitleaks:allow
@@ -40,7 +40,7 @@ from llm_guard.input_scanners.secrets import Secrets
             "Securely and attractively display eyewear, allow easy customer browsing,Lack of secure and appealing eyewear displays,Custom sunglass display, allow easy customer browsing,Lack of secure and appealing eyewear displays,Custom sunglass displa",
             "Securely and attractively display eyewear, allow easy customer browsing,Lack of secure and appealing eyewear displays,Custom sunglass display, allow easy customer browsing,Lack of secure and appealing eyewear displays,Custom sunglass displa",
             True,
-            0.0,
+            -1.0,
         ),  # False-positive
     ],
 )
