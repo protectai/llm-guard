@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Sequence, cast
+from typing import Sequence
 
 from presidio_anonymizer.core.text_replace_builder import TextReplaceBuilder
 
@@ -65,7 +65,7 @@ class BanCompetitors(Scanner):
             use_onnx=use_onnx,
         )
 
-        transformers = cast("transformers", lazy_load_dep("transformers"))
+        transformers = lazy_load_dep("transformers")
         self._ner_pipeline = transformers.pipeline(
             "ner", model=tf_model, tokenizer=tf_tokenizer, **model.pipeline_kwargs
         )
