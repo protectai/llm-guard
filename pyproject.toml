@@ -23,7 +23,7 @@ dependencies = [
   "bc-detect-secrets==1.5.15",
   "faker>=26.0.0,<29",
   "fuzzysearch>=0.7,<0.9",
-  "json-repair>=0.25.2,<0.29",
+  "json-repair>=0.25.2,<0.30",
   "nltk>=3.9.1,<4",
   "presidio-analyzer==2.2.354",
   "presidio-anonymizer==2.2.354",
