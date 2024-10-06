@@ -33,8 +33,7 @@ dependencies = [
     "opentelemetry-exporter-prometheus==0.47b0",
     "opentelemetry-sdk-extension-aws==2.0.2",
     "opentelemetry-propagator-aws-xray==1.0.2",
-    "psutil>=5.9",
-    "oldest-supported-numpy"
+    "psutil>=5.9"
 ]
 
 [project.optional-dependencies]
