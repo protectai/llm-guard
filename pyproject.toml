@@ -30,17 +30,17 @@ dependencies = [
   "regex==2024.9.11",
   "tiktoken>=0.5,<0.8",
   "torch>=2.4.0",
-  "transformers>=4.44.2",
+  "transformers==4.44.2",
   "structlog>=24",
   "oldest-supported-numpy"
 ]
 
 [project.optional-dependencies]
 onnxruntime = [
-  "optimum[onnxruntime]>=1.21",
+  "optimum[onnxruntime]==1.23.1",
 ]
 onnxruntime-gpu = [
-  "optimum[onnxruntime-gpu]>=1.21",
+  "optimum[onnxruntime-gpu]==1.23.1",
 ]
 docs-dev = [
   "mkdocs>=1.6,<2",
