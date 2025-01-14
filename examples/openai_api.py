@@ -18,10 +18,12 @@ vault = Vault()
 input_scanners = [Anonymize(vault), Toxicity(), TokenLimit(), PromptInjection()]
 output_scanners = [Deanonymize(vault), NoRefusal(), Relevance(), Sensitive()]
 
-prompt = "Make an SQL insert statement to add a new user to our database. Name is John Doe. Email is test@test.com "
-"but also possible to contact him with hello@test.com email. Phone number is 555-123-4567 and "
-"the IP address is 192.168.1.100. And credit card number is 4567-8901-2345-6789. "
-"He works in Test LLC."
+prompt = (
+    "Make an SQL insert statement to add a new user to our database. Name is John Doe. Email is test@test.com "
+    "but also possible to contact him with hello@test.com email. Phone number is 555-123-4567 and "
+    "the IP address is 192.168.1.100. And credit card number is 4567-8901-2345-6789. "
+    "He works in Test LLC."
+)
 
 sanitized_prompt, results_valid, results_score = scan_prompt(input_scanners, prompt)
 if any(results_valid.values()) is False:
