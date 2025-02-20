@@ -12,8 +12,7 @@ try:
     import llm_guard
 except ImportError:
     raise ModuleNotFoundError(
-        "Could not import llm-guard python package. "
-        "Please install it with `pip install llm-guard`."
+        "Could not import llm-guard python package. Please install it with `pip install llm-guard`."
     )
 
 
@@ -68,7 +67,7 @@ class LLMGuardPromptChain(Chain):
             return values
         except Exception as e:
             raise ValueError(
-                "Could not initialize scanners. " f"Please check provided configuration. {e}"
+                f"Could not initialize scanners. Please check provided configuration. {e}"
             ) from e
 
     @property
@@ -226,7 +225,7 @@ class LLMGuardOutputChain(BaseModel):
             return values
         except Exception as e:
             raise ValueError(
-                "Could not initialize scanners. " f"Please check provided configuration. {e}"
+                f"Could not initialize scanners. Please check provided configuration. {e}"
             ) from e
 
     def _check_result(
