@@ -26,7 +26,7 @@ from llm_guard.input_scanners.secrets import Secrets
         ),  # Prompt with Github token
         (
             "My JWT token is: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",  # gitleaks:allow
-            "My JWT token is: ******SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+            "My JWT token is: ******",
             False,
             1.0,
         ),  # Prompt with a JWT token

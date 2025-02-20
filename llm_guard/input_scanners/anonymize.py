@@ -160,7 +160,7 @@ class Anonymize(Scanner):
                 other_elements.append(result)
                 tmp_analyzer_results.append(result)
             else:
-                LOGGER.debug(f"removing element {result} from " f"results list due to merge")
+                LOGGER.debug(f"removing element {result} from results list due to merge")
 
         unique_text_metadata_elements = []
         # This list contains all elements which we need to check a single result

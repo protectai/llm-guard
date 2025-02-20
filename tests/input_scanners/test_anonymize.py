@@ -317,6 +317,6 @@ def test_patterns():
 
         for example in group.get("examples", []):
             for expression in group.get("expressions", []):
-                assert (
-                    re.search(expression, example) is not None
-                ), f"Test for {name} failed. No match found for example: {example}"
+                assert re.search(expression, example) is not None, (
+                    f"Test for {name} failed. No match found for example: {example}"
+                )

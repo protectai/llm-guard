@@ -8,7 +8,8 @@ exclude = ["examples/google_gemini.py"]
 
 [lint]
 ignore = [
-    'RUF001' # String contains ambiguous `，`
+    'RUF001', # String contains ambiguous `，`
+    "A005",   # flake8-builtins
 ]
 select = [
     'A',  # flake8-builtins
