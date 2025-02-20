@@ -32,7 +32,8 @@ dependencies = [
   "torch>=2.4.0",
   "transformers==4.48.3",
   "structlog>=24",
-  "oldest-supported-numpy"
+  "oldest-supported-numpy",
+  "spacy-pkuseg==1.0.0"
 ]
 
 [project.optional-dependencies]
