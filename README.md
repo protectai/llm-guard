@@ -12,7 +12,7 @@ stars](https://img.shields.io/github/stars/protectai/llm-guard.svg?style=social&
 [![Downloads](https://static.pepy.tech/badge/llm-guard)](https://pepy.tech/project/llm-guard)
 [![Downloads](https://static.pepy.tech/badge/llm-guard/month)](https://pepy.tech/project/llm-guard)
 
-<a href="https://join.slack.com/t/laiyerai/shared_invite/zt-28jv3ci39-sVxXrLs3rQdaN3mIl9IT~w"><img src="https://github.com/protectai/llm-guard/blob/main/docs/assets/join-our-slack-community.png?raw=true" width="200" alt="Join Our Slack Community"></a>
+<a href="https://mlsecops.com/slack"><img src="https://github.com/protectai/llm-guard/blob/main/docs/assets/join-our-slack-community.png?raw=true" width="200" alt="Join Our Slack Community"></a>
 
 ## What is LLM Guard?
 
@@ -108,7 +108,7 @@ we would love to have you as part of our community.
 Join our Slack to give us feedback, connect with the maintainers and fellow users, ask questions,
 get help for package usage or contributions, or engage in discussions about LLM security!
 
-<a href="https://join.slack.com/t/laiyerai/shared_invite/zt-28jv3ci39-sVxXrLs3rQdaN3mIl9IT~w"><img src="https://github.com/protectai/llm-guard/blob/main/docs/assets/join-our-slack-community.png?raw=true" width="200" alt="Join Our Slack Community"></a>
+<a href="https://mlsecops.com/slack"><img src="https://github.com/protectai/llm-guard/blob/main/docs/assets/join-our-slack-community.png?raw=true" width="200" alt="Join Our Slack Community"></a>
 
 ### Production Support
 
