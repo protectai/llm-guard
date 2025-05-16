@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Any, cast
 
 from presidio_analyzer import AnalysisExplanation, EntityRecognizer, RecognizerResult
 from presidio_analyzer.nlp_engine import NlpArtifacts
-from transformers import TokenClassificationPipeline
+from transformers.pipelines.token_classification import TokenClassificationPipeline
 
 from llm_guard.model import Model
 from llm_guard.transformers_helpers import get_tokenizer_and_model_for_ner
@@ -60,7 +60,7 @@ class TransformersRecognizer(EntityRecognizer):
     chunk_length: int
     id_entity_name: str
     id_score_reduction: float
-    pipeline: transformers.Pipeline | None
+    pipeline: transformers.pipelines.base.Pipeline | None
 
     def load(self) -> None:
         pass
@@ -139,7 +139,7 @@ class TransformersRecognizer(EntityRecognizer):
         self.model.pipeline_kwargs["ignore_labels"] = self.ignore_labels
 
         transformers = cast("transformers", lazy_load_dep("transformers"))
-        self.pipeline = transformers.pipeline(
+        self.pipeline = transformers.pipelines.pipeline(
             "ner",
             model=tf_model,
             tokenizer=tf_tokenizer,

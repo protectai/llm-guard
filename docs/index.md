@@ -4,7 +4,7 @@ LLM Guard by [Protect AI](https://protectai.com/llm-guard) is a comprehensive to
 
 [**Playground**](https://huggingface.co/spaces/ProtectAI/llm-guard-playground) | [**Changelog**](./changelog.md)
 
-<a href="https://join.slack.com/t/laiyerai/shared_invite/zt-28jv3ci39-sVxXrLs3rQdaN3mIl9IT~w"><img src="./assets/join-our-slack-community.png" width="200" alt="Join Our Slack Community"></a>
+<a href="https://mlsecops.com/slack"><img src="./assets/join-our-slack-community.png" width="200" alt="Join Our Slack Community"></a>
 
 ## What is LLM Guard?
 
@@ -55,4 +55,4 @@ we would love to have you as part of our community.
 Join our Slack to give us feedback, connect with the maintainers and fellow users, ask questions,
 get help for package usage or contributions, or engage in discussions about LLM security!
 
-<a href="https://join.slack.com/t/laiyerai/shared_invite/zt-28jv3ci39-sVxXrLs3rQdaN3mIl9IT~w"><img src="./assets/join-our-slack-community.png" width="200" alt="Join Our Slack Community"></a>
+<a href="https://mlsecops.com/slack"><img src="./assets/join-our-slack-community.png" width="200" alt="Join Our Slack Community"></a>
