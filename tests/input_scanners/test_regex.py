@@ -13,12 +13,18 @@ from llm_guard.input_scanners.regex import MatchType, Regex
             False,
             1.0,
         ),  # Regex matched
+        (
+            "What is 12345? 12345",
+            "What is [REDACTED]? [REDACTED]",
+            False,
+            1.0,
+        ),  # Multiple matches
     ],
 )
 def test_scan(prompt, expected_prompt, expected_valid, expected_score):
     scanner = Regex(
-        patterns=[r"Bearer [A-Za-z0-9-._~+/]+"],
-        match_type=MatchType.SEARCH,
+        patterns=[r"Bearer [A-Za-z0-9-._~+/]+", r"\d{5}"],
+        match_type=MatchType.ALL,
         is_blocked=True,
         redact=True,
     )
