@@ -4,11 +4,6 @@ import importlib
 from functools import lru_cache
 from typing import Literal, get_args
 
-from transformers.modeling_tf_utils import TFPreTrainedModel
-from transformers.modeling_utils import PreTrainedModel
-from transformers.tokenization_utils import PreTrainedTokenizer
-from transformers.tokenization_utils_fast import PreTrainedTokenizerFast
-
 from .exception import LLMGuardValidationError
 from .model import Model
 from .util import device, get_logger, lazy_load_dep
@@ -153,8 +148,8 @@ ClassificationTask = Literal["text-classification", "zero-shot-classification"]
 
 def pipeline(
     task: str,
-    model: PreTrainedModel | TFPreTrainedModel,
-    tokenizer: PreTrainedTokenizer | PreTrainedTokenizerFast,
+    model,
+    tokenizer,
     **kwargs,
 ):
     if task not in get_args(ClassificationTask):
