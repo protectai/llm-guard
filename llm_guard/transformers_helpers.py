@@ -4,12 +4,10 @@ import importlib
 from functools import lru_cache
 from typing import Literal, get_args
 
-from transformers import (
-    PreTrainedModel,
-    PreTrainedTokenizer,
-    PreTrainedTokenizerFast,
-    TFPreTrainedModel,
-)
+from transformers.modeling_tf_utils import TFPreTrainedModel
+from transformers.modeling_utils import PreTrainedModel
+from transformers.tokenization_utils import PreTrainedTokenizer
+from transformers.tokenization_utils_fast import PreTrainedTokenizerFast
 
 from .exception import LLMGuardValidationError
 from .model import Model
