@@ -87,11 +87,12 @@ class BanSubstrings(Scanner):
         self._redact = redact
         self._contains_all = contains_all
 
-    @staticmethod
-    def _redact_text(text: str, substrings: list[str]) -> str:
+    def _redact_text(self, text: str, substrings: list[str]) -> str:
         redacted_text = text
         for s in substrings:
-            redacted_text = redacted_text.replace(s, "[REDACTED]")
+            regex_redacted = re.compile(re.escape(s), 0 if self._case_sensitive else re.IGNORECASE)
+            redacted_text = regex_redacted.sub("[REDACTED]", redacted_text)
+
         return redacted_text
 
     def scan(self, prompt: str) -> tuple[str, bool, float]:

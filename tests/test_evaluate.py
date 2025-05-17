@@ -3,7 +3,16 @@ import pytest
 from llm_guard import scan_output, scan_prompt
 from llm_guard.input_scanners import BanSubstrings, TokenLimit
 from llm_guard.input_scanners.ban_substrings import MatchType as BanSubstringsMatchType
-from llm_guard.output_scanners import BanTopics, NoRefusal, Regex, Relevance
+from llm_guard.output_scanners import (
+    BanTopics,
+    Deanonymize,
+    Gibberish,
+    NoRefusal,
+    Regex,
+    Relevance,
+    Sensitive,
+)
+from llm_guard.vault import Vault
 
 
 @pytest.mark.parametrize(
@@ -70,6 +79,20 @@ def test_scan_prompt(evaluators, prompt, expected_sanitized_prompt, expected_res
             {"Regex": False},
             True,
         ),  # fail fast
+        (
+            [Deanonymize(Vault()), NoRefusal(), Relevance(), Sensitive(), Gibberish()],
+            "test phrase",
+            "test output",
+            "test output",
+            {
+                "Deanonymize": True,
+                "NoRefusal": True,
+                "Relevance": True,
+                "Sensitive": True,
+                "Gibberish": True,
+            },
+            False,
+        ),  # multiple scanners
     ],
 )
 def test_scan_output(
