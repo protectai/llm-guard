@@ -226,6 +226,13 @@ Create a summarized version of his resume.""",
             False,
             1.0,
         ),
+        (
+            {"allowed_names": "Mary"},
+            "Full Name: Mary.",
+            "Full Name: Mary.",
+            True,
+            -1.0,
+        ),  # Exposed name
         ({}, "", "", True, -1.0),  # Empty prompt
     ],
 )
