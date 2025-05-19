@@ -4,7 +4,7 @@
 
 # Docker config
 DOCKER_IMAGE_NAME=laiyer/llm-guard-api
-VERSION=0.3.15
+VERSION=0.3.16
 
 # Other config
 NO_COLOR=\033[0m
