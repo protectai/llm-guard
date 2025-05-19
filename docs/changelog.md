@@ -11,9 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -
 
 ### Fixed
--
+- Regex scanner redacts only the first occurrence ([#229](https://github.com/protectai/llm-guard/issues/229)).
+- BanSubstrings scanner redacts only the first occurrence ([#210](https://github.com/protectai/llm-guard/issues/210)).
 
 ### Changed
+- Upgrade all dependencies.
 - Stop substrings moved to the variables instead of JSON files.
 - **[BREAKING]** New logic to calculate the risk score ([#182](https://github.com/protectai/llm-guard/issues/182)).
 

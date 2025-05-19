@@ -45,7 +45,7 @@ response_text = response.choices[0].message.content
 sanitized_response_text, results_valid, results_score = scan_output(
     output_scanners, sanitized_prompt, response_text
 )
-if any(results_valid.values()) is False:
+if not all(results_valid.values()) is True:
     print(f"Output {response_text} is not valid, scores: {results_score}")
     exit(1)
 

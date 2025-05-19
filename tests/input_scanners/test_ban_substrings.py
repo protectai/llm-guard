@@ -43,9 +43,12 @@ def test_scan_all():
     scanner = BanSubstrings(
         substrings=["one", "two"],
         redact=True,
+        case_sensitive=False,
         contains_all=True,
     )
-    sanitized_prompt, valid, score = scanner.scan("Testing one and two")
-    assert sanitized_prompt == "Testing [REDACTED] and [REDACTED]"
+    sanitized_prompt, valid, score = scanner.scan("Testing one and two. But also two and one.")
+    assert (
+        sanitized_prompt == "Testing [REDACTED] and [REDACTED]. But also [REDACTED] and [REDACTED]."
+    )
     assert valid is False
     assert score == 1.0
