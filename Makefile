@@ -26,6 +26,7 @@ build: ## Build the package for PyPI.
 publish: ## Publish to PyPI.
 	@echo "Publishing to PyPI..."
 	@python -m pip install --upgrade twine
+	@python -m twine check dist/*
 	@python -m twine upload --repository llm-guard dist/*
 
 .PHONY: docs-serve

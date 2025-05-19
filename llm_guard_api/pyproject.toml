@@ -15,34 +15,33 @@ classifiers = [
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
 ]
-requires-python = ">=3.9,<3.13"
+requires-python = ">=3.10,<3.13"
 
 dependencies = [
     "asyncio==3.4.3",
-    "fastapi==0.112.1",
-    "llm-guard==0.3.15",
-    "pydantic==2.8.2",
+    "fastapi==0.115.12",
+    "llm-guard==0.3.16",
+    "pydantic==2.11.4",
     "pyyaml==6.0.2",
-    "uvicorn[standard]==0.30.6",
+    "uvicorn[standard]==0.34.2",
     "structlog>=24",
     "slowapi==0.1.9",
-    "opentelemetry-instrumentation-fastapi==0.47b0",
-    "opentelemetry-api==1.26.0",
-    "opentelemetry-sdk==1.26.0",
-    "opentelemetry-exporter-otlp-proto-http==1.26.0",
-    "opentelemetry-exporter-prometheus==0.47b0",
-    "opentelemetry-sdk-extension-aws==2.0.2",
+    "opentelemetry-instrumentation-fastapi==0.54b1",
+    "opentelemetry-api==1.33.1",
+    "opentelemetry-sdk==1.33.1",
+    "opentelemetry-exporter-otlp-proto-http==1.33.1",
+    "opentelemetry-exporter-prometheus==0.54b1",
+    "opentelemetry-sdk-extension-aws==2.1.0",
     "opentelemetry-propagator-aws-xray==1.0.2",
-    "psutil>=5.9",
-    "oldest-supported-numpy"
+    "psutil>=5.9"
 ]
 
 [project.optional-dependencies]
 cpu = [
-  "llm-guard[onnxruntime]==0.3.15",
+  "llm-guard[onnxruntime]==0.3.16",
 ]
 gpu = [
-  "llm-guard[onnxruntime-gpu]==0.3.15",
+  "llm-guard[onnxruntime-gpu]==0.3.16",
 ]
 
 [tool.setuptools]

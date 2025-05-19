@@ -5,10 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] - 0.3.16
+## [Unreleased] - 0.3.17
 
 ### Added
 -
+
+### Fixed
+-
+
+### Changed
+-
+
+### Removed
+-
+
+## [0.3.16] - 2025-05-19
 
 ### Fixed
 - Regex scanner redacts only the first occurrence ([#229](https://github.com/protectai/llm-guard/issues/229)).
@@ -18,9 +29,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Upgrade all dependencies.
 - Stop substrings moved to the variables instead of JSON files.
 - **[BREAKING]** New logic to calculate the risk score ([#182](https://github.com/protectai/llm-guard/issues/182)).
-
-### Removed
--
 
 ## [0.3.15] - 2024-08-22
 
@@ -409,6 +417,7 @@ _0.3.5 and 0.3.6 were skipped due to build issues._
     - [Toxicity](./output_scanners/toxicity.md)
 
 [Unreleased]: https://github.com/protectai/llm-guard/commits/main
+[0.3.16]: https://github.com/protectai/llm-guard/releases/tag/v0.3.16
 [0.3.15]: https://github.com/protectai/llm-guard/releases/tag/v0.3.15
 [0.3.14]: https://github.com/protectai/llm-guard/releases/tag/v0.3.14
 [0.3.13]: https://github.com/protectai/llm-guard/releases/tag/v0.3.13

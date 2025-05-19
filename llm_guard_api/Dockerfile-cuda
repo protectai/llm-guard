@@ -1,5 +1,5 @@
 # Start from an NVIDIA CUDA base image with Python 3
-FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04
+FROM nvidia/cuda:12.6.3-cudnn-runtime-ubuntu22.04
 
 LABEL org.opencontainers.image.source=https://github.com/protectai/llm-guard
 LABEL org.opencontainers.image.description="LLM Guard API"
