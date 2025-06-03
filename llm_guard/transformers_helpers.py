@@ -43,11 +43,23 @@ def is_onnx_supported() -> bool:
 def _ort_model_for_sequence_classification(
     model: Model,
 ):
-    provider = "CPUExecutionProvider"
-    package_name = "optimum[onnxruntime]"
-    if device().type == "cuda":
-        package_name = "optimum[onnxruntime-gpu]"
-        provider = "CUDAExecutionProvider"
+    # Determine provider based on available ONNX runtime providers
+    try:
+        import onnxruntime
+
+        available_providers = onnxruntime.get_available_providers()
+
+        # Only use CUDA if it's actually available in ONNX runtime
+        if "CUDAExecutionProvider" in available_providers:
+            provider = "CUDAExecutionProvider"
+            package_name = "optimum[onnxruntime-gpu]"
+        else:
+            provider = "CPUExecutionProvider"
+            package_name = "optimum[onnxruntime]"
+    except Exception:
+        # Fallback to CPU if ONNX runtime is not available
+        provider = "CPUExecutionProvider"
+        package_name = "optimum[onnxruntime]"
 
     onnxruntime = lazy_load_dep("optimum.onnxruntime", package_name)
 
@@ -124,16 +136,31 @@ def get_tokenizer_and_model_for_ner(
 
         return tf_tokenizer, tf_model
 
-    optimum_onnxruntime = lazy_load_dep(
-        "optimum.onnxruntime",
-        "optimum[onnxruntime]" if device().type != "cuda" else "optimum[onnxruntime-gpu]",
-    )
+    # Determine provider based on available ONNX runtime providers
+    try:
+        import onnxruntime
+
+        available_providers = onnxruntime.get_available_providers()
+
+        # Only use CUDA if it's actually available in ONNX runtime
+        if "CUDAExecutionProvider" in available_providers:
+            provider = "CUDAExecutionProvider"
+            package_name = "optimum[onnxruntime-gpu]"
+        else:
+            provider = "CPUExecutionProvider"
+            package_name = "optimum[onnxruntime]"
+    except Exception:
+        # Fallback to CPU if ONNX runtime is not available
+        provider = "CPUExecutionProvider"
+        package_name = "optimum[onnxruntime]"
+
+    optimum_onnxruntime = lazy_load_dep("optimum.onnxruntime", package_name)
 
     tf_model = optimum_onnxruntime.ORTModelForTokenClassification.from_pretrained(
         model.onnx_path,
         export=False,
         subfolder=model.onnx_subfolder,
-        provider=("CUDAExecutionProvider" if device().type == "cuda" else "CPUExecutionProvider"),
+        provider=provider,
         revision=model.onnx_revision,
         file_name=model.onnx_filename,
         **model.kwargs,

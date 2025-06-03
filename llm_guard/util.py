@@ -12,7 +12,7 @@ import structlog
 LOGGER = structlog.getLogger(__name__)
 
 if TYPE_CHECKING:
-    import torch
+    pass  # torch import moved to device() function
 
 """
 This file contains utility functions.
@@ -28,15 +28,17 @@ CHUNK = NamedTuple("CHUNKS", [("start", int), ("end", int)])
 
 
 def configure_logger(
-    log_level: LOG_LEVELS = "INFO", render_json: bool = False, stream: TextIO = sys.stdout
+    log_level: LOG_LEVELS = "INFO",
+    render_json: bool = False,
+    stream: TextIO = sys.stdout,
 ):
     """
     Configures the logger for the package.
 
     Args:
-        log_level: The log level to use for the logger. It should be one of the following strings:
+        log_level: The log level to use for the logger. It should be one of:
             "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL".
-        render_json: Whether to render log messages in JSON format. Default is False.
+        render_json: Whether to render log messages in JSON format.
         stream: The stream to write log messages to. Default is sys.stdout.
     """
     logging.basicConfig(
@@ -100,13 +102,24 @@ def get_logger(name: str | None = None) -> Any:
 # Detect pytorch device
 @lru_cache(maxsize=None)  # Unbounded cache
 def device():
-    torch = cast("torch", lazy_load_dep("torch"))
-    if torch.cuda.is_available():
-        return torch.device("cuda:0")
-    elif torch.backends.mps.is_available():
-        return torch.device("mps")
+    try:
+        torch = cast("torch", lazy_load_dep("torch"))
+        if torch.cuda.is_available():
+            return torch.device("cuda:0")
+        elif torch.backends.mps.is_available():
+            return torch.device("mps")
+        return torch.device("cpu")
+    except ImportError:
+        # Fallback for ONNX-only installations
+        import platform
+        import os
 
-    return torch.device("cpu")
+        # Simple device detection without torch
+        if os.environ.get("CUDA_VISIBLE_DEVICES"):
+            return "cuda"
+        elif platform.system() == "Darwin":
+            return "mps"
+        return "cpu"
 
 
 def lazy_load_dep(import_name: str, package_name: str | None = None):
