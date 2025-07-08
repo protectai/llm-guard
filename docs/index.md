@@ -46,7 +46,7 @@ we would love to have you as part of our community.
 - Give us a ⭐️ github star ⭐️ on the top of this page to support what we're doing,
   it means a lot for open source projects!
 - Read our
-  [docs](https://llm-guard.com/)
+  [docs](https://protectai.github.io/llm-guard/)
   for more info about how to use and customize deepchecks, and for step-by-step tutorials.
 - Post a [Github
   Issue](https://github.com/protectai/llm-guard/issues) to submit a bug report, feature request, or suggest an improvement.

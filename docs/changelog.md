@@ -95,7 +95,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **Anonymize**: New NER models from AI4Privacy [Isotonic/distilbert_finetuned_ai4privacy_v2](https://huggingface.co/Isotonic/distilbert_finetuned_ai4privacy_v2) and [Isotonic/deberta-v3-base_finetuned_ai4privacy_v2](https://huggingface.co/Isotonic/deberta-v3-base_finetuned_ai4privacy_v2).
-- [Gibberish](https://llm-guard.com/input_scanners/gibberish/) scanner to check if the text contains gibberish.
+- [Gibberish](./input_scanners/gibberish/.md) scanner to check if the text contains gibberish.
 - Ability to load models from local folders instead of pulling them from HuggingFace.
 
 ### Fixed
@@ -146,10 +146,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 _0.3.5 and 0.3.6 were skipped due to build issues._
 
 ### Added
-- [URLReachability](https://llm-guard.com/output_scanners/url_reachability/) scanner to check if the URL is reachable.
-- [BanCompetitors](https://llm-guard.com/input_scanners/ban_competitors/) scanner to check if the prompt or output contains competitors' names.
-- [InvisibleText](https://llm-guard.com/input_scanners/invisible_text/) scanner to check if the prompt contains invisible unicode characters (steganography attack).
-- [ReadingTime](https://llm-guard.com/output_scanners/reading_time/) scanner to check if the output can be read in less than a certain amount of time.
+- [URLReachability](./output_scanners/url_reachability.md) scanner to check if the URL is reachable.
+- [BanCompetitors](./input_scanners/ban_competitors.md) scanner to check if the prompt or output contains competitors' names.
+- [InvisibleText](./input_scanners/invisible_text.md) scanner to check if the prompt contains invisible unicode characters (steganography attack).
+- [ReadingTime](./output_scanners/reading_time.md) scanner to check if the output can be read in less than a certain amount of time.
 - Example of [invisible prompt attack](tutorials/attacks/invisible_prompt.ipynb) using `InvisibleText` scanner.
 - Example of [making Langchain agents secure](./tutorials/notebooks/langchain_agents.ipynb).
 
