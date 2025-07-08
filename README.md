@@ -2,7 +2,7 @@
 
 LLM Guard by [Protect AI](https://protectai.com/llm-guard) is a comprehensive tool designed to fortify the security of Large Language Models (LLMs).
 
-[**Documentation**](https://llm-guard.com/) | [**Playground**](https://huggingface.co/spaces/ProtectAI/llm-guard-playground) | [**Changelog**](https://llm-guard.com/changelog/)
+[**Documentation**](https://protectai.github.io/llm-guard/) | [**Playground**](https://huggingface.co/spaces/ProtectAI/llm-guard-playground) | [**Changelog**](https://protectai.github.io/llm-guard/changelog/)
 
 [![GitHub
 stars](https://img.shields.io/github/stars/protectai/llm-guard.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/protectai/llm-guard/stargazers/)
@@ -43,51 +43,51 @@ pip install llm-guard
 **Examples**:
 
 - Get started with [ChatGPT and LLM Guard](./examples/openai_api.py).
-- Deploy LLM Guard as [API](https://llm-guard.com/api/overview/)
+- Deploy LLM Guard as [API](https://protectai.github.io/llm-guard/api/overview/)
 
 ## Supported scanners
 
 ### Prompt scanners
 
-- [Anonymize](https://llm-guard.com/input_scanners/anonymize/)
+- [Anonymize](https://protectai.github.io/llm-guard/input_scanners/anonymize/)
 - [BanCode](./docs/input_scanners/ban_code.md)
-- [BanCompetitors](https://llm-guard.com/input_scanners/ban_competitors/)
-- [BanSubstrings](https://llm-guard.com/input_scanners/ban_substrings/)
-- [BanTopics](https://llm-guard.com/input_scanners/ban_topics/)
-- [Code](https://llm-guard.com/input_scanners/code/)
-- [Gibberish](https://llm-guard.com/input_scanners/gibberish/)
-- [InvisibleText](https://llm-guard.com/input_scanners/invisible_text/)
-- [Language](https://llm-guard.com/input_scanners/language/)
-- [PromptInjection](https://llm-guard.com/input_scanners/prompt_injection/)
-- [Regex](https://llm-guard.com/input_scanners/regex/)
-- [Secrets](https://llm-guard.com/input_scanners/secrets/)
-- [Sentiment](https://llm-guard.com/input_scanners/sentiment/)
-- [TokenLimit](https://llm-guard.com/input_scanners/token_limit/)
-- [Toxicity](https://llm-guard.com/input_scanners/toxicity/)
+- [BanCompetitors](https://protectai.github.io/llm-guard/input_scanners/ban_competitors/)
+- [BanSubstrings](https://protectai.github.io/llm-guard/input_scanners/ban_substrings/)
+- [BanTopics](https://protectai.github.io/llm-guard/input_scanners/ban_topics/)
+- [Code](https://protectai.github.io/llm-guard/input_scanners/code/)
+- [Gibberish](https://protectai.github.io/llm-guard/input_scanners/gibberish/)
+- [InvisibleText](https://protectai.github.io/llm-guard/input_scanners/invisible_text/)
+- [Language](https://protectai.github.io/llm-guard/input_scanners/language/)
+- [PromptInjection](https://protectai.github.io/llm-guard/input_scanners/prompt_injection/)
+- [Regex](https://protectai.github.io/llm-guard/input_scanners/regex/)
+- [Secrets](https://protectai.github.io/llm-guard/input_scanners/secrets/)
+- [Sentiment](https://protectai.github.io/llm-guard/input_scanners/sentiment/)
+- [TokenLimit](https://protectai.github.io/llm-guard/input_scanners/token_limit/)
+- [Toxicity](https://protectai.github.io/llm-guard/input_scanners/toxicity/)
 
 ### Output scanners
 
 - [BanCode](./docs/output_scanners/ban_code.md)
-- [BanCompetitors](https://llm-guard.com/output_scanners/ban_competitors/)
-- [BanSubstrings](https://llm-guard.com/output_scanners/ban_substrings/)
-- [BanTopics](https://llm-guard.com/output_scanners/ban_topics/)
-- [Bias](https://llm-guard.com/output_scanners/bias/)
-- [Code](https://llm-guard.com/output_scanners/code/)
-- [Deanonymize](https://llm-guard.com/output_scanners/deanonymize/)
-- [JSON](https://llm-guard.com/output_scanners/json/)
-- [Language](https://llm-guard.com/output_scanners/language/)
-- [LanguageSame](https://llm-guard.com/output_scanners/language_same/)
-- [MaliciousURLs](https://llm-guard.com/output_scanners/malicious_urls/)
-- [NoRefusal](https://llm-guard.com/output_scanners/no_refusal/)
-- [ReadingTime](https://llm-guard.com/output_scanners/reading_time/)
-- [FactualConsistency](https://llm-guard.com/output_scanners/factual_consistency/)
-- [Gibberish](https://llm-guard.com/output_scanners/gibberish/)
-- [Regex](https://llm-guard.com/output_scanners/regex/)
-- [Relevance](https://llm-guard.com/output_scanners/relevance/)
-- [Sensitive](https://llm-guard.com/output_scanners/sensitive/)
-- [Sentiment](https://llm-guard.com/output_scanners/sentiment/)
-- [Toxicity](https://llm-guard.com/output_scanners/toxicity/)
-- [URLReachability](https://llm-guard.com/output_scanners/url_reachability/)
+- [BanCompetitors](https://protectai.github.io/llm-guard/output_scanners/ban_competitors/)
+- [BanSubstrings](https://protectai.github.io/llm-guard/output_scanners/ban_substrings/)
+- [BanTopics](https://protectai.github.io/llm-guard/output_scanners/ban_topics/)
+- [Bias](https://protectai.github.io/llm-guard/output_scanners/bias/)
+- [Code](https://protectai.github.io/llm-guard/output_scanners/code/)
+- [Deanonymize](https://protectai.github.io/llm-guard/output_scanners/deanonymize/)
+- [JSON](https://protectai.github.io/llm-guard/output_scanners/json/)
+- [Language](https://protectai.github.io/llm-guard/output_scanners/language/)
+- [LanguageSame](https://protectai.github.io/llm-guard/output_scanners/language_same/)
+- [MaliciousURLs](https://protectai.github.io/llm-guard/output_scanners/malicious_urls/)
+- [NoRefusal](https://protectai.github.io/llm-guard/output_scanners/no_refusal/)
+- [ReadingTime](https://protectai.github.io/llm-guard/output_scanners/reading_time/)
+- [FactualConsistency](https://protectai.github.io/llm-guard/output_scanners/factual_consistency/)
+- [Gibberish](https://protectai.github.io/llm-guard/output_scanners/gibberish/)
+- [Regex](https://protectai.github.io/llm-guard/output_scanners/regex/)
+- [Relevance](https://protectai.github.io/llm-guard/output_scanners/relevance/)
+- [Sensitive](https://protectai.github.io/llm-guard/output_scanners/sensitive/)
+- [Sentiment](https://protectai.github.io/llm-guard/output_scanners/sentiment/)
+- [Toxicity](https://protectai.github.io/llm-guard/output_scanners/toxicity/)
+- [URLReachability](https://protectai.github.io/llm-guard/output_scanners/url_reachability/)
 
 ## Community, Contributing, Docs & Support
 
@@ -99,7 +99,7 @@ we would love to have you as part of our community.
 - Give us a ⭐️ github star ⭐️ on the top of this page to support what we're doing,
   it means a lot for open source projects!
 - Read our
-  [docs](https://llm-guard.com/)
+  [docs](https://protectai.github.io/llm-guard/)
   for more info about how to use and customize LLM Guard, and for step-by-step tutorials.
 - Post a [Github
   Issue](https://github.com/protectai/llm-guard/issues) to submit a bug report, feature request, or suggest an improvement.
