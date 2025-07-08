@@ -61,10 +61,10 @@ dev = [
 
 [project.urls]
 homepage = "https://github.com/protectai/llm-guard"
-documentation = "https://llm-guard.com/"
+documentation = "https://protectai.github.io/llm-guard/"
 repository = "https://github.com/protectai/llm-guard"
 issues = "https://github.com/protectai/llm-guard/issues"
-changelog = "https://llm-guard.com/changelog/"
+changelog = "https://protectai.github.io/llm-guard/changelog/"
 
 [tool.setuptools]
 packages = {find = {where=["."], include=["llm_guard", "llm_guard.*"]}}

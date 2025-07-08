@@ -1,7 +1,7 @@
 site_name: LLM Guard
 site_author: Protect AI, Inc.
 site_description: LLM Guard is a comprehensive tool designed to fortify the security of Large Language Models (LLMs).
-site_url: https://llm-guard.com
+site_url: https://protectai.github.io/llm-guard
 repo_url: https://github.com/protectai/llm-guard
 repo_name: protectai/llm-guard
 edit_uri: ""

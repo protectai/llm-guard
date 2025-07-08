@@ -1,3 +1,3 @@
 # LLM Guard API
 
-[Documentation](https://llm-guard.com/api/overview/)
+[Documentation](https://protectai.github.io/llm-guard/api/overview/)
