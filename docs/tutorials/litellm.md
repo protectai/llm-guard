@@ -12,7 +12,7 @@ LiteLLM currently supports requests in:
 
 ## Pre-Requisites
 - Install litellm proxy - `pip install 'litellm[proxy]'`
-- Setup [LLM Guard Docker](https://llm-guard.com/api/deployment/#from-docker)
+- Setup [LLM Guard Docker](../api/deployment.md#from-docker)
 
 ## Quick Start
 
