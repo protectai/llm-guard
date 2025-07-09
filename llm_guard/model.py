@@ -33,9 +33,30 @@ class Model:
     tokenizer_kwargs: dict = dataclasses.field(default_factory=dict)
 
     def __post_init__(self):
+        # Determine device safely for ONNX compatibility
+        try:
+            import onnxruntime
+
+            available_providers = onnxruntime.get_available_providers()
+
+            # If ONNX runtime doesn't have CUDA, force CPU device
+            if "CUDAExecutionProvider" not in available_providers:
+                # Import torch safely to create CPU device
+                try:
+                    torch = __import__("torch")
+                    model_device = torch.device("cpu")
+                except ImportError:
+                    # Fallback device for ONNX-only installs
+                    model_device = "cpu"
+            else:
+                model_device = device()
+        except ImportError:
+            # Fallback when ONNX runtime is not available
+            model_device = device()
+
         default_pipeline_kwargs = {
             "batch_size": 1,
-            "device": device(),
+            "device": model_device,
         }
         self.pipeline_kwargs = {**default_pipeline_kwargs, **self.pipeline_kwargs}
 

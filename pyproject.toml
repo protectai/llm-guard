@@ -20,25 +20,34 @@ requires-python = ">=3.10,<3.13"
 
 dependencies = [
   "bc-detect-secrets==1.5.43",
-  "faker>=37,<38",
-  "fuzzysearch>=0.7,<0.9",
-  "json-repair==0.44.1",
-  "nltk>=3.9.1,<4",
   "presidio-analyzer==2.2.358",
   "presidio-anonymizer==2.2.358",
   "regex==2024.11.6",
-  "tiktoken>=0.9,<1.0",
-  "torch>=2.4.0",
-  "transformers==4.51.3",
   "structlog>=24"
 ]
 
 [project.optional-dependencies]
+pytorch = [
+  "torch>=2.4.0",
+  "transformers==4.51.3",
+  "tiktoken>=0.9,<1.0",
+]
 onnxruntime = [
+  "transformers==4.51.3",  # Still needed for tokenizers
   "optimum[onnxruntime]==1.25.2",
 ]
 onnxruntime-gpu = [
+  "transformers==4.51.3",  # Still needed for tokenizers
   "optimum[onnxruntime-gpu]==1.25.2",
+]
+extended = [
+  "faker>=37,<38",
+  "fuzzysearch>=0.7,<0.9",
+  "json-repair==0.44.1",
+  "nltk>=3.9.1,<4",
+]
+full = [
+  "llm_guard[pytorch,onnxruntime,extended]",
 ]
 docs-dev = [
   "mkdocs>=1.6,<2",
