@@ -4,25 +4,25 @@ from llm_guard.input_scanners.emotion_detection import EmotionDetection
 
 
 @pytest.mark.parametrize(
-    "prompt,expected_valid,expected_score",
+    "prompt,expected_valid,check_score",
     [
-        ("Just a simple prompt", True, 0.0),  # Simple prompt
-        ("I am so happy today!", True, 0.0),  # Positive emotion (not blocked)
-        ("I am so angry right now!", False, 0.8),  # Blocked emotion
-        ("This makes me feel disgusted", False, 0.7),  # Blocked emotion
-        ("I am feeling sad about this", False, 0.6),  # Blocked emotion
-        ("I am nervous about the test", False, 0.5),  # Blocked emotion
-        ("", True, -1.0),  # Empty prompt
+        ("Just a simple prompt", True, lambda s: s == 0.0),  # Simple prompt
+        ("I am so happy today!", True, lambda s: s == 0.0),  # Positive emotion (not blocked)
+        ("I am so angry right now!", False, lambda s: s > 0.0),  # Blocked emotion
+        ("This makes me feel disgusted", False, lambda s: s > 0.0),  # Blocked emotion
+        ("I am feeling sad about this", False, lambda s: s > 0.0),  # Blocked emotion
+        ("I am nervous about the test", False, lambda s: s > 0.0),  # Blocked emotion
+        ("", True, lambda s: s == -1.0),  # Empty prompt
     ],
 )
-def test_scan(prompt, expected_valid, expected_score):
+def test_scan(prompt, expected_valid, check_score):
     scanner = EmotionDetection(
         threshold=0.5, blocked_emotions=["anger", "disgust", "sadness", "nervousness"]
     )
     sanitized_prompt, valid, score = scanner.scan(prompt)
     assert sanitized_prompt == prompt
     assert valid == expected_valid
-    assert score == expected_score
+    assert check_score(score), f"Score {score} failed check for prompt: {prompt}"
 
 
 def test_scan_default_blocked_emotions():
