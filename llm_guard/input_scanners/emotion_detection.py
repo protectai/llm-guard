@@ -188,7 +188,7 @@ class EmotionDetection(Scanner):
         return (
             prompt,
             True,
-            calculate_risk_score(highest_emotion_score, self._threshold),
+            0.0,
         )
 
     def get_emotion_analysis(self, prompt: str) -> Dict[str, float]:
@@ -283,6 +283,6 @@ class EmotionDetection(Scanner):
         return (
             prompt,
             True,
-            calculate_risk_score(highest_emotion_score, self._threshold),
+            0.0,
             emotion_analysis,
         )
