@@ -112,7 +112,7 @@ for prompt in prompts:
 ```
 
 Output:
-```
+```text
 Prompt: Just a simple question about the weather.
 Valid: True, Risk Score: 0.00
 
@@ -146,4 +146,4 @@ print(f"Valid: {is_valid}, Risk: {risk_score:.2f}")
 print(f"Full Analysis: {full_analysis}")
 # Output: Valid: False, Risk: 0.75
 # Full Analysis: {'anger': 0.82, 'sadness': 0.65, 'disappointment': 0.45, ...}
-``` 
+```

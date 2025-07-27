@@ -63,9 +63,7 @@ def test_input_scanning():
         print(f"\nTest {i}: {prompt}")
 
         try:
-            sanitized_prompt, is_valid, risk_score = scan_prompt(
-                [input_emotion_scanner], prompt
-            )
+            sanitized_prompt, is_valid, risk_score = scan_prompt([input_emotion_scanner], prompt)
             if is_valid:
                 print(f"✅ Valid (Risk: {risk_score:.2f})")
             else:
@@ -110,7 +108,8 @@ def test_custom_emotion_blocking():
 
     # Block only specific emotions
     custom_scanner = EmotionDetection(
-        threshold=0.5, blocked_emotions=["anger", "fear"]  # Only block anger and fear
+        threshold=0.5,
+        blocked_emotions=["anger", "fear"],  # Only block anger and fear
     )
 
     test_prompts = [
@@ -124,9 +123,7 @@ def test_custom_emotion_blocking():
         print(f"\nTest {i}: {prompt}")
 
         try:
-            sanitized_prompt, is_valid, risk_score = scan_prompt(
-                [custom_scanner], prompt
-            )
+            sanitized_prompt, is_valid, risk_score = scan_prompt([custom_scanner], prompt)
             if is_valid:
                 print(f"✅ Valid (Risk: {risk_score:.2f})")
             else:
@@ -142,7 +139,8 @@ def test_no_emotion_blocking():
 
     # Allow all emotions
     permissive_scanner = EmotionDetection(
-        threshold=0.5, blocked_emotions=[]  # No blocked emotions
+        threshold=0.5,
+        blocked_emotions=[],  # No blocked emotions
     )
 
     test_prompts = [
@@ -155,9 +153,7 @@ def test_no_emotion_blocking():
         print(f"\nTest {i}: {prompt}")
 
         try:
-            sanitized_prompt, is_valid, risk_score = scan_prompt(
-                [permissive_scanner], prompt
-            )
+            sanitized_prompt, is_valid, risk_score = scan_prompt([permissive_scanner], prompt)
             if is_valid:
                 print(f"✅ Valid (Risk: {risk_score:.2f})")
             else:

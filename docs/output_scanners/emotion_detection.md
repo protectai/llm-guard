@@ -108,7 +108,7 @@ for output in outputs:
 ```
 
 Output:
-```
+```text
 Output: I don't have a specific answer for you but I will try to help.
 Valid: True, Risk Score: 0.00
 
@@ -142,4 +142,4 @@ print(f"Valid: {is_valid}, Risk: {risk_score:.2f}")
 print(f"Full Analysis: {full_analysis}")
 # Output: Valid: False, Risk: 0.75
 # Full Analysis: {'anger': 0.82, 'sadness': 0.65, 'disappointment': 0.45, ...}
-``` 
+```

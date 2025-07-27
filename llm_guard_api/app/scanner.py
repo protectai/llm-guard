@@ -166,7 +166,10 @@ def _get_input_scanner(
         scanner_config["model"] = TOXICITY_MODEL
 
     if scanner_name == "EmotionDetection":
-        from llm_guard.input_scanners.emotion_detection import DEFAULT_MODEL as EMOTION_DETECTION_MODEL
+        from llm_guard.input_scanners.emotion_detection import (
+            DEFAULT_MODEL as EMOTION_DETECTION_MODEL,
+        )
+
         _configure_model(EMOTION_DETECTION_MODEL, scanner_config)
         scanner_config["model"] = EMOTION_DETECTION_MODEL
 
@@ -256,7 +259,10 @@ def _get_output_scanner(
         scanner_config["model"] = TOXICITY_MODEL
 
     if scanner_name == "EmotionDetection":
-        from llm_guard.input_scanners.emotion_detection import DEFAULT_MODEL as EMOTION_DETECTION_MODEL
+        from llm_guard.input_scanners.emotion_detection import (
+            DEFAULT_MODEL as EMOTION_DETECTION_MODEL,
+        )
+
         _configure_model(EMOTION_DETECTION_MODEL, scanner_config)
         scanner_config["model"] = EMOTION_DETECTION_MODEL
 

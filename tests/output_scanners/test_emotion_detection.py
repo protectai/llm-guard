@@ -52,7 +52,8 @@ def test_scan_default_blocked_emotions():
 def test_scan_custom_blocked_emotions():
     """Test that the scanner can use custom blocked emotions."""
     scanner = EmotionDetection(
-        threshold=0.5, blocked_emotions=["joy", "love"]  # Block positive emotions
+        threshold=0.5,
+        blocked_emotions=["joy", "love"],  # Block positive emotions
     )
     output = "I am so happy and in love!"
     sanitized_output, valid, score = scanner.scan("", output)
@@ -77,9 +78,7 @@ def test_scan_with_full_output():
     scanner = EmotionDetection(threshold=0.5, return_full_output=True)
     output = "I am so angry about this situation!"
 
-    sanitized_output, valid, score, emotion_analysis = scanner.scan_with_full_output(
-        "", output
-    )
+    sanitized_output, valid, score, emotion_analysis = scanner.scan_with_full_output("", output)
     assert sanitized_output == output
     assert valid == False  # Should be blocked due to anger
     assert score > 0.0
