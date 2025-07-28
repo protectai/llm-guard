@@ -7,6 +7,7 @@ from .ban_topics import BanTopics
 from .bias import Bias
 from .code import Code
 from .deanonymize import Deanonymize
+from .emotion_detection import EmotionDetection
 from .factual_consistency import FactualConsistency
 from .gibberish import Gibberish
 from .json import JSON
@@ -31,6 +32,7 @@ __all__ = [
     "Bias",
     "Code",
     "Deanonymize",
+    "EmotionDetection",
     "JSON",
     "Language",
     "LanguageSame",

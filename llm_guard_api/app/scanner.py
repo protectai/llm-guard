@@ -121,6 +121,7 @@ def _get_input_scanner(
         "BanCode",
         "BanTopics",
         "Code",
+        "EmotionDetection",
         "Gibberish",
         "Language",
         "PromptInjection",
@@ -164,6 +165,14 @@ def _get_input_scanner(
         _configure_model(TOXICITY_MODEL, scanner_config)
         scanner_config["model"] = TOXICITY_MODEL
 
+    if scanner_name == "EmotionDetection":
+        from llm_guard.input_scanners.emotion_detection import (
+            DEFAULT_MODEL as EMOTION_DETECTION_MODEL,
+        )
+
+        _configure_model(EMOTION_DETECTION_MODEL, scanner_config)
+        scanner_config["model"] = EMOTION_DETECTION_MODEL
+
     return input_scanners.get_scanner_by_name(scanner_name, scanner_config)
 
 
@@ -184,6 +193,7 @@ def _get_output_scanner(
         "BanTopics",
         "Bias",
         "Code",
+        "EmotionDetection",
         "Language",
         "LanguageSame",
         "MaliciousURLs",
@@ -247,6 +257,14 @@ def _get_output_scanner(
     if scanner_name == "Toxicity":
         _configure_model(TOXICITY_MODEL, scanner_config)
         scanner_config["model"] = TOXICITY_MODEL
+
+    if scanner_name == "EmotionDetection":
+        from llm_guard.input_scanners.emotion_detection import (
+            DEFAULT_MODEL as EMOTION_DETECTION_MODEL,
+        )
+
+        _configure_model(EMOTION_DETECTION_MODEL, scanner_config)
+        scanner_config["model"] = EMOTION_DETECTION_MODEL
 
     return output_scanners.get_scanner_by_name(scanner_name, scanner_config)
 

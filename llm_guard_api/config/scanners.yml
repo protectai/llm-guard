@@ -89,6 +89,11 @@ input_scanners:
     params:
       threshold: 0.9
       model_max_length: 256
+  - type: EmotionDetection
+    params:
+      threshold: 0.5
+      blocked_emotions: ["anger", "annoyance", "disappointment", "disapproval", "disgust", "embarrassment", "fear", "grief", "nervousness", "remorse", "sadness"]
+      model_max_length: 256
 
 
 output_scanners:
@@ -168,6 +173,11 @@ output_scanners:
   - type: Toxicity
     params:
       threshold: 0.9
+      model_max_length: 256
+  - type: EmotionDetection
+    params:
+      threshold: 0.5
+      blocked_emotions: ["anger", "annoyance", "disappointment", "disapproval", "disgust", "embarrassment", "fear", "grief", "nervousness", "remorse", "sadness"]
       model_max_length: 256
   - type: URLReachability
     params: {}
