@@ -1,0 +1,3675 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="LLM Guard is a comprehensive tool designed to fortify the security of Large Language Models (LLMs).">
+      
+      
+        <meta name="author" content="Protect AI, Inc.">
+      
+      
+        <link rel="canonical" href="https://protectai.github.io/llm-guard/changelog/">
+      
+      
+        <link rel="prev" href="../api/client/">
+      
+      
+        <link rel="next" href="../customization/add_scanner/">
+      
+      
+      <link rel="icon" href="../assets/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
+    
+    
+      
+        <title>Changelog - LLM Guard</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+  
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+  
+  <style>:root{--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1%207.775V2.75C1%201.784%201.784%201%202.75%201h5.025c.464%200%20.91.184%201.238.513l6.25%206.25a1.75%201.75%200%200%201%200%202.474l-5.026%205.026a1.75%201.75%200%200%201-2.474%200l-6.25-6.25A1.75%201.75%200%200%201%201%207.775m1.5%200c0%20.066.026.13.073.177l6.25%206.25a.25.25%200%200%200%20.354%200l5.025-5.025a.25.25%200%200%200%200-.354l-6.25-6.25a.25.25%200%200%200-.177-.073H2.75a.25.25%200%200%200-.25.25ZM6%205a1%201%200%201%201%200%202%201%201%200%200%201%200-2%22/%3E%3C/svg%3E');--md-admonition-icon--abstract:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M2.5%201.75v11.5c0%20.138.112.25.25.25h3.17a.75.75%200%200%201%200%201.5H2.75A1.75%201.75%200%200%201%201%2013.25V1.75C1%20.784%201.784%200%202.75%200h8.5C12.216%200%2013%20.784%2013%201.75v7.736a.75.75%200%200%201-1.5%200V1.75a.25.25%200%200%200-.25-.25h-8.5a.25.25%200%200%200-.25.25m13.274%209.537zl-4.557%204.45a.75.75%200%200%201-1.055-.008l-1.943-1.95a.75.75%200%200%201%201.062-1.058l1.419%201.425%204.026-3.932a.75.75%200%201%201%201.048%201.074M4.75%204h4.5a.75.75%200%200%201%200%201.5h-4.5a.75.75%200%200%201%200-1.5M4%207.75A.75.75%200%200%201%204.75%207h2a.75.75%200%200%201%200%201.5h-2A.75.75%200%200%201%204%207.75%22/%3E%3C/svg%3E');--md-admonition-icon--info:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.5%207.75A.75.75%200%200%201%207.25%207h1a.75.75%200%200%201%20.75.75v2.75h.25a.75.75%200%200%201%200%201.5h-2a.75.75%200%200%201%200-1.5h.25v-2h-.25a.75.75%200%200%201-.75-.75M8%206a1%201%200%201%201%200-2%201%201%200%200%201%200%202%22/%3E%3C/svg%3E');--md-admonition-icon--tip:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M3.499.75a.75.75%200%200%201%201.5%200v.996C5.9%202.903%206.793%203.65%207.662%204.376l.24.202c-.036-.694.055-1.422.426-2.163C9.1.873%2010.794-.045%2012.622.26%2014.408.558%2016%201.94%2016%204.25c0%201.278-.954%202.575-2.44%202.734l.146.508.065.22c.203.701.412%201.455.476%202.226.142%201.707-.4%203.03-1.487%203.898C11.714%2014.671%2010.27%2015%208.75%2015h-6a.75.75%200%200%201%200-1.5h1.376a4.5%204.5%200%200%201-.563-1.191%203.84%203.84%200%200%201-.05-2.063%204.65%204.65%200%200%201-2.025-.293.75.75%200%200%201%20.525-1.406c1.357.507%202.376-.006%202.698-.318l.009-.01a.747.747%200%200%201%201.06%200%20.75.75%200%200%201-.012%201.074c-.912.92-.992%201.835-.768%202.586.221.74.745%201.337%201.196%201.621H8.75c1.343%200%202.398-.296%203.074-.836.635-.507%201.036-1.31.928-2.602-.05-.603-.216-1.224-.422-1.93l-.064-.221c-.12-.407-.246-.84-.353-1.29a2.4%202.4%200%200%201-.507-.441%203.1%203.1%200%200%201-.633-1.248.75.75%200%200%201%201.455-.364c.046.185.144.436.31.627.146.168.353.305.712.305.738%200%201.25-.615%201.25-1.25%200-1.47-.95-2.315-2.123-2.51-1.172-.196-2.227.387-2.706%201.345-.46.92-.27%201.774.019%203.062l.042.19.01.05c.348.443.666.949.94%201.553a.75.75%200%201%201-1.365.62c-.553-1.217-1.32-1.94-2.3-2.768L6.7%205.527c-.814-.68-1.75-1.462-2.692-2.619a3.7%203.7%200%200%200-1.023.88c-.406.495-.663%201.036-.722%201.508.116.122.306.21.591.239.388.038.797-.06%201.032-.19a.75.75%200%200%201%20.728%201.31c-.515.287-1.23.439-1.906.373-.682-.067-1.473-.38-1.879-1.193L.75%205.677V5.5c0-.984.48-1.94%201.077-2.664.46-.559%201.05-1.055%201.673-1.353z%22/%3E%3C/svg%3E');--md-admonition-icon--success:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M13.78%204.22a.75.75%200%200%201%200%201.06l-7.25%207.25a.75.75%200%200%201-1.06%200L2.22%209.28a.75.75%200%200%201%20.018-1.042.75.75%200%200%201%201.042-.018L6%2010.94l6.72-6.72a.75.75%200%200%201%201.06%200%22/%3E%3C/svg%3E');--md-admonition-icon--question:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.92%206.085h.001a.749.749%200%201%201-1.342-.67c.169-.339.436-.701.849-.977C6.845%204.16%207.369%204%208%204a2.76%202.76%200%200%201%201.637.525c.503.377.863.965.863%201.725%200%20.448-.115.83-.329%201.15-.205.307-.47.513-.692.662-.109.072-.22.138-.313.195l-.006.004a6%206%200%200%200-.26.16%201%201%200%200%200-.276.245.75.75%200%200%201-1.248-.832c.184-.264.42-.489.692-.661q.154-.1.313-.195l.007-.004c.1-.061.182-.11.258-.161a1%201%200%200%200%20.277-.245C8.96%206.514%209%206.427%209%206.25a.61.61%200%200%200-.262-.525A1.27%201.27%200%200%200%208%205.5c-.369%200-.595.09-.74.187a1%201%200%200%200-.34.398M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--warning:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M6.457%201.047c.659-1.234%202.427-1.234%203.086%200l6.082%2011.378A1.75%201.75%200%200%201%2014.082%2015H1.918a1.75%201.75%200%200%201-1.543-2.575Zm1.763.707a.25.25%200%200%200-.44%200L1.698%2013.132a.25.25%200%200%200%20.22.368h12.164a.25.25%200%200%200%20.22-.368Zm.53%203.996v2.5a.75.75%200%200%201-1.5%200v-2.5a.75.75%200%200%201%201.5%200M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--failure:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M2.344%202.343za8%208%200%200%201%2011.314%2011.314A8.002%208.002%200%200%201%20.234%2010.089a8%208%200%200%201%202.11-7.746m1.06%2010.253a6.5%206.5%200%201%200%209.108-9.275%206.5%206.5%200%200%200-9.108%209.275M6.03%204.97%208%206.94l1.97-1.97a.749.749%200%200%201%201.275.326.75.75%200%200%201-.215.734L9.06%208l1.97%201.97a.749.749%200%200%201-.326%201.275.75.75%200%200%201-.734-.215L8%209.06l-1.97%201.97a.749.749%200%200%201-1.275-.326.75.75%200%200%201%20.215-.734L6.94%208%204.97%206.03a.75.75%200%200%201%20.018-1.042.75.75%200%200%201%201.042-.018%22/%3E%3C/svg%3E');--md-admonition-icon--danger:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M9.504.43a1.516%201.516%200%200%201%202.437%201.713L10.415%205.5h2.123c1.57%200%202.346%201.909%201.22%203.004l-7.34%207.142a1.25%201.25%200%200%201-.871.354h-.302a1.25%201.25%200%200%201-1.157-1.723L5.633%2010.5H3.462c-1.57%200-2.346-1.909-1.22-3.004zm1.047%201.074L3.286%208.571A.25.25%200%200%200%203.462%209H6.75a.75.75%200%200%201%20.694%201.034l-1.713%204.188%206.982-6.793A.25.25%200%200%200%2012.538%207H9.25a.75.75%200%200%201-.683-1.06l2.008-4.418.003-.006-.004-.009-.006-.006-.008-.001q-.005%200-.009.004%22/%3E%3C/svg%3E');--md-admonition-icon--bug:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M4.72.22a.75.75%200%200%201%201.06%200l1%20.999a3.5%203.5%200%200%201%202.441%200l.999-1a.748.748%200%200%201%201.265.332.75.75%200%200%201-.205.729l-.775.776c.616.63.995%201.493.995%202.444v.327q0%20.15-.025.292c.408.14.764.392%201.029.722l1.968-.787a.75.75%200%200%201%20.556%201.392L13%207.258V9h2.25a.75.75%200%200%201%200%201.5H13v.5q-.002.615-.141%201.186l2.17.868a.75.75%200%200%201-.557%201.392l-2.184-.873A5%205%200%200%201%208%2016a5%205%200%200%201-4.288-2.427l-2.183.873a.75.75%200%200%201-.558-1.392l2.17-.868A5%205%200%200%201%203%2011v-.5H.75a.75.75%200%200%201%200-1.5H3V7.258L.971%206.446a.75.75%200%200%201%20.558-1.392l1.967.787c.265-.33.62-.583%201.03-.722a1.7%201.7%200%200%201-.026-.292V4.5c0-.951.38-1.814.995-2.444L4.72%201.28a.75.75%200%200%201%200-1.06m.53%206.28a.75.75%200%200%200-.75.75V11a3.5%203.5%200%201%200%207%200V7.25a.75.75%200%200%200-.75-.75ZM6.173%205h3.654A.17.17%200%200%200%2010%204.827V4.5a2%202%200%201%200-4%200v.327c0%20.096.077.173.173.173%22/%3E%3C/svg%3E');--md-admonition-icon--example:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M5%205.782V2.5h-.25a.75.75%200%200%201%200-1.5h6.5a.75.75%200%200%201%200%201.5H11v3.282l3.666%205.76C15.619%2013.04%2014.543%2015%2012.767%2015H3.233c-1.776%200-2.852-1.96-1.899-3.458Zm-2.4%206.565a.75.75%200%200%200%20.633%201.153h9.534a.75.75%200%200%200%20.633-1.153L12.225%2010.5h-8.45ZM9.5%202.5h-3V6c0%20.143-.04.283-.117.403L4.73%209h6.54L9.617%206.403A.75.75%200%200%201%209.5%206Z%22/%3E%3C/svg%3E');--md-admonition-icon--quote:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M1.75%202.5h10.5a.75.75%200%200%201%200%201.5H1.75a.75.75%200%200%201%200-1.5m4%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5m0%205h8.5a.75.75%200%200%201%200%201.5h-8.5a.75.75%200%200%201%200-1.5M2.5%207.75v6a.75.75%200%200%201-1.5%200v-6a.75.75%200%200%201%201.5%200%22/%3E%3C/svg%3E');}</style>
+
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-B76J8KGG5Z"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-B76J8KGG5Z",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-B76J8KGG5Z",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#changelog" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="LLM Guard" class="md-header__button md-logo" aria-label="LLM Guard" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            LLM Guard
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Changelog
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/protectai/llm-guard" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    protectai/llm-guard
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href=".." class="md-tabs__link">
+          
+  
+  
+  Get Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../tutorials/optimization/" class="md-tabs__link">
+          
+  
+  
+  Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../input_scanners/anonymize/" class="md-tabs__link">
+          
+  
+  
+  Input Scanners
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../output_scanners/ban_competitors/" class="md-tabs__link">
+          
+  
+  
+  Output Scanners
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../api/overview/" class="md-tabs__link">
+          
+  
+  
+  API
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Changelog
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../customization/add_scanner/" class="md-tabs__link">
+          
+  
+  
+  Customization
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="LLM Guard" class="md-nav__button md-logo" aria-label="LLM Guard" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    LLM Guard
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/protectai/llm-guard" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    protectai/llm-guard
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Get Started
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Get Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Index
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../get_started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../get_started/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quickstart
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../get_started/playground/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Playground
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../get_started/attacks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Attacks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../get_started/best_practices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Best Practices
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Tutorials
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Tutorials
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/optimization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Optimization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/notebooks/local_models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Loading models from disk
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/openai/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OpenAI SDK
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/litellm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Across 100+ LLMs (LiteLLM)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/notebooks/langchain/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Langсhain
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/rag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Retrieval-augmented Generation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/notebooks/langchain_rag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Secure RAG with Langchain
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/notebooks/llama_index_rag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Secure RAG with LLamaIndex
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/notebooks/langchain_agents/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Secure Agents with Langchain
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/attacks/invisible_prompt/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Invisible Prompt Test in OpenAI GPT-4
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Input Scanners
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Input Scanners
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../input_scanners/anonymize/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Anonymize
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../input_scanners/ban_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    BanCode
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../input_scanners/ban_competitors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ban Competitors
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../input_scanners/ban_substrings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ban Substrings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../input_scanners/ban_topics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ban Topics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../input_scanners/code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Code
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../input_scanners/gibberish/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Gibberish
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../input_scanners/invisible_text/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Invisible Text
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../input_scanners/language/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Language
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../input_scanners/prompt_injection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Prompt Injection
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../input_scanners/regex/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Regex
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../input_scanners/secrets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Secrets
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../input_scanners/sentiment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sentiment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../input_scanners/token_limit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Token Limit
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../input_scanners/toxicity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Toxicity
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Output Scanners
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Output Scanners
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../output_scanners/ban_competitors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ban Competitors
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../output_scanners/ban_substrings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ban Substrings
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../output_scanners/ban_topics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ban Topics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../output_scanners/bias/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Bias
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../output_scanners/code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Code
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../output_scanners/deanonymize/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Deanonymize
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../output_scanners/json/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    JSON
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../output_scanners/language/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Language
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../output_scanners/language_same/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Language Same
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../output_scanners/malicious_urls/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Malicious URLs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../output_scanners/no_refusal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    No Refusal
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../output_scanners/reading_time/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Reading Time
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../output_scanners/factual_consistency/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Factual Consistency
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../output_scanners/gibberish/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Gibberish
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../output_scanners/regex/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Regex
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../output_scanners/relevance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Relevance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../output_scanners/sensitive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sensitive
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../output_scanners/sentiment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sentiment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../output_scanners/toxicity/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Toxicity
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../output_scanners/url_reachability/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    URL Reachability
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    API
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            API
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/deployment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Deployment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/client/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Client
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Changelog
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Changelog
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#unreleased-0317" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unreleased - 0.3.17
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Unreleased - 0.3.17">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added" class="md-nav__link">
+    <span class="md-ellipsis">
+      Added
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Removed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0316-2025-05-19" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.3.16 - 2025-05-19
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.3.16 - 2025-05-19">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixed_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0315-2024-08-22" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.3.15 - 2024-08-22
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.3.15 - 2024-08-22">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#changed_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0314-2024-06-17" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.3.14 - 2024-06-17
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.3.14 - 2024-06-17">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Added
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removed_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Removed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0313-2024-05-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.3.13 - 2024-05-10
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.3.13 - 2024-05-10">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixed_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0312-2024-04-23" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.3.12 - 2024-04-23
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.3.12 - 2024-04-23">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Added
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removed_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Removed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0310-2024-03-14" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.3.10 - 2024-03-14
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.3.10 - 2024-03-14">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Added
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removed_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Removed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#039-2024-02-08" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.3.9 - 2024-02-08
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.3.9 - 2024-02-08">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Added
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removed_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Removed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#037-2023-01-15" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.3.7 - 2023-01-15
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.3.7 - 2023-01-15">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Added
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#034-2023-12-21" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.3.4 - 2023-12-21
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.3.4 - 2023-12-21">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Added
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removed_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Removed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#033-2023-11-25" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.3.3 - 2023-11-25
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.3.3 - 2023-11-25">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Added
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#032-2023-11-15" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.3.2 - 2023-11-15
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.3.2 - 2023-11-15">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#changed_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removed_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Removed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#031-2023-11-09" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.3.1 - 2023-11-09
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.3.1 - 2023-11-09">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixed_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removed_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Removed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#030-2023-10-14" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.3.0 - 2023-10-14
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.3.0 - 2023-10-14">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      Added
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removed_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      Removed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#024-2023-10-07" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.2.4 - 2023-10-07
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.2.4 - 2023-10-07">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      Added
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removed_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      Removed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#023-2023-09-23" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.2.3 - 2023-09-23
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.2.3 - 2023-09-23">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#changed_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#022-2023-09-21" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.2.2 - 2023-09-21
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.2.2 - 2023-09-21">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixed_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#021-2023-09-21" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.2.1 - 2023-09-21
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.2.1 - 2023-09-21">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      Added
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#020-2023-09-15" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.2.0 - 2023-09-15
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.2.0 - 2023-09-15">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      Added
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removed_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      Removed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#013-2023-09-02" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.1.3 - 2023-09-02
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.1.3 - 2023-09-02">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#changed_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removed_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      Removed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#012-2023-08-26" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.1.2 - 2023-08-26
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.1.2 - 2023-08-26">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      Added
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#011-2023-08-20" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.1.1 - 2023-08-20
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.1.1 - 2023-08-20">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      Added
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#010-2023-08-12" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.1.0 - 2023-08-12
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.1.0 - 2023-08-12">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      Added
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#changed_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      Changed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removed_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      Removed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#003-2023-08-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.0.3 - 2023-08-10
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.0.3 - 2023-08-10">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      Added
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#002-2023-08-07" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.0.2 - 2023-08-07
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.0.2 - 2023-08-07">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixed_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#001-2023-08-07" class="md-nav__link">
+    <span class="md-ellipsis">
+      0.0.1 - 2023-08-07
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0.0.1 - 2023-08-07">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#added_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      Added
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Customization
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Customization
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../customization/add_scanner/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Add scanner
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="changelog">Changelog</h1>
+<p>All notable changes to this project will be documented in this file.</p>
+<p>The format is based on <a href="https://keepachangelog.com/en/1.0.0/">Keep a Changelog</a>,
+and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
+<h2 id="unreleased-0317"><a href="https://github.com/protectai/llm-guard/commits/main">Unreleased</a> - 0.3.17</h2>
+<h3 id="added">Added</h3>
+<p>-</p>
+<h3 id="fixed">Fixed</h3>
+<p>-</p>
+<h3 id="changed">Changed</h3>
+<p>-</p>
+<h3 id="removed">Removed</h3>
+<p>-</p>
+<h2 id="0316-2025-05-19"><a href="https://github.com/protectai/llm-guard/releases/tag/v0.3.16">0.3.16</a> - 2025-05-19</h2>
+<h3 id="fixed_1">Fixed</h3>
+<ul>
+<li>Regex scanner redacts only the first occurrence (<a href="https://github.com/protectai/llm-guard/issues/229">#229</a>).</li>
+<li>BanSubstrings scanner redacts only the first occurrence (<a href="https://github.com/protectai/llm-guard/issues/210">#210</a>).</li>
+</ul>
+<h3 id="changed_1">Changed</h3>
+<ul>
+<li>Upgrade all dependencies.</li>
+<li>Stop substrings moved to the variables instead of JSON files.</li>
+<li><strong>[BREAKING]</strong> New logic to calculate the risk score (<a href="https://github.com/protectai/llm-guard/issues/182">#182</a>).</li>
+</ul>
+<h2 id="0315-2024-08-22"><a href="https://github.com/protectai/llm-guard/releases/tag/v0.3.15">0.3.15</a> - 2024-08-22</h2>
+<h3 id="changed_2">Changed</h3>
+<ul>
+<li>Upgrade dependencies to the latest versions.</li>
+<li><code>Bias</code> scanner uses the prompt to increase the accuracy.</li>
+</ul>
+<h2 id="0314-2024-06-17"><a href="https://github.com/protectai/llm-guard/releases/tag/v0.3.14">0.3.14</a> - 2024-06-17</h2>
+<h3 id="added_1">Added</h3>
+<ul>
+<li>In API, suppress specific scanners when running the analysis.</li>
+</ul>
+<h3 id="changed_3">Changed</h3>
+<ul>
+<li>Allow custom <code>uvicorn</code> configuration in the API deployment.</li>
+<li>Add support of Python v3.12</li>
+<li>In API, removed <code>gunicorn</code> support as <code>uvicorn</code> <a href="https://fastapiexpert.com/blog/2024/05/28/uvicorn-0300-release/">supports workers</a>.</li>
+</ul>
+<h3 id="removed_1">Removed</h3>
+<ul>
+<li>Caching is removed from the API deployment as it was causing issues when running multiple workers.</li>
+<li><code>use_io_binding</code> parameter is removed for the ONNX inference to allow the client to control it.</li>
+</ul>
+<h2 id="0313-2024-05-10"><a href="https://github.com/protectai/llm-guard/releases/tag/v0.3.13">0.3.13</a> - 2024-05-10</h2>
+<h3 id="fixed_2">Fixed</h3>
+<ul>
+<li><code>BanSubstrings</code> scanner to handle substrings with special characters.</li>
+</ul>
+<h3 id="changed_4">Changed</h3>
+<ul>
+<li><code>Gibberish</code> scanner has higher threshold to reduce false positives. In addition, it supports changing <code>labels</code> to remove overtriggering when <code>mild gibberish</code> is detected.</li>
+<li><code>BanCode</code> scanner was improved to trigger less false-positives.</li>
+<li>Improved logging to support JSON format both in the library and <code>API</code>.</li>
+<li>Optimizations in the <code>API</code> to reduce the latency.</li>
+<li><code>BanCompetitors</code> scanner relies on the new model which also supports ONNX inference.</li>
+</ul>
+<h2 id="0312-2024-04-23"><a href="https://github.com/protectai/llm-guard/releases/tag/v0.3.12">0.3.12</a> - 2024-04-23</h2>
+<h3 id="added_2">Added</h3>
+<ul>
+<li>Lazy loading of models in the API deployment. Now you can start loading models when the first request comes.</li>
+<li>Support for <code>gunicorn</code> in the API deployment.</li>
+<li><code>NoRefusalLight</code> scanner that uses a common set of phrases to detect refusal as per research papers.</li>
+<li><code>Anonymize</code> and <code>Sensitive</code> scanners have a support of <a href="https://huggingface.co/lakshyakh93/deberta_finetuned_pii">lakshyakh93/deberta_finetuned_pii</a> model.</li>
+<li><code>BanCode</code> scanner to detect and block code snippets in the prompt.</li>
+<li>Benchmarks on the AMD CPU.</li>
+<li><code>API</code> has a new endpoint <code>POST /scan/prompt</code> to scan the prompt without sanitizing it. It is faster than the <code>POST /analyze/scan</code> endpoint.</li>
+<li>Example of running <a href="../tutorials/openai/">LLM Guard with ChatGPT streaming mode</a> enabled.</li>
+<li><code>API</code> supports loading models from the local folder.</li>
+</ul>
+<h3 id="fixed_3">Fixed</h3>
+<ul>
+<li><code>InvisibleText</code> scanner to allow control characters like <code>\n</code>, <code>\t</code>, etc.</li>
+</ul>
+<h3 id="changed_5">Changed</h3>
+<ul>
+<li><strong>[Breaking]</strong>: Introducing <code>Model</code> object for better customization of the models.</li>
+<li>Updated all libraries</li>
+<li>Introduced <code>revision</code> for all models to ensure the same model is used for the same revision.</li>
+<li><code>Code</code> scanner to rely on the output if there is no Code in the prompt.</li>
+<li><code>BanTopics</code>, <code>FactualConsistency</code>: support of the <a href="https://huggingface.co/collections/MoritzLaurer/zeroshot-classifiers-6548b4ff407bb19ff5c3ad6f">new zero-shot-classification models</a>.</li>
+<li><code>PromptInjection</code> can support more match types for better accuracy.</li>
+<li><code>API</code> relies on the lighter models for faster inference but with a bit lower accuracy. You can remove the change and build from source to use the full models.</li>
+<li><code>PromptInjection</code> scanned uses the <a href="https://huggingface.co/protectai/deberta-v3-base-prompt-injection-v2">new v2 model</a> for better accuracy.</li>
+</ul>
+<h3 id="removed_2">Removed</h3>
+<ul>
+<li><code>model_kwargs</code> and <code>pipeline_kwargs</code> as they are part of the <code>Model</code> object.</li>
+</ul>
+<h2 id="0310-2024-03-14"><a href="https://github.com/protectai/llm-guard/releases/tag/v0.3.10">0.3.10</a> - 2024-03-14</h2>
+<h3 id="added_3">Added</h3>
+<ul>
+<li><strong>Anonymize</strong>: New NER models from AI4Privacy <a href="https://huggingface.co/Isotonic/distilbert_finetuned_ai4privacy_v2">Isotonic/distilbert_finetuned_ai4privacy_v2</a> and <a href="https://huggingface.co/Isotonic/deberta-v3-base_finetuned_ai4privacy_v2">Isotonic/deberta-v3-base_finetuned_ai4privacy_v2</a>.</li>
+<li><a href="../input_scanners/gibberish/">Gibberish</a> scanner to check if the text contains gibberish.</li>
+<li>Ability to load models from local folders instead of pulling them from HuggingFace.</li>
+</ul>
+<h3 id="fixed_4">Fixed</h3>
+<p>-</p>
+<h3 id="changed_6">Changed</h3>
+<ul>
+<li>API Documentation and Code improvements.</li>
+<li>Improved logging to expose more information.</li>
+<li><strong>Anonymize</strong>: Tweaks for pattern-based matching.</li>
+<li>Pass <code>pipeline</code> and <code>model</code> <code>kwargs</code> for better control over the models.</li>
+<li>Relax validations to accept custom models.</li>
+<li><strong>[Breaking]</strong>: <code>Anonymize</code> scanner patterns are configured in Python instead of JSON file.</li>
+</ul>
+<h3 id="removed_3">Removed</h3>
+<p>-</p>
+<h2 id="039-2024-02-08"><a href="https://github.com/protectai/llm-guard/releases/tag/v0.3.9">0.3.9</a> - 2024-02-08</h2>
+<p><strong><a href="https://protectai.com/press/protect-ai-acquires-laiyer-ai">Laiyer is now part of Protect AI</a></strong></p>
+<h3 id="added_4">Added</h3>
+<ul>
+<li><code>Anonymize</code>: language support with <code>zh</code> (<a href="https://github.com/protectai/llm-guard/pull/79">#79</a>, thanks to <a href="https://github.com/Oscaner">@Oscaner</a>).</li>
+<li><code>Anonymize</code>: more regex patterns, such as <code>PO_BOX_RE</code>, <code>PRICE_RE</code>, <code>HEX_COLOR</code>, <code>TIME_RE</code>, <code>DATE_RE</code>, <code>URL_RE</code>, <code>PHONE_NUMBER_WITH_EXT</code>, <code>BTC_ADDRESS</code></li>
+<li>Add <a href="../get_started/attacks/">NIST Taxonomy</a> to the documentation.</li>
+<li>Pass HuggingFace Transformers <code>pipeline</code> <code>kwargs</code> for better control over the models. For example, <code>BanTopics(topics=["politics", "war", "religion"], transformers_kwargs={"low_cpu_mem_usage": True})</code> for better memory usage when handling big models.</li>
+<li><code>API</code>: rate limiting.</li>
+<li><code>API</code>: HTTP basic authentication and API key authentication.</li>
+<li><code>API</code>: OpenTelemetry support for tracing and metrics.</li>
+</ul>
+<h3 id="fixed_5">Fixed</h3>
+<ul>
+<li>Incorrect results when using <code>Deanonymize</code> multiple times (<a href="https://github.com/protectai/llm-guard/pull/82">#82</a>, thanks to <a href="https://github.com/andreaponti5">@andreaponti5</a>)</li>
+</ul>
+<h3 id="changed_7">Changed</h3>
+<ul>
+<li><code>NoRefusal</code> scanner relies on the proprietary model <a href="https://huggingface.co/ProtectAI/distilroberta-base-rejection-v1">ProtectAI/distilroberta-base-rejection-v1</a>.</li>
+<li><code>NoRefusal</code> support <code>match_type</code> parameter to choose between <code>sentence</code> and <code>all</code> matches.</li>
+<li>Using <code>structlog</code> for better logging.</li>
+<li><strong>[Breaking]</strong>: <code>Code</code>: using new model <a href="https://huggingface.co/philomath-1209/programming-language-identification">philomath-1209/programming-language-identification</a> with more languages support and better accuracy. Please update your <code>languages</code> parameter.</li>
+<li><code>API</code>: ONNX is enabled by default.</li>
+<li><code>protobuf</code> version is not capped to v3.</li>
+<li><code>API</code> uses <code>pyproject.toml</code> for dependencies and builds.</li>
+<li><strong>[Breaking]</strong>: <code>API</code> configuration changes with separate sections for <code>auth</code>, <code>rate_limit</code> and <code>cache</code>.</li>
+</ul>
+<h3 id="removed_4">Removed</h3>
+<ul>
+<li>Roadmap documentation as it's not up-to-date.</li>
+</ul>
+<h2 id="037-2023-01-15"><a href="https://github.com/protectai/llm-guard/releases/tag/v0.3.7">0.3.7</a> - 2023-01-15</h2>
+<p><em>0.3.5 and 0.3.6 were skipped due to build issues.</em></p>
+<h3 id="added_5">Added</h3>
+<ul>
+<li><a href="../output_scanners/url_reachability/">URLReachability</a> scanner to check if the URL is reachable.</li>
+<li><a href="../input_scanners/ban_competitors/">BanCompetitors</a> scanner to check if the prompt or output contains competitors' names.</li>
+<li><a href="../input_scanners/invisible_text/">InvisibleText</a> scanner to check if the prompt contains invisible unicode characters (steganography attack).</li>
+<li><a href="../output_scanners/reading_time/">ReadingTime</a> scanner to check if the output can be read in less than a certain amount of time.</li>
+<li>Example of <a href="../tutorials/attacks/invisible_prompt/">invisible prompt attack</a> using <code>InvisibleText</code> scanner.</li>
+<li>Example of <a href="../tutorials/notebooks/langchain_agents/">making Langchain agents secure</a>.</li>
+</ul>
+<h3 id="fixed_6">Fixed</h3>
+<ul>
+<li><code>BanSubstrings</code>: bug when <code>case_sensitive</code> was enabled.</li>
+<li><code>Bias</code> calculation of risk score based on the threshold.</li>
+</ul>
+<h3 id="changed_8">Changed</h3>
+<ul>
+<li>Using <code>pyproject.toml</code> instead of <code>setup.py</code> based on the <a href="https://github.com/protectai/llm-guard/issues/68">request</a>.</li>
+<li><strong>[Breaking]</strong> <code>Regex</code> scanners have a new signature. It accepts <code>patterns</code>, <code>is_blocked</code> and <code>match_type</code>.</li>
+<li><strong>[Breaking]</strong> <code>BanSubstrings</code>: <code>match_type</code> parameter became <code>Enum</code> instead of <code>str</code>.</li>
+<li><strong>[Breaking]</strong> <code>Code</code> scanners have a new signature. It accepts <code>languages</code> and <code>is_blocked</code> instead of 2 separate lists.</li>
+<li><code>Toxicity</code>, <code>PromptInjection</code>, <code>Bias</code> and <code>Language</code> scanners support sentence match for better accuracy (will become slower).</li>
+<li><code>BanTopics</code>, <code>FactualConsistency</code> and <code>NoRefusal</code>: Updated zero-shot classification model to <a href="https://huggingface.co/MoritzLaurer/deberta-v3-base-zeroshot-v1.1-all-33">hMoritzLaurer/deberta-v3-base-zeroshot-v1.1-all-33</a> with different size options.</li>
+<li><strong>[Breaking]</strong>: Using keyword arguments for better readability of the code e.g. <code>scanner = BanSubstrings(["a", "b", "c"], "str", False, True, False)</code> would raise an error.</li>
+<li><strong>[Breaking]</strong>: API config supports configuring same scanner multiple times with different inputs.</li>
+</ul>
+<h2 id="034-2023-12-21"><a href="https://github.com/protectai/llm-guard/releases/tag/v0.3.4">0.3.4</a> - 2023-12-21</h2>
+<h3 id="added_6">Added</h3>
+<ul>
+<li>Example of <a href="../tutorials/notebooks/langchain_rag/">securing RAG with Langchain</a></li>
+<li>Example of <a href="../tutorials/notebooks/llama_index_rag/">securing RAG with LlamaIndex</a></li>
+</ul>
+<h3 id="changed_9">Changed</h3>
+<ul>
+<li>Upgraded all libraries to the latest versions</li>
+<li>Improvements to the documentation</li>
+<li><code>Deanonymize</code> scanner supports matching strategies</li>
+<li>Support of ONNX runtime on GPU for even faster inference (with massive latency improvements) and updated benchmarks</li>
+</ul>
+<h3 id="removed_5">Removed</h3>
+<ul>
+<li>Usage of <code>dbmdz/bert-large-cased-finetuned-conll03-english</code> in the <code>Anonymize</code> scanner</li>
+</ul>
+<h2 id="033-2023-11-25"><a href="https://github.com/protectai/llm-guard/releases/tag/v0.3.3">0.3.3</a> - 2023-11-25</h2>
+<h3 id="added_7">Added</h3>
+<ul>
+<li>Benchmarks on Azure instances</li>
+</ul>
+<h3 id="changed_10">Changed</h3>
+<ul>
+<li>Upgraded <code>json_repair</code> library (<a href="https://github.com/protectai/llm-guard/issues/44">issue</a>)</li>
+<li>Use proprietary prompt injection detection model <a href="https://huggingface.co/ProtectAI/deberta-v3-base-prompt-injection">ProtectAI/deberta-v3-base-prompt-injection</a></li>
+</ul>
+<h2 id="032-2023-11-15"><a href="https://github.com/protectai/llm-guard/releases/tag/v0.3.2">0.3.2</a> - 2023-11-15</h2>
+<h3 id="changed_11">Changed</h3>
+<ul>
+<li>Using ONNX converted models hosted by Laiyer on HuggingFace</li>
+<li>Switched to better model for MaliciousURLs scanner - <a href="https://huggingface.co/DunnBC22/codebert-base-Malicious_URLs">DunnBC22/codebert-base-Malicious_URLs</a></li>
+<li><code>BanTopics</code>, <code>NoRefusal</code>, <code>FactualConsistency</code> and <code>Relevance</code> scanners support ONNX inference</li>
+<li><code>Relevance</code> rely on optimized ONNX models</li>
+<li>Switched to using <code>transformers</code> in <code>Relevance</code> scanner to have less dependencies</li>
+<li>Updated benchmarks for relevant scanners</li>
+<li>Use <code>papluca/xlm-roberta-base-language-detection</code> model for the <code>Language</code> and <code>LanguageSame</code> scanner</li>
+<li><code>PromptInjection</code> calculates risk score based on the defined threshold</li>
+<li>Up-to-date Langchain integration using LCEL</li>
+</ul>
+<h3 id="removed_6">Removed</h3>
+<ul>
+<li>Remove <code>lingua-language-detector</code> dependency from <code>Language</code> and <code>LanguageSame</code> scanners</li>
+</ul>
+<h2 id="031-2023-11-09"><a href="https://github.com/protectai/llm-guard/releases/tag/v0.3.1">0.3.1</a> - 2023-11-09</h2>
+<h3 id="fixed_7">Fixed</h3>
+<ul>
+<li>Handling long prompts by truncating it to the maximum length of the model</li>
+</ul>
+<h3 id="changed_12">Changed</h3>
+<ul>
+<li>Use single <code>PromptInjection</code> scanner with multiple models</li>
+<li>Benchmarks are measured for each scanner individually</li>
+<li>In the <code>Refutation</code> output scanner use the same model for the NLI as used in the <code>BanTopics</code></li>
+<li>Benchmarks for each individual scanner instead of one common</li>
+<li>Use <code>deepset/deberta-v3-base-injection</code> model for the <code>PromptInjection</code> scanner</li>
+<li>Optimization of scanners on GPU by using <code>batch_size=1</code></li>
+<li>Use <code>lingua-language-detector</code> instead of <code>langdetect</code> in the <code>Language</code> scanner</li>
+<li>Upgrade all libraries including <code>transformers</code> to the latest versions</li>
+<li>Use Transformers recognizers in the <code>Anonymize</code> and <code>Sensitive</code> scanner to improve named-entity recognition</li>
+<li>Possibility of using ONNX runtime in scanners by enabling <code>use_onnx</code> parameter</li>
+<li>Use the newest <code>MoritzLaurer/deberta-v3-base-zeroshot-v1</code> model for the <code>BanTopics</code> and <code>Refutation</code> scanners</li>
+<li>Use the newest <code>MoritzLaurer/deberta-v3-large-zeroshot-v1</code> model for the <code>NoRefusal</code> scanner</li>
+<li>Use better <code>unitary/unbiased-toxic-roberta</code> model for Toxicity scanners (both input and output)</li>
+<li>ONNX on API deployment for faster CPU inference</li>
+<li>CUDA on API deployment for faster GPU inference</li>
+</ul>
+<h3 id="removed_7">Removed</h3>
+<ul>
+<li>Remove <code>PromptInjectionV2</code> scanner to rely on the single one with a choice</li>
+<li>Langchain <code>LLMChain</code> example as this functionality is deprecated, use <code>LCEL</code> instead</li>
+</ul>
+<h2 id="030-2023-10-14"><a href="https://github.com/protectai/llm-guard/releases/tag/v0.3.0">0.3.0</a> - 2023-10-14</h2>
+<h3 id="added_8">Added</h3>
+<ul>
+<li><code>Regex</code> scanner to the prompt</li>
+<li><code>Language</code> scanners both for prompt and output</li>
+<li><code>JSON</code> output scanner</li>
+<li>Best practices to the documentation</li>
+<li><code>LanguageSame</code> output scanner to check that the prompt and output languages are the same</li>
+</ul>
+<h3 id="changed_13">Changed</h3>
+<ul>
+<li><code>BanSubstrings</code> can match all substrings in addition to any of them</li>
+<li><code>Sensitive</code> output scanner can redact found entities</li>
+<li>Change to faster model for <code>BanTopics</code> prompt and output scanners <a href="https://huggingface.co/MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c">MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c</a></li>
+<li>Changed model for the <code>NoRefusal</code> scanner to faster <a href="https://huggingface.co/MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c">MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c</a></li>
+<li><code>Anonymize</code> and <code>Sensitive</code> scanners support more accurate models (e.g. <a href="https://huggingface.co/beki/en_spacy_pii_distilbert">beki/en_spacy_pii_distilbert</a> and ability to choose them. It also reduced the latency of this scanner</li>
+<li>Usage of <code>sentence-transformers</code> library replaced with <code>FlagEmbedding</code> in the <code>Relevance</code> output scanner</li>
+<li>Ability to choose embedding model in <code>Relevance</code> scanner and use the <a href="https://huggingface.co/spaces/mteb/leaderboard">best model</a> currently available</li>
+<li>Cache tokenizers in memory to improve performance</li>
+<li>Moved API deployment to <code>llm_guard_api</code></li>
+<li><code>JSON</code> scanner can repair the JSON if it is broken</li>
+<li>Rename <code>Refutation</code> scanner to <code>FactualConsistency</code> to better reflect its purpose</li>
+</ul>
+<h3 id="removed_8">Removed</h3>
+<ul>
+<li>Removed chunking in <code>Anonymize</code> and <code>Sensitive</code> scanners because it was breaking redaction</li>
+</ul>
+<h2 id="024-2023-10-07"><a href="https://github.com/protectai/llm-guard/releases/tag/v0.2.4">0.2.4</a> - 2023-10-07</h2>
+<h3 id="added_9">Added</h3>
+<ul>
+<li>Langchain <a href="https://github.com/protectai/llm-guard/blob/main/examples/langchain_lcel.py">example</a> using <a href="https://python.langchain.com/docs/expression_language/">LangChain Expression Language (LCEL)</a></li>
+<li>Added prompt injection scanner v2 model based on <a href="https://huggingface.co/hubert233/GPTFuzz">hubert233/GPTFuzz</a></li>
+</ul>
+<h3 id="changed_14">Changed</h3>
+<ul>
+<li>Using another Bias detection model which works better on different devices <a href="https://huggingface.co/valurank/distilroberta-bias">valurank/distilroberta-bias</a></li>
+<li>Updated the roadmap in README and documentation</li>
+<li><code>BanSubstrings</code> can redact found substrings</li>
+<li>One <code>logger</code> for all scanners</li>
+<li><code>device</code> became function to lazy load (avoid <code>torch</code> import when unnecessary)</li>
+<li>Lazy load dependencies in scanners</li>
+<li>Added elapsed time in logs of <code>evaluate_prompt</code> and <code>evaluate_output</code> functions</li>
+<li>New secrets detectors</li>
+<li>Added GPU benchmarks on <code>g5.xlarge</code> instance</li>
+<li>Tests are running on Python 3.9, 3.10 and 3.11</li>
+</ul>
+<h3 id="removed_9">Removed</h3>
+<ul>
+<li>Usage of <code>accelerate</code> library for inference. Instead, it will detect device using <code>torch</code></li>
+</ul>
+<h2 id="023-2023-09-23"><a href="https://github.com/protectai/llm-guard/releases/tag/v0.2.3">0.2.3</a> - 2023-09-23</h2>
+<h3 id="changed_15">Changed</h3>
+<ul>
+<li>Added Swagger documentation on the <a href="../api/overview/">API</a> documentation page</li>
+<li>Added <code>fail_fast</code> flag to stop the execution after the first failure<ul>
+<li>Updated API and Playground to support <code>fail_fast</code> flag</li>
+<li>Clarified order of execution in the documentation</li>
+</ul>
+</li>
+<li>Added timeout configuration for API example</li>
+<li>Better examples of <code>langchain</code> integration</li>
+</ul>
+<h2 id="022-2023-09-21"><a href="https://github.com/protectai/llm-guard/releases/tag/v0.2.2">0.2.2</a> - 2023-09-21</h2>
+<h3 id="fixed_8">Fixed</h3>
+<ul>
+<li>Missing secrets detection for Github token in the final build</li>
+</ul>
+<h2 id="021-2023-09-21"><a href="https://github.com/protectai/llm-guard/releases/tag/v0.2.1">0.2.1</a> - 2023-09-21</h2>
+<h3 id="added_10">Added</h3>
+<ul>
+<li>New pages in the docs about usage of LLM Guard</li>
+<li>Benchmark of AWS EC2 <code>inf1.xlarge</code> instance</li>
+<li>Example of API with Docker in <a href="https://github.com/protectai/llm-guard/tree/main/llm_guard_api">llm_guard_api</a></li>
+<li><code>Regex</code> output scanner can redact the text using a regular expression</li>
+</ul>
+<h3 id="changed_16">Changed</h3>
+<ul>
+<li>Lowercase prompt in Relevance output scanner to improve quality of cosine similarity</li>
+<li>Detect code snippets from Markdown in <code>Code</code> scanner to prevent false-positives</li>
+<li>Changed model used for <code>PromptInjection</code> to <code>JasperLS/deberta-v3-base-injection</code>, which produces less false-positives</li>
+<li>Introduced <code>threshold</code> parameter for <code>Code</code> scanners to control the threshold for the similarity</li>
+</ul>
+<h2 id="020-2023-09-15"><a href="https://github.com/protectai/llm-guard/releases/tag/v0.2.0">0.2.0</a> - 2023-09-15</h2>
+<h3 id="added_11">Added</h3>
+<ul>
+<li>Documentation moved to <code>mkdocs</code></li>
+<li>Benchmarks in the documentation</li>
+<li>Added documentation about <a href="../customization/add_scanner/">adding more scanners</a></li>
+<li><code>Makefile</code> with useful commands</li>
+<li>Demo application using Streamlit deployed to HuggingFace Spaces</li>
+</ul>
+<h3 id="fixed_9">Fixed</h3>
+<ul>
+<li><code>MaliciousURLs</code> scanner produced false positives when URLs are not extracted from the text</li>
+</ul>
+<h3 id="changed_17">Changed</h3>
+<ul>
+<li>Support of GPU inference</li>
+<li>Score of existing <code>Anonymize</code> patterns</li>
+</ul>
+<h3 id="removed_10">Removed</h3>
+<ul>
+<li><code>URL</code> entity type from <code>Anonymize</code> scanner (it was producing false-positive results)</li>
+</ul>
+<h2 id="013-2023-09-02"><a href="https://github.com/protectai/llm-guard/releases/tag/v0.1.3">0.1.3</a> - 2023-09-02</h2>
+<h3 id="changed_18">Changed</h3>
+<ul>
+<li>Lock <code>transformers</code> version to 4.32.0 because <code>spacy-transformers</code> require it</li>
+<li>Update the roadmap based on the feedback from the community</li>
+<li>Updated <code>NoRefusal</code> scanner to use transformer to classify the output</li>
+</ul>
+<h3 id="removed_11">Removed</h3>
+<ul>
+<li>Jailbreak input scanner (it was doing the same as the prompt injection one)</li>
+</ul>
+<h2 id="012-2023-08-26"><a href="https://github.com/protectai/llm-guard/releases/tag/v0.1.2">0.1.2</a> - 2023-08-26</h2>
+<h3 id="added_12">Added</h3>
+<ul>
+<li><a href="../output_scanners/bias/">Bias output scanner</a></li>
+<li><a href="../output_scanners/sentiment/">Sentiment output scanner</a></li>
+</ul>
+<h3 id="changed_19">Changed</h3>
+<ul>
+<li>Introduced new linters for markdown</li>
+</ul>
+<h2 id="011-2023-08-20"><a href="https://github.com/protectai/llm-guard/releases/tag/v0.1.1">0.1.1</a> - 2023-08-20</h2>
+<h3 id="added_13">Added</h3>
+<ul>
+<li>Example integration with <a href="https://github.com/langchain-ai/langchain">LangChain</a></li>
+</ul>
+<h3 id="changed_20">Changed</h3>
+<ul>
+<li>Flow picture instead of the logo</li>
+<li>Bump libraries</li>
+</ul>
+<h2 id="010-2023-08-12"><a href="https://github.com/protectai/llm-guard/releases/tag/v0.1.0">0.1.0</a> - 2023-08-12</h2>
+<h3 id="added_14">Added</h3>
+<ul>
+<li><a href="../output_scanners/factual_consistency/">Refutation output scanner</a></li>
+<li><a href="../output_scanners/malicious_urls/">MaliciousURLs output scanner</a></li>
+<li><a href="../input_scanners/secrets/">Secrets prompt scanner</a></li>
+</ul>
+<h3 id="changed_21">Changed</h3>
+<ul>
+<li><strong>All prompt scanners</strong>: Introducing a risk score, where 0 - means no risk, 1 - means high risk</li>
+<li><strong>All output scanners</strong>: Introducing a risk score, where 0 - means no risk, 1 - means high risk</li>
+<li><strong>Anonymize prompt scanner</strong>: Using the transformer based Spacy model <code>en_core_web_trf</code> (<a href="https://microsoft.github.io/presidio/analyzer/nlp_engines/spacy_stanza/">reference</a>)</li>
+<li><strong>Anonymize prompt scanner</strong>: Supporting faker for applicable entities instead of placeholder (<code>use_faker</code> parameter)</li>
+<li><strong>Anonymize prompt scanner</strong>: Remove all patterns for secrets detection, use <a href="../input_scanners/secrets/">Secrets</a> prompt scanner instead.</li>
+<li><strong>Jailbreak prompt scanner</strong>: Updated dataset with more examples, removed duplicates</li>
+</ul>
+<h3 id="removed_12">Removed</h3>
+<ul>
+<li><strong>Anonymize prompt scanner</strong>: Removed <code>FILE_EXTENSION</code> entity type</li>
+</ul>
+<h2 id="003-2023-08-10"><a href="https://github.com/protectai/llm-guard/releases/tag/v0.0.3">0.0.3</a> - 2023-08-10</h2>
+<h3 id="added_15">Added</h3>
+<ul>
+<li>Dependabot support</li>
+<li>CodeQL support</li>
+<li>More pre-commit hooks to improve linters</li>
+</ul>
+<h3 id="fixed_10">Fixed</h3>
+<ul>
+<li>Locked libraries in <code>requirements.txt</code></li>
+<li>Logo link in README</li>
+</ul>
+<h2 id="002-2023-08-07"><a href="https://github.com/protectai/llm-guard/releases/tag/v0.0.2">0.0.2</a> - 2023-08-07</h2>
+<h3 id="fixed_11">Fixed</h3>
+<ul>
+<li>Fixed missing <code>.json</code> files in the package</li>
+</ul>
+<h2 id="001-2023-08-07"><a href="https://github.com/protectai/llm-guard/releases/tag/v0.0.1">0.0.1</a> - 2023-08-07</h2>
+<h3 id="added_16">Added</h3>
+<ul>
+<li>Project structure</li>
+<li><a href="../">Documentation</a></li>
+<li>Github Actions pipeline</li>
+<li>Prompt scanners with tests:<ul>
+<li><a href="../input_scanners/anonymize/">Anonymize</a></li>
+<li><a href="../input_scanners/ban_substrings/">BanSubstrings</a></li>
+<li><a href="../input_scanners/ban_topics/">BanTopics</a></li>
+<li><a href="../input_scanners/code/">Code</a></li>
+<li><a href="../input_scanners/prompt_injection/">PromptInjection</a></li>
+<li><a href="../input_scanners/sentiment/">Sentiment</a></li>
+<li><a href="../input_scanners/token_limit/">TokenLimit</a></li>
+<li><a href="../input_scanners/toxicity/">Toxicity</a></li>
+</ul>
+</li>
+<li>Output scanners with tests:<ul>
+<li><a href="../output_scanners/ban_substrings/">BanSubstrings</a></li>
+<li><a href="../output_scanners/ban_topics/">BanTopics</a></li>
+<li><a href="../output_scanners/code/">Code</a></li>
+<li><a href="../output_scanners/deanonymize/">Deanonymize</a></li>
+<li><a href="../output_scanners/no_refusal/">NoRefusal</a></li>
+<li><a href="../output_scanners/regex/">Regex</a></li>
+<li><a href="../output_scanners/relevance/">Relevance</a></li>
+<li><a href="../output_scanners/sensitive/">Sensitive</a></li>
+<li><a href="../output_scanners/toxicity/">Toxicity</a></li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+  
+    
+  
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="July 28, 2025 16:46:02 UTC">July 28, 2025</span>
+  </span>
+
+    
+    
+    
+    
+  </aside>
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Maintained by <a href="https://protectai.com">Protect AI, Inc.</a>.
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/ProtectAICorp" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M459.4 151.7c.3 4.5.3 9.1.3 13.6 0 138.7-105.6 298.6-298.6 298.6-59.5 0-114.7-17.2-161.1-47.1 8.4 1 16.6 1.3 25.3 1.3 49.1 0 94.2-16.6 130.3-44.8-46.1-1-84.8-31.2-98.1-72.8 6.5 1 13 1.6 19.8 1.6 9.4 0 18.8-1.3 27.6-3.6-48.1-9.7-84.1-52-84.1-103v-1.3c14 7.8 30.2 12.7 47.4 13.3-28.3-18.8-46.8-51-46.8-87.4 0-19.5 5.2-37.4 14.3-53C87.4 130.8 165 172.4 252.1 176.9c-1.6-7.8-2.6-15.9-2.6-24C249.5 95.1 296.3 48 354.4 48c30.2 0 57.5 12.7 76.7 33.1 23.7-4.5 46.5-13.3 66.6-25.3-7.8 24.4-24.4 44.8-46.1 57.8 21.1-2.3 41.6-8.1 60.4-16.2-14.3 20.8-32.2 39.3-52.6 54.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/protectai" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/company/protect-ai" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://mlsecops.com/slack" target="_blank" rel="noopener" title="mlsecops.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M94.1 315.1c0 25.9-21.2 47.1-47.1 47.1S0 341 0 315.1 21.2 268 47.1 268h47.1v47.1zm23.7 0c0-25.9 21.2-47.1 47.1-47.1s47.1 21.2 47.1 47.1v117.8c0 25.9-21.2 47.1-47.1 47.1s-47.1-21.2-47.1-47.1zm47.1-189c-25.9 0-47.1-21.2-47.1-47.1s21.2-47 47.1-47S212 53.2 212 79.1v47.1h-47.1zm0 23.7c25.9 0 47.1 21.2 47.1 47.1S190.8 244 164.9 244H47.1C21.2 244 0 222.8 0 196.9s21.2-47.1 47.1-47.1zm189 47.1c0-25.9 21.2-47.1 47.1-47.1s47 21.2 47 47.1-21.2 47.1-47.1 47.1h-47.1v-47.1zm-23.7 0c0 25.9-21.2 47.1-47.1 47.1S236 222.8 236 196.9V79.1c0-25.9 21.2-47.1 47.1-47.1s47.1 21.2 47.1 47.1zm-47.1 189c25.9 0 47.1 21.2 47.1 47.1s-21.2 47-47.1 47-47.1-21.2-47.1-47.1v-47.1h47.1zm0-23.7c-25.9 0-47.1-21.2-47.1-47.1s21.2-47.1 47.1-47.1h117.8c25.9 0 47.1 21.2 47.1 47.1s-21.2 47.1-47.1 47.1z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://protectai.com/llm-guard" target="_blank" rel="noopener" title="protectai.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M351.9 280H161c2.9 64.5 17.2 123.9 37.5 167.4 11.4 24.5 23.7 41.8 35.1 52.4 11.2 10.5 18.9 12.2 22.9 12.2s11.7-1.7 22.9-12.2c11.4-10.6 23.7-28 35.1-52.4 20.3-43.5 34.6-102.9 37.5-167.4zm-191-48h190.9c-2.8-64.5-17.1-123.9-37.4-167.4-11.4-24.4-23.7-41.8-35.1-52.4C268.1 1.7 260.4 0 256.4 0s-11.7 1.7-22.9 12.2c-11.4 10.6-23.7 28-35.1 52.4-20.3 43.5-34.6 102.9-37.5 167.4m-48 0c3.5-85.6 25.6-165.1 57.9-217.3C78.7 47.3 10.9 131.2 1.5 232zM1.5 280c9.4 100.8 77.2 184.7 169.3 217.3-32.3-52.2-54.4-131.7-57.9-217.3zm398.4 0c-3.5 85.6-25.6 165.1-57.9 217.3 92.1-32.7 159.9-116.5 169.3-217.3zm111.4-48C501.9 131.2 434.1 47.3 342 14.7c32.3 52.2 54.4 131.7 57.9 217.3z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["announce.dismiss", "navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.path", "content.code.annotate", "toc.follow", "toc.integrate", "navigation.top", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.50899def.min.js"></script>
+      
+    
+  </body>
+</html>
