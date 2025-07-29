@@ -96,9 +96,7 @@ def _check_auth_function(auth_config: AuthConfig) -> callable:
         return check_auth_noop
 
     if auth_config.type == "http_bearer":
-        credentials_type = Annotated[
-            HTTPAuthorizationCredentials, Depends(HTTPBearer())
-        ]
+        credentials_type = Annotated[HTTPAuthorizationCredentials, Depends(HTTPBearer())]
     elif auth_config.type == "http_basic":
         credentials_type = Annotated[HTTPBasicCredentials, Depends(HTTPBasic())]
     else:
@@ -175,9 +173,7 @@ def register_routes(
         allow_headers=["Authorization", "Content-Type"],
     )
 
-    limiter = Limiter(
-        key_func=get_remote_address, default_limits=[config.rate_limit.limit]
-    )
+    limiter = Limiter(key_func=get_remote_address, default_limits=[config.rate_limit.limit])
     app.state.limiter = limiter
     app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
     if bool(config.rate_limit.enabled):
@@ -298,8 +294,7 @@ def register_routes(
         start_time = time.time()
         try:
             tasks = [
-                ascan_output(scanner, request.prompt, request.output)
-                for scanner in output_scanners
+                ascan_output(scanner, request.prompt, request.output) for scanner in output_scanners
             ]
             results = await asyncio.wait_for(
                 asyncio.gather(*tasks, return_exceptions=not config.app.scan_fail_fast),
@@ -427,9 +422,7 @@ def register_routes(
 
         start_time = time.time()
         try:
-            tasks = [
-                ascan_prompt(scanner, request.prompt) for scanner in input_scanners
-            ]
+            tasks = [ascan_prompt(scanner, request.prompt) for scanner in input_scanners]
             results = await asyncio.wait_for(
                 asyncio.gather(*tasks, return_exceptions=not config.app.scan_fail_fast),
                 config.app.scan_prompt_timeout,

@@ -3,10 +3,7 @@ from __future__ import annotations
 import re
 
 from llm_guard.model import Model
-from llm_guard.transformers_helpers import (
-    get_tokenizer_and_model_for_classification,
-    pipeline,
-)
+from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
 from llm_guard.util import calculate_risk_score, get_logger, remove_markdown
 
 from .base import Scanner
@@ -83,9 +80,7 @@ class BanCode(Scanner):
         new_prompt = remove_markdown(prompt)  # Remove markdown
         new_prompt = re.sub(r"\d+\.\s+|[-*•]\s+", "", new_prompt)  # Remove list markers
         new_prompt = re.sub(r"\d+", "", new_prompt)  # Remove numbers
-        new_prompt = re.sub(
-            r'\.(?!\d)(?=[\s\'"“”‘’)\]}]|$)', "", new_prompt
-        )  # Remove periods
+        new_prompt = re.sub(r'\.(?!\d)(?=[\s\'"“”‘’)\]}]|$)', "", new_prompt)  # Remove periods
 
         result = self._classifier(new_prompt)[0]
         score = round(

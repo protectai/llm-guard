@@ -1,7 +1,5 @@
 from presidio_analyzer import Pattern
-from presidio_analyzer.predefined_recognizers import (
-    EmailRecognizer as PresidioEmailRecognizer,
-)
+from presidio_analyzer.predefined_recognizers import EmailRecognizer as PresidioEmailRecognizer
 
 
 class EmailRecognizer(PresidioEmailRecognizer):

@@ -43,9 +43,7 @@ DEFAULT_REGEX_PATTERNS: list[DefaultRegexPatterns | RegexPatternsReuse] = [
         "languages": ["en", "zh"],
     },
     {
-        "expressions": [
-            r"[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}"
-        ],
+        "expressions": [r"[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}"],
         "name": "UUID",
         "examples": ["550e8400-e29b-41d4-a716-446655440000"],
         "context": [],
@@ -53,9 +51,7 @@ DEFAULT_REGEX_PATTERNS: list[DefaultRegexPatterns | RegexPatternsReuse] = [
         "languages": ["en", "zh"],
     },
     {
-        "expressions": [
-            r"\b[A-Za-z0-9._%+-]+(\[AT\]|@)[A-Za-z0-9.-]+(\[DOT\]|\.)[A-Za-z]{2,}\b"
-        ],
+        "expressions": [r"\b[A-Za-z0-9._%+-]+(\[AT\]|@)[A-Za-z0-9.-]+(\[DOT\]|\.)[A-Za-z]{2,}\b"],
         "name": "EMAIL_ADDRESS_RE",
         "examples": [
             "john.doe@protectai.com",
@@ -110,9 +106,7 @@ DEFAULT_REGEX_PATTERNS: list[DefaultRegexPatterns | RegexPatternsReuse] = [
         "languages": ["zh"],
     },
     {
-        "expressions": [
-            r"[A-Za-z0-9._%+-]+(\[AT\]|@)[A-Za-z0-9.-]+(\[DOT\]|\.)[A-Za-z]{2,}"
-        ],
+        "expressions": [r"[A-Za-z0-9._%+-]+(\[AT\]|@)[A-Za-z0-9.-]+(\[DOT\]|\.)[A-Za-z]{2,}"],
         "name": "EMAIL_ADDRESS_RE",
         "examples": [
             "john.doe@protectai.com",
@@ -125,9 +119,7 @@ DEFAULT_REGEX_PATTERNS: list[DefaultRegexPatterns | RegexPatternsReuse] = [
         "languages": ["zh"],
     },
     {
-        "expressions": [
-            r"(13[0-9]|14[5-9]|15[0-3,5-9]|16[6]|17[0-8]|18[0-9]|19[8,9])\d{8}"
-        ],
+        "expressions": [r"(13[0-9]|14[5-9]|15[0-3,5-9]|16[6]|17[0-8]|18[0-9]|19[8,9])\d{8}"],
         "name": "PHONE_NUMBER_ZH",
         "examples": ["13011112222", "14922223333"],
         "context": [

@@ -14,9 +14,7 @@ class URLReachability(Scanner):
     This scanner checks URLs for their reachability.
     """
 
-    def __init__(
-        self, *, success_status_codes: list[int] | None = None, timeout: int = 5
-    ) -> None:
+    def __init__(self, *, success_status_codes: list[int] | None = None, timeout: int = 5) -> None:
         """
         Parameters:
             success_status_codes: A list of status codes that are considered as successful.

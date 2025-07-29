@@ -17,7 +17,5 @@ class ShippoApiTokenDetector(RegexBasedDetector):
     @property
     def denylist(self) -> list[re.Pattern]:
         return [
-            re.compile(
-                r"""(?i)\b(shippo_(live|test)_[a-f0-9]{40})(?:['|\"|\n|\r|\s|\x60|;]|$)"""
-            )
+            re.compile(r"""(?i)\b(shippo_(live|test)_[a-f0-9]{40})(?:['|\"|\n|\r|\s|\x60|;]|$)""")
         ]

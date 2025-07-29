@@ -102,9 +102,7 @@ class Sensitive(Scanner):
             risk_score = round(
                 max(analyzer_result.score for analyzer_result in analyzer_results), 2
             )
-            LOGGER.warning(
-                "Found sensitive data in the output", results=analyzer_results
-            )
+            LOGGER.warning("Found sensitive data in the output", results=analyzer_results)
             return output, False, calculate_risk_score(risk_score, self._threshold)
 
         LOGGER.debug("No sensitive data found in the output")

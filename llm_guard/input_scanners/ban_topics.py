@@ -1,10 +1,7 @@
 from __future__ import annotations
 
 from llm_guard.model import Model
-from llm_guard.transformers_helpers import (
-    get_tokenizer_and_model_for_classification,
-    pipeline,
-)
+from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
 from llm_guard.util import calculate_risk_score, get_logger
 
 from .base import Scanner
@@ -145,9 +142,7 @@ class BanTopics(Scanner):
         output_model = self._classifier(prompt, self._topics, multi_label=False)
         label_score = dict(zip(output_model["labels"], output_model["scores"]))
 
-        max_score = round(
-            max(output_model["scores"]) if output_model["scores"] else 0, 2
-        )
+        max_score = round(max(output_model["scores"]) if output_model["scores"] else 0, 2)
         if max_score > self._threshold:
             LOGGER.warning(
                 "Topics detected for the prompt",

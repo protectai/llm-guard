@@ -16,6 +16,4 @@ class RubygemsApiTokenDetector(RegexBasedDetector):
 
     @property
     def denylist(self) -> list[re.Pattern]:
-        return [
-            re.compile(r"""(?i)\b(rubygems_[a-f0-9]{48})(?:['|\"|\n|\r|\s|\x60|;]|$)""")
-        ]
+        return [re.compile(r"""(?i)\b(rubygems_[a-f0-9]{48})(?:['|\"|\n|\r|\s|\x60|;]|$)""")]

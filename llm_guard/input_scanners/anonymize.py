@@ -88,9 +88,7 @@ class Anonymize(Scanner):
                 f"Language must be in the list of allowed: {ALL_SUPPORTED_LANGUAGES}"
             )
 
-        os.environ["TOKENIZERS_PARALLELISM"] = (
-            "false"  # Disables huggingface/tokenizers warning
-        )
+        os.environ["TOKENIZERS_PARALLELISM"] = "false"  # Disables huggingface/tokenizers warning
 
         if not entity_types:
             LOGGER.debug(
@@ -163,9 +161,7 @@ class Anonymize(Scanner):
                 other_elements.append(result)
                 tmp_analyzer_results.append(result)
             else:
-                LOGGER.debug(
-                    f"removing element {result} from results list due to merge"
-                )
+                LOGGER.debug(f"removing element {result} from results list due to merge")
 
         unique_text_metadata_elements = []
         # This list contains all elements which we need to check a single result
@@ -181,9 +177,7 @@ class Anonymize(Scanner):
                 other_elements.append(result)
                 unique_text_metadata_elements.append(result)
             else:
-                LOGGER.debug(
-                    f"removing element {result} from results list due to conflict"
-                )
+                LOGGER.debug(f"removing element {result} from results list due to conflict")
 
         # This further improves the quality of handling the conflict between the
         # various entities overlapping. This will not drop the results instead
@@ -204,9 +198,7 @@ class Anonymize(Scanner):
                     current_entity.end = next_entity.start
                 unique_text_metadata_elements.sort(key=lambda element: element.start)
         unique_text_metadata_elements = [
-            element
-            for element in unique_text_metadata_elements
-            if element.start <= element.end
+            element for element in unique_text_metadata_elements if element.start <= element.end
         ]
         return unique_text_metadata_elements
 
@@ -215,9 +207,7 @@ class Anonymize(Scanner):
         """
         Check if the given result conflicts with any other elements.
         """
-        return any(
-            [result.has_conflict(other_element) for other_element in other_elements]
-        )
+        return any([result.has_conflict(other_element) for other_element in other_elements])
 
     @staticmethod
     def _merge_entities_with_whitespace_between(
@@ -294,9 +284,7 @@ class Anonymize(Scanner):
                     entity_type_counter[entity_type][entity_value] = (
                         len(vault_entities) + new_entity_counter.get(entity_type, 0) + 1
                     )
-                    new_entity_counter[entity_type] = (
-                        new_entity_counter.get(entity_type, 0) + 1
-                    )
+                    new_entity_counter[entity_type] = new_entity_counter.get(entity_type, 0) + 1
 
         results = []
         sorted_pii_entities = sorted(pii_entities, reverse=True)
@@ -307,9 +295,7 @@ class Anonymize(Scanner):
             )
 
             index = entity_type_counter[entity_type][entity_value]
-            changed_entity = Anonymize._get_entity_placeholder(
-                entity_type, index, use_faker
-            )
+            changed_entity = Anonymize._get_entity_placeholder(entity_type, index, use_faker)
 
             results.append((changed_entity, prompt[pii_entity.start : pii_entity.end]))
 
@@ -345,12 +331,8 @@ class Anonymize(Scanner):
             ),
             2,
         )
-        analyzer_results = self._remove_conflicts_and_get_text_manipulation_data(
-            analyzer_results
-        )
-        merged_results = self._merge_entities_with_whitespace_between(
-            prompt, analyzer_results
-        )
+        analyzer_results = self._remove_conflicts_and_get_text_manipulation_data(analyzer_results)
+        merged_results = self._merge_entities_with_whitespace_between(prompt, analyzer_results)
 
         sanitized_prompt, anonymized_results = self._anonymize(
             prompt, merged_results, self._vault, self._use_faker
@@ -371,8 +353,6 @@ class Anonymize(Scanner):
                 calculate_risk_score(risk_score, self._threshold),
             )
 
-        LOGGER.debug(
-            "Prompt does not have sensitive data to replace", risk_score=risk_score
-        )
+        LOGGER.debug("Prompt does not have sensitive data to replace", risk_score=risk_score)
 
         return prompt, True, -1.0

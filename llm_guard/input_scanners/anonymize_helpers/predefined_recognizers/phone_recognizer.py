@@ -1,6 +1,4 @@
-from presidio_analyzer.predefined_recognizers import (
-    PhoneRecognizer as PresidioPhoneRecognizer,
-)
+from presidio_analyzer.predefined_recognizers import PhoneRecognizer as PresidioPhoneRecognizer
 
 
 class PhoneRecognizer(PresidioPhoneRecognizer):

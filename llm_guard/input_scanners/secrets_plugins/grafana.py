@@ -22,9 +22,7 @@ class GrafanaDetector(RegexBasedDetector):
                 r"""(?i)\b(eyJrIjoi[A-Za-z0-9]{70,400}={0,2})(?:['|\"|\n|\r|\s|\x60|;]|$)"""
             ),
             # Grafana Cloud API token
-            re.compile(
-                r"""(?i)\b(glc_[A-Za-z0-9+/]{32,400}={0,2})(?:['|\"|\n|\r|\s|\x60|;]|$)"""
-            ),
+            re.compile(r"""(?i)\b(glc_[A-Za-z0-9+/]{32,400}={0,2})(?:['|\"|\n|\r|\s|\x60|;]|$)"""),
             # Grafana Service Account token
             re.compile(
                 r"""(?i)\b(glsa_[A-Za-z0-9]{32}_[A-Fa-f0-9]{8})(?:['|\"|\n|\r|\s|\x60|;]|$)"""

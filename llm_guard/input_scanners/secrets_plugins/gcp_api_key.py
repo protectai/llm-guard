@@ -18,7 +18,5 @@ class GCPApiKeyDetector(RegexBasedDetector):
     def denylist(self) -> list[re.Pattern]:
         return [
             # GCP API Key
-            re.compile(
-                r"""(?i)\b(AIza[0-9A-Za-z\\-_]{35})(?:['|\"|\n|\r|\s|\x60|;]|$)"""
-            ),
+            re.compile(r"""(?i)\b(AIza[0-9A-Za-z\\-_]{35})(?:['|\"|\n|\r|\s|\x60|;]|$)"""),
         ]

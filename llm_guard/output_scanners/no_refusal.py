@@ -3,10 +3,7 @@ from __future__ import annotations
 from enum import Enum
 
 from llm_guard.model import Model
-from llm_guard.transformers_helpers import (
-    get_tokenizer_and_model_for_classification,
-    pipeline,
-)
+from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
 from llm_guard.util import calculate_risk_score, get_logger, split_text_by_sentences
 
 from .ban_substrings import BanSubstrings, MatchType as BanSubstringsMatchType
@@ -93,11 +90,7 @@ class NoRefusal(Scanner):
         results_all = self._pipeline(self._match_type.get_inputs(output))
         for result in results_all:
             score = round(
-                (
-                    result["score"]
-                    if result["label"] == "REJECTION"
-                    else 1 - result["score"]
-                ),
+                (result["score"] if result["label"] == "REJECTION" else 1 - result["score"]),
                 2,
             )
 

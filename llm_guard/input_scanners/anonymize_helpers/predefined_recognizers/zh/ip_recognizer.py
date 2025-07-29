@@ -1,7 +1,5 @@
 from presidio_analyzer import Pattern
-from presidio_analyzer.predefined_recognizers import (
-    IpRecognizer as PresidioIpRecognizer,
-)
+from presidio_analyzer.predefined_recognizers import IpRecognizer as PresidioIpRecognizer
 
 
 class IpRecognizer(PresidioIpRecognizer):

@@ -35,9 +35,7 @@ class MatchingStrategy(Enum):
             vault_items: The list of items in the vault.
         """
         for vault_item in vault_items:
-            LOGGER.debug(
-                "Replaced placeholder with real value", placeholder=vault_item[0]
-            )
+            LOGGER.debug("Replaced placeholder with real value", placeholder=vault_item[0])
             text = text.replace(vault_item[0], vault_item[1])
 
         return text
@@ -57,9 +55,7 @@ class MatchingStrategy(Enum):
             vault_items (List[Tuple]): The list of items in the vault.
         """
         for vault_item in vault_items:
-            LOGGER.debug(
-                "Replaced placeholder with real value", placeholder=vault_item[0]
-            )
+            LOGGER.debug("Replaced placeholder with real value", placeholder=vault_item[0])
             # Use regular expressions for case-insensitive matching and replacing
             text = re.sub(vault_item[0], vault_item[1], text, flags=re.IGNORECASE)
 
@@ -83,13 +79,9 @@ class MatchingStrategy(Enum):
         fuzzysearch = cast("fuzzysearch", lazy_load_dep("fuzzysearch"))
 
         for vault_item in vault_items:
-            LOGGER.debug(
-                "Replaced placeholder with real value", placeholder=vault_item[0]
-            )
+            LOGGER.debug("Replaced placeholder with real value", placeholder=vault_item[0])
 
-            matches = fuzzysearch.find_near_matches(
-                vault_item[0], text, max_l_dist=max_l_dist
-            )
+            matches = fuzzysearch.find_near_matches(vault_item[0], text, max_l_dist=max_l_dist)
 
             new_text = ""
             last_end = 0

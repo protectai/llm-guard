@@ -1,6 +1,4 @@
-from llm_guard.input_scanners.emotion_detection import (
-    EmotionDetection as InputEmotionDetection,
-)
+from llm_guard.input_scanners.emotion_detection import EmotionDetection as InputEmotionDetection
 
 from .base import Scanner
 

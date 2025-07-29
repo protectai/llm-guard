@@ -1,7 +1,5 @@
 from presidio_analyzer import Pattern
-from presidio_analyzer.predefined_recognizers import (
-    CryptoRecognizer as PresidioCryptoRecognizer,
-)
+from presidio_analyzer.predefined_recognizers import CryptoRecognizer as PresidioCryptoRecognizer
 
 
 class CryptoRecognizer(PresidioCryptoRecognizer):

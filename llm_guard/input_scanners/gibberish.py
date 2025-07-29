@@ -3,10 +3,7 @@ from __future__ import annotations
 from enum import Enum
 
 from llm_guard.model import Model
-from llm_guard.transformers_helpers import (
-    get_tokenizer_and_model_for_classification,
-    pipeline,
-)
+from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
 from llm_guard.util import calculate_risk_score, get_logger, split_text_by_sentences
 
 from .base import Scanner
@@ -92,11 +89,7 @@ class Gibberish(Scanner):
         LOGGER.debug("Gibberish detection finished", results=results_all)
         for result in results_all:
             score = round(
-                (
-                    result["score"]
-                    if result["label"] in _gibberish_labels
-                    else 1 - result["score"]
-                ),
+                (result["score"] if result["label"] in _gibberish_labels else 1 - result["score"]),
                 2,
             )
 

@@ -75,9 +75,7 @@ class Relevance(Scanner):
         self.normalize_embeddings = True
 
         if use_onnx and is_onnx_supported() is False:
-            LOGGER.warning(
-                "ONNX is not supported on this machine. Using PyTorch instead of ONNX."
-            )
+            LOGGER.warning("ONNX is not supported on this machine. Using PyTorch instead of ONNX.")
             use_onnx = False
 
         if use_onnx:
@@ -93,20 +91,16 @@ class Relevance(Scanner):
                 ),
             )
             assert model.onnx_path is not None
-            self._model = (
-                optimum_onnxruntime.ORTModelForFeatureExtraction.from_pretrained(
-                    model.onnx_path,
-                    export=False,
-                    subfolder=model.onnx_subfolder,
-                    file_name=model.onnx_filename,
-                    revision=model.onnx_revision,
-                    provider=(
-                        "CUDAExecutionProvider"
-                        if device().type == "cuda"
-                        else "CPUExecutionProvider"
-                    ),
-                    **model.kwargs,
-                )
+            self._model = optimum_onnxruntime.ORTModelForFeatureExtraction.from_pretrained(
+                model.onnx_path,
+                export=False,
+                subfolder=model.onnx_subfolder,
+                file_name=model.onnx_filename,
+                revision=model.onnx_revision,
+                provider=(
+                    "CUDAExecutionProvider" if device().type == "cuda" else "CPUExecutionProvider"
+                ),
+                **model.kwargs,
             )
             LOGGER.debug("Initialized ONNX model", model=model, device=device())
         else:
@@ -128,9 +122,7 @@ class Relevance(Scanner):
         if self.pooling_method == "cls":
             return last_hidden_state[:, 0]
         elif self.pooling_method == "mean":
-            s = torch.sum(
-                last_hidden_state * attention_mask.unsqueeze(-1).float(), dim=1
-            )
+            s = torch.sum(last_hidden_state * attention_mask.unsqueeze(-1).float(), dim=1)
             d = attention_mask.sum(dim=1, keepdim=True).float()
             return s / d
         return None
@@ -147,9 +139,7 @@ class Relevance(Scanner):
         inputs = {key: val.to(device()) for key, val in inputs.items()}
 
         with torch.no_grad():
-            last_hidden_state = self._model(
-                **inputs, return_dict=True
-            ).last_hidden_state
+            last_hidden_state = self._model(**inputs, return_dict=True).last_hidden_state
             embeddings = self.pooling(last_hidden_state, inputs["attention_mask"])
             assert embeddings is not None
             if self.normalize_embeddings:
@@ -168,9 +158,7 @@ class Relevance(Scanner):
         similarity = prompt_embedding.dot(output_embedding.T)
 
         if similarity < self._threshold:
-            LOGGER.warning(
-                "Result is not similar to the prompt", similarity_score=similarity
-            )
+            LOGGER.warning("Result is not similar to the prompt", similarity_score=similarity)
 
             return output, False, calculate_risk_score(1 - similarity, self._threshold)
 

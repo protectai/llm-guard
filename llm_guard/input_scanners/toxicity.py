@@ -3,10 +3,7 @@ from __future__ import annotations
 from enum import Enum
 
 from llm_guard.model import Model
-from llm_guard.transformers_helpers import (
-    get_tokenizer_and_model_for_classification,
-    pipeline,
-)
+from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
 from llm_guard.util import calculate_risk_score, get_logger, split_text_by_sentences
 
 from .base import Scanner
@@ -117,9 +114,7 @@ class Toxicity(Scanner):
                     highest_toxicity_score = result["score"]
 
         if len(toxicity_above_threshold) > 0:
-            LOGGER.warning(
-                "Detected toxicity in the text", results=toxicity_above_threshold
-            )
+            LOGGER.warning("Detected toxicity in the text", results=toxicity_above_threshold)
 
             return (
                 prompt,

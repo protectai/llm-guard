@@ -3,10 +3,7 @@ from __future__ import annotations
 from enum import Enum
 
 from llm_guard.model import Model
-from llm_guard.transformers_helpers import (
-    get_tokenizer_and_model_for_classification,
-    pipeline,
-)
+from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
 from llm_guard.util import calculate_risk_score, get_logger, split_text_by_sentences
 
 from .base import Scanner
@@ -85,9 +82,7 @@ class Bias(Scanner):
             return output, True, -1.0
 
         highest_score = 0.0
-        results_all = self._classifier(
-            self._match_type.get_inputs(prompt + "\n" + output)
-        )
+        results_all = self._classifier(self._match_type.get_inputs(prompt + "\n" + output))
         for result in results_all:
             score = round(
                 result["score"] if result["label"] == "BIASED" else 1 - result["score"],
@@ -106,8 +101,6 @@ class Bias(Scanner):
 
                 return output, False, calculate_risk_score(score, self._threshold)
 
-        LOGGER.debug(
-            "Not biased result", highest_score=highest_score, threshold=self._threshold
-        )
+        LOGGER.debug("Not biased result", highest_score=highest_score, threshold=self._threshold)
 
         return output, True, calculate_risk_score(highest_score, self._threshold)

@@ -17,7 +17,5 @@ class SendinBlueApiTokenDetector(RegexBasedDetector):
     @property
     def denylist(self) -> list[re.Pattern]:
         return [
-            re.compile(
-                r"""(?i)\b(xkeysib-[a-f0-9]{64}-[a-z0-9]{16})(?:['|\"|\n|\r|\s|\x60|;]|$)"""
-            )
+            re.compile(r"""(?i)\b(xkeysib-[a-f0-9]{64}-[a-z0-9]{16})(?:['|\"|\n|\r|\s|\x60|;]|$)""")
         ]

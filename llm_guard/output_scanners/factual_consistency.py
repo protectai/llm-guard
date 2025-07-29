@@ -70,15 +70,12 @@ class FactualConsistency(Scanner):
 
         label_names = ["entailment", "not_entailment"]
         prediction = {
-            name: round(float(pred), 2)
-            for pred, name in zip(model_prediction, label_names)
+            name: round(float(pred), 2) for pred, name in zip(model_prediction, label_names)
         }
 
         entailment_score = prediction["entailment"]
         if entailment_score < self._minimum_score:
-            LOGGER.warning(
-                "Entailment score is below the threshold", prediction=prediction
-            )
+            LOGGER.warning("Entailment score is below the threshold", prediction=prediction)
 
             return (
                 output,

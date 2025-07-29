@@ -25,16 +25,10 @@ _entity_faker_map: dict[str, Callable[[], Any]] = {
     "CRYPTO": cast(
         Callable[[], str],
         lambda _: "bc1"
-        + "".join(
-            fake.random_choices(string.ascii_lowercase + string.digits, length=26)
-        ),
+        + "".join(fake.random_choices(string.ascii_lowercase + string.digits, length=26)),
     ),
-    "NRP": cast(
-        Callable[[], str], lambda _: str(fake.random_number(digits=8, fix_len=True))
-    ),
-    "MEDICAL_LICENSE": cast(
-        Callable[[], str], lambda _: fake.bothify(text="??######").upper()
-    ),
+    "NRP": cast(Callable[[], str], lambda _: str(fake.random_number(digits=8, fix_len=True))),
+    "MEDICAL_LICENSE": cast(Callable[[], str], lambda _: fake.bothify(text="??######").upper()),
     # US-specific entities
     "US_BANK_NUMBER": fake.bban,
     "US_SSN": fake.ssn,
@@ -42,25 +36,17 @@ _entity_faker_map: dict[str, Callable[[], Any]] = {
         Callable[[], str], lambda _: str(fake.random_number(digits=9, fix_len=True))
     ),
     "US_ITIN": cast(Callable[[], str], lambda _: fake.bothify(text="9##-7#-####")),
-    "US_PASSPORT": cast(
-        Callable[[], str], lambda _: fake.bothify(text="#####??").upper()
-    ),
+    "US_PASSPORT": cast(Callable[[], str], lambda _: fake.bothify(text="#####??").upper()),
     # UK-specific entities
-    "UK_NHS": cast(
-        Callable[[], str], lambda _: str(fake.random_number(digits=10, fix_len=True))
-    ),
+    "UK_NHS": cast(Callable[[], str], lambda _: str(fake.random_number(digits=10, fix_len=True))),
     # Spain-specific entities
     "ES_NIF": cast(Callable[[], str], lambda _: fake.bothify(text="########?").upper()),
     # Italy-specific entities
     "IT_FISCAL_CODE": cast(
         Callable[[], str], lambda _: fake.bothify(text="??????##?##?###?").upper()
     ),
-    "IT_DRIVER_LICENSE": cast(
-        Callable[[], str], lambda _: fake.bothify(text="?A#######?").upper()
-    ),
-    "IT_VAT_CODE": cast(
-        Callable[[], str], lambda _: fake.bothify(text="IT???????????")
-    ),
+    "IT_DRIVER_LICENSE": cast(Callable[[], str], lambda _: fake.bothify(text="?A#######?").upper()),
+    "IT_VAT_CODE": cast(Callable[[], str], lambda _: fake.bothify(text="IT???????????")),
     "IT_PASSPORT": cast(
         Callable[[], str], lambda _: str(fake.random_number(digits=9, fix_len=True))
     ),
@@ -69,19 +55,11 @@ _entity_faker_map: dict[str, Callable[[], Any]] = {
         lambda _: lambda _: str(fake.random_number(digits=7, fix_len=True)),
     ),
     # Singapore-specific entities
-    "SG_NRIC_FIN": cast(
-        Callable[[], str], lambda _: fake.bothify(text="????####?").upper()
-    ),
+    "SG_NRIC_FIN": cast(Callable[[], str], lambda _: fake.bothify(text="????####?").upper()),
     # Australia-specific entities
-    "AU_ABN": cast(
-        Callable[[], str], lambda _: str(fake.random_number(digits=11, fix_len=True))
-    ),
-    "AU_ACN": cast(
-        Callable[[], str], lambda _: str(fake.random_number(digits=9, fix_len=True))
-    ),
-    "AU_TFN": cast(
-        Callable[[], str], lambda _: str(fake.random_number(digits=9, fix_len=True))
-    ),
+    "AU_ABN": cast(Callable[[], str], lambda _: str(fake.random_number(digits=11, fix_len=True))),
+    "AU_ACN": cast(Callable[[], str], lambda _: str(fake.random_number(digits=9, fix_len=True))),
+    "AU_TFN": cast(Callable[[], str], lambda _: str(fake.random_number(digits=9, fix_len=True))),
     "AU_MEDICARE": cast(
         Callable[[], str], lambda _: str(fake.random_number(digits=10, fix_len=True))
     ),

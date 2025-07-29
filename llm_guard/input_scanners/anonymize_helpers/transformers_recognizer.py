@@ -134,9 +134,7 @@ class TransformersRecognizer(EntityRecognizer):
         use_onnx: bool = False,
     ) -> None:
         """Initialize NER transformers_rec pipeline using the model_path provided"""
-        tf_tokenizer, tf_model = get_tokenizer_and_model_for_ner(
-            self.model, use_onnx=use_onnx
-        )
+        tf_tokenizer, tf_model = get_tokenizer_and_model_for_ner(self.model, use_onnx=use_onnx)
 
         self.model.pipeline_kwargs["ignore_labels"] = self.ignore_labels
 
@@ -310,14 +308,10 @@ class TransformersRecognizer(EntityRecognizer):
             return None
 
         if entity is None:
-            LOGGER.warning(
-                "Found unrecognized label, returning entity as is", label=label
-            )
+            LOGGER.warning("Found unrecognized label, returning entity as is", label=label)
             return label
 
         if entity not in self.supported_entities:
-            LOGGER.warning(
-                "Found entity which is not supported by Presidio", entity=entity
-            )
+            LOGGER.warning("Found entity which is not supported by Presidio", entity=entity)
             return entity
         return entity
