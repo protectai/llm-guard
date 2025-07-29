@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from presidio_anonymizer import AnonymizerEngine
 
+from llm_guard.exception import LLMGuardValidationError
 from llm_guard.input_scanners.anonymize import (
     ALL_SUPPORTED_LANGUAGES,
     DEFAULT_ENTITY_TYPES,
@@ -42,6 +43,7 @@ class Sensitive(Scanner):
         recognizer_conf: NERConfig | None = None,
         threshold: float = 0.5,
         use_onnx: bool = False,
+        language: str = "en",
     ) -> None:
         """
         Initializes an instance of the Sensitive class.
@@ -55,6 +57,11 @@ class Sensitive(Scanner):
            threshold (float): Acceptance threshold. Default is 0.
            use_onnx (bool): Use ONNX model for inference. Default is False.
         """
+        if language not in ALL_SUPPORTED_LANGUAGES:
+            raise LLMGuardValidationError(
+                f"Language must be in the list of allowed: {ALL_SUPPORTED_LANGUAGES}"
+            )
+
         if not entity_types:
             LOGGER.debug(
                 "No entity types provided, using default", default_entity_types=DEFAULT_ENTITY_TYPES
@@ -74,7 +81,10 @@ class Sensitive(Scanner):
             use_onnx=use_onnx,
         )
         self._analyzer = get_analyzer(
-            transformers_recognizer, get_regex_patterns(regex_patterns), [], ALL_SUPPORTED_LANGUAGES
+            transformers_recognizer,
+            get_regex_patterns(regex_patterns),
+            [],
+            list(set(["en", language])),
         )
         self._anonymizer = AnonymizerEngine()
 
