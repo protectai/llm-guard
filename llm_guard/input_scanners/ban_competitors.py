@@ -80,7 +80,9 @@ class BanCompetitors(Scanner):
         for entity in entities:
             entity["word"] = entity["word"].strip()
             if entity["word"] not in self._competitors:
-                LOGGER.debug("Entity is not a specified competitor", entity=entity["word"])
+                LOGGER.debug(
+                    "Entity is not a specified competitor", entity=entity["word"]
+                )
                 continue
 
             if entity["score"] < self._threshold:
@@ -101,7 +103,9 @@ class BanCompetitors(Scanner):
                 )
 
             LOGGER.warning(
-                "Competitor detected with score", entity=entity["word"], score=entity["score"]
+                "Competitor detected with score",
+                entity=entity["word"],
+                score=entity["score"],
             )
 
         if is_detected:

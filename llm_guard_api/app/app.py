@@ -96,7 +96,9 @@ def _check_auth_function(auth_config: AuthConfig) -> callable:
         return check_auth_noop
 
     if auth_config.type == "http_bearer":
-        credentials_type = Annotated[HTTPAuthorizationCredentials, Depends(HTTPBearer())]
+        credentials_type = Annotated[
+            HTTPAuthorizationCredentials, Depends(HTTPBearer())
+        ]
     elif auth_config.type == "http_basic":
         credentials_type = Annotated[HTTPBasicCredentials, Depends(HTTPBasic())]
     else:
@@ -114,7 +116,8 @@ def _check_auth_function(auth_config: AuthConfig) -> callable:
                 or credentials.password != auth_config.password
             ):
                 raise HTTPException(
-                    status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid Username or Password"
+                    status_code=status.HTTP_401_UNAUTHORIZED,
+                    detail="Invalid Username or Password",
                 )
 
         return True
@@ -172,7 +175,9 @@ def register_routes(
         allow_headers=["Authorization", "Content-Type"],
     )
 
-    limiter = Limiter(key_func=get_remote_address, default_limits=[config.rate_limit.limit])
+    limiter = Limiter(
+        key_func=get_remote_address, default_limits=[config.rate_limit.limit]
+    )
     app.state.limiter = limiter
     app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
     if bool(config.rate_limit.enabled):
@@ -255,7 +260,8 @@ def register_routes(
                 )
             except asyncio.TimeoutError:
                 raise HTTPException(
-                    status_code=status.HTTP_408_REQUEST_TIMEOUT, detail="Request timeout."
+                    status_code=status.HTTP_408_REQUEST_TIMEOUT,
+                    detail="Request timeout.",
                 )
 
         return response
@@ -292,7 +298,8 @@ def register_routes(
         start_time = time.time()
         try:
             tasks = [
-                ascan_output(scanner, request.prompt, request.output) for scanner in output_scanners
+                ascan_output(scanner, request.prompt, request.output)
+                for scanner in output_scanners
             ]
             results = await asyncio.wait_for(
                 asyncio.gather(*tasks, return_exceptions=not config.app.scan_fail_fast),
@@ -387,7 +394,8 @@ def register_routes(
                 )
             except asyncio.TimeoutError:
                 raise HTTPException(
-                    status_code=status.HTTP_408_REQUEST_TIMEOUT, detail="Request timeout."
+                    status_code=status.HTTP_408_REQUEST_TIMEOUT,
+                    detail="Request timeout.",
                 )
 
         return response
@@ -419,7 +427,9 @@ def register_routes(
 
         start_time = time.time()
         try:
-            tasks = [ascan_prompt(scanner, request.prompt) for scanner in input_scanners]
+            tasks = [
+                ascan_prompt(scanner, request.prompt) for scanner in input_scanners
+            ]
             results = await asyncio.wait_for(
                 asyncio.gather(*tasks, return_exceptions=not config.app.scan_fail_fast),
                 config.app.scan_prompt_timeout,
@@ -462,7 +472,8 @@ def register_routes(
         @limiter.exempt
         async def read_metrics():
             return Response(
-                content=generate_latest(REGISTRY), headers={"Content-Type": CONTENT_TYPE_LATEST}
+                content=generate_latest(REGISTRY),
+                headers={"Content-Type": CONTENT_TYPE_LATEST},
             )
 
     @app.on_event("shutdown")
@@ -472,7 +483,9 @@ def register_routes(
     @app.exception_handler(StarletteHTTPException)
     async def http_exception_handler(request, exc):
         LOGGER.warning(
-            "HTTP exception", exception_status_code=exc.status_code, exception_detail=exc.detail
+            "HTTP exception",
+            exception_status_code=exc.status_code,
+            exception_detail=exc.detail,
         )
 
         return JSONResponse(

@@ -479,8 +479,12 @@ class Secrets(Scanner):
 
                 secret_types.append(found_secret.type)
 
-                character_start_index = prompt.find(found_secret.secret_value, None, None)
-                character_end_index = character_start_index + len(str(found_secret.secret_value))
+                character_start_index = prompt.find(
+                    found_secret.secret_value, None, None
+                )
+                character_end_index = character_start_index + len(
+                    str(found_secret.secret_value)
+                )
                 secret_value = text_replace_builder.get_text_in_position(
                     character_start_index, character_end_index
                 )

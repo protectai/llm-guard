@@ -24,7 +24,9 @@ from .toxicity import Toxicity
 from .url_reachabitlity import URLReachability
 
 
-def get_scanner_by_name(scanner_name: str, scanner_config: Optional[Dict] = None) -> Scanner:
+def get_scanner_by_name(
+    scanner_name: str, scanner_config: Optional[Dict] = None
+) -> Scanner:
     """
     Get scanner by name.
 

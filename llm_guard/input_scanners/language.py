@@ -3,7 +3,10 @@ from __future__ import annotations
 from enum import Enum
 
 from llm_guard.model import Model
-from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
+from llm_guard.transformers_helpers import (
+    get_tokenizer_and_model_for_classification,
+    pipeline,
+)
 from llm_guard.util import calculate_risk_score, get_logger, split_text_by_sentences
 
 from .base import Scanner
@@ -91,7 +94,9 @@ class Language(Scanner):
         results_all = self._pipeline(self._match_type.get_inputs(prompt))
         for result_chunk in results_all:
             languages_above_threshold = [
-                result["label"] for result in result_chunk if result["score"] > self._threshold
+                result["label"]
+                for result in result_chunk
+                if result["score"] > self._threshold
             ]
 
             highest_score = max([result["score"] for result in result_chunk])
@@ -99,10 +104,15 @@ class Language(Scanner):
             # Check if any of the languages above threshold are not valid
             if len(set(languages_above_threshold) - set(self._valid_languages)) > 0:
                 LOGGER.warning(
-                    "Languages are found with high confidence", languages=languages_above_threshold
+                    "Languages are found with high confidence",
+                    languages=languages_above_threshold,
                 )
 
-                return prompt, False, calculate_risk_score(highest_score, self._threshold)
+                return (
+                    prompt,
+                    False,
+                    calculate_risk_score(highest_score, self._threshold),
+                )
 
         LOGGER.debug("Only valid languages are found in the text.")
 

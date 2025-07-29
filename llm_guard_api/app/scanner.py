@@ -10,7 +10,9 @@ from llm_guard import input_scanners, output_scanners
 from llm_guard.input_scanners.anonymize_helpers import DEBERTA_AI4PRIVACY_v2_CONF
 from llm_guard.input_scanners.ban_code import MODEL_SM as BAN_CODE_MODEL
 from llm_guard.input_scanners.ban_competitors import MODEL_V1 as BAN_COMPETITORS_MODEL
-from llm_guard.input_scanners.ban_topics import MODEL_DEBERTA_BASE_V2 as BAN_TOPICS_MODEL
+from llm_guard.input_scanners.ban_topics import (
+    MODEL_DEBERTA_BASE_V2 as BAN_TOPICS_MODEL,
+)
 from llm_guard.input_scanners.base import Scanner as InputScanner
 from llm_guard.input_scanners.code import DEFAULT_MODEL as CODE_MODEL
 from llm_guard.input_scanners.gibberish import DEFAULT_MODEL as GIBBERISH_MODEL
@@ -20,7 +22,9 @@ from llm_guard.input_scanners.toxicity import DEFAULT_MODEL as TOXICITY_MODEL
 from llm_guard.model import Model
 from llm_guard.output_scanners.base import Scanner as OutputScanner
 from llm_guard.output_scanners.bias import DEFAULT_MODEL as BIAS_MODEL
-from llm_guard.output_scanners.malicious_urls import DEFAULT_MODEL as MALICIOUS_URLS_MODEL
+from llm_guard.output_scanners.malicious_urls import (
+    DEFAULT_MODEL as MALICIOUS_URLS_MODEL,
+)
 from llm_guard.output_scanners.no_refusal import DEFAULT_MODEL as NO_REFUSAL_MODEL
 from llm_guard.output_scanners.relevance import MODEL_EN_BGE_SMALL as RELEVANCE_MODEL
 from llm_guard.vault import Vault
@@ -40,14 +44,18 @@ scanners_valid_counter = meter.create_counter(
 )
 
 
-def get_input_scanners(scanners: List[ScannerConfig], vault: Vault) -> List[InputScanner]:
+def get_input_scanners(
+    scanners: List[ScannerConfig], vault: Vault
+) -> List[InputScanner]:
     """
     Load input scanners from the configuration file.
     """
 
     input_scanners_loaded = []
     for scanner in scanners:
-        LOGGER.debug("Loading input scanner", scanner=scanner.type, **get_resource_utilization())
+        LOGGER.debug(
+            "Loading input scanner", scanner=scanner.type, **get_resource_utilization()
+        )
         input_scanners_loaded.append(
             _get_input_scanner(
                 scanner.type,
@@ -59,13 +67,17 @@ def get_input_scanners(scanners: List[ScannerConfig], vault: Vault) -> List[Inpu
     return input_scanners_loaded
 
 
-def get_output_scanners(scanners: List[ScannerConfig], vault: Vault) -> List[OutputScanner]:
+def get_output_scanners(
+    scanners: List[ScannerConfig], vault: Vault
+) -> List[OutputScanner]:
     """
     Load output scanners from the configuration file.
     """
     output_scanners_loaded = []
     for scanner in scanners:
-        LOGGER.debug("Loading output scanner", scanner=scanner.type, **get_resource_utilization())
+        LOGGER.debug(
+            "Loading output scanner", scanner=scanner.type, **get_resource_utilization()
+        )
         output_scanners_loaded.append(
             _get_output_scanner(
                 scanner.type,
@@ -292,7 +304,9 @@ def scan_prompt(scanner: InputScanner, prompt: str) -> (str, float):
         elapsed_time_seconds=round(elapsed_time_scanner, 2),
     )
 
-    scanners_valid_counter.add(1, {"source": "input", "valid": is_valid, "scanner": scanner_name})
+    scanners_valid_counter.add(
+        1, {"source": "input", "valid": is_valid, "scanner": scanner_name}
+    )
 
     if not is_valid:
         raise InputIsInvalid(scanner_name, prompt, risk_score)
@@ -317,7 +331,9 @@ def scan_output(scanner: OutputScanner, prompt: str, output: str) -> (str, float
         elapsed_time_seconds=round(elapsed_time_scanner, 6),
     )
 
-    scanners_valid_counter.add(1, {"source": "output", "valid": is_valid, "scanner": scanner_name})
+    scanners_valid_counter.add(
+        1, {"source": "output", "valid": is_valid, "scanner": scanner_name}
+    )
 
     if not is_valid:
         raise InputIsInvalid(scanner_name, output, risk_score)
@@ -325,5 +341,7 @@ def scan_output(scanner: OutputScanner, prompt: str, output: str) -> (str, float
     return type(scanner).__name__, risk_score
 
 
-async def ascan_output(scanner: OutputScanner, prompt: str, output: str) -> (str, float):
+async def ascan_output(
+    scanner: OutputScanner, prompt: str, output: str
+) -> (str, float):
     return await asyncio.to_thread(scan_output, scanner, prompt, output)

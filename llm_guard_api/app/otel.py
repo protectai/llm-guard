@@ -8,7 +8,10 @@ from opentelemetry.propagators.aws import AwsXRayPropagator
 from opentelemetry.sdk.extension.aws.resource.ec2 import AwsEc2ResourceDetector
 from opentelemetry.sdk.extension.aws.trace import AwsXRayIdGenerator
 from opentelemetry.sdk.metrics import MeterProvider
-from opentelemetry.sdk.metrics.export import ConsoleMetricExporter, PeriodicExportingMetricReader
+from opentelemetry.sdk.metrics.export import (
+    ConsoleMetricExporter,
+    PeriodicExportingMetricReader,
+)
 from opentelemetry.sdk.resources import (
     SERVICE_NAME,
     SERVICE_VERSION,
@@ -54,7 +57,9 @@ def _configure_metrics(metrics_config: MetricsConfig, resource: Resource) -> Non
     if metrics_config.exporter == "console":
         reader = PeriodicExportingMetricReader(ConsoleMetricExporter())
     elif metrics_config.exporter == "otel_http":
-        reader = PeriodicExportingMetricReader(OTLPMetricExporter(endpoint=metrics_config.endpoint))
+        reader = PeriodicExportingMetricReader(
+            OTLPMetricExporter(endpoint=metrics_config.endpoint)
+        )
     elif metrics_config.exporter == "prometheus":
         reader = PrometheusMetricReader()
 

@@ -90,7 +90,9 @@ class BanSubstrings(Scanner):
     def _redact_text(self, text: str, substrings: list[str]) -> str:
         redacted_text = text
         for s in substrings:
-            regex_redacted = re.compile(re.escape(s), 0 if self._case_sensitive else re.IGNORECASE)
+            regex_redacted = re.compile(
+                re.escape(s), 0 if self._case_sensitive else re.IGNORECASE
+            )
             redacted_text = regex_redacted.sub("[REDACTED]", redacted_text)
 
         return redacted_text
@@ -112,12 +114,15 @@ class BanSubstrings(Scanner):
         if self._contains_all:
             if len(missing_substrings) > 0:
                 LOGGER.debug(
-                    "Some substrings were not found", missing_substrings=missing_substrings
+                    "Some substrings were not found",
+                    missing_substrings=missing_substrings,
                 )
                 return sanitized_prompt, True, 0.0
 
             if self._redact:
-                sanitized_prompt = self._redact_text(sanitized_prompt, matched_substrings)
+                sanitized_prompt = self._redact_text(
+                    sanitized_prompt, matched_substrings
+                )
                 LOGGER.debug("Redacted banned substrings")
 
             LOGGER.warning("All substrings were found")
@@ -126,11 +131,14 @@ class BanSubstrings(Scanner):
 
         if matched_substrings:
             LOGGER.warning(
-                "Found the following banned substrings", matched_substrings=matched_substrings
+                "Found the following banned substrings",
+                matched_substrings=matched_substrings,
             )
 
             if self._redact:
-                sanitized_prompt = self._redact_text(sanitized_prompt, matched_substrings)
+                sanitized_prompt = self._redact_text(
+                    sanitized_prompt, matched_substrings
+                )
                 LOGGER.debug("Redacted banned substrings")
 
             return sanitized_prompt, False, 1.0

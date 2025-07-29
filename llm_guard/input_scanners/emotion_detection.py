@@ -4,7 +4,10 @@ from enum import Enum
 from typing import Dict, List
 
 from llm_guard.model import Model
-from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
+from llm_guard.transformers_helpers import (
+    get_tokenizer_and_model_for_classification,
+    pipeline,
+)
 from llm_guard.util import calculate_risk_score, get_logger, split_text_by_sentences
 
 from .base import Scanner
@@ -118,7 +121,9 @@ class EmotionDetection(Scanner):
         self._threshold = threshold
         self._match_type = match_type
         self._blocked_emotions = (
-            blocked_emotions if blocked_emotions is not None else DEFAULT_BLOCKED_EMOTIONS
+            blocked_emotions
+            if blocked_emotions is not None
+            else DEFAULT_BLOCKED_EMOTIONS
         )
         self._return_full_output = return_full_output
 
@@ -139,8 +144,8 @@ class EmotionDetection(Scanner):
 
     def scan(self, prompt: str) -> tuple[str, bool, float]:
         if self._return_full_output:
-            sanitized_prompt, is_valid, risk_score, emotion_analysis = self.scan_with_full_output(
-                prompt
+            sanitized_prompt, is_valid, risk_score, emotion_analysis = (
+                self.scan_with_full_output(prompt)
             )
             # Store the emotion analysis for later access if needed
             self._last_emotion_analysis = emotion_analysis
@@ -220,7 +225,9 @@ class EmotionDetection(Scanner):
 
         return emotion_scores
 
-    def scan_with_full_output(self, prompt: str) -> tuple[str, bool, float, Dict[str, float]]:
+    def scan_with_full_output(
+        self, prompt: str
+    ) -> tuple[str, bool, float, Dict[str, float]]:
         """
         Scan the prompt and return full emotion analysis along with the standard results.
 

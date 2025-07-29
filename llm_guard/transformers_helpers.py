@@ -81,12 +81,17 @@ def get_tokenizer_and_model_for_classification(
     transformers = lazy_load_dep("transformers")
 
     if use_onnx and is_onnx_supported() is False:
-        LOGGER.warning("ONNX is not supported on this machine. Using PyTorch instead of ONNX.")
+        LOGGER.warning(
+            "ONNX is not supported on this machine. Using PyTorch instead of ONNX."
+        )
         use_onnx = False
 
     if use_onnx is False:
         tf_model = transformers.AutoModelForSequenceClassification.from_pretrained(
-            model.path, subfolder=model.subfolder, revision=model.revision, **model.kwargs
+            model.path,
+            subfolder=model.subfolder,
+            revision=model.revision,
+            **model.kwargs,
         )
         LOGGER.debug("Initialized classification model", model=model, device=device())
 
@@ -113,12 +118,17 @@ def get_tokenizer_and_model_for_ner(
     transformers = lazy_load_dep("transformers")
 
     if use_onnx and is_onnx_supported() is False:
-        LOGGER.warning("ONNX is not supported on this machine. Using PyTorch instead of ONNX.")
+        LOGGER.warning(
+            "ONNX is not supported on this machine. Using PyTorch instead of ONNX."
+        )
         use_onnx = False
 
     if use_onnx is False:
         tf_model = transformers.AutoModelForTokenClassification.from_pretrained(
-            model.path, subfolder=model.subfolder, revision=model.revision, **model.kwargs
+            model.path,
+            subfolder=model.subfolder,
+            revision=model.revision,
+            **model.kwargs,
         )
         LOGGER.debug("Initialized NER model", model=model, device=device())
 
@@ -126,14 +136,22 @@ def get_tokenizer_and_model_for_ner(
 
     optimum_onnxruntime = lazy_load_dep(
         "optimum.onnxruntime",
-        "optimum[onnxruntime]" if device().type != "cuda" else "optimum[onnxruntime-gpu]",
+        (
+            "optimum[onnxruntime]"
+            if device().type != "cuda"
+            else "optimum[onnxruntime-gpu]"
+        ),
     )
 
     tf_model = optimum_onnxruntime.ORTModelForTokenClassification.from_pretrained(
         model.onnx_path,
         export=False,
         subfolder=model.onnx_subfolder,
-        provider=("CUDAExecutionProvider" if device().type == "cuda" else "CPUExecutionProvider"),
+        provider=(
+            "CUDAExecutionProvider"
+            if device().type == "cuda"
+            else "CPUExecutionProvider"
+        ),
         revision=model.onnx_revision,
         file_name=model.onnx_filename,
         **model.kwargs,
@@ -153,7 +171,9 @@ def pipeline(
     **kwargs,
 ):
     if task not in get_args(ClassificationTask):
-        raise LLMGuardValidationError(f"Invalid task. Must be one of {ClassificationTask}")
+        raise LLMGuardValidationError(
+            f"Invalid task. Must be one of {ClassificationTask}"
+        )
 
     if kwargs.get("max_length", None) is None:
         kwargs["max_length"] = tokenizer.model_max_length

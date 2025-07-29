@@ -16,4 +16,6 @@ class ReadmeApiTokenDetector(RegexBasedDetector):
 
     @property
     def denylist(self) -> list[re.Pattern]:
-        return [re.compile(r"""(?i)\b(rdme_[a-z0-9]{70})(?:['|\"|\n|\r|\s|\x60|;]|$)""")]
+        return [
+            re.compile(r"""(?i)\b(rdme_[a-z0-9]{70})(?:['|\"|\n|\r|\s|\x60|;]|$)""")
+        ]

@@ -4,7 +4,10 @@ import re
 
 from llm_guard.exception import LLMGuardValidationError
 from llm_guard.model import Model
-from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
+from llm_guard.transformers_helpers import (
+    get_tokenizer_and_model_for_classification,
+    pipeline,
+)
 from llm_guard.util import calculate_risk_score, get_logger
 
 from .base import Scanner
@@ -86,7 +89,9 @@ class Code(Scanner):
             LLMGuardValidationError: If the languages are not a subset of SUPPORTED_LANGUAGES.
         """
         if not set(languages).issubset(set(SUPPORTED_LANGUAGES)):
-            raise LLMGuardValidationError(f"Languages must be a subset of {SUPPORTED_LANGUAGES}")
+            raise LLMGuardValidationError(
+                f"Languages must be a subset of {SUPPORTED_LANGUAGES}"
+            )
 
         self._languages = languages
         self._is_blocked = is_blocked
@@ -107,13 +112,17 @@ class Code(Scanner):
             **model.pipeline_kwargs,
         )
 
-        self._fenced_code_regex = re.compile(r"```(?:[a-zA-Z0-9]*\n)?(.*?)```", re.DOTALL)
+        self._fenced_code_regex = re.compile(
+            r"```(?:[a-zA-Z0-9]*\n)?(.*?)```", re.DOTALL
+        )
         self._inline_code_regex = re.compile(r"`(.*?)`")
 
     def _extract_code_blocks(self, markdown: str) -> list[str]:
         # Extract fenced code blocks (between triple backticks)
         fenced_code_blocks = [
-            block.strip() for block in self._fenced_code_regex.findall(markdown) if block.strip()
+            block.strip()
+            for block in self._fenced_code_regex.findall(markdown)
+            if block.strip()
         ]
 
         # Extract inline code (between single backticks)
@@ -143,7 +152,9 @@ class Code(Scanner):
         results = self._pipeline(code_blocks)
         for code_block, languages in zip(code_blocks, results):
             LOGGER.debug(
-                "Detected languages in the code", languages=languages, code_block=code_block
+                "Detected languages in the code",
+                languages=languages,
+                code_block=code_block,
             )
 
             for language in languages:
@@ -154,13 +165,17 @@ class Code(Scanner):
 
                 if self._is_blocked:
                     LOGGER.warning(
-                        "Language is not allowed", language_name=language["label"], score=score
+                        "Language is not allowed",
+                        language_name=language["label"],
+                        score=score,
                     )
                     return prompt, False, calculate_risk_score(score, self._threshold)
 
                 if not self._is_blocked:
                     LOGGER.debug(
-                        "Language is allowed", language_name=language["label"], score=score
+                        "Language is allowed",
+                        language_name=language["label"],
+                        score=score,
                     )
                     return prompt, True, calculate_risk_score(score, self._threshold)
 

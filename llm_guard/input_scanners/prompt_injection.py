@@ -6,7 +6,10 @@ from transformers.tokenization_utils import PreTrainedTokenizer
 from transformers.tokenization_utils_fast import PreTrainedTokenizerFast
 
 from llm_guard.model import Model
-from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
+from llm_guard.transformers_helpers import (
+    get_tokenizer_and_model_for_classification,
+    pipeline,
+)
 from llm_guard.util import (
     calculate_risk_score,
     get_logger,
@@ -102,10 +105,15 @@ class MatchType(Enum):
             tokenized_input = self._tokenizer.tokenize(prompt)
 
             return [
-                self._tokenizer.convert_tokens_to_string(truncate_tokens_head_tail(tokenized_input))
+                self._tokenizer.convert_tokens_to_string(
+                    truncate_tokens_head_tail(tokenized_input)
+                )
             ]
 
-        if self == MatchType.TRUNCATE_HEAD_TAIL and len(prompt) > PROMPT_CHARACTERS_LIMIT:
+        if (
+            self == MatchType.TRUNCATE_HEAD_TAIL
+            and len(prompt) > PROMPT_CHARACTERS_LIMIT
+        ):
             part_length = (PROMPT_CHARACTERS_LIMIT - 3) // 2
 
             start = prompt[:part_length]
@@ -174,7 +182,11 @@ class PromptInjection(Scanner):
         results_all = self._pipeline(self._match_type.get_inputs(prompt))
         for result in results_all:
             injection_score = round(
-                result["score"] if result["label"] == "INJECTION" else 1 - result["score"],
+                (
+                    result["score"]
+                    if result["label"] == "INJECTION"
+                    else 1 - result["score"]
+                ),
                 2,
             )
 
@@ -182,9 +194,15 @@ class PromptInjection(Scanner):
                 highest_score = injection_score
 
             if injection_score > self._threshold:
-                LOGGER.warning("Detected prompt injection", injection_score=injection_score)
+                LOGGER.warning(
+                    "Detected prompt injection", injection_score=injection_score
+                )
 
-                return prompt, False, calculate_risk_score(injection_score, self._threshold)
+                return (
+                    prompt,
+                    False,
+                    calculate_risk_score(injection_score, self._threshold),
+                )
 
         LOGGER.debug("No prompt injection detected", highest_score=highest_score)
 

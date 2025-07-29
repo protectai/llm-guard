@@ -20,5 +20,7 @@ class HuggingFaceDetector(RegexBasedDetector):
             # Hugging Face Access token
             re.compile(r"""(?:^|[\\'"` >=:])(hf_[a-zA-Z]{34})(?:$|[\\'"` <])"""),
             # Hugging Face Organization API token
-            re.compile(r"""(?:^|[\\'"` >=:\(,)])(api_org_[a-zA-Z]{34})(?:$|[\\'"` <\),])"""),
+            re.compile(
+                r"""(?:^|[\\'"` >=:\(,)])(api_org_[a-zA-Z]{34})(?:$|[\\'"` <\),])"""
+            ),
         ]

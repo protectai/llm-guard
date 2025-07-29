@@ -18,7 +18,9 @@ class MatchType(Enum):
 
     def match(self, pattern: Pattern[str], text: str) -> List[re.Match[str]]:
         if self.value == "all":
-            return list(pattern.finditer(text))[::-1]  # Reverse order to avoid index issues
+            return list(pattern.finditer(text))[
+                ::-1
+            ]  # Reverse order to avoid index issues
 
         m = None
         if self.value == "search":

@@ -74,9 +74,9 @@ def _add_recognizers(
 
             if isinstance(reuse, dict):
                 new_recognizer = copy.deepcopy(
-                    registry.get_recognizers(language=reuse["language"], entities=[reuse["name"]])[
-                        0
-                    ]
+                    registry.get_recognizers(
+                        language=reuse["language"], entities=[reuse["name"]]
+                    )[0]
                 )
                 new_recognizer.supported_language = language
                 registry.add_recognizer(new_recognizer)
@@ -145,7 +145,9 @@ def get_analyzer(
 
     registry = RecognizerRegistry(supported_languages=supported_languages)
     registry.load_predefined_recognizers(nlp_engine=nlp_engine)
-    registry = _add_recognizers(registry, regex_groups, custom_names, supported_languages)
+    registry = _add_recognizers(
+        registry, regex_groups, custom_names, supported_languages
+    )
     registry.add_recognizer(recognizer)
     registry.remove_recognizer("SpacyRecognizer")
 

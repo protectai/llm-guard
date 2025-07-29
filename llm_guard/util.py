@@ -28,7 +28,9 @@ CHUNK = NamedTuple("CHUNKS", [("start", int), ("end", int)])
 
 
 def configure_logger(
-    log_level: LOG_LEVELS = "INFO", render_json: bool = False, stream: TextIO = sys.stdout
+    log_level: LOG_LEVELS = "INFO",
+    render_json: bool = False,
+    stream: TextIO = sys.stdout,
 ):
     """
     Configures the logger for the package.
@@ -62,7 +64,9 @@ def configure_logger(
 
     structlog.configure(
         context_class=dict,
-        wrapper_class=structlog.make_filtering_bound_logger(log_level_to_int[log_level]),
+        wrapper_class=structlog.make_filtering_bound_logger(
+            log_level_to_int[log_level]
+        ),
         logger_factory=structlog.PrintLoggerFactory(stream),
         cache_logger_on_first_use=False,
         processors=[

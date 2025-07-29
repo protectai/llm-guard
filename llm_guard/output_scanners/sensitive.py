@@ -57,7 +57,8 @@ class Sensitive(Scanner):
         """
         if not entity_types:
             LOGGER.debug(
-                "No entity types provided, using default", default_entity_types=DEFAULT_ENTITY_TYPES
+                "No entity types provided, using default",
+                default_entity_types=DEFAULT_ENTITY_TYPES,
             )
             entity_types = DEFAULT_ENTITY_TYPES.copy()
         entity_types.append("CUSTOM")
@@ -74,7 +75,10 @@ class Sensitive(Scanner):
             use_onnx=use_onnx,
         )
         self._analyzer = get_analyzer(
-            transformers_recognizer, get_regex_patterns(regex_patterns), [], ALL_SUPPORTED_LANGUAGES
+            transformers_recognizer,
+            get_regex_patterns(regex_patterns),
+            [],
+            ALL_SUPPORTED_LANGUAGES,
         )
         self._anonymizer = AnonymizerEngine()
 
@@ -98,7 +102,9 @@ class Sensitive(Scanner):
             risk_score = round(
                 max(analyzer_result.score for analyzer_result in analyzer_results), 2
             )
-            LOGGER.warning("Found sensitive data in the output", results=analyzer_results)
+            LOGGER.warning(
+                "Found sensitive data in the output", results=analyzer_results
+            )
             return output, False, calculate_risk_score(risk_score, self._threshold)
 
         LOGGER.debug("No sensitive data found in the output")

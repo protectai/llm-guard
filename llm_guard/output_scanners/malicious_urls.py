@@ -1,7 +1,10 @@
 from __future__ import annotations
 
 from llm_guard.model import Model
-from llm_guard.transformers_helpers import get_tokenizer_and_model_for_classification, pipeline
+from llm_guard.transformers_helpers import (
+    get_tokenizer_and_model_for_classification,
+    pipeline,
+)
 from llm_guard.util import calculate_risk_score, extract_urls, get_logger
 
 from .base import Scanner
@@ -93,10 +96,20 @@ class MaliciousURLs(Scanner):
                     highest_score=highest_malicious_score,
                 )
 
-                return output, False, calculate_risk_score(highest_malicious_score, self._threshold)
+                return (
+                    output,
+                    False,
+                    calculate_risk_score(highest_malicious_score, self._threshold),
+                )
 
         LOGGER.debug(
-            "Not malware URLs in the output", results=results, highest_score=highest_malicious_score
+            "Not malware URLs in the output",
+            results=results,
+            highest_score=highest_malicious_score,
         )
 
-        return output, True, calculate_risk_score(highest_malicious_score, self._threshold)
+        return (
+            output,
+            True,
+            calculate_risk_score(highest_malicious_score, self._threshold),
+        )

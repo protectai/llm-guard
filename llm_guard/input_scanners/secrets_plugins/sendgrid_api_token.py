@@ -16,4 +16,8 @@ class SendGridApiTokenDetector(RegexBasedDetector):
 
     @property
     def denylist(self) -> list[re.Pattern]:
-        return [re.compile(r"""(?i)\b(SG\.[a-z0-9=_\-\.]{66})(?:['|\"|\n|\r|\s|\x60|;]|$)""")]
+        return [
+            re.compile(
+                r"""(?i)\b(SG\.[a-z0-9=_\-\.]{66})(?:['|\"|\n|\r|\s|\x60|;]|$)"""
+            )
+        ]
