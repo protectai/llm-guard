@@ -92,7 +92,7 @@ def scan_output(
     results_valid = {}
     results_score = {}
 
-    if len(scanners) == 0 or output.strip() == "":
+    if len(scanners) == 0 or output is None or output.strip() == "":
         return sanitized_output, results_valid, results_score
 
     start_time = time.time()
