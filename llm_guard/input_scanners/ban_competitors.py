@@ -40,7 +40,8 @@ class BanCompetitors(Scanner):
         redact: bool = True,
         model: Model | None = None,
         use_onnx: bool = False,
-        **kwargs,
+        chunk_size: int = 512,
+        chunk_overlap_size: int = 40,
     ) -> None:
         """
         Initialize BanCompetitors object.
@@ -61,8 +62,8 @@ class BanCompetitors(Scanner):
         self._competitors = competitors
         self._threshold = threshold
         self._redact = redact
-        self.text_overlap_length = kwargs.get("CHUNK_OVERLAP_SIZE", 40)
-        self.chunk_length = kwargs.get("CHUNK_SIZE", 512)
+        self.chunk_length = chunk_size
+        self.text_overlap_length = chunk_overlap_size
 
         tf_tokenizer, tf_model = get_tokenizer_and_model_for_ner(
             model=model,
