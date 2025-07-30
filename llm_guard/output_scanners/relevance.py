@@ -83,9 +83,11 @@ class Relevance(Scanner):
                 "optimum.onnxruntime",
                 lazy_load_dep(
                     "optimum.onnxruntime",
-                    "optimum[onnxruntime-gpu]"
-                    if device().type == "cuda"
-                    else "optimum[onnxruntime]",
+                    (
+                        "optimum[onnxruntime-gpu]"
+                        if device().type == "cuda"
+                        else "optimum[onnxruntime]"
+                    ),
                 ),
             )
             assert model.onnx_path is not None
@@ -104,7 +106,10 @@ class Relevance(Scanner):
         else:
             transformers = lazy_load_dep("transformers")
             self._model = transformers.AutoModel.from_pretrained(
-                model.path, subfolder=model.subfolder, revision=model.revision, **model.kwargs
+                model.path,
+                subfolder=model.subfolder,
+                revision=model.revision,
+                **model.kwargs,
             ).to(device())
             LOGGER.debug("Initialized model", model=model, device=device())
             self._model.eval()

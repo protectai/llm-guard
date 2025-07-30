@@ -174,7 +174,7 @@ class PromptInjection(Scanner):
         results_all = self._pipeline(self._match_type.get_inputs(prompt))
         for result in results_all:
             injection_score = round(
-                result["score"] if result["label"] == "INJECTION" else 1 - result["score"],
+                (result["score"] if result["label"] == "INJECTION" else 1 - result["score"]),
                 2,
             )
 
@@ -184,7 +184,11 @@ class PromptInjection(Scanner):
             if injection_score > self._threshold:
                 LOGGER.warning("Detected prompt injection", injection_score=injection_score)
 
-                return prompt, False, calculate_risk_score(injection_score, self._threshold)
+                return (
+                    prompt,
+                    False,
+                    calculate_risk_score(injection_score, self._threshold),
+                )
 
         LOGGER.debug("No prompt injection detected", highest_score=highest_score)
 

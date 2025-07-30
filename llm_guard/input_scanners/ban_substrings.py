@@ -112,7 +112,8 @@ class BanSubstrings(Scanner):
         if self._contains_all:
             if len(missing_substrings) > 0:
                 LOGGER.debug(
-                    "Some substrings were not found", missing_substrings=missing_substrings
+                    "Some substrings were not found",
+                    missing_substrings=missing_substrings,
                 )
                 return sanitized_prompt, True, 0.0
 
@@ -126,7 +127,8 @@ class BanSubstrings(Scanner):
 
         if matched_substrings:
             LOGGER.warning(
-                "Found the following banned substrings", matched_substrings=matched_substrings
+                "Found the following banned substrings",
+                matched_substrings=matched_substrings,
             )
 
             if self._redact:

@@ -116,8 +116,16 @@ class Toxicity(Scanner):
         if len(toxicity_above_threshold) > 0:
             LOGGER.warning("Detected toxicity in the text", results=toxicity_above_threshold)
 
-            return prompt, False, calculate_risk_score(highest_toxicity_score, self._threshold)
+            return (
+                prompt,
+                False,
+                calculate_risk_score(highest_toxicity_score, self._threshold),
+            )
 
         LOGGER.debug("Not toxicity found in the text", results=results_all)
 
-        return prompt, True, calculate_risk_score(highest_toxicity_score, self._threshold)
+        return (
+            prompt,
+            True,
+            calculate_risk_score(highest_toxicity_score, self._threshold),
+        )

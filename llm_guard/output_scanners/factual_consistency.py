@@ -85,4 +85,8 @@ class FactualConsistency(Scanner):
 
         LOGGER.debug("The output is factually consistent", prediction=prediction)
 
-        return output, True, calculate_risk_score(prediction["not_entailment"], self._minimum_score)
+        return (
+            output,
+            True,
+            calculate_risk_score(prediction["not_entailment"], self._minimum_score),
+        )

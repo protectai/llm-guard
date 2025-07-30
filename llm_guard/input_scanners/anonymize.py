@@ -92,7 +92,8 @@ class Anonymize(Scanner):
 
         if not entity_types:
             LOGGER.debug(
-                "No entity types provided, using default", default_entities=DEFAULT_ENTITY_TYPES
+                "No entity types provided, using default",
+                default_entities=DEFAULT_ENTITY_TYPES,
             )
             entity_types = DEFAULT_ENTITY_TYPES.copy()
 

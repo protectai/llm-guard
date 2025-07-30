@@ -114,7 +114,8 @@ def _check_auth_function(auth_config: AuthConfig) -> callable:
                 or credentials.password != auth_config.password
             ):
                 raise HTTPException(
-                    status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid Username or Password"
+                    status_code=status.HTTP_401_UNAUTHORIZED,
+                    detail="Invalid Username or Password",
                 )
 
         return True
@@ -255,7 +256,8 @@ def register_routes(
                 )
             except asyncio.TimeoutError:
                 raise HTTPException(
-                    status_code=status.HTTP_408_REQUEST_TIMEOUT, detail="Request timeout."
+                    status_code=status.HTTP_408_REQUEST_TIMEOUT,
+                    detail="Request timeout.",
                 )
 
         return response
@@ -387,7 +389,8 @@ def register_routes(
                 )
             except asyncio.TimeoutError:
                 raise HTTPException(
-                    status_code=status.HTTP_408_REQUEST_TIMEOUT, detail="Request timeout."
+                    status_code=status.HTTP_408_REQUEST_TIMEOUT,
+                    detail="Request timeout.",
                 )
 
         return response
@@ -462,7 +465,8 @@ def register_routes(
         @limiter.exempt
         async def read_metrics():
             return Response(
-                content=generate_latest(REGISTRY), headers={"Content-Type": CONTENT_TYPE_LATEST}
+                content=generate_latest(REGISTRY),
+                headers={"Content-Type": CONTENT_TYPE_LATEST},
             )
 
     @app.on_event("shutdown")
@@ -472,7 +476,9 @@ def register_routes(
     @app.exception_handler(StarletteHTTPException)
     async def http_exception_handler(request, exc):
         LOGGER.warning(
-            "HTTP exception", exception_status_code=exc.status_code, exception_detail=exc.detail
+            "HTTP exception",
+            exception_status_code=exc.status_code,
+            exception_detail=exc.detail,
         )
 
         return JSONResponse(

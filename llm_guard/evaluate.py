@@ -64,7 +64,11 @@ def scan_prompt(
             break
 
     elapsed_time = time.time() - start_time
-    LOGGER.info("Scanned prompt", scores=results_score, elapsed_time_seconds=round(elapsed_time, 6))
+    LOGGER.info(
+        "Scanned prompt",
+        scores=results_score,
+        elapsed_time_seconds=round(elapsed_time, 6),
+    )
 
     return sanitized_prompt, results_valid, results_score
 
@@ -114,6 +118,10 @@ def scan_output(
             break
 
     elapsed_time = time.time() - start_time
-    LOGGER.info("Scanned output", scores=results_score, elapsed_time_seconds=round(elapsed_time, 6))
+    LOGGER.info(
+        "Scanned output",
+        scores=results_score,
+        elapsed_time_seconds=round(elapsed_time, 6),
+    )
 
     return sanitized_output, results_valid, results_score

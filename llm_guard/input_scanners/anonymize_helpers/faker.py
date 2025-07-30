@@ -51,7 +51,8 @@ _entity_faker_map: dict[str, Callable[[], Any]] = {
         Callable[[], str], lambda _: str(fake.random_number(digits=9, fix_len=True))
     ),
     "IT_IDENTITY_CARD": cast(
-        Callable[[], str], lambda _: lambda _: str(fake.random_number(digits=7, fix_len=True))
+        Callable[[], str],
+        lambda _: lambda _: str(fake.random_number(digits=7, fix_len=True)),
     ),
     # Singapore-specific entities
     "SG_NRIC_FIN": cast(Callable[[], str], lambda _: fake.bothify(text="????####?").upper()),

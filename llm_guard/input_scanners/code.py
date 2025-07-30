@@ -143,7 +143,9 @@ class Code(Scanner):
         results = self._pipeline(code_blocks)
         for code_block, languages in zip(code_blocks, results):
             LOGGER.debug(
-                "Detected languages in the code", languages=languages, code_block=code_block
+                "Detected languages in the code",
+                languages=languages,
+                code_block=code_block,
             )
 
             for language in languages:
@@ -154,13 +156,17 @@ class Code(Scanner):
 
                 if self._is_blocked:
                     LOGGER.warning(
-                        "Language is not allowed", language_name=language["label"], score=score
+                        "Language is not allowed",
+                        language_name=language["label"],
+                        score=score,
                     )
                     return prompt, False, calculate_risk_score(score, self._threshold)
 
                 if not self._is_blocked:
                     LOGGER.debug(
-                        "Language is allowed", language_name=language["label"], score=score
+                        "Language is allowed",
+                        language_name=language["label"],
+                        score=score,
                     )
                     return prompt, True, calculate_risk_score(score, self._threshold)
 

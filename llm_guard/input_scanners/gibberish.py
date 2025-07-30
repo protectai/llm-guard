@@ -89,7 +89,7 @@ class Gibberish(Scanner):
         LOGGER.debug("Gibberish detection finished", results=results_all)
         for result in results_all:
             score = round(
-                result["score"] if result["label"] in _gibberish_labels else 1 - result["score"],
+                (result["score"] if result["label"] in _gibberish_labels else 1 - result["score"]),
                 2,
             )
 
@@ -98,13 +98,17 @@ class Gibberish(Scanner):
 
         if highest_score > self._threshold:
             LOGGER.warning(
-                "Detected gibberish text", score=highest_score, threshold=self._threshold
+                "Detected gibberish text",
+                score=highest_score,
+                threshold=self._threshold,
             )
 
             return prompt, False, calculate_risk_score(highest_score, self._threshold)
 
         LOGGER.debug(
-            "No gibberish in the text", highest_score=highest_score, threshold=self._threshold
+            "No gibberish in the text",
+            highest_score=highest_score,
+            threshold=self._threshold,
         )
 
         return prompt, True, calculate_risk_score(highest_score, self._threshold)

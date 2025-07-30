@@ -179,7 +179,8 @@ class TransformersRecognizer(EntityRecognizer):
 
             if res["entity_group"] == self.id_entity_name:
                 LOGGER.debug(
-                    "ID entity found, multiplying score", score_reduction=self.id_score_reduction
+                    "ID entity found, multiplying score",
+                    score_reduction=self.id_score_reduction,
                 )
                 res["score"] = res["score"] * self.id_score_reduction
 
