@@ -75,11 +75,13 @@ class LanguageSame(Scanner):
         common_languages = list(set(prompt_languages).intersection(output_languages))
         if len(common_languages) == 0:
             LOGGER.warning(
-                "No common languages in the output and prompt", common_languages=common_languages
+                "No common languages in the output and prompt",
+                common_languages=common_languages,
             )
             return output, False, 1.0
 
         LOGGER.debug(
-            "Languages are found in the prompt and output", common_languages=common_languages
+            "Languages are found in the prompt and output",
+            common_languages=common_languages,
         )
         return output, True, -1.0

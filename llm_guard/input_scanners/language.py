@@ -99,10 +99,15 @@ class Language(Scanner):
             # Check if any of the languages above threshold are not valid
             if len(set(languages_above_threshold) - set(self._valid_languages)) > 0:
                 LOGGER.warning(
-                    "Languages are found with high confidence", languages=languages_above_threshold
+                    "Languages are found with high confidence",
+                    languages=languages_above_threshold,
                 )
 
-                return prompt, False, calculate_risk_score(highest_score, self._threshold)
+                return (
+                    prompt,
+                    False,
+                    calculate_risk_score(highest_score, self._threshold),
+                )
 
         LOGGER.debug("Only valid languages are found in the text.")
 

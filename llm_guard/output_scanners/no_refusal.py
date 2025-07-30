@@ -90,7 +90,7 @@ class NoRefusal(Scanner):
         results_all = self._pipeline(self._match_type.get_inputs(output))
         for result in results_all:
             score = round(
-                result["score"] if result["label"] == "REJECTION" else 1 - result["score"],
+                (result["score"] if result["label"] == "REJECTION" else 1 - result["score"]),
                 2,
             )
 

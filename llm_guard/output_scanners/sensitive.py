@@ -64,7 +64,8 @@ class Sensitive(Scanner):
 
         if not entity_types:
             LOGGER.debug(
-                "No entity types provided, using default", default_entity_types=DEFAULT_ENTITY_TYPES
+                "No entity types provided, using default",
+                default_entity_types=DEFAULT_ENTITY_TYPES,
             )
             entity_types = DEFAULT_ENTITY_TYPES.copy()
         entity_types.append("CUSTOM")

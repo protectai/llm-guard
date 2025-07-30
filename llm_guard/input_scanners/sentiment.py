@@ -52,4 +52,8 @@ class Sentiment(Scanner):
             threshold=self._threshold,
         )
 
-        return prompt, False, calculate_risk_score(abs(sentiment_score_compound), self._threshold)
+        return (
+            prompt,
+            False,
+            calculate_risk_score(abs(sentiment_score_compound), self._threshold),
+        )

@@ -93,10 +93,20 @@ class MaliciousURLs(Scanner):
                     highest_score=highest_malicious_score,
                 )
 
-                return output, False, calculate_risk_score(highest_malicious_score, self._threshold)
+                return (
+                    output,
+                    False,
+                    calculate_risk_score(highest_malicious_score, self._threshold),
+                )
 
         LOGGER.debug(
-            "Not malware URLs in the output", results=results, highest_score=highest_malicious_score
+            "Not malware URLs in the output",
+            results=results,
+            highest_score=highest_malicious_score,
         )
 
-        return output, True, calculate_risk_score(highest_malicious_score, self._threshold)
+        return (
+            output,
+            True,
+            calculate_risk_score(highest_malicious_score, self._threshold),
+        )

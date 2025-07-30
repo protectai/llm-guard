@@ -15,7 +15,9 @@ EXTERNAL_LOGGERS = {
 
 
 def configure_logger(
-    log_level: LOG_LEVELS = "INFO", render_json: bool = False, stream: TextIO = sys.stdout
+    log_level: LOG_LEVELS = "INFO",
+    render_json: bool = False,
+    stream: TextIO = sys.stdout,
 ):
     """
     Configures the logger for the package.

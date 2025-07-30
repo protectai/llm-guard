@@ -101,7 +101,9 @@ class BanCompetitors(Scanner):
                 )
 
             LOGGER.warning(
-                "Competitor detected with score", entity=entity["word"], score=entity["score"]
+                "Competitor detected with score",
+                entity=entity["word"],
+                score=entity["score"],
             )
 
         if is_detected:

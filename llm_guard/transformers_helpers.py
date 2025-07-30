@@ -86,7 +86,10 @@ def get_tokenizer_and_model_for_classification(
 
     if use_onnx is False:
         tf_model = transformers.AutoModelForSequenceClassification.from_pretrained(
-            model.path, subfolder=model.subfolder, revision=model.revision, **model.kwargs
+            model.path,
+            subfolder=model.subfolder,
+            revision=model.revision,
+            **model.kwargs,
         )
         LOGGER.debug("Initialized classification model", model=model, device=device())
 
@@ -118,7 +121,10 @@ def get_tokenizer_and_model_for_ner(
 
     if use_onnx is False:
         tf_model = transformers.AutoModelForTokenClassification.from_pretrained(
-            model.path, subfolder=model.subfolder, revision=model.revision, **model.kwargs
+            model.path,
+            subfolder=model.subfolder,
+            revision=model.revision,
+            **model.kwargs,
         )
         LOGGER.debug("Initialized NER model", model=model, device=device())
 
@@ -126,7 +132,7 @@ def get_tokenizer_and_model_for_ner(
 
     optimum_onnxruntime = lazy_load_dep(
         "optimum.onnxruntime",
-        "optimum[onnxruntime]" if device().type != "cuda" else "optimum[onnxruntime-gpu]",
+        ("optimum[onnxruntime]" if device().type != "cuda" else "optimum[onnxruntime-gpu]"),
     )
 
     tf_model = optimum_onnxruntime.ORTModelForTokenClassification.from_pretrained(

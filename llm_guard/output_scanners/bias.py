@@ -94,7 +94,9 @@ class Bias(Scanner):
 
             if score > self._threshold:
                 LOGGER.warning(
-                    "Detected biased text", highest_score=score, threshold=self._threshold
+                    "Detected biased text",
+                    highest_score=score,
+                    threshold=self._threshold,
                 )
 
                 return output, False, calculate_risk_score(score, self._threshold)
