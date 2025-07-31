@@ -15,6 +15,15 @@ from llm_guard.input_scanners.ban_competitors import BanCompetitors
             False,
             1.0,
         ),
+        (
+            ["Test LLC"],
+            "Make an SQL insert statement to add a new user to our database. Name is John Doe. Email is test@test.com but also possible to contact him with hello@test.com email. Phone number is 555-123-4567 and the IP address is 192.168.1.100. And credit card number is 4567-8901-2345-6789. He works in Test LLC \n"
+            * 6,
+            "Make an SQL insert statement to add a new user to our database. Name is John Doe. Email is test@test.com but also possible to contact him with hello@test.com email. Phone number is 555-123-4567 and the IP address is 192.168.1.100. And credit card number is 4567-8901-2345-6789. He works in [REDACTED] \n"
+            * 6,
+            False,
+            1.0,
+        ),
     ],
 )
 def test_scan(

@@ -1,12 +1,13 @@
 from __future__ import annotations
 
-from typing import Sequence
+import copy
+from typing import Any, Sequence
 
 from presidio_anonymizer.core.text_replace_builder import TextReplaceBuilder
 
 from llm_guard.model import Model
 from llm_guard.transformers_helpers import get_tokenizer_and_model_for_ner
-from llm_guard.util import get_logger, lazy_load_dep
+from llm_guard.util import get_logger, lazy_load_dep, split_text_to_word_chunks
 
 from .base import Scanner
 
@@ -39,6 +40,8 @@ class BanCompetitors(Scanner):
         redact: bool = True,
         model: Model | None = None,
         use_onnx: bool = False,
+        chunk_size: int = 512,
+        chunk_overlap_size: int = 40,
     ) -> None:
         """
         Initialize BanCompetitors object.
@@ -59,6 +62,8 @@ class BanCompetitors(Scanner):
         self._competitors = competitors
         self._threshold = threshold
         self._redact = redact
+        self.chunk_length = chunk_size
+        self.text_overlap_length = chunk_overlap_size
 
         tf_tokenizer, tf_model = get_tokenizer_and_model_for_ner(
             model=model,
@@ -73,7 +78,7 @@ class BanCompetitors(Scanner):
     def scan(self, prompt: str) -> tuple[str, bool, float]:
         is_detected = False
         text_replace_builder = TextReplaceBuilder(original_text=prompt)
-        entities = self._ner_pipeline(prompt)
+        entities = self._get_ner_results_for_text(prompt)
         assert isinstance(entities, list)
         entities = sorted(entities, key=lambda x: x["end"], reverse=True)
 
@@ -112,3 +117,60 @@ class BanCompetitors(Scanner):
         LOGGER.debug("None of the competitors were detected")
 
         return prompt, True, -1.0
+
+    def _get_ner_results_for_text(self, text: str) -> list[dict]:
+        """The function runs model inference on the provided text.
+        The text is split into chunks with n overlapping characters.
+        The results are then aggregated and duplications are removed.
+
+        :param text: The text to run inference on
+        :type text: str
+        :return: List of entity predictions on the word level
+        :rtype: List[dict]
+        """
+        assert self._ner_pipeline is not None
+        assert self._ner_pipeline.tokenizer is not None
+
+        model_max_length = self._ner_pipeline.tokenizer.model_max_length
+        # calculate inputs based on the text
+        # normalize characters to token numbers approximately
+        # 1 word ~ 2 tokens ~ 4 characters
+        text_tokens_length = len(text.split()) * 2
+        chunk_length = self.chunk_length // 2 * 4
+        text_overlap_length = self.text_overlap_length // 2 * 4
+        text_length = len(text)
+
+        # split text into chunks
+        if text_tokens_length <= model_max_length:
+            predictions = self._ner_pipeline(text)  # type: ignore
+        else:
+            LOGGER.info(
+                "splitting the text into chunks",
+                length=text_tokens_length,
+                model_max_length=model_max_length,
+            )
+            predictions: list[dict[str, Any]] = []
+            chunk_indexes = split_text_to_word_chunks(
+                text_length, chunk_length, text_overlap_length
+            )
+
+            # iterate over text chunks and run inference
+            for chunk in chunk_indexes:
+                chunk_text = text[chunk.start : chunk.end]
+                chunk_preds = self._ner_pipeline(chunk_text)
+
+                assert isinstance(chunk_preds, list)
+
+                # align indexes to match the original text - add to each position the value of chunk_start
+                aligned_predictions: list[dict[str, Any]] = []
+                for prediction in chunk_preds:
+                    prediction_tmp: dict[str, Any] = copy.deepcopy(prediction)
+                    prediction_tmp["start"] += chunk.start
+                    prediction_tmp["end"] += chunk.start
+                    aligned_predictions.append(prediction_tmp)
+
+                predictions.extend(aligned_predictions)
+
+        # remove duplicates
+        predictions = [dict(t) for t in {tuple(d.items()) for d in predictions}]
+        return predictions
