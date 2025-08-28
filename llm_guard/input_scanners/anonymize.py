@@ -257,7 +257,7 @@ class Anonymize(Scanner):
 
         entity_type_counter = {}
         batch_entity_tracker = {}
-        
+
         for pii_entity in pii_entities:
             entity_type = pii_entity.entity_type
             entity_value = text_replace_builder.get_text_in_position(
@@ -274,14 +274,14 @@ class Anonymize(Scanner):
                     for entity_placeholder, entity_vault_value in vault.get()
                     if entity_placeholder.startswith(f"[REDACTED_{entity_type}_")
                 ]
-                
+
                 # Look for exact value match in vault
                 existing_placeholder = None
                 for entity_placeholder, entity_vault_value in vault_entities:
                     if entity_vault_value == entity_value:
                         existing_placeholder = entity_placeholder
                         break
-                
+
                 if existing_placeholder:
                     # Extract index from existing placeholder
                     entity_type_counter[entity_type][entity_value] = int(
@@ -291,31 +291,35 @@ class Anonymize(Scanner):
                     # Check if we've already assigned this value in current batch
                     if entity_type not in batch_entity_tracker:
                         batch_entity_tracker[entity_type] = {}
-                    
+
                     if entity_value in batch_entity_tracker[entity_type]:
                         # Reuse the index assigned earlier in this batch
-                        entity_type_counter[entity_type][entity_value] = batch_entity_tracker[entity_type][entity_value]
+                        entity_type_counter[entity_type][entity_value] = batch_entity_tracker[
+                            entity_type
+                        ][entity_value]
                     else:
                         # Calculate next available index
                         existing_indices = set()
-                        
+
                         # Add indices from vault
                         for entity_placeholder, _ in vault_entities:
-                            try:
-                                index = int(entity_placeholder.split("_")[-1][:-1])
-                                existing_indices.add(index)
-                            except (ValueError, IndexError):
-                                continue
-                        
+                            parts = entity_placeholder.split("_")
+                            if len(parts) >= 3 and parts[-1].endswith("]"):
+                                try:
+                                    index = int(parts[-1][:-1])
+                                    existing_indices.add(index)
+                                except ValueError:
+                                    pass  # Skip invalid indices
+
                         # Add indices from current batch
                         for assigned_index in batch_entity_tracker.get(entity_type, {}).values():
                             existing_indices.add(assigned_index)
-                        
+
                         # Find next available index
                         next_index = 1
                         while next_index in existing_indices:
                             next_index += 1
-                        
+
                         entity_type_counter[entity_type][entity_value] = next_index
                         batch_entity_tracker[entity_type][entity_value] = next_index
 
@@ -380,7 +384,7 @@ class Anonymize(Scanner):
             for entity_placeholder, entity_value in anonymized_results:
                 if not self._vault.placeholder_exists(entity_placeholder):
                     self._vault.append((entity_placeholder, entity_value))
-                    
+
             return (
                 self._preamble + sanitized_prompt,
                 False,
