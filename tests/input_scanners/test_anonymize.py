@@ -324,6 +324,72 @@ def test_patterns():
 
         for example in group.get("examples", []):
             for expression in group.get("expressions", []):
-                assert re.search(expression, example) is not None, (
-                    f"Test for {name} failed. No match found for example: {example}"
-                )
+                assert (
+                    re.search(expression, example) is not None
+                ), f"Test for {name} failed. No match found for example: {example}"
+
+
+def test_placeholder_consistency():
+    """Test that identical values get the same placeholder across multiple scans."""
+    vault = Vault()
+    scanner = Anonymize(vault, entity_types=["PERSON", "EMAIL_ADDRESS"])
+
+    # First scan with John Smith
+    prompt1 = "Hello John Smith, your email is john@example.com"
+    result1, valid1, score1 = scanner.scan(prompt1)
+
+    # Second scan with same person
+    prompt2 = "John Smith called yesterday"
+    result2, valid2, score2 = scanner.scan(prompt2)
+
+    # Third scan with different person
+    prompt3 = "Mary Johnson replied to john@example.com"
+    result3, valid3, score3 = scanner.scan(prompt3)
+
+    # Fourth scan with both people
+    prompt4 = "John Smith and Mary Johnson are meeting"
+    result4, valid4, score4 = scanner.scan(prompt4)
+
+    # Verify vault contents
+    vault_contents = vault.get()
+
+    # Assert consistent placeholder assignment
+    john_placeholders = [p for p, v in vault_contents if v == "John Smith"]
+    mary_placeholders = [p for p, v in vault_contents if v == "Mary Johnson"]
+    email_placeholders = [p for p, v in vault_contents if v == "john@example.com"]
+
+    # Each unique value should have exactly one placeholder
+    assert (
+        len(john_placeholders) == 1
+    ), f"John Smith should have 1 placeholder, got {len(john_placeholders)}: {john_placeholders}"
+    assert (
+        len(mary_placeholders) == 1
+    ), f"Mary Johnson should have 1 placeholder, got {len(mary_placeholders)}: {mary_placeholders}"
+    assert (
+        len(email_placeholders) == 1
+    ), f"john@example.com should have 1 placeholder, got {len(email_placeholders)}: {email_placeholders}"
+
+    # Verify specific placeholder assignments
+    john_placeholder = john_placeholders[0]
+    mary_placeholder = mary_placeholders[0]
+    email_placeholder = email_placeholders[0]
+
+    # John should be PERSON_1, Mary should be PERSON_2, email should be EMAIL_ADDRESS_1
+    assert (
+        john_placeholder == "[REDACTED_PERSON_1]"
+    ), f"Expected [REDACTED_PERSON_1], got {john_placeholder}"
+    assert (
+        mary_placeholder == "[REDACTED_PERSON_2]"
+    ), f"Expected [REDACTED_PERSON_2], got {mary_placeholder}"
+    assert (
+        email_placeholder == "[REDACTED_EMAIL_ADDRESS_1]"
+    ), f"Expected [REDACTED_EMAIL_ADDRESS_1], got {email_placeholder}"
+
+    # Verify results contain consistent placeholders
+    assert john_placeholder in result1
+    assert john_placeholder in result2
+    assert john_placeholder in result4
+    assert mary_placeholder in result3
+    assert mary_placeholder in result4
+    assert email_placeholder in result1
+    assert email_placeholder in result3
