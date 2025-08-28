@@ -324,9 +324,9 @@ def test_patterns():
 
         for example in group.get("examples", []):
             for expression in group.get("expressions", []):
-                assert (
-                    re.search(expression, example) is not None
-                ), f"Test for {name} failed. No match found for example: {example}"
+                assert re.search(expression, example) is not None, (
+                    f"Test for {name} failed. No match found for example: {example}"
+                )
 
 
 def test_placeholder_consistency():
@@ -359,15 +359,15 @@ def test_placeholder_consistency():
     email_placeholders = [p for p, v in vault_contents if v == "john@example.com"]
 
     # Each unique value should have exactly one placeholder
-    assert (
-        len(john_placeholders) == 1
-    ), f"John Smith should have 1 placeholder, got {len(john_placeholders)}: {john_placeholders}"
-    assert (
-        len(mary_placeholders) == 1
-    ), f"Mary Johnson should have 1 placeholder, got {len(mary_placeholders)}: {mary_placeholders}"
-    assert (
-        len(email_placeholders) == 1
-    ), f"john@example.com should have 1 placeholder, got {len(email_placeholders)}: {email_placeholders}"
+    assert len(john_placeholders) == 1, (
+        f"John Smith should have 1 placeholder, got {len(john_placeholders)}: {john_placeholders}"
+    )
+    assert len(mary_placeholders) == 1, (
+        f"Mary Johnson should have 1 placeholder, got {len(mary_placeholders)}: {mary_placeholders}"
+    )
+    assert len(email_placeholders) == 1, (
+        f"john@example.com should have 1 placeholder, got {len(email_placeholders)}: {email_placeholders}"
+    )
 
     # Verify specific placeholder assignments
     john_placeholder = john_placeholders[0]
@@ -375,15 +375,15 @@ def test_placeholder_consistency():
     email_placeholder = email_placeholders[0]
 
     # John should be PERSON_1, Mary should be PERSON_2, email should be EMAIL_ADDRESS_1
-    assert (
-        john_placeholder == "[REDACTED_PERSON_1]"
-    ), f"Expected [REDACTED_PERSON_1], got {john_placeholder}"
-    assert (
-        mary_placeholder == "[REDACTED_PERSON_2]"
-    ), f"Expected [REDACTED_PERSON_2], got {mary_placeholder}"
-    assert (
-        email_placeholder == "[REDACTED_EMAIL_ADDRESS_1]"
-    ), f"Expected [REDACTED_EMAIL_ADDRESS_1], got {email_placeholder}"
+    assert john_placeholder == "[REDACTED_PERSON_1]", (
+        f"Expected [REDACTED_PERSON_1], got {john_placeholder}"
+    )
+    assert mary_placeholder == "[REDACTED_PERSON_2]", (
+        f"Expected [REDACTED_PERSON_2], got {mary_placeholder}"
+    )
+    assert email_placeholder == "[REDACTED_EMAIL_ADDRESS_1]", (
+        f"Expected [REDACTED_EMAIL_ADDRESS_1], got {email_placeholder}"
+    )
 
     # Verify results contain consistent placeholders
     assert john_placeholder in result1
