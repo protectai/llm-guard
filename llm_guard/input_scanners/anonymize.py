@@ -255,7 +255,9 @@ class Anonymize(Scanner):
         """
         text_replace_builder = TextReplaceBuilder(original_text=prompt)
 
-        entity_type_counter, new_entity_counter = {}, {}
+        entity_type_counter = {}
+        batch_entity_tracker = {}
+        
         for pii_entity in pii_entities:
             entity_type = pii_entity.entity_type
             entity_value = text_replace_builder.get_text_in_position(
@@ -266,25 +268,56 @@ class Anonymize(Scanner):
                 entity_type_counter[entity_type] = {}
 
             if entity_value not in entity_type_counter[entity_type]:
+                # Check vault for existing exact match first
                 vault_entities = [
                     (entity_placeholder, entity_vault_value)
                     for entity_placeholder, entity_vault_value in vault.get()
-                    if entity_type in entity_placeholder
+                    if entity_placeholder.startswith(f"[REDACTED_{entity_type}_")
                 ]
-                entity_placeholder = [
-                    entity_placeholder
-                    for entity_placeholder, entity_vault_value in vault_entities
-                    if entity_vault_value == entity_value
-                ]
-                if len(entity_placeholder) > 0:
+                
+                # Look for exact value match in vault
+                existing_placeholder = None
+                for entity_placeholder, entity_vault_value in vault_entities:
+                    if entity_vault_value == entity_value:
+                        existing_placeholder = entity_placeholder
+                        break
+                
+                if existing_placeholder:
+                    # Extract index from existing placeholder
                     entity_type_counter[entity_type][entity_value] = int(
-                        entity_placeholder[0].split("_")[-1][:-1]
+                        existing_placeholder.split("_")[-1][:-1]
                     )
                 else:
-                    entity_type_counter[entity_type][entity_value] = (
-                        len(vault_entities) + new_entity_counter.get(entity_type, 0) + 1
-                    )
-                    new_entity_counter[entity_type] = new_entity_counter.get(entity_type, 0) + 1
+                    # Check if we've already assigned this value in current batch
+                    if entity_type not in batch_entity_tracker:
+                        batch_entity_tracker[entity_type] = {}
+                    
+                    if entity_value in batch_entity_tracker[entity_type]:
+                        # Reuse the index assigned earlier in this batch
+                        entity_type_counter[entity_type][entity_value] = batch_entity_tracker[entity_type][entity_value]
+                    else:
+                        # Calculate next available index
+                        existing_indices = set()
+                        
+                        # Add indices from vault
+                        for entity_placeholder, _ in vault_entities:
+                            try:
+                                index = int(entity_placeholder.split("_")[-1][:-1])
+                                existing_indices.add(index)
+                            except (ValueError, IndexError):
+                                continue
+                        
+                        # Add indices from current batch
+                        for assigned_index in batch_entity_tracker.get(entity_type, {}).values():
+                            existing_indices.add(assigned_index)
+                        
+                        # Find next available index
+                        next_index = 1
+                        while next_index in existing_indices:
+                            next_index += 1
+                        
+                        entity_type_counter[entity_type][entity_value] = next_index
+                        batch_entity_tracker[entity_type][entity_value] = next_index
 
         results = []
         sorted_pii_entities = sorted(pii_entities, reverse=True)
@@ -347,6 +380,7 @@ class Anonymize(Scanner):
             for entity_placeholder, entity_value in anonymized_results:
                 if not self._vault.placeholder_exists(entity_placeholder):
                     self._vault.append((entity_placeholder, entity_value))
+                    
             return (
                 self._preamble + sanitized_prompt,
                 False,
