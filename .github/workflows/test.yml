@@ -33,11 +33,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Aggressive disk cleanup
+        run: |
+          sudo rm -rf /usr/local/lib/android
+          docker system prune -af
+          sudo apt-get clean
+          sudo rm -rf /var/lib/apt/lists/*
+          sudo rm -rf /tmp/*
+          sudo rm -rf /var/tmp/*
+          rm -rf ~/.cache/huggingface
+          rm -rf ~/.cache/pip
+          df -h
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-          cache: 'pip'
+          cache: ''   # disables pip cache
 
       - name: Install deps
         run: |
