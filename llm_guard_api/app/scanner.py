@@ -115,6 +115,9 @@ def _get_input_scanner(
 
     if scanner_name == "Anonymize":
         scanner_config["vault"] = vault
+        
+    if scanner_name == "Regex":
+        scanner_config["vault"] = vault
 
     if scanner_name in [
         "Anonymize",
@@ -186,6 +189,9 @@ def _get_output_scanner(
         scanner_config = {}
 
     if scanner_name == "Deanonymize":
+        scanner_config["vault"] = vault
+        
+    if scanner_name == "Regex":
         scanner_config["vault"] = vault
 
     if scanner_name in [

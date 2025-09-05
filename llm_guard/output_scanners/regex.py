@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from llm_guard.input_scanners.regex import MatchType, Regex as InputRegex
+from llm_guard.vault import Vault
 
 from .base import Scanner
 
@@ -20,6 +21,7 @@ class Regex(Scanner):
         is_blocked: bool = True,
         match_type: MatchType | str = MatchType.SEARCH,
         redact=True,
+        vault: Vault | None = None,
     ) -> None:
         """
         Initializes an instance of the Regex class.
@@ -29,13 +31,14 @@ class Regex(Scanner):
             is_blocked (bool): Whether the patterns are blocked or allowed.
             match_type (str): The type of match to use. Can be either "search" or "fullmatch".
             redact (bool): Whether to redact the output or not.
+            vault (Vault): Optional vault instance to store redacted values for later deanonymization.
 
         Raises:
             ValueError: If no patterns provided or both good and bad patterns provided.
         """
 
         self._scanner = InputRegex(
-            patterns, is_blocked=is_blocked, match_type=match_type, redact=redact
+            patterns, is_blocked=is_blocked, match_type=match_type, redact=redact, vault=vault
         )
 
     def scan(self, prompt: str, output: str) -> tuple[str, bool, float]:
