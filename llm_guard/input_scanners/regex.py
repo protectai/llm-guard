@@ -79,14 +79,14 @@ class Regex(Scanner):
     def scan(self, prompt: str) -> tuple[str, bool, float]:
         text_replace_builder = TextReplaceBuilder(original_text=prompt)
         regex_counter = self._get_next_regex_counter() if self._vault else 1
-        
+
         # Collect all matches first
         all_matches = []
         for pattern in self._patterns:
             matches = self._match_type.match(pattern, prompt)
             if matches:
                 all_matches.extend(matches)
-        
+
         if not all_matches:
             if self._is_blocked:
                 LOGGER.debug("None of the patterns were found in the text")
@@ -106,7 +106,7 @@ class Regex(Scanner):
                     matched_text = text_replace_builder.get_text_in_position(
                         match.start(), match.end()
                     )
-                    
+
                     # Use vault-specific placeholders only when vault is provided
                     if self._vault:
                         placeholder = f"[REDACTED_REGEX_{regex_counter}]"
@@ -116,7 +116,7 @@ class Regex(Scanner):
                     else:
                         # Maintain backward compatibility
                         placeholder = "[REDACTED]"
-                    
+
                     text_replace_builder.replace_text_get_insertion_index(
                         placeholder,
                         match.start(),
@@ -127,12 +127,12 @@ class Regex(Scanner):
 
         LOGGER.debug("Patterns matched the text", num_matches=len(all_matches))
         return text_replace_builder.output_text, True, -1.0
-    
+
     def _get_next_regex_counter(self) -> int:
         """Get the next available counter for regex placeholders."""
         if not self._vault:
             return 1
-            
+
         existing_indices = set()
         for placeholder, _ in self._vault.get():
             if placeholder.startswith("[REDACTED_REGEX_") and placeholder.endswith("]"):
@@ -141,7 +141,7 @@ class Regex(Scanner):
                     existing_indices.add(index)
                 except ValueError:
                     pass
-        
+
         counter = 1
         while counter in existing_indices:
             counter += 1
