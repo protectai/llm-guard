@@ -21,7 +21,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-      - uses: github/codeql-action/init@d6bbdef45e766d081b84a2def353b0055f728d3e # v3.29.3
+      - uses: github/codeql-action/init@f443b600d91635bebf5b0d9ebc620189c0d6fba5 # v4.30.8
         with:
           languages: python
-      - uses: github/codeql-action/analyze@d6bbdef45e766d081b84a2def353b0055f728d3e # v3.29.3
+      - uses: github/codeql-action/analyze@f443b600d91635bebf5b0d9ebc620189c0d6fba5 # v4.30.8
