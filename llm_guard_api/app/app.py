@@ -34,6 +34,8 @@ from .scanner import (
     InputIsInvalid,
     ascan_output,
     ascan_prompt,
+    batch_analyze_prompts,
+    batch_scan_prompts,
     get_input_scanners,
     get_output_scanners,
     scanners_valid_counter,
@@ -43,6 +45,10 @@ from .schemas import (
     AnalyzeOutputResponse,
     AnalyzePromptRequest,
     AnalyzePromptResponse,
+    BatchAnalyzePromptRequest,
+    BatchAnalyzePromptResponse,
+    BatchScanPromptRequest,
+    BatchScanPromptResponse,
     ScanOutputRequest,
     ScanOutputResponse,
     ScanPromptRequest,
@@ -456,6 +462,163 @@ def register_routes(
             scores=results_score,
             elapsed_time_seconds=round(elapsed_time, 6),
         )
+
+        return response
+
+    @app.post(
+        "/scan/prompt/batch",
+        tags=["Batch"],
+        response_model=BatchScanPromptResponse,
+        status_code=status.HTTP_200_OK,
+        description="Batch scan multiple prompts in parallel without sanitization",
+    )
+    async def submit_batch_scan_prompts(
+        request: BatchScanPromptRequest,
+        _: Annotated[bool, Depends(check_auth)],
+        input_scanners: List[InputScanner] = Depends(input_scanners_func),
+    ) -> BatchScanPromptResponse:
+        LOGGER.debug("Received batch scan prompt request", prompt_count=len(request.prompts))
+
+        # Validate batch size
+        if len(request.prompts) > config.app.batch_max_size:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Batch size {len(request.prompts)} exceeds maximum allowed size {config.app.batch_max_size}",
+            )
+
+        if request.scanners_suppress is not None and len(request.scanners_suppress) > 0:
+            LOGGER.debug("Suppressing scanners", scanners=request.scanners_suppress)
+            input_scanners = [
+                scanner
+                for scanner in input_scanners
+                if type(scanner).__name__ not in request.scanners_suppress
+            ]
+
+        start_time = time.time()
+        try:
+            # Process batch with configurable parallelism
+            batch_results = await asyncio.wait_for(
+                batch_scan_prompts(
+                    request.prompts,
+                    input_scanners,
+                    config.app.scan_fail_fast,
+                ),
+                timeout=config.app.batch_timeout,
+            )
+
+            # Calculate statistics
+            total_valid = sum(1 for result in batch_results if result["is_valid"])
+            processing_time = time.time() - start_time
+
+            # Convert internal format to response format
+            formatted_results = [
+                {
+                    "prompt_index": result["prompt_index"],
+                    "is_valid": result["is_valid"],
+                    "scanners": result["scanners"],
+                    "error": result["error"],
+                }
+                for result in batch_results
+            ]
+
+            response = BatchScanPromptResponse(
+                results=formatted_results,
+                total_processed=len(batch_results),
+                total_valid=total_valid,
+                processing_time=processing_time,
+            )
+
+            LOGGER.debug(
+                "Batch scan prompt response returned",
+                total_processed=len(batch_results),
+                total_valid=total_valid,
+                elapsed_time_seconds=round(processing_time, 6),
+            )
+
+        except asyncio.TimeoutError:
+            raise HTTPException(
+                status_code=status.HTTP_408_REQUEST_TIMEOUT,
+                detail=f"Batch processing timeout exceeded ({config.app.batch_timeout}s).",
+            )
+
+        return response
+
+    @app.post(
+        "/analyze/prompt/batch",
+        tags=["Batch"],
+        response_model=BatchAnalyzePromptResponse,
+        status_code=status.HTTP_200_OK,
+        description="Batch analyze multiple prompts with sanitization",
+    )
+    async def submit_batch_analyze_prompts(
+        request: BatchAnalyzePromptRequest,
+        _: Annotated[bool, Depends(check_auth)],
+        input_scanners: List[InputScanner] = Depends(input_scanners_func),
+    ) -> BatchAnalyzePromptResponse:
+        LOGGER.debug("Received batch analyze prompt request", prompt_count=len(request.prompts))
+
+        # Validate batch size
+        if len(request.prompts) > config.app.batch_max_size:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Batch size {len(request.prompts)} exceeds maximum allowed size {config.app.batch_max_size}",
+            )
+
+        if request.scanners_suppress is not None and len(request.scanners_suppress) > 0:
+            LOGGER.debug("Suppressing scanners", scanners=request.scanners_suppress)
+            input_scanners = [
+                scanner
+                for scanner in input_scanners
+                if type(scanner).__name__ not in request.scanners_suppress
+            ]
+
+        start_time = time.time()
+        try:
+            # Process batch with configurable parallelism
+            batch_results = await asyncio.wait_for(
+                batch_analyze_prompts(
+                    request.prompts,
+                    input_scanners,
+                    config.app.scan_fail_fast,
+                ),
+                timeout=config.app.batch_timeout,
+            )
+
+            # Calculate statistics
+            total_valid = sum(1 for result in batch_results if result["is_valid"])
+            processing_time = time.time() - start_time
+
+            # Convert internal format to response format
+            formatted_results = [
+                {
+                    "prompt_index": result["prompt_index"],
+                    "sanitized_prompt": result["sanitized_prompt"],
+                    "is_valid": result["is_valid"],
+                    "scanners": result["scanners"],
+                    "error": result["error"],
+                }
+                for result in batch_results
+            ]
+
+            response = BatchAnalyzePromptResponse(
+                results=formatted_results,
+                total_processed=len(batch_results),
+                total_valid=total_valid,
+                processing_time=processing_time,
+            )
+
+            LOGGER.debug(
+                "Batch analyze prompt response returned",
+                total_processed=len(batch_results),
+                total_valid=total_valid,
+                elapsed_time_seconds=round(processing_time, 6),
+            )
+
+        except asyncio.TimeoutError:
+            raise HTTPException(
+                status_code=status.HTTP_408_REQUEST_TIMEOUT,
+                detail=f"Batch processing timeout exceeded ({config.app.batch_timeout}s).",
+            )
 
         return response
 

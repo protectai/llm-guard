@@ -327,3 +327,180 @@ def scan_output(scanner: OutputScanner, prompt: str, output: str) -> (str, float
 
 async def ascan_output(scanner: OutputScanner, prompt: str, output: str) -> (str, float):
     return await asyncio.to_thread(scan_output, scanner, prompt, output)
+
+
+# Batch processing functions
+async def batch_scan_prompts(
+    prompts: List[str],
+    scanners: List[InputScanner],
+    fail_fast: bool = False,
+) -> List[Dict]:
+    """
+    Process multiple prompts in parallel, running all scanners on each prompt.
+
+    Args:
+        prompts: List of prompts to process
+        scanners: List of input scanners to apply
+        fail_fast: Whether to stop on first scanner failure
+
+    Returns:
+        List of results for each prompt with scanner scores and errors
+    """
+    async def process_single_prompt(prompt_index: int, prompt: str) -> Dict:
+        """Process a single prompt with all scanners."""
+        result = {
+            "prompt_index": prompt_index,
+            "is_valid": True,
+            "scanners": {},
+            "error": None,
+        }
+
+        try:
+            # Run scanners in parallel for this prompt
+            if fail_fast:
+                # In fail_fast mode, run scanners sequentially
+                for scanner in scanners:
+                    try:
+                        scanner_name, risk_score = await ascan_prompt(scanner, prompt)
+                        result["scanners"][scanner_name] = risk_score
+                    except InputIsInvalid as e:
+                        result["is_valid"] = False
+                        result["scanners"][e.scanner_name] = e.risk_score
+                        break  # Stop on first failure
+                    except Exception as e:
+                        result["is_valid"] = False
+                        result["error"] = str(e)
+                        break
+            else:
+                # Run all scanners in parallel, collecting all results
+                scanner_tasks = [ascan_prompt(scanner, prompt) for scanner in scanners]
+                scanner_results = await asyncio.gather(*scanner_tasks, return_exceptions=True)
+
+                for scanner_result in scanner_results:
+                    if isinstance(scanner_result, InputIsInvalid):
+                        result["is_valid"] = False
+                        result["scanners"][scanner_result.scanner_name] = scanner_result.risk_score
+                    elif isinstance(scanner_result, Exception):
+                        result["is_valid"] = False
+                        if result["error"] is None:
+                            result["error"] = str(scanner_result)
+                    else:
+                        scanner_name, risk_score = scanner_result
+                        result["scanners"][scanner_name] = risk_score
+
+        except Exception as e:
+            result["is_valid"] = False
+            result["error"] = str(e)
+
+        return result
+
+    # Process all prompts in parallel
+    tasks = [process_single_prompt(i, prompt) for i, prompt in enumerate(prompts)]
+    results = await asyncio.gather(*tasks, return_exceptions=True)
+
+    # Handle any unexpected errors at the batch level
+    processed_results = []
+    for i, result in enumerate(results):
+        if isinstance(result, Exception):
+            processed_results.append({
+                "prompt_index": i,
+                "is_valid": False,
+                "scanners": {},
+                "error": str(result),
+            })
+        else:
+            processed_results.append(result)
+
+    return processed_results
+
+
+async def batch_analyze_prompts(
+    prompts: List[str],
+    scanners: List[InputScanner],
+    fail_fast: bool = False,
+) -> List[Dict]:
+    """
+    Process multiple prompts in parallel with sanitization.
+
+    Args:
+        prompts: List of prompts to process
+        scanners: List of input scanners to apply
+        fail_fast: Whether to stop on first scanner failure
+
+    Returns:
+        List of results for each prompt with sanitized text and scanner scores
+    """
+    async def analyze_single_prompt(prompt_index: int, prompt: str) -> Dict:
+        """Analyze a single prompt with all scanners, applying sanitization."""
+        result = {
+            "prompt_index": prompt_index,
+            "sanitized_prompt": prompt,  # Initialize with original
+            "is_valid": True,
+            "scanners": {},
+            "error": None,
+        }
+
+        try:
+            current_prompt = prompt
+
+            # For analyze, we need to apply scanners sequentially to get sanitization
+            for scanner in scanners:
+                try:
+                    start_time = time.time()
+                    sanitized_prompt, is_valid, risk_score = scanner.scan(current_prompt)
+                    elapsed_time = time.time() - start_time
+
+                    scanner_name = type(scanner).__name__
+                    LOGGER.debug(
+                        "Batch input scanner completed",
+                        scanner=scanner_name,
+                        prompt_index=prompt_index,
+                        is_valid=is_valid,
+                        elapsed_time_seconds=round(elapsed_time, 2),
+                    )
+
+                    scanners_valid_counter.add(
+                        1, {"source": "batch_input", "valid": is_valid, "scanner": scanner_name}
+                    )
+
+                    result["scanners"][scanner_name] = risk_score
+                    current_prompt = sanitized_prompt  # Use sanitized for next scanner
+
+                    if not is_valid:
+                        result["is_valid"] = False
+                        if fail_fast:
+                            break
+
+                except Exception as e:
+                    result["is_valid"] = False
+                    result["error"] = str(e)
+                    if fail_fast:
+                        break
+
+            result["sanitized_prompt"] = current_prompt
+
+        except Exception as e:
+            result["is_valid"] = False
+            result["error"] = str(e)
+
+        return result
+
+    # Process all prompts in parallel
+    tasks = [analyze_single_prompt(i, prompt) for i, prompt in enumerate(prompts)]
+    results = await asyncio.gather(*tasks, return_exceptions=True)
+
+    # Handle any unexpected errors at the batch level
+    processed_results = []
+    for i, result in enumerate(results):
+        if isinstance(result, Exception):
+            processed_results.append({
+                "prompt_index": i,
+                "sanitized_prompt": prompts[i] if i < len(prompts) else "",
+                "is_valid": False,
+                "scanners": {},
+                "error": str(result),
+            })
+        else:
+            processed_results.append(result)
+
+    return processed_results

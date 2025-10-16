@@ -42,6 +42,10 @@ class AppConfig(BaseModel):
     scan_prompt_timeout: Optional[int] = Field(default=10)
     scan_output_timeout: Optional[int] = Field(default=30)
     lazy_load: Optional[bool] = Field(default=False)
+    # Batch processing configuration
+    batch_max_size: Optional[int] = Field(default=100, description="Maximum batch size")
+    batch_timeout: Optional[int] = Field(default=300, description="Batch processing timeout in seconds")
+    batch_max_parallel_prompts: Optional[int] = Field(default=10, description="Max prompts to process in parallel")
 
 
 class ScannerConfig(BaseModel):
