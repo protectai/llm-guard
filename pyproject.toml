@@ -29,7 +29,7 @@ dependencies = [
   "regex==2024.11.6",
   "tiktoken>=0.9,<1.0",
   "torch>=2.4.0",
-  "transformers==4.51.3",
+  "transformers==4.53.0",
   "structlog>=24"
 ]
 
