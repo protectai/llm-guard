@@ -27,10 +27,10 @@ StorageBackend = Literal["memory", "file", "custom"]
 class FeedbackRecord:
     """
     Represents a single feedback event for a scanner result.
-    
+
     This dataclass stores metadata about a scan and optional user feedback.
     By default (privacy_level=0), no raw prompt or output text is stored.
-    
+
     Attributes:
         record_id: Unique identifier for this feedback record (UUID recommended).
         timestamp: When this feedback was recorded.
@@ -49,30 +49,30 @@ class FeedbackRecord:
         prompt_sample: Optional text sample or anonymized prompt (privacy level 1+).
         output_sample: Optional text sample or anonymized output (privacy level 1+).
     """
-    
+
     # Identifiers
     record_id: str
     timestamp: datetime
-    
+
     # Scan context
     scan_type: ScanType
     scanner_results: dict[str, dict[str, bool | float]]
-    
+
     # Feedback (optional, can be added after initial recording)
     feedback_type: FeedbackType | None = None
     reported_scanners: list[str] = dataclasses.field(default_factory=list)
     user_comment: str | None = None
-    
+
     # Privacy-safe metadata (always collected)
     prompt_hash: str | None = None
     output_hash: str | None = None
     prompt_length: int = 0
     output_length: int | None = None
-    
+
     # Scanner metadata
     scanner_versions: dict[str, str] = dataclasses.field(default_factory=dict)
     llm_guard_version: str = ""
-    
+
     # Optional text data (requires privacy_level > 0)
     prompt_sample: str | None = None
     output_sample: str | None = None
@@ -82,10 +82,10 @@ class FeedbackRecord:
 class FeedbackCollectorConfig:
     """
     Configuration for feedback collection behavior.
-    
+
     This dataclass defines how feedback should be collected, stored, and what
     data should be included based on privacy preferences.
-    
+
     Attributes:
         enabled: Master switch for feedback collection. When False, all collection
                 is disabled (no-op behavior).
@@ -105,36 +105,36 @@ class FeedbackCollectorConfig:
         auto_flush: Whether to automatically flush records to storage when
                    max_records is reached. Requires storage_backend="file".
     """
-    
+
     # Core settings
     enabled: bool = False
     privacy_level: int = 0
-    
+
     # Storage settings
     storage_backend: StorageBackend = "memory"
     storage_path: str | None = None
-    
+
     # Performance and capacity settings
     max_records: int = 1000
     sampling_rate: float = 1.0
-    
+
     # Collection behavior
     include_correct: bool = False
     auto_flush: bool = False
-    
+
     def __post_init__(self) -> None:
         """Validate configuration values."""
         if not 0 <= self.privacy_level <= 3:
             raise ValueError(f"privacy_level must be 0-3, got {self.privacy_level}")
-        
+
         if not 0.0 <= self.sampling_rate <= 1.0:
             raise ValueError(f"sampling_rate must be 0.0-1.0, got {self.sampling_rate}")
-        
+
         if self.max_records < 1:
             raise ValueError(f"max_records must be >= 1, got {self.max_records}")
-        
+
         if self.storage_backend == "file" and self.storage_path is None:
             raise ValueError("storage_path is required when storage_backend='file'")
-        
+
         if self.auto_flush and self.storage_backend != "file":
             raise ValueError("auto_flush requires storage_backend='file'")
