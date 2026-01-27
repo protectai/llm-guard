@@ -68,7 +68,7 @@ ProtectAI/distilroberta-base-rejection-v1 \
 BAAI/bge-small-zh-v1.5"; \
     for repo in $models; do \
         echo "Downloading $repo"; \
-        hf download "$repo" --resume-download; \
+        hf download "$repo" --local-dir-use-symlinks False; \
     done
 
 RUN python -m spacy download zh_core_web_sm
