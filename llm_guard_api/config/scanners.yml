@@ -62,7 +62,7 @@ input_scanners:
     params: { }
   - type: Language
     params:
-      valid_languages: [ "en" ]
+      valid_languages: [ "zh" ]
       model_max_length: 256
   - type: PromptInjection
     params:
@@ -139,7 +139,7 @@ output_scanners:
 #      repair: true
   - type: Language
     params:
-      valid_languages: [ "en" ]
+      valid_languages: [ "zh" ]
       model_max_length: 256
   - type: LanguageSame
     params:
