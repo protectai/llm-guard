@@ -19,7 +19,8 @@ jobs:
     - uses: actions/checkout@v4
     - name: Free disk space
       run: |
-        sudo apt-get remove aria2 ansible azure-cli shellcheck rpm xorriso zsync \
+        set +e
+        sudo apt-get remove -y aria2 ansible azure-cli shellcheck rpm xorriso zsync \
           clang-6.0 lldb-6.0 lld-6.0 clang-format-6.0 clang-8 lldb-8 lld-8 clang-format-8 \
           clang-9 lldb-9 lld-9 clangd-9 clang-format-9 dotnet-sdk-3.0 dotnet-sdk-3.1=3.1.101-1 \
           esl-erlang firefox g++-8 g++-9 gfortran-8 gfortran-9 google-chrome-stable \
@@ -54,11 +55,12 @@ jobs:
           php7.4-tidy php7.4-xml php7.4-xmlrpc php7.4-xsl php7.4-zip php-amqp php-apcu \
           php-igbinary php-memcache php-memcached php-mongodb php-redis php-xdebug \
           php-zmq snmp pollinate libpq-dev postgresql-client powershell ruby-full \
-          sphinxsearch subversion mongodb-org -yq >/dev/null 2>&1
-        sudo apt-get autoremove -y >/dev/null 2>&1
-        sudo apt-get autoclean -y >/dev/null 2>&1
-        sudo rm -rf /usr/local/lib/android >/dev/null 2>&1
-        docker rmi $(docker image ls -aq) >/dev/null 2>&1
+          sphinxsearch subversion mongodb-org >/dev/null 2>&1 || true
+        sudo apt-get autoremove -y >/dev/null 2>&1 || true
+        sudo apt-get autoclean -y >/dev/null 2>&1 || true
+        sudo rm -rf /usr/local/lib/android >/dev/null 2>&1 || true
+        images=$(docker image ls -aq)
+        if [ -n "$images" ]; then docker rmi $images >/dev/null 2>&1 || true; fi
     - name: Build the Docker image
       run: cd llm_guard_api && docker build . --file Dockerfile --tag guochengjie/llm-guard-api-offline-cn:$(date +%s) --tag guochengjie/llm-guard-api-offline-cn:latest
 
