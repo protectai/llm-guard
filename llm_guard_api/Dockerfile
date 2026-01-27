@@ -35,12 +35,12 @@ COPY --chown=user:user app ./app
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir ".[cpu]"
 
+
+
 # Prefetch all HF models used by the configured scanners to bake them into the image.
-# Optionally pass HF_TOKEN or HUGGINGFACE_TOKEN at build time for gated models (e.g., prompt injection small).
-ARG HF_TOKEN=""
-ENV HF_TOKEN=${HF_TOKEN}
-RUN set -e; \
-    export HF_TOKEN="${HF_TOKEN:-${HUGGINGFACE_TOKEN:-}}"; \
+RUN --mount=type=secret,id=HF_TOKEN,env=HF_TOKEN \
+    set -e; \
+    export HF_TOKEN=$"$HF_TOKEN"; \
     models="\
 Isotonic/deberta-v3-base_finetuned_ai4privacy_v2 \
 gyr66/bert-base-chinese-finetuned-ner \
@@ -68,7 +68,7 @@ ProtectAI/distilroberta-base-rejection-v1 \
 BAAI/bge-small-zh-v1.5"; \
     for repo in $models; do \
         echo "Downloading $repo"; \
-        hf download "$repo"; \
+        hf download "$repo" ; \
     done
 
 RUN python -m spacy download zh_core_web_sm
