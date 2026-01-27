@@ -15,6 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: cd llm_guard_api && docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      run: cd llm_guard_api && docker build . --file Dockerfile --tag guochengjie/llm-guard-api-offline-cn:$(date +%s) --tag guochengjie/llm-guard-api-offline-cn:latest
       with:
-        secrets: | "HF_TOKEN=${{ secrets.HF_TOKEN }}"
+        secrets: |
+          "HF_TOKEN=${{ secrets.HF_TOKEN }}"
