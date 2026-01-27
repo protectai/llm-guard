@@ -58,7 +58,7 @@ jobs:
         file: ./llm_guard_api/Dockerfile
         push: true
         tags: |
-          guochengjie/llm-guard-api-offline-cn:latest
+          guochengjie/llm-guard-api-offline-cn:latest-simplified
           guochengjie/llm-guard-api-offline-cn:${{ github.run_id }}
         # 将 GitHub Secret 传递给 Docker 构建标识符 [web:20][web:26]
         secrets: |
