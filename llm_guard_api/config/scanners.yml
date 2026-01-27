@@ -25,159 +25,78 @@ metrics:
 
 # Scanners are applied in the order they are listed here.
 input_scanners:
-  - type: Anonymize
-    params:
-      use_faker: false
-      threshold: 0.75
-      # model_path: "./distilbert_finetuned_ai4privacy_v2"
-  - type: BanCode
-    params:
-      threshold: 0.97
-      model_max_length: 256
-  - type: BanCompetitors
-    params:
-      competitors: ["facebook"]
-      threshold: 0.75
-  - type: BanSubstrings
-    params:
-      substrings: ["test"]
-      match_type: "word"
-      case_sensitive: false
-      redact: false
-      contains_all: false
   - type: BanTopics
     params:
-      topics: ["violence"]
-      threshold: 0.8
-      model_max_length: 256
-#  - type: Code
-#    params:
-#      languages: ["Python"]
-#      is_blocked: true
-  - type: Gibberish
-    params:
-      threshold: 0.97
-      model_max_length: 256
-  - type: InvisibleText
-    params: { }
-  - type: Language
-    params:
-      valid_languages: [ "zh" ]
-      model_max_length: 256
+      topics:
+        - "violence"
+        - "crime"
+        - "terrorism"
+        - "illegal_drugs"
+        - "politics"
+        - "religion"
+        - "sexual_content"
+        - "medical_advice"
+        - "financial_predictions"
+        - "economy"
+        - "entertainment"
+        - "discrimination"
+        - "injustice"
+      threshold: 0.75
+      model_max_length: 512
   - type: PromptInjection
     params:
       threshold: 0.92
       match_type: truncate_head_tail
-      model_max_length: 256
-  - type: Regex
-    params:
-      patterns: ["Bearer [A-Za-z0-9-._~+/]+"]
-      is_blocked: true
-      match_type: search
-      redact: true
-  - type: Secrets
-    params:
-      redact_mode: "all"
-  - type: Sentiment
-    params:
-      threshold: 0.0
-  - type: TokenLimit
-    params:
-      limit: 4096
-      encoding_name: "cl100k_base"
+      model_max_length: 512
   - type: Toxicity
     params:
-      threshold: 0.9
-      model_max_length: 256
-  - type: EmotionDetection
-    params:
-      threshold: 0.5
-      blocked_emotions: ["anger", "annoyance", "disappointment", "disapproval", "disgust", "embarrassment", "fear", "grief", "nervousness", "remorse", "sadness"]
-      model_max_length: 256
+      threshold: 0.90
+      model_max_length: 512
 
 
 output_scanners:
   - type: BanCode
     params:
       threshold: 0.97
-      model_max_length: 256
-  - type: BanCompetitors
-    params:
-      competitors: ["facebook"]
-      threshold: 0.75
-  - type: BanSubstrings
-    params:
-      substrings: ["test"]
-      match_type: "word"
-      case_sensitive: false
-      redact: false
-      contains_all: false
+      model_max_length: 512
   - type: BanTopics
     params:
-      topics: ["violence"]
-      threshold: 0.8
-  - type: Bias
-    params:
-      threshold: 0.97
-      model_max_length: 256
-#  - type: Code
-#    params:
-#      languages: ["Python"]
-#      is_blocked: true
-  - type: Deanonymize
-    params:
-      matching_strategy: "exact"
-  - type: FactualConsistency
-    params:
-      minimum_score: 0.5
+      topics:
+        - "violence"
+        - "crime"
+        - "terrorism"
+        - "illegal_drugs"
+        - "politics"
+        - "religion"
+        - "sexual_content"
+        - "medical_advice"
+        - "financial_predictions"
+        - "economy"
+        - "entertainment"
+        - "discrimination"
+        - "injustice"
+      threshold: 0.75
   - type: Gibberish
     params:
       threshold: 0.97
-#  - type: JSON
-#    params:
-#      required_elements: 0
-#      repair: true
-  - type: Language
-    params:
-      valid_languages: [ "zh" ]
-      model_max_length: 256
-  - type: LanguageSame
-    params:
-      model_max_length: 256
-  - type: MaliciousURLs
-    params:
-      threshold: 0.75
-  - type: NoRefusal
-    params:
-      threshold: 0.9
-  - type: ReadingTime
-    params:
-      max_time: 5
-      truncate: false
-  - type: Regex
-    params:
-      patterns: ["Bearer [A-Za-z0-9-._~+/]+"]
-      is_blocked: true
-      match_type: search
-      redact: true
-  - type: Relevance
-    params:
-      threshold: 0.2
-  - type: Sensitive
-    params:
-      redact: false
-      threshold: 0.75
-  - type: Sentiment
-    params:
-      threshold: 0.0
+      model_max_length: 512
   - type: Toxicity
     params:
-      threshold: 0.9
-      model_max_length: 256
+      threshold: 0.90
+      model_max_length: 512
   - type: EmotionDetection
     params:
       threshold: 0.5
-      blocked_emotions: ["anger", "annoyance", "disappointment", "disapproval", "disgust", "embarrassment", "fear", "grief", "nervousness", "remorse", "sadness"]
-      model_max_length: 256
-  - type: URLReachability
-    params: {}
+      blocked_emotions:
+        - "anger"
+        - "annoyance"
+        - "disappointment"
+        - "disapproval"
+        - "disgust"
+        - "embarrassment"
+        - "fear"
+        - "grief"
+        - "nervousness"
+        - "remorse"
+        - "sadness"
+      model_max_length: 512

@@ -1,4 +1,5 @@
 import asyncio
+import os
 import time
 from typing import Dict, List, Optional
 
@@ -23,6 +24,18 @@ from llm_guard.output_scanners.bias import DEFAULT_MODEL as BIAS_MODEL
 from llm_guard.output_scanners.malicious_urls import DEFAULT_MODEL as MALICIOUS_URLS_MODEL
 from llm_guard.output_scanners.no_refusal import DEFAULT_MODEL as NO_REFUSAL_MODEL
 from llm_guard.vault import Vault
+
+
+def _enable_offline_mode():
+    """Enable offline mode for HuggingFace transformers and datasets."""
+    if os.getenv("HF_HUB_OFFLINE") or os.getenv("TRANSFORMERS_OFFLINE"):
+        os.environ["HF_DATASETS_OFFLINE"] = "1"
+        os.environ["TRANSFORMERS_OFFLINE"] = "1"
+        os.environ["HF_HUB_OFFLINE"] = "1"
+
+
+# Enable offline mode on startup
+_enable_offline_mode()
 
 # Local override for Relevance scanner to prefer the smallest Chinese BGE model.
 RELEVANCE_MODEL = Model(
