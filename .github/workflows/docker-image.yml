@@ -68,7 +68,7 @@ jobs:
       with:
         context: ./llm_guard_api
         file: ./llm_guard_api/Dockerfile
-        push: true
+        push: false
         tags: |
           guochengjie/llm-guard-api-offline-cn:latest
           guochengjie/llm-guard-api-offline-cn:${{ github.run_id }}
