@@ -41,36 +41,34 @@ ARG HF_TOKEN=""
 ENV HF_TOKEN=${HF_TOKEN}
 RUN set -e; \
     export HF_TOKEN="${HF_TOKEN:-${HUGGINGFACE_TOKEN:-}}"; \
-    cache_dir="$HOME/.cache/huggingface"; \
-    mkdir -p "$cache_dir"; \
     models="\
-Isotonic/deberta-v3-base_finetuned_ai4privacy_v2\
-gyr66/bert-base-chinese-finetuned-ner\
-ProtectAI/gyr66-bert-base-chinese-finetuned-ner-onnx\
-vishnun/codenlbert-tiny\
-protectai/vishnun-codenlbert-tiny-onnx\
-guishe/nuner-v1_orgs\
-protectai/guishe-nuner-v1_orgs-onnx\
-MoritzLaurer/deberta-v3-base-zeroshot-v2.0\
-philomath-1209/programming-language-identification\
-madhurjindal/autonlp-Gibberish-Detector-492513457\
-papluca/xlm-roberta-base-language-detection\
-ProtectAI/xlm-roberta-base-language-detection-onnx\
-protectai/deberta-v3-small-prompt-injection-v2\
-ProtectAI/deberta-v3-small-prompt-injection-v2\
-unitary/unbiased-toxic-roberta\
-ProtectAI/unbiased-toxic-roberta-onnx\
-SamLowe/roberta-base-go_emotions\
-SamLowe/roberta-base-go_emotions-onnx\
-valurank/distilroberta-bias\
-ProtectAI/distilroberta-bias-onnx\
-DunnBC22/codebert-base-Malicious_URLs\
-ProtectAI/codebert-base-Malicious_URLs-onnx\
-ProtectAI/distilroberta-base-rejection-v1\
+Isotonic/deberta-v3-base_finetuned_ai4privacy_v2 \
+gyr66/bert-base-chinese-finetuned-ner \
+ProtectAI/gyr66-bert-base-chinese-finetuned-ner-onnx \
+vishnun/codenlbert-tiny \
+protectai/vishnun-codenlbert-tiny-onnx \
+guishe/nuner-v1_orgs \
+protectai/guishe-nuner-v1_orgs-onnx \
+MoritzLaurer/deberta-v3-base-zeroshot-v2.0 \
+philomath-1209/programming-language-identification \
+madhurjindal/autonlp-Gibberish-Detector-492513457 \
+papluca/xlm-roberta-base-language-detection \
+ProtectAI/xlm-roberta-base-language-detection-onnx \
+protectai/deberta-v3-small-prompt-injection-v2 \
+ProtectAI/deberta-v3-small-prompt-injection-v2 \
+unitary/unbiased-toxic-roberta \
+ProtectAI/unbiased-toxic-roberta-onnx \
+SamLowe/roberta-base-go_emotions \
+SamLowe/roberta-base-go_emotions-onnx \
+valurank/distilroberta-bias \
+ProtectAI/distilroberta-bias-onnx \
+DunnBC22/codebert-base-Malicious_URLs \
+ProtectAI/codebert-base-Malicious_URLs-onnx \
+ProtectAI/distilroberta-base-rejection-v1 \
 BAAI/bge-small-zh-v1.5"; \
     for repo in $models; do \
         echo "Downloading $repo"; \
-        huggingface-cli download "$repo" --cache-dir "$cache_dir" --token "$HF_TOKEN" --resume-download; \
+        hf download "$repo" --resume-download; \
     done
 
 RUN python -m spacy download zh_core_web_sm
