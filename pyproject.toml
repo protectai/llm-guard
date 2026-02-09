@@ -19,6 +19,7 @@ classifiers = [
 requires-python = ">=3.10,<3.13"
 
 dependencies = [
+  "pydantic>=2.0.0",
   "bc-detect-secrets==1.5.43",
   "faker>=37,<38",
   "fuzzysearch>=0.7,<0.9",

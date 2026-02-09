@@ -2,6 +2,9 @@ from __future__ import annotations
 
 import re
 from enum import Enum
+from typing import List
+
+from pydantic import BaseModel, ConfigDict, Field
 
 from llm_guard.util import get_logger
 
@@ -35,7 +38,7 @@ PROMPT_STOP_SUBSTRINGS = [
 ]
 
 
-class MatchType(Enum):
+class MatchType(str, Enum):
     STR = "str"
     WORD = "word"
 
@@ -47,6 +50,18 @@ class MatchType(Enum):
             return re.search(r"\b" + re.escape(substring) + r"\b", text) is not None
 
         return False
+
+
+class BanSubstringsConfig(BaseModel):
+    """Configuration for BanSubstrings scanner."""
+
+    model_config = ConfigDict(use_enum_values=True)
+
+    substrings: List[str] = Field(description="List of substrings to ban.")
+    match_type: MatchType = Field(default=MatchType.STR, description="Type of match to perform.")
+    case_sensitive: bool = Field(default=False, description="Whether the match should be case-sensitive.")
+    redact: bool = Field(default=False, description="Whether banned substrings should be redacted.")
+    contains_all: bool = Field(default=False, description="Whether to match all substrings instead of any.")
 
 
 class BanSubstrings(Scanner):
@@ -78,19 +93,20 @@ class BanSubstrings(Scanner):
         Raises:
             ValueError: If no substrings are provided or match_type is not 'str' or 'word'.
         """
-        if isinstance(match_type, str):
-            match_type = MatchType(match_type)
-
-        self._match_type = match_type
-        self._case_sensitive = case_sensitive
-        self._substrings = substrings
-        self._redact = redact
-        self._contains_all = contains_all
+        self._config = BanSubstringsConfig(
+            substrings=substrings,
+            match_type=match_type,
+            case_sensitive=case_sensitive,
+            redact=redact,
+            contains_all=contains_all,
+        )
 
     def _redact_text(self, text: str, substrings: list[str]) -> str:
         redacted_text = text
         for s in substrings:
-            regex_redacted = re.compile(re.escape(s), 0 if self._case_sensitive else re.IGNORECASE)
+            regex_redacted = re.compile(
+                re.escape(s), 0 if self._config.case_sensitive else re.IGNORECASE
+            )
             redacted_text = regex_redacted.sub("[REDACTED]", redacted_text)
 
         return redacted_text
@@ -100,16 +116,17 @@ class BanSubstrings(Scanner):
         matched_substrings = []
         missing_substrings = []
 
-        for s in self._substrings:
-            if self._case_sensitive is False:
-                s, prompt = s.lower(), prompt.lower()
+        scan_prompt = prompt if self._config.case_sensitive else prompt.lower()
 
-            if self._match_type.match(prompt, s):
+        for s in self._config.substrings:
+            search_s = s if self._config.case_sensitive else s.lower()
+
+            if self._config.match_type.match(scan_prompt, search_s):
                 matched_substrings.append(s)
             else:
                 missing_substrings.append(s)
 
-        if self._contains_all:
+        if self._config.contains_all:
             if len(missing_substrings) > 0:
                 LOGGER.debug(
                     "Some substrings were not found",
@@ -117,7 +134,7 @@ class BanSubstrings(Scanner):
                 )
                 return sanitized_prompt, True, 0.0
 
-            if self._redact:
+            if self._config.redact:
                 sanitized_prompt = self._redact_text(sanitized_prompt, matched_substrings)
                 LOGGER.debug("Redacted banned substrings")
 
@@ -131,7 +148,7 @@ class BanSubstrings(Scanner):
                 matched_substrings=matched_substrings,
             )
 
-            if self._redact:
+            if self._config.redact:
                 sanitized_prompt = self._redact_text(sanitized_prompt, matched_substrings)
                 LOGGER.debug("Redacted banned substrings")
 
