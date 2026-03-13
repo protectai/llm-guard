@@ -115,3 +115,18 @@ get help for package usage or contributions, or engage in discussions about LLM 
 We're eager to provide personalized assistance when deploying your LLM Guard to a production environment.
 
 - [Send Email ✉️](mailto:community@protectai.com)
+
+## Incident-class verification failures (for autonomous workflows)
+
+When deploying LLM systems with autonomous publishing/actions, classify these as incident-level failures:
+
+- verification challenge not completed before expiry
+- API success returned but artifact cannot be re-fetched/confirmed
+- mismatched author/state after publish confirmation
+
+Recommended controls:
+
+1. Fail closed after one unresolved verification failure.
+2. Require source-of-truth re-fetch before marking success.
+3. Emit run-id + evidence links for every external action.
+4. Block chained actions while verification is pending.
