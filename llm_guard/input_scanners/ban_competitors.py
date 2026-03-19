@@ -79,7 +79,10 @@ class BanCompetitors(Scanner):
         is_detected = False
         text_replace_builder = TextReplaceBuilder(original_text=prompt)
         entities = self._get_ner_results_for_text(prompt)
-        assert isinstance(entities, list)
+        if not isinstance(entities, list):
+            raise RuntimeError(
+                f"NER pipeline returned {type(entities).__name__} instead of list"
+            )
         entities = sorted(entities, key=lambda x: x["end"], reverse=True)
 
         for entity in entities:
@@ -128,8 +131,10 @@ class BanCompetitors(Scanner):
         :return: List of entity predictions on the word level
         :rtype: List[dict]
         """
-        assert self._ner_pipeline is not None
-        assert self._ner_pipeline.tokenizer is not None
+        if self._ner_pipeline is None:
+            raise RuntimeError("NER pipeline is not initialized")
+        if self._ner_pipeline.tokenizer is None:
+            raise RuntimeError("NER pipeline tokenizer is not initialized")
 
         model_max_length = self._ner_pipeline.tokenizer.model_max_length
         # calculate inputs based on the text
@@ -159,7 +164,11 @@ class BanCompetitors(Scanner):
                 chunk_text = text[chunk.start : chunk.end]
                 chunk_preds = self._ner_pipeline(chunk_text)
 
-                assert isinstance(chunk_preds, list)
+                if not isinstance(chunk_preds, list):
+                    raise RuntimeError(
+                        f"NER pipeline returned {type(chunk_preds).__name__} "
+                        "instead of list for text chunk"
+                    )
 
                 # align indexes to match the original text - add to each position the value of chunk_start
                 aligned_predictions: list[dict[str, Any]] = []
