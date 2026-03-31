@@ -110,7 +110,7 @@ class BanTopics(Scanner):
 
         Parameters:
             topics (Sequence[str]): List of topics to ban.
-            threshold (float, optional): Threshold to determine if a topic is present in the prompt. Default is 0.75.
+            threshold (float, optional): Threshold to determine if a topic is present in the prompt. Default is 0.6.
             model (Model, optional): Model to use for zero-shot classification. Default is roberta-base-c-v2.
             use_onnx (bool, optional): Whether to use ONNX for inference. Default is False.
 
