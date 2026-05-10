@@ -57,6 +57,9 @@ class MaliciousURLs(Scanner):
         if model is None:
             model = DEFAULT_MODEL
 
+        if "top_k" not in model.pipeline_kwargs:
+            model.pipeline_kwargs["top_k"] = None
+
         tf_tokenizer, tf_model = get_tokenizer_and_model_for_classification(
             model=model,
             use_onnx=use_onnx,
