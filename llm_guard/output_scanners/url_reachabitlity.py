@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import cast
+
 import requests
 
 from llm_guard.util import extract_urls, get_logger
@@ -21,11 +23,17 @@ class URLReachability(Scanner):
             timeout: The timeout in seconds for the HTTP requests.
         """
         if success_status_codes is None:
-            success_status_codes = [
-                requests.codes.ok,
-                requests.codes.created,
-                requests.codes.accepted,
-            ]
+            # requests.codes.* is typed as `int | None` by the stubs, so the
+            # literal list is inferred as list[int | None]; these are always
+            # concrete status codes, so cast to the declared list[int].
+            success_status_codes = cast(
+                "list[int]",
+                [
+                    requests.codes.ok,
+                    requests.codes.created,
+                    requests.codes.accepted,
+                ],
+            )
 
         self._success_status_codes = success_status_codes
         self._timeout = timeout
