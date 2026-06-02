@@ -58,6 +58,7 @@ pip install llm-guard
 - [Gibberish](https://protectai.github.io/llm-guard/input_scanners/gibberish/)
 - [InvisibleText](https://protectai.github.io/llm-guard/input_scanners/invisible_text/)
 - [Language](https://protectai.github.io/llm-guard/input_scanners/language/)
+- [MaliciousURLs](https://protectai.github.io/llm-guard/input_scanners/malicious_urls/)
 - [PromptInjection](https://protectai.github.io/llm-guard/input_scanners/prompt_injection/)
 - [Regex](https://protectai.github.io/llm-guard/input_scanners/regex/)
 - [Secrets](https://protectai.github.io/llm-guard/input_scanners/secrets/)

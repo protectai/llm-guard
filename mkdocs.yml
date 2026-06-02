@@ -124,6 +124,7 @@ nav:
       - Gibberish: input_scanners/gibberish.md
       - Invisible Text: input_scanners/invisible_text.md
       - Language: input_scanners/language.md
+      - Malicious URLs: input_scanners/malicious_urls.md
       - Prompt Injection: input_scanners/prompt_injection.md
       - Regex: input_scanners/regex.md
       - Secrets: input_scanners/secrets.md

@@ -10,6 +10,7 @@ from .code import Code
 from .gibberish import Gibberish
 from .invisible_text import InvisibleText
 from .language import Language
+from .malicious_urls import MaliciousURLs
 from .prompt_injection import PromptInjection
 from .regex import Regex
 from .secrets import Secrets
@@ -58,6 +59,9 @@ def get_scanner_by_name(scanner_name: str, scanner_config: dict | None = None) -
 
     if scanner_name == "Language":
         return Language(**scanner_config)
+
+    if scanner_name == "MaliciousURLs":
+        return MaliciousURLs(**scanner_config)
 
     if scanner_name == "PromptInjection":
         return PromptInjection(**scanner_config)
