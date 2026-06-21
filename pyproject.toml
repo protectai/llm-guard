@@ -34,6 +34,9 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+agent-threat-rules = [
+  "pyatr>=0.2.6",
+]
 onnxruntime = [
   "optimum[onnxruntime]==1.25.2",
 ]
