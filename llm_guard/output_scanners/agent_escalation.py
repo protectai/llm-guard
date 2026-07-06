@@ -38,7 +38,7 @@ _PATTERNS: list[tuple[re.Pattern[str], float]] = [
     (re.compile(r"\bupdate[_\s-]?agent[_\s-]?config\b", re.I), 0.9),
     (
         re.compile(
-            r"\bmodif(?:y|ied|ying)\s+(?:my|the|agent|its)\s+"
+            r"\bmodif(?:y|ied|ying)\s+(?:my|the|agent|its)\s+(?:\w+\s+)?"
             r"(?:config|configuration|constraints?|restrictions?|rules?|block.?list)\b",
             re.I,
         ),
@@ -46,7 +46,7 @@ _PATTERNS: list[tuple[re.Pattern[str], float]] = [
     ),
     (
         re.compile(
-            r"\bremov(?:e|ing|ed)\s+(?:the\s+)?(?:capability\s+)?"
+            r"\bremov(?:e|ing|ed)\s+(?:the\s+)?(?:\w+\s+)?"
             r"(?:block|restriction|constraint|limit)\b",
             re.I,
         ),
@@ -57,7 +57,7 @@ _PATTERNS: list[tuple[re.Pattern[str], float]] = [
     (
         re.compile(
             r"\bI(?:'ll| will| am going to)\s+(?:now\s+)?(?:update|modify|change|adjust)\s+"
-            r"(?:my|the)\s+(?:config|configuration|constraints?|permissions?|restrictions?)\b",
+            r"(?:my|the)\s+(?:\w+\s+)?(?:config|configuration|constraints?|permissions?|restrictions?)\b",
             re.I,
         ),
         0.85,
@@ -65,7 +65,7 @@ _PATTERNS: list[tuple[re.Pattern[str], float]] = [
     (
         re.compile(
             r"\bI(?:'ve| have)\s+(?:updated|modified|changed)\s+(?:my|the|its)\s+"
-            r"(?:config|configuration|constraints?|permissions?)\b",
+            r"(?:\w+\s+)?(?:config|configuration|constraints?|permissions?|block.?list)\b",
             re.I,
         ),
         0.85,
