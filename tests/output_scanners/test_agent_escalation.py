@@ -2,7 +2,6 @@ import pytest
 
 from llm_guard.output_scanners.agent_escalation import AgentEscalation
 
-
 PROMPT = "Retrieve the current EUR/USD exchange rate from an external source."
 
 

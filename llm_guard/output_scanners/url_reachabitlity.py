@@ -21,11 +21,7 @@ class URLReachability(Scanner):
             timeout: The timeout in seconds for the HTTP requests.
         """
         if success_status_codes is None:
-            success_status_codes = [
-                requests.codes.ok,
-                requests.codes.created,
-                requests.codes.accepted,
-            ]
+            success_status_codes = [200, 201, 202]
 
         self._success_status_codes = success_status_codes
         self._timeout = timeout
