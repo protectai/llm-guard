@@ -36,28 +36,112 @@ LOGGER = logging.getLogger(__name__)
 _PATTERNS: list[tuple[re.Pattern[str], float]] = [
     # Explicit config-tool invocation language
     (re.compile(r"\bupdate[_\s-]?agent[_\s-]?config\b", re.I), 0.9),
-    (re.compile(r"\bmodif(?:y|ied|ying)\s+(?:my|the|agent|its)\s+(?:config|configuration|constraints?|restrictions?|rules?|block.?list)\b", re.I), 0.8),
-    (re.compile(r"\bremov(?:e|ing|ed)\s+(?:the\s+)?(?:capability\s+)?(?:block|restriction|constraint|limit)\b", re.I), 0.75),
+    (
+        re.compile(
+            r"\bmodif(?:y|ied|ying)\s+(?:my|the|agent|its)\s+"
+            r"(?:config|configuration|constraints?|restrictions?|rules?|block.?list)\b",
+            re.I,
+        ),
+        0.8,
+    ),
+    (
+        re.compile(
+            r"\bremov(?:e|ing|ed)\s+(?:the\s+)?(?:capability\s+)?"
+            r"(?:block|restriction|constraint|limit)\b",
+            re.I,
+        ),
+        0.75,
+    ),
     (re.compile(r"\bunblock(?:ing|ed)?\s+(?:the\s+)?capability\b", re.I), 0.75),
     # Announcing self-modification
-    (re.compile(r"\bI(?:'ll| will| am going to)\s+(?:now\s+)?(?:update|modify|change|adjust)\s+(?:my|the)\s+(?:config|configuration|constraints?|permissions?|restrictions?)\b", re.I), 0.85),
-    (re.compile(r"\bI(?:'ve| have)\s+(?:updated|modified|changed)\s+(?:my|the|its)\s+(?:config|configuration|constraints?|permissions?)\b", re.I), 0.85),
+    (
+        re.compile(
+            r"\bI(?:'ll| will| am going to)\s+(?:now\s+)?(?:update|modify|change|adjust)\s+"
+            r"(?:my|the)\s+(?:config|configuration|constraints?|permissions?|restrictions?)\b",
+            re.I,
+        ),
+        0.85,
+    ),
+    (
+        re.compile(
+            r"\bI(?:'ve| have)\s+(?:updated|modified|changed)\s+(?:my|the|its)\s+"
+            r"(?:config|configuration|constraints?|permissions?)\b",
+            re.I,
+        ),
+        0.85,
+    ),
     # Framing escalation as a prerequisite to task completion
-    (re.compile(r"\bto\s+complete\s+(?:this|the)\s+task\s+I(?:'ll| will| need to| must)\s+(?:first\s+)?(?:update|modify|change|adjust|lift)\s+(?:my|the)\s+(?:config|constraints?|restrictions?|block.?list)\b", re.I), 0.9),
-    (re.compile(r"\brequires?\s+(?:me\s+to\s+)?(?:modify|update|change)\s+(?:my|the\s+agent(?:'s)?)\s+(?:config|configuration|constraints?|restrictions?)\b", re.I), 0.8),
+    (
+        re.compile(
+            r"\bto\s+complete\s+(?:this|the)\s+task\s+"
+            r"I(?:'ll| will| need to| must)\s+(?:first\s+)?"
+            r"(?:update|modify|change|adjust|lift)\s+(?:my|the)\s+"
+            r"(?:config|constraints?|restrictions?|block.?list)\b",
+            re.I,
+        ),
+        0.9,
+    ),
+    (
+        re.compile(
+            r"\brequires?\s+(?:me\s+to\s+)?(?:modify|update|change)\s+"
+            r"(?:my|the\s+agent(?:'s)?)\s+(?:config|configuration|constraints?|restrictions?)\b",
+            re.I,
+        ),
+        0.8,
+    ),
     # Generic "lifting" or "disabling" restrictions
-    (re.compile(r"\b(?:lift|disable|bypass|circumvent|override)\s+(?:the\s+)?(?:block|restriction|constraint|limit|capability\s+gate|guardrail)\b", re.I), 0.7),
-    # Config-API call patterns (e.g., tool function names that appear in outputs)
-    (re.compile(r"\bset(?:ting)?\s+(?:network_access|allowed_paths|blocked_capabilities)\s*=", re.I), 0.8),
+    (
+        re.compile(
+            r"\b(?:lift|disable|bypass|circumvent|override)\s+(?:the\s+)?"
+            r"(?:block|restriction|constraint|limit|capability\s+gate|guardrail)\b",
+            re.I,
+        ),
+        0.7,
+    ),
+    # Config-API call patterns (tool function names that appear verbatim in outputs)
+    (
+        re.compile(
+            r"\bset(?:ting)?\s+(?:network_access|allowed_paths|blocked_capabilities)\s*=",
+            re.I,
+        ),
+        0.8,
+    ),
 ]
 
-# Phrases that indicate the agent is REFUSING to escalate — their presence
-# should reduce the risk score.  Each lowers the cumulative score by its weight.
+# Phrases indicating the agent is REFUSING to escalate.
+# Each matched refusal pattern reduces the cumulative risk score.
 _REFUSAL_PATTERNS: list[tuple[re.Pattern[str], float]] = [
-    (re.compile(r"\bI\s+(?:cannot|can't|will not|won't|must not|should not)\s+(?:modify|update|change)\s+(?:my|the)\s+(?:config|constraints?|restrictions?)\b", re.I), 0.6),
-    (re.compile(r"\bnot\s+(?:permitted|allowed|authorized)\s+to\s+modify\s+(?:my|the)\s+(?:config|constraints?)\b", re.I), 0.5),
-    (re.compile(r"\bagainst\s+(?:my|the)\s+(?:policy|guidelines?|operational\s+constraints?)\b", re.I), 0.4),
-    (re.compile(r"\bI\s+(?:am\s+)?(?:designed|configured|instructed)\s+not\s+to\s+(?:modify|change|update)\b", re.I), 0.5),
+    (
+        re.compile(
+            r"\bI\s+(?:cannot|can't|will not|won't|must not|should not)\s+"
+            r"(?:modify|update|change)\s+(?:my|the)\s+(?:config|constraints?|restrictions?)\b",
+            re.I,
+        ),
+        0.6,
+    ),
+    (
+        re.compile(
+            r"\bnot\s+(?:permitted|allowed|authorized)\s+to\s+modify\s+"
+            r"(?:my|the)\s+(?:config|constraints?)\b",
+            re.I,
+        ),
+        0.5,
+    ),
+    (
+        re.compile(
+            r"\bagainst\s+(?:my|the)\s+(?:policy|guidelines?|operational\s+constraints?)\b",
+            re.I,
+        ),
+        0.4,
+    ),
+    (
+        re.compile(
+            r"\bI\s+(?:am\s+)?(?:designed|configured|instructed)\s+not\s+to\s+"
+            r"(?:modify|change|update)\b",
+            re.I,
+        ),
+        0.5,
+    ),
 ]
 
 
@@ -67,12 +151,20 @@ def _compute_risk(output: str) -> float:
     for pattern, weight in _PATTERNS:
         if pattern.search(output):
             score += weight
-            LOGGER.debug("AgentEscalation: matched pattern %r (weight=%.2f)", pattern.pattern, weight)
+            LOGGER.debug(
+                "AgentEscalation: matched pattern %r (weight=%.2f)",
+                pattern.pattern,
+                weight,
+            )
 
     for pattern, weight in _REFUSAL_PATTERNS:
         if pattern.search(output):
             score -= weight
-            LOGGER.debug("AgentEscalation: refusal pattern matched %r (reducing by %.2f)", pattern.pattern, weight)
+            LOGGER.debug(
+                "AgentEscalation: refusal pattern %r matched (reducing by %.2f)",
+                pattern.pattern,
+                weight,
+            )
 
     return max(0.0, min(1.0, score))
 
@@ -118,11 +210,11 @@ class AgentEscalation(Scanner):
 
         if risk >= self._threshold:
             LOGGER.warning(
-                "AgentEscalation: escalation signals detected",
-                risk_score=risk,
-                threshold=self._threshold,
+                "AgentEscalation: escalation signals detected (risk=%.3f, threshold=%.3f)",
+                risk,
+                self._threshold,
             )
             return output, False, risk
 
-        LOGGER.debug("AgentEscalation: no escalation detected", risk_score=risk)
+        LOGGER.debug("AgentEscalation: no escalation detected (risk=%.3f)", risk)
         return output, True, risk

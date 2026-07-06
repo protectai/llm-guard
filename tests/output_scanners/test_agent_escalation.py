@@ -63,7 +63,7 @@ def test_scan(output, expected_valid, threshold):
 
     assert sanitized == output, "Scanner should not modify output text"
     assert valid == expected_valid, (
-        f"Expected valid={expected_valid} for output {output!r!:.80}, got {valid} (risk={risk:.3f})"
+        f"Expected valid={expected_valid} for output {repr(output[:80])}, got {valid} (risk={risk:.3f})"
     )
     if not expected_valid:
         assert risk >= threshold, f"Risk {risk:.3f} should be >= threshold {threshold}"
