@@ -14,20 +14,18 @@ class URLReachability(Scanner):
     This scanner checks URLs for their reachability.
     """
 
-    def __init__(self, *, success_status_codes: list[int] | None = None, timeout: int = 5) -> None:
+    def __init__(
+        self, *, success_status_codes: list[int] | None = None, timeout: int = 5
+    ) -> None:
         """
         Parameters:
             success_status_codes: A list of status codes that are considered as successful.
             timeout: The timeout in seconds for the HTTP requests.
         """
         if success_status_codes is None:
-            success_status_codes = [
-                requests.codes.ok,
-                requests.codes.created,
-                requests.codes.accepted,
-            ]
+            success_status_codes = [200, 201, 202]
 
-        self._success_status_codes = success_status_codes
+        self._success_status_codes: list[int] = success_status_codes
         self._timeout = timeout
 
     def is_reachable(self, url: str) -> bool:
