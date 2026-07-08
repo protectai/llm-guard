@@ -36,8 +36,10 @@ _PATTERNS: list[tuple[re.Pattern[str], float]] = [
     # Storing credentials in memory / knowledge store
     (
         re.compile(
-            r"\b(?:store|save|write|remember|record|persist)\b.{0,40}"
-            r"\b(?:api[_\s-]?key|token|secret|credential|password|auth)\b",
+            r"\b(?:stor(?:e|es|ed|ing)|sav(?:e|es|ed|ing)|writ(?:e|es|ing)"
+            r"|rememb(?:er|ers|ered|ering)|record(?:s|ed|ing)?|persist(?:s|ed|ing)?)\b"
+            r".{0,40}"
+            r"\b(?:api[_\s-]?keys?|tokens?|secrets?|credentials?|passwords?|auth)\b",
             re.I | re.S,
         ),
         0.9,
@@ -45,7 +47,9 @@ _PATTERNS: list[tuple[re.Pattern[str], float]] = [
     # Saving bypass / override state for later sessions
     (
         re.compile(
-            r"\b(?:store|save|write|remember|record|persist)\b.{0,40}"
+            r"\b(?:stor(?:e|es|ed|ing)|sav(?:e|es|ed|ing)|writ(?:e|es|ing)"
+            r"|rememb(?:er|ers|ered|ering)|record(?:s|ed|ing)?|persist(?:s|ed|ing)?)\b"
+            r".{0,40}"
             r"\b(?:bypass|override|lifted|unrestricted|no[_\s-]?restrict)\b",
             re.I | re.S,
         ),
@@ -197,7 +201,9 @@ class AgentMemoryPoisoning(Scanner):
 
     def __init__(self, *, threshold: float = 0.6) -> None:
         if not 0.0 <= threshold <= 1.0:
-            raise ValueError(f"threshold must be in [0.0, 1.0], got {threshold}")
+            raise ValueError(
+                f"threshold must be in [0.0, 1.0], got {threshold}"
+            )
         self._threshold = threshold
 
     def scan(self, prompt: str, output: str) -> tuple[str, bool, float]:
@@ -214,5 +220,7 @@ class AgentMemoryPoisoning(Scanner):
             )
             return output, False, risk
 
-        LOGGER.debug("AgentMemoryPoisoning: no poisoning detected (risk=%.3f)", risk)
+        LOGGER.debug(
+            "AgentMemoryPoisoning: no poisoning detected (risk=%.3f)", risk
+        )
         return output, True, risk
