@@ -1,5 +1,6 @@
 """LLM output scanners init"""
 
+from .credential_exfiltration import CredentialExfiltration
 from .ban_code import BanCode
 from .ban_competitors import BanCompetitors
 from .ban_substrings import BanSubstrings
@@ -25,6 +26,7 @@ from .url_reachabitlity import URLReachability
 from .util import get_scanner_by_name
 
 __all__ = [
+    "CredentialExfiltration",
     "BanCode",
     "BanCompetitors",
     "BanSubstrings",
