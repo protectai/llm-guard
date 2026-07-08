@@ -1,12 +1,12 @@
 """LLM output scanners init"""
 
-from .credential_exfiltration import CredentialExfiltration
 from .ban_code import BanCode
 from .ban_competitors import BanCompetitors
 from .ban_substrings import BanSubstrings
 from .ban_topics import BanTopics
 from .bias import Bias
 from .code import Code
+from .credential_exfiltration import CredentialExfiltration
 from .deanonymize import Deanonymize
 from .emotion_detection import EmotionDetection
 from .factual_consistency import FactualConsistency
