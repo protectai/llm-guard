@@ -201,9 +201,7 @@ class AgentMemoryPoisoning(Scanner):
 
     def __init__(self, *, threshold: float = 0.6) -> None:
         if not 0.0 <= threshold <= 1.0:
-            raise ValueError(
-                f"threshold must be in [0.0, 1.0], got {threshold}"
-            )
+            raise ValueError(f"threshold must be in [0.0, 1.0], got {threshold}")
         self._threshold = threshold
 
     def scan(self, prompt: str, output: str) -> tuple[str, bool, float]:
@@ -220,7 +218,5 @@ class AgentMemoryPoisoning(Scanner):
             )
             return output, False, risk
 
-        LOGGER.debug(
-            "AgentMemoryPoisoning: no poisoning detected (risk=%.3f)", risk
-        )
+        LOGGER.debug("AgentMemoryPoisoning: no poisoning detected (risk=%.3f)", risk)
         return output, True, risk
