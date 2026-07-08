@@ -1,3 +1,8 @@
+> [!WARNING]
+> **THIS PROJECT HAS BEEN ARCHIVED.**
+> 
+> This project and its associated models on [Hugging Face](https://huggingface.co/protectai) are no longer under active development or maintained.
+
 # LLM Guard - The Security Toolkit for LLM Interactions
 
 LLM Guard by [Protect AI](https://protectai.com/llm-guard) is a comprehensive tool designed to fortify the security of Large Language Models (LLMs).
