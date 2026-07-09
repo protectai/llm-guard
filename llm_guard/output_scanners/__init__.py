@@ -6,6 +6,7 @@ from .ban_substrings import BanSubstrings
 from .ban_topics import BanTopics
 from .bias import Bias
 from .code import Code
+from .credential_exfiltration import CredentialExfiltration
 from .deanonymize import Deanonymize
 from .emotion_detection import EmotionDetection
 from .factual_consistency import FactualConsistency
@@ -25,6 +26,7 @@ from .url_reachabitlity import URLReachability
 from .util import get_scanner_by_name
 
 __all__ = [
+    "CredentialExfiltration",
     "BanCode",
     "BanCompetitors",
     "BanSubstrings",
