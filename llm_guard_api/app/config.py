@@ -67,11 +67,39 @@ def _path_constructor(_loader: Any, node: Any):
     return _var_matcher.sub(replace_fn, node.value)
 
 
+# Allowed config directory — only files under this path can be loaded.
+_ALLOWED_CONFIG_DIR = os.path.realpath(os.path.join(os.path.dirname(__file__), os.pardir))
+
+
+def _resolve_safe_path(filename: str) -> str | None:
+    """Resolve filename and verify it resides within the allowed config directory."""
+    resolved = os.path.realpath(filename)
+    if not resolved.startswith(_ALLOWED_CONFIG_DIR + os.sep) and resolved != _ALLOWED_CONFIG_DIR:
+        LOGGER.error(
+            "Config path escapes allowed directory",
+            file_name=filename,
+            allowed_dir=_ALLOWED_CONFIG_DIR,
+        )
+        return None
+    if not os.path.isfile(resolved):
+        LOGGER.error("Config file not found or is not a file", file_name=filename)
+        return None
+    return resolved
+
+
 def load_yaml(filename: str) -> dict:
     yaml.add_implicit_resolver("!envvar", _tag_matcher, None, yaml.SafeLoader)
     yaml.add_constructor("!envvar", _path_constructor, yaml.SafeLoader)
+
+    safe_path = _resolve_safe_path(filename)
+    if safe_path is None:
+        return dict()
+
     try:
-        with open(filename, "r") as f:
+        # SECURITY: Path is validated by _resolve_safe_path above — confirmed to be
+        # within _ALLOWED_CONFIG_DIR, resolved via realpath (no symlink tricks),
+        # and verified to be an existing file.
+        with open(safe_path, "r") as f:  # nosec B603 - path traversal mitigated by validation above
             return yaml.safe_load(f.read())
     except (FileNotFoundError, PermissionError, yaml.YAMLError) as exc:
         LOGGER.error("Error loading YAML file", exception=exc)

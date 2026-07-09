@@ -225,7 +225,7 @@ def remove_markdown(text):
     clean_text = text
     for pattern in patterns:
         # Use substitution to preserve the text inside ** and *
-        if "([^\*]+)" in pattern:
+        if r"([^\*]+)" in pattern:
             clean_text = re.sub(pattern, r"\1", clean_text)
         else:
             clean_text = re.sub(pattern, "", clean_text)

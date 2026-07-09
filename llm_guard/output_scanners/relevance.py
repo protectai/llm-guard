@@ -90,7 +90,8 @@ class Relevance(Scanner):
                     ),
                 ),
             )
-            assert model.onnx_path is not None
+            if model.onnx_path is None:
+                raise ValueError("ONNX path is not set for this model.")
             self._model = optimum_onnxruntime.ORTModelForFeatureExtraction.from_pretrained(
                 model.onnx_path,
                 export=False,
@@ -141,7 +142,8 @@ class Relevance(Scanner):
         with torch.no_grad():
             last_hidden_state = self._model(**inputs, return_dict=True).last_hidden_state
             embeddings = self.pooling(last_hidden_state, inputs["attention_mask"])
-            assert embeddings is not None
+            if embeddings is None:
+                raise RuntimeError("Pooling returned None, check pooling method.")
             if self.normalize_embeddings:
                 embeddings = torch.nn.functional.normalize(embeddings, dim=-1)
 

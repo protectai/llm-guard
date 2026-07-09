@@ -30,12 +30,58 @@ class URLReachability(Scanner):
         self._success_status_codes = success_status_codes
         self._timeout = timeout
 
+    @staticmethod
+    def _validate_url(url: str) -> tuple[str, str, str, str] | None:
+        """Validate and resolve a URL, returning (scheme, resolved_ip, path) or None if unsafe."""
+        import ipaddress
+        import socket
+        from urllib.parse import urlparse
+
+        parsed_url = urlparse(url)
+        if parsed_url.scheme not in ("http", "https"):
+            return None
+
+        hostname = parsed_url.hostname
+        if not hostname:
+            return None
+
+        try:
+            ip = socket.gethostbyname(hostname)
+        except socket.gaierror:
+            return None
+
+        try:
+            ip_obj = ipaddress.ip_address(ip)
+        except ValueError:
+            return None
+
+        if ip_obj.is_loopback or ip_obj.is_private or ip_obj.is_link_local or not ip_obj.is_global:
+            return None
+
+        path = parsed_url.path or "/"
+        if parsed_url.query:
+            path = f"{path}?{parsed_url.query}"
+
+        return parsed_url.scheme, ip, path, hostname
+
     def is_reachable(self, url: str) -> bool:
         """
         Check if the URL is reachable.
         """
+        result = self._validate_url(url)
+        if result is None:
+            LOGGER.warning("URL validation failed or blocked", url=url)
+            return False
+
+        scheme, ip, path, hostname = result
+        # SECURITY: URL is validated above — hostname resolved to a public IP,
+        # scheme restricted to http/https, and private/loopback IPs are rejected.
+        sanitized_url = f"{scheme}://{ip}{path}"
+
         try:
-            response = requests.get(url, timeout=self._timeout)
+            response = requests.get(  # nosec B113 - SSRF mitigated by IP validation above
+                sanitized_url, timeout=self._timeout, headers={"Host": hostname}
+            )
             return response.status_code in self._success_status_codes
         except requests.RequestException:
             return False
