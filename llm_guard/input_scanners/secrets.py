@@ -471,25 +471,33 @@ class Secrets(Scanner):
             secrets.scan_file(str(temp_file.name))
 
         secret_types = []
-        text_replace_builder = TextReplaceBuilder(original_text=prompt)
+        # Collect all secrets with their positions before any replacement.
+        # Sort by start position descending so that right-to-left processing
+        # keeps earlier positions stable after each substitution.
+        found_secrets = []
         for file in secrets.files:
             for found_secret in secrets[file]:
                 if found_secret.secret_value is None:
                     continue
+                start = prompt.find(found_secret.secret_value)
+                if start == -1:
+                    continue
+                found_secrets.append((start, found_secret))
 
-                secret_types.append(found_secret.type)
+        found_secrets.sort(key=lambda x: x[0], reverse=True)
 
-                character_start_index = prompt.find(found_secret.secret_value, None, None)
-                character_end_index = character_start_index + len(str(found_secret.secret_value))
-                secret_value = text_replace_builder.get_text_in_position(
-                    character_start_index, character_end_index
-                )
-
-                text_replace_builder.replace_text_get_insertion_index(
-                    self.redact_value(secret_value, self._redact_mode),
-                    character_start_index,
-                    character_end_index,
-                )
+        text_replace_builder = TextReplaceBuilder(original_text=prompt)
+        for character_start_index, found_secret in found_secrets:
+            secret_types.append(found_secret.type)
+            character_end_index = character_start_index + len(str(found_secret.secret_value))
+            secret_value = text_replace_builder.get_text_in_position(
+                character_start_index, character_end_index
+            )
+            text_replace_builder.replace_text_get_insertion_index(
+                self.redact_value(secret_value, self._redact_mode),
+                character_start_index,
+                character_end_index,
+            )
 
         os.remove(temp_file.name)
 
