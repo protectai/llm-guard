@@ -67,14 +67,37 @@ def _path_constructor(_loader: Any, node: Any):
     return _var_matcher.sub(replace_fn, node.value)
 
 
+_ALLOWED_CONFIG_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+
+def _resolve_safe_path(filename: str) -> str:
+    """Resolve and validate that a config file path is within the allowed directory.
+
+    Raises:
+        ValueError: If the resolved path escapes the allowed config directory.
+    """
+    resolved = os.path.abspath(filename)
+    allowed = os.path.abspath(_ALLOWED_CONFIG_DIR)
+    if not resolved.startswith(allowed + os.sep) and resolved != allowed:
+        raise ValueError(
+            f"Config file path '{filename}' resolves outside the allowed "
+            f"directory '{allowed}'"
+        )
+    return resolved
+
+
 def load_yaml(filename: str) -> dict:
+    safe_path = _resolve_safe_path(filename)
     yaml.add_implicit_resolver("!envvar", _tag_matcher, None, yaml.SafeLoader)
     yaml.add_constructor("!envvar", _path_constructor, yaml.SafeLoader)
     try:
-        with open(filename, "r") as f:
+        with open(safe_path, "r") as f:
             return yaml.safe_load(f.read())
     except (FileNotFoundError, PermissionError, yaml.YAMLError) as exc:
         LOGGER.error("Error loading YAML file", exception=exc)
+        return dict()
+    except ValueError as exc:
+        LOGGER.error("Rejected config file path", exception=exc)
         return dict()
 
 
