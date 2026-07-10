@@ -198,7 +198,7 @@ def truncate_tokens_head_tail(tokens, max_length=512, head_length=128, tail_leng
 
 
 url_pattern = re.compile(
-    r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
+    r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
 )
 
 
@@ -225,7 +225,7 @@ def remove_markdown(text):
     clean_text = text
     for pattern in patterns:
         # Use substitution to preserve the text inside ** and *
-        if "([^\*]+)" in pattern:
+        if r"([^\*]+)" in pattern:
             clean_text = re.sub(pattern, r"\1", clean_text)
         else:
             clean_text = re.sub(pattern, "", clean_text)

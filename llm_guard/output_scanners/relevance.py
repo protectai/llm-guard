@@ -91,16 +91,20 @@ class Relevance(Scanner):
                 ),
             )
             assert model.onnx_path is not None
-            self._model = optimum_onnxruntime.ORTModelForFeatureExtraction.from_pretrained(
-                model.onnx_path,
-                export=False,
-                subfolder=model.onnx_subfolder,
-                file_name=model.onnx_filename,
-                revision=model.onnx_revision,
-                provider=(
+            onnx_kwargs = {
+                "export": False,
+                "subfolder": model.onnx_subfolder,
+                "file_name": model.onnx_filename,
+                "provider": (
                     "CUDAExecutionProvider" if device().type == "cuda" else "CPUExecutionProvider"
                 ),
                 **model.kwargs,
+            }
+            if model.onnx_revision is not None:
+                onnx_kwargs["revision"] = model.onnx_revision
+            self._model = optimum_onnxruntime.ORTModelForFeatureExtraction.from_pretrained(
+                model.onnx_path,
+                **onnx_kwargs,
             )
             LOGGER.debug("Initialized ONNX model", model=model, device=device())
         else:

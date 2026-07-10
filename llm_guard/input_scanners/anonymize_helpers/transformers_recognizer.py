@@ -139,8 +139,8 @@ class TransformersRecognizer(EntityRecognizer):
         self.model.pipeline_kwargs["ignore_labels"] = self.ignore_labels
 
         transformers = cast("transformers", lazy_load_dep("transformers"))
-        self.pipeline = transformers.pipelines.pipeline(
-            "ner",
+        self.pipeline = transformers.pipelines.pipeline(  # type: ignore[arg-type]
+            "ner",  # type: ignore[arg-type]
             model=tf_model,
             tokenizer=tf_tokenizer,
             **self.model.pipeline_kwargs,
