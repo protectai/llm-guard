@@ -10,6 +10,7 @@ from .emotion_detection import EmotionDetection
 from .gibberish import Gibberish
 from .invisible_text import InvisibleText
 from .language import Language
+from .malicious_urls import MaliciousURLs
 from .prompt_injection import PromptInjection
 from .regex import Regex
 from .secrets import Secrets
@@ -29,6 +30,7 @@ __all__ = [
     "Gibberish",
     "InvisibleText",
     "Language",
+    "MaliciousURLs",
     "PromptInjection",
     "Regex",
     "Secrets",
