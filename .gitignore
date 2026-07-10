@@ -130,3 +130,6 @@ cython_debug/
 
 .vscode
 .benchmarks
+
+# Analysis workspace
+SelfAnalysis/

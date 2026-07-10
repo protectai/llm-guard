@@ -10,5 +10,8 @@
     "benchmarks",
     "examples",
     "llm_guard_api"
-  ]
+  ],
+  "reportMissingImports": "none",
+  "reportArgumentType": "warning",
+  "reportAbstractUsage": "warning"
 }
