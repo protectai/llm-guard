@@ -1,5 +1,6 @@
 """Input scanners init"""
 
+from .agent_threat_rules import AgentThreatRules
 from .anonymize import Anonymize
 from .ban_code import BanCode
 from .ban_competitors import BanCompetitors
@@ -19,6 +20,7 @@ from .toxicity import Toxicity
 from .util import get_scanner_by_name
 
 __all__ = [
+    "AgentThreatRules",
     "Anonymize",
     "BanCode",
     "BanCompetitors",

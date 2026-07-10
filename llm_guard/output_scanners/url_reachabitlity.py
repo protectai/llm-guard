@@ -21,11 +21,9 @@ class URLReachability(Scanner):
             timeout: The timeout in seconds for the HTTP requests.
         """
         if success_status_codes is None:
-            success_status_codes = [
-                requests.codes.ok,
-                requests.codes.created,
-                requests.codes.accepted,
-            ]
+            # Literal codes (requests.codes.* is typed int | None in current stubs,
+            # which trips pyright on the list[int] annotation).
+            success_status_codes = [200, 201, 202]  # ok, created, accepted
 
         self._success_status_codes = success_status_codes
         self._timeout = timeout
