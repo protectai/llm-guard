@@ -48,6 +48,7 @@ pip install llm-guard
 **Examples**:
 
 - Get started with [ChatGPT and LLM Guard](./examples/openai_api.py).
+- Use LLM Guard with [MiniMax](./examples/minimax_api.py) ([streaming](./examples/minimax_streaming.py)).
 - Deploy LLM Guard as [API](https://protectai.github.io/llm-guard/api/overview/)
 
 ## Supported scanners
